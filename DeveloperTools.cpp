@@ -1,11 +1,72 @@
+// Импортирование необходимых библиотек
 #include <curl/curl.h>
 #include <iostream>
 #include <cstdio>
+#include <string>
+#include "AppInstaller.h"
+// #include <cctype>
+// #include <cstring>
+// #include <fstream>
+// #include <iterator>
+// #include <algorithm>
+
+// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
+#if defined(__linux__)
+    std::cout << "Linux" << endl;
+#elif __FreeBSD__
+    std::cout << "FreeBSD" << endl;
+#elif __APPLE__
+    std::cout << "macOS" << endl;
+#elif _WIN32
+    #include <Windows.h>
+#endif
+
 using namespace std;
+using namespace AppInstaller;
+
+// Переменные 
+bool JavaDevelopment;
+bool PythonDevelopment;
+bool JavaScriptDevelopment;
+bool RustDevelopment;
+bool RubyDevelopment;
+bool CppDevelopment;
+bool CSDevelopment;
+bool GoDevelopment;
+bool Install;
+string OS_NAME;
+string Answer;
+string new_sentence;
+Installer installer;
+const string TrueVarious[] = {"yes","y","1","Y","YES","Yes"};
 
 size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
     size_t WriteProcess = fwrite(ptr,size,nmemb,stream);
     return WriteProcess;
+}
+
+// Функции
+string to_lower(string sentence) {
+    new_sentence = "";
+    for (int i = 0;i<sizeof(sentence);i++) {
+        new_sentence += tolower(sentence[i]);
+    }
+    return new_sentence;
+}
+
+bool CheckAnswer(string answer) {
+    bool status;
+    // string Answer = to_lower(answer);
+    string Answer = answer;
+    for (int i = 0;i < TrueVarious->size();i++) {
+        if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n") {
+            status = true;
+        }
+        else {
+            status = false;
+        }
+    }
+    return status;
 }
 
 class Main {
@@ -21,100 +82,82 @@ class Main {
             curl_easy_cleanup(curl);
         }
         void CommandManager() {
+            string InstallTools;
+            cout << "1. Choose a ready-made set of DevelopmentTools for a specific programming language" << endl;
+            cout << "2. Manual selection of DeveloperTools tools" << endl;
+            cout << "Select the option to install DeveloperTools (Default - 2):";
+            getline(cin,InstallTools);
+            if (InstallTools == "1") {
+                ReadySet();
+            }
+            else if (InstallTools == "2" or InstallTools.empty()) {
+                ManualSelection();
+            }
+            else {
+                ManualSelection();
+            }
+
+        }
+        void ManualSelection() {
+            installer.InstallGit();
+            installer.InstallVSCode();
+            installer.InstallPyCharmCommunity();
+            installer.InstallPyCharmProffessional();
+            installer.InstallSublimeText();
+            installer.InstallPython3_9();
+            installer.InstallPython3_10();
+            installer.InstallPython3_11();
+            installer.InstallNodeJS();
+            installer.InstallJDK_18();
+            installer.InstallJDK_19();
+            installer.InstallGoLang();
+            installer.InstallRuby();
+            installer.InstallRust();
+            installer.InstallNetFramework();
+            installer.InstallMSYS2();
+            installer.InstallDocker();
+            installer.InstallCLink();
+            installer.InstallNgrok();
+            installer.InstallNuget();
+            installer.InstallPostgresql();
+            installer.InstallPostman();
+            installer.InstallWget();
+            installer.InstallVNCServer();
+            installer.InstallVNCViewer();
+            installer.InstallMongoDB();
+            installer.InstallMongoDBAtlas();
+            installer.InstallMongoDBCompass();
+            installer.InstallTelegram();
+            installer.InstallDiscord();
+        }
+        void ReadySet() {
 
         }
     private:
         void InstallBrew() {
             system("bash ./Scripts/InstallBrew.sh");
         }
-        void InstallGit() {
-            system("winget install --id Git.Git -e --source winget");
-        }
-        void InstallVSCode() {
-            system("winget install -e --id Microsoft.VisualStudioCode");
-        }
-        void InstallDocker() {
-            system("winget install -e --id Docker.DockerDesktop");
-        }
-        void InstallPostman() {
-            system("winget install -e --id Postman.Postman");
-        }
-        void InstallPostgresql() {
-            system("winget install -e --id PostgreSQL.PostgreSQL");
-            system("winget install -e --id PostgreSQL.pgAdmin");
-        }
-        void InstallCLink() {
-            system("winget install -e --id chrisant996.Clink");
-        }
-        void InstallNgrok() {
-            system("winget install -e --id Ngrok.Ngrok");
-        }
-        void InstallWget() {
-            system("winget install -e --id JernejSimoncic.Wget");
-        }
-        void InstallSublimeText() {
-            system("winget install -e --id SublimeHQ.SublimeText.4");
-        }
-        void InstallPyCharmCommunity() {
-            system("winget install -e --id JetBrains.PyCharm.Community");
-        }
-        void InstallPyCharmProffessional() {
-            system("winget install -e --id JetBrains.PyCharm.Professional");
-        }
-        void InstallPowerToys() {
-            system("winget install -e --id Microsoft.PowerToys");
-        }
-        void InstallDiscord() {
-            system("winget install -e --id Discord.Discord");
-        }
-        void InstallTelegram() {
-            system("winget install -e --id Telegram.TelegramDesktop");
-        }
-        void InstallVNCServer() {
-            system("winget install -e --id RealVNC.VNCServer");
-        }
-        void InstallVNCViewer() {
-            system("winget install -e --id RealVNC.VNCViewer");
-        }
-        void InstallMongoDBCompass() {
-            system("winget install -e --id MongoDB.Compass.Full");
-        }
-        void InstallMongoDB() {
-            system("winget install -e --id MongoDB.Server");
-        }
-        void InstallMongoDBAtlas() {
-            system("winget install -e --id MongoDB.MongoDBAtlasCLI");
-        }
-        void InstallNodeJS() {
-            system("winget install -e --id OpenJS.NodeJS");
-        }
-        void InstallGoLang() {
-            system("winget install -e --id GoLang.Go.1.18");
-        }
-        void InstallPython3_9() {
-            system("winget install -e --id Python.Python.3.9");
-        }
-        void InstallPython3_10() {
-            system("winget install -e --id Python.Python.3.10");
-        }
-        void InstallPython3_11() {
-            system("winget install -e --id Python.Python.3.11");
-        }
-        void InstallJDK_19() {
-            system("winget install -e --id Oracle.JDK.19");
-        }
-        void InstallJDK_18() {
-            system("winget install -e --id Oracle.JDK.18");
-        }
-
+        
 };
 
 int main() {
+    setlocale(LC_ALL, "Russian");
+    setlocale(LC_CTYPE,"Russian");
+    #if defined(__linux__)
+        OS_NAME = "Linux";
+    #elif __FreeBSD__
+        OS_NAME = "FreeBSD";
+    #elif __APPLE__
+        OS_NAME = "macOS";
+    #elif _WIN32
+        OS_NAME = "Windows";
+    #endif
+    
     Main main;
-    string url;
+    main.CommandManager();
+    // string url;
     // cin >> url;
     // main.Download(url,"file.exe");
-    system("winget install --id Git.Git -e --source winget");
     system("pause");
     return 0;
 }
