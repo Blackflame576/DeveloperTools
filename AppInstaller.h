@@ -69,7 +69,30 @@ namespace AppInstaller {
                 InstallMongoDB();
                 InstallMongoDBAtlas();
                 InstallMongoDBCompass();
-                
+            }
+            void JavaScriptDevelopment() {
+
+            }
+            void RustDevelopment() {
+
+            }
+            void RubyDevelopment() {
+
+            }
+            void CppDevelopment() {
+
+            }
+            void CSDevelopment() {
+
+            }
+            void CDevelopment() {
+
+            }
+            void GoDevelopment() {
+
+            }
+            void JavaDevelopment() {
+
             }
             void InstallGit() {
                 cout << "Do you want to install Git?(default yes):";
