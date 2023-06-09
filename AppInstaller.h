@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <string>
 
+using namespace std;
+
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
     cout << "Linux" << endl;
@@ -12,10 +14,6 @@
 #elif _WIN32
     #include <Windows.h>
 #endif
-
-using namespace std;
-
-
 
 
 namespace AppInstaller {
