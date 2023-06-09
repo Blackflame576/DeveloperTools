@@ -4,11 +4,11 @@
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
-    std::cout << "Linux" << endl;
+    cout << "Linux" << endl;
 #elif __FreeBSD__
-    std::cout << "FreeBSD" << endl;
+    cout << "FreeBSD" << endl;
 #elif __APPLE__
-    std::cout << "macOS" << endl;
+    cout << "macOS" << endl;
 #elif _WIN32
     #include <Windows.h>
 #endif
