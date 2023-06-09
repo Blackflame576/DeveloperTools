@@ -71,16 +71,16 @@ bool CheckAnswer(string answer) {
 
 class Main {
     public:
-        void Download(string url,auto filename) {
-            cout << typeid(url).name() << endl;
-            CURL* curl = curl_easy_init();
-            FILE* file = fopen(filename,"wb");
-            curl_easy_setopt(curl,CURLOPT_URL,url.c_str());
-            curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,WriteData);
-            curl_easy_setopt(curl,CURLOPT_WRITEDATA,file);
-            CURLcode response = curl_easy_perform(curl);
-            curl_easy_cleanup(curl);
-        }
+        // void Download(string url,auto filename) {
+        //     cout << typeid(url).name() << endl;
+        //     CURL* curl = curl_easy_init();
+        //     FILE* file = fopen(filename,"wb");
+        //     curl_easy_setopt(curl,CURLOPT_URL,url.c_str());
+        //     curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,WriteData);
+        //     curl_easy_setopt(curl,CURLOPT_WRITEDATA,file);
+        //     CURLcode response = curl_easy_perform(curl);
+        //     curl_easy_cleanup(curl);
+        // }
         void CommandManager() {
             string InstallTools;
             cout << "1. Choose a ready-made set of DevelopmentTools for a specific programming language" << endl;
