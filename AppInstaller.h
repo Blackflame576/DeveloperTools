@@ -911,7 +911,189 @@ namespace AppInstaller {
             }
         }
         else if (TypeInstall == "hidden") {
-            
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id Microsoft.VisualStudio.2022.Professional.Preview");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install --cask visual-studio");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void InstallSlack() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install Slack?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id SlackTechnologies.Slack");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install --cask slack");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id SlackTechnologies.Slack");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install --cask slack");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void InstallVim() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install Vim?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id vim.vim");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install vim");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id vim.vim");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install vim");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void InstallNeoVim() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install NeoVim?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id Neovim.Neovim");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install neovim");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id Neovim.Neovim");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install neovim");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void  InstallGoogleChrome() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install Google Chrome?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id Google.Chrome");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install --cask google-chrome");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id Google.Chrome");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install --cask google-chrome");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void  InstallAndroidStudio() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install Android Studio?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id Google.AndroidStudio");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install --cask android-studio");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id Google.AndroidStudio");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install --cask android-studio");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+    }
+    void  InstallEclipse() {
+        if (TypeInstall == "open") {
+            cout << "Do you want to install Eclipse?(default yes):";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    system("winget install -e --id EclipseAdoptium.Temurin.18.JDK");
+                }
+                else if (OS_NAME == "macOS") {
+                    system("brew install --cask eclipse-ide");
+                }
+                else if (OS_NAME == "Linux") {
+
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                system("winget install -e --id EclipseAdoptium.Temurin.18.JDK");
+            }
+            else if (OS_NAME == "macOS") {
+                system("brew install --cask eclipse-ide");
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
         }
     }
 
@@ -932,7 +1114,9 @@ namespace AppInstaller {
         {"JDK 18",InstallJDK_18},{"JDK 19",InstallJDK_19},{"Rust",InstallRust},{".Net Framework",InstallNetFramework},
         {"Ruby",InstallRuby},{"MSYS2",InstallMSYS2},{"Nuget",InstallNuget},
         {"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},
-        {"Visual Studio Proffessional",InstallVisualStudioProffessional},{"Visual Studio Community",InstallVisualStudioCommunity}
+        {"Visual Studio Proffessional",InstallVisualStudioProffessional},{"Visual Studio Community",InstallVisualStudioCommunity},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome},
+        {"Android Studio",InstallAndroidStudio},{"Eclipse",InstallEclipse}
     };
     map<string,funct_t> PythonDevelopmentTools {
         {"Python 3.9",InstallPython3_9},{"Python 3.10",InstallPython3_10},{"Python 3.11",InstallPython3_11},
@@ -943,7 +1127,8 @@ namespace AppInstaller {
         {"Wget",InstallWget},{"Discord",InstallDiscord},{"Telegram",InstallTelegram},
         {"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"GitHub Desktop",InstallGitHubDesktop},
         {"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},{"JetBrains Fleet",InstallFleet},{"Visual Studio Proffessional",InstallVisualStudioProffessional},
-        {"Visual Studio Community",InstallVisualStudioCommunity}
+        {"Visual Studio Community",InstallVisualStudioCommunity},{"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Slack",InstallSlack},
+        {"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> JavaScriptDevelopmentTools {
         {"Git",InstallGit},{"VSCode",InstallVSCode},{"JetBrains WebStorm",InstallWebStorm},
@@ -953,7 +1138,8 @@ namespace AppInstaller {
         {"MongoDB Compass",InstallMongoDBCompass},{"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},
         {"NodeJS",InstallNodeJS},{"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},
         {"Kubernetes",InstallKubernetes},{"Visual Studio Proffessional",InstallVisualStudioProffessional},
-        {"Visual Studio Community",InstallVisualStudioCommunity}
+        {"Visual Studio Community",InstallVisualStudioCommunity},{"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> RustDevelopmentTools {
         {"Git",InstallGit},{"VSCode",InstallVSCode},{"Docker",InstallDocker},
@@ -961,8 +1147,9 @@ namespace AppInstaller {
         {"Sublime Text",InstallSublimeText},{"Discord",InstallDiscord},{"Telegram",InstallTelegram},
         {"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},
         {"Kubernetes",InstallKubernetes},{"Rust",InstallRust},{"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},
-        {"NodeJS",InstallNodeJS},{"MongoDB Compass",InstallMongoDBCompass},{"Visual Studio Proffessional",InstallVisualStudioProffessional},
-        {"Visual Studio Community",InstallVisualStudioCommunity}
+        {"NodeJS",InstallNodeJS},{"MongoDB Compass",InstallMongoDBCompass},{"Ngrok",InstallNgrok},{"Kubernetes",InstallKubernetes},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Postgresql",InstallPostgresql},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> RubyDevelopmentTools {
         {"Ruby",InstallRuby},{"RubyMine",InstallRubyMine},{"Git",InstallGit},{"VSCode",InstallVSCode},{"Docker",InstallDocker},
@@ -970,26 +1157,73 @@ namespace AppInstaller {
         {"Sublime Text",InstallSublimeText},{"Discord",InstallDiscord},{"Telegram",InstallTelegram},
         {"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},
         {"Kubernetes",InstallKubernetes},{"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},
-        {"NodeJS",InstallNodeJS},{"MongoDB Compass",InstallMongoDBCompass},{"Visual Studio Proffessional",InstallVisualStudioProffessional},
-        {"Visual Studio Community",InstallVisualStudioCommunity}
+        {"NodeJS",InstallNodeJS},{"MongoDB Compass",InstallMongoDBCompass},{"Ngrok",InstallNgrok},{"Kubernetes",InstallKubernetes},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Postgresql",InstallPostgresql},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> CppDevelopmentTools {
-
+        {"CLion",InstallCLion},{"Visual Studio Proffessional",InstallVisualStudioProffessional},{"Visual Studio Community",InstallVisualStudioCommunity},
+        {"JetBrains Fleet",InstallFleet},{"Sublime Text",InstallSublimeText},{"Ngrok",InstallNgrok},
+        {"Wget",InstallWget},{"Docker",InstallDocker},{"Discord",InstallDiscord},
+        {"Telegram",InstallTelegram},{"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},
+        {"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},{"JetBrains Space",InstallSpace},
+        {"JetBrains ToolBox",InstallToolBox},{"MSYS2",InstallMSYS2},{"Postman",InstallPostman},{"MongoDB Compass",InstallMongoDBCompass},
+        {"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},{"Postgresql",InstallPostgresql},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> CSDevelopmentTools {
-
+        {"JetBrains Rider",InstallRider},{".Net Framework",InstallNetFramework},{"Git",InstallGit},{"VSCode",InstallVSCode},
+        {"Postman",InstallPostman},{"Nuget",InstallNuget},{"GitHub Desktop",InstallGitHubDesktop},
+        {"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},{"Visual Studio Proffessional",InstallVisualStudioProffessional},
+        {"Visual Studio Community",InstallVisualStudioCommunity},{"JetBrains Fleet",InstallFleet},{"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},
+        {"Wget",InstallWget},{"Sublime Text",InstallSublimeText},{"Discord",InstallDiscord},{"Telegram",InstallTelegram},
+        {"JetBrains dotUltimate",InstalldotUltimate},{"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"MongoDB Compass",InstallMongoDBCompass},
+        {"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},{"Postgresql",InstallPostgresql},
+        {"Slack",InstallSlack},{"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> CDevelopmentTools {
-
+        {"Git",InstallGit},{"VSCode",InstallVSCode},{"MSYS2",InstallMSYS2},{"Nuget",InstallNuget},
+        {"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},
+        {"Visual Studio Proffessional",InstallVisualStudioProffessional},{"Visual Studio Community",InstallVisualStudioCommunity},
+        {"Wget",InstallWget},{"Sublime Text",InstallSublimeText},{"JetBrains Fleet",InstallFleet},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Slack",InstallSlack},
+        {"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> GoDevelopmentTools {
-
+        {"GoLang",InstallGoLang},{"JetBrains Fleet",InstallFleet},{"GoLand",InstallGoLand},
+        {"Git",InstallGit},{"VSCode",InstallVSCode},{"Docker",InstallDocker},{"Postman",InstallPostman},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Postgresql",InstallPostgresql},
+        {"Ngrok",InstallNgrok},{"Wget",InstallWget},{"Sublime Text",InstallSublimeText},
+        {"Discord",InstallDiscord},{"Telegram",InstallTelegram},
+        {"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"MongoDB Compass",InstallMongoDBCompass},
+        {"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},{"GitHub Desktop",InstallGitHubDesktop},
+        {"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},{"Slack",InstallSlack},
+        {"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
     map<string,funct_t> JavaDevelopmentTools {
-
+        {"JDK 18",InstallJDK_18},{"JDK 19",InstallJDK_19},
+        {"Git",InstallGit},{"VSCode",InstallVSCode},{"Docker",InstallDocker},{"Postman",InstallPostman},
+        {"JetBrains Fleet",InstallFleet},{"JetBrains IntelliJ Community",InstallIntelliJCommunity},{"JetBrains IntelliJ Ultimate",InstallIntelliJUltimate},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},{"Postgresql",InstallPostgresql},
+        {"Ngrok",InstallNgrok},{"Wget",InstallWget},{"Sublime Text",InstallSublimeText},
+        {"Discord",InstallDiscord},{"Telegram",InstallTelegram},{"VNC Server",InstallVNCServer},{"VNC Viewer",InstallVNCViewer},{"MongoDB Compass",InstallMongoDBCompass},
+        {"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},
+        {"Nuget",InstallNuget},{"Slack",InstallSlack},
+        {"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},
+        {"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome},{"Android Studio",InstallAndroidStudio},
+        {"Eclipse",InstallEclipse}
     };
     map<string,funct_t> PhpDevelopmentTools {
-
+        {"Git",InstallGit},{"VSCode",InstallVSCode},{"Docker",InstallDocker},{"Postman",InstallPostman},
+        {"JetBrains Fleet",InstallFleet},{"JetBrains PhpStorm",InstallPhpStorm},{"Postgresql",InstallPostgresql},
+        {"JetBrains Space",InstallSpace},{"JetBrains ToolBox",InstallToolBox},
+        {"Ngrok",InstallNgrok},{"Wget",InstallWget},{"Sublime Text",InstallSublimeText},
+        {"Discord",InstallDiscord},{"Telegram",InstallTelegram},
+        {"MongoDB Compass",InstallMongoDBCompass},{"Slack",InstallSlack},
+        {"MongoDB",InstallMongoDB},{"MongoDB Atlas",InstallMongoDBAtlas},
+        {"GitHub Desktop",InstallGitHubDesktop},{"GitHub CLI",InstallGitHubCLi},{"Kubernetes",InstallKubernetes},
+        {"Visual Studio Proffessional",InstallVisualStudioProffessional},{"Visual Studio Community",InstallVisualStudioCommunity},
+        {"Vim",InstallVim},{"NeoVim",InstallNeoVim},{"Google Chrome",InstallGoogleChrome}
     };
 
     void PythonDevelopment() {
