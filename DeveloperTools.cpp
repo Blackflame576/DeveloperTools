@@ -1,11 +1,11 @@
 // Импортирование необходимых библиотек
-#include <curl/curl.h>
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include "AppInstaller.h"
+#include "AppInstaller.hpp"
 #include <map>
-#include "Logger.h"
+#include "Logger.hpp"
+#include <locale.h>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
@@ -45,16 +45,6 @@ size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
 
 class Main {
     public:
-        // void Download(string url,auto filename) {
-        //     cout << typeid(url).name() << endl;
-        //     CURL* curl = curl_easy_init();
-        //     FILE* file = fopen(filename,"wb");
-        //     curl_easy_setopt(curl,CURLOPT_URL,url.c_str());
-        //     curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,WriteData);
-        //     curl_easy_setopt(curl,CURLOPT_WRITEDATA,file);
-        //     CURLcode response = curl_easy_perform(curl);
-        //     curl_easy_cleanup(curl);
-        // }
         void CommandManager() {
             string InstallTools;
             cout << "1. Choose a ready-made set of DevelopmentTools for a specific programming language" << endl;
@@ -174,8 +164,6 @@ class Main {
 };
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-    setlocale(LC_CTYPE,"Russian");
     #if defined(__linux__)
         OS_NAME = "Linux";
     #elif __FreeBSD__
@@ -184,10 +172,12 @@ int main() {
         OS_NAME = "macOS";
     #elif _WIN32
         OS_NAME = "Windows";
+        SetConsoleOutputCP(CP_UTF8);
     #endif
     
     Main main;
-    main.CommandManager();
+    // main.CommandManager();
+    // AppInstaller::InstallKotlin();
     // string url;
     // cin >> url;
     // main.Download(url,"file.exe");
