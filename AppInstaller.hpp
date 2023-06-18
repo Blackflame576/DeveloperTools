@@ -1457,6 +1457,7 @@ void InstallGitHubCLi()
                 system("winget install -e --id GitHub.cli");
             }
             else if (OS_NAME == "macOS") {
+                system("brew install gh");
             }
             else if (OS_NAME == "Linux") {
             }
@@ -1467,6 +1468,7 @@ void InstallGitHubCLi()
                 system("winget install -e --id GitHub.cli");
             }
             else if (OS_NAME == "macOS") {
+                system("brew install gh");
             }
             else if (OS_NAME == "Linux") {
             }
