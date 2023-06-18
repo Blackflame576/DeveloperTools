@@ -3,7 +3,11 @@
 cmake_minimum_required(VERSION 3.11-3.18)
 
 project(DeveloperTools)
-
+set(CURL_LIBRARY "-lcurl")
+find_package(CURL REQUIRED)
+if(LIBCURL_ENABLE)
+    target_link_libraries(CURL-DEMO CURL::libcurl)
+endif()
 add_executable(DeveloperTools DeveloperTools.cpp)
 # We need hello.h and the hello library
 # target_link_libraries(DeveloperTools
