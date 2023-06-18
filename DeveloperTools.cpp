@@ -6,6 +6,7 @@
 #include <map>
 #include "Logger.hpp"
 #include <locale.h>
+#include <fcntl.h>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
@@ -71,7 +72,6 @@ class Main {
             for (const auto &element:Packages) {
                 // cout << p.first << "\t" << p.second << endl;
                 string name = element.first;
-                cout << name << endl;
                 element.second();
             }
         }
@@ -164,6 +164,7 @@ class Main {
 };
 
 int main() {
+    // setlocale(LC_ALL, "Russian");
     #if defined(__linux__)
         OS_NAME = "Linux";
     #elif __FreeBSD__
@@ -173,10 +174,11 @@ int main() {
     #elif _WIN32
         OS_NAME = "Windows";
         SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
     #endif
-    
+
     Main main;
-    // main.CommandManager();
+    main.CommandManager();
     // AppInstaller::InstallKotlin();
     // string url;
     // cin >> url;
