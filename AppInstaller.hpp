@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curl/curl.h>
-#include "progressbar.hpp"
+#include "Progressbar.hpp"
 
 using namespace std;
 // using namespace std::filesystem;
@@ -39,7 +39,7 @@ const string TrueVarious[3] = { "yes", "y", "1"};
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
-auto ProjectDir = std::filesystem::current_path().generic_string();
+string ProjectDir = std::filesystem::current_path().generic_string();
 string KotlinDir = ProjectDir + "/Programms/Kotlin";
 string PHPDir = ProjectDir + "/Programms/PHP";
 string WgetDir = ProjectDir + "/Programms/Wget";
@@ -95,7 +95,6 @@ int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, doubl
         bar.update();
         TempPercentage = percentage;
     }
-    // cout << percentage << endl;
     return 0;
 }
 int Download(string url, string dir)
@@ -107,7 +106,7 @@ int Download(string url, string dir)
         FILE* file = fopen(filename.c_str(), "wb");
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, FALSE);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
+        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_func);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);

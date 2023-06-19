@@ -52,14 +52,6 @@ string GetNameDistribution() {
     } 
 }
 // Функции
-// string to_lower(string sentence) {
-//     new_sentence = "";
-//     for (int i = 0;i<sizeof(sentence);i++) {
-//         new_sentence += tolower(sentence[i]);
-//     }
-//     return new_sentence;
-// }
-
 class Main {
     public:
         void CommandManager() {
