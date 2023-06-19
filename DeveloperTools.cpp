@@ -5,8 +5,8 @@
 #include "AppInstaller.hpp"
 #include <map>
 #include "Logger.hpp"
-#include <locale.h>
-#include <fcntl.h>
+#include <regex>
+#include <fstream>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
@@ -35,6 +35,22 @@ size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
     return WriteProcess;
 }
 
+string GetNameDistribution() {
+    if (OS_NAME == "Windows") {
+        ifstream stream("/etc/os-release");
+        string line;
+        regex nameRegex("^NAME=\"(.*?)\"$");
+        smatch match;
+        string name;
+        while (getline(stream,line)) {
+            if (regex_search(line,match,nameRegex)) {
+                name = match[1].str();
+                break;
+            }
+        }
+        return name;
+    } 
+}
 // Функции
 // string to_lower(string sentence) {
 //     new_sentence = "";
@@ -167,6 +183,7 @@ int main() {
     // setlocale(LC_ALL, "Russian");
     #if defined(__linux__)
         OS_NAME = "Linux";
+        NameDistribution = GetNameDistribution();
     #elif __FreeBSD__
         OS_NAME = "FreeBSD";
     #elif __APPLE__

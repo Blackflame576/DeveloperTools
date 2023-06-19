@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
+// #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <curl/curl.h>
@@ -31,6 +31,7 @@ using funct_t = void (*)(void);
 // Переменные
 bool Install;
 string OS_NAME;
+string NameDistribution;
 string Answer;
 string new_sentence;
 map<string, funct_t> Tools;

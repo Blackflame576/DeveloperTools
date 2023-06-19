@@ -2,7 +2,7 @@
 #include <map>
 #include <filesystem>
 #include <curl/curl.h>
-// #include "zipper/zipper/unzipper.h"
+// #include <sys/utsname.h>
 
 using namespace std;
 // using namespace zipper;
@@ -18,6 +18,18 @@ size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
     size_t WriteProcess = fwrite(ptr,size,nmemb,stream);
     return WriteProcess;
 }
+// int uname(struct utsname *buf);
+// struct utsname 
+// {
+//        char sysname[];    /* Operating system name (e.g., "Linux") */
+//        char nodename[];   /* Name within "some implementation-defined network" */
+//        char release[];    /* OS release (e.g., "2.6.28") */
+//        char version[];    /* OS version */
+//        char machine[];    /* Hardware identifier */
+//        #ifdef _GNU_SOURCE
+//           char domainname[]; /* NIS or YP domain name */
+//        #endif
+// };
 void Download(string url) {
     string name = (url.substr(url.find_last_of("/")));
     string filename = name.replace(name.find("/"),1,"");
