@@ -1,0 +1,27 @@
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/CMakeFiles/CMakeScratch/TryCompile-10p3z6
+
+Run Build Command(s):C:/msys64/mingw64/bin/ninja.exe cmTC_20e8f && [1/2] Building C object CMakeFiles\cmTC_20e8f.dir\CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_20e8f.exe
+FAILED: cmTC_20e8f.exe 
+cmd.exe /C "cd . && C:\msys64\mingw64\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\cmTC_20e8f.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests  -- C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_20e8f.dir\CMakeCCompilerABI.c.obj  /out:cmTC_20e8f.exe /implib:cmTC_20e8f.lib /pdb:cmTC_20e8f.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_20e8f.dir/manifest.res CMakeFiles\cmTC_20e8f.dir/manifest.rc" failed (exit code 0) with the following output:
+Не удается найти указанный файл
+ninja: build stopped: subcommand failed.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/CMakeFiles/CMakeScratch/TryCompile-lkpfuz
+
+Run Build Command(s):C:/msys64/mingw64/bin/ninja.exe cmTC_f531b && [1/2] Building C object CMakeFiles\cmTC_f531b.dir\testCCompiler.c.obj
+[2/2] Linking C executable cmTC_f531b.exe
+FAILED: cmTC_f531b.exe 
+cmd.exe /C "cd . && C:\msys64\mingw64\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\cmTC_f531b.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests  -- C:\PROGRA~1\MICROS~4\2022\COMMUN~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo CMakeFiles\cmTC_f531b.dir\testCCompiler.c.obj  /out:cmTC_f531b.exe /implib:cmTC_f531b.lib /pdb:cmTC_f531b.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_f531b.dir/manifest.res CMakeFiles\cmTC_f531b.dir/manifest.rc" failed (exit code 0) with the following output:
+Не удается найти указанный файл
+ninja: build stopped: subcommand failed.
+
+
+
