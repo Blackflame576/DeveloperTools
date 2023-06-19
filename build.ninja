@@ -58,8 +58,8 @@ build CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj: CXX_COMPILER__Develo
 #############################################
 # Link the executable DeveloperTools.exe
 
-build DeveloperTools.exe: CXX_EXECUTABLE_LINKER__DeveloperTools_ CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+build DeveloperTools.exe: CXX_EXECUTABLE_LINKER__DeveloperTools_ CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj | CURL$:$:libcurl-NOTFOUND
+  LINK_LIBRARIES = CURL::libcurl-NOTFOUND  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DeveloperTools.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
