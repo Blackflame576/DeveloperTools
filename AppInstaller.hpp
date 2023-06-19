@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <curl/curl.h>
+// #include <curl/curl.h>
 #include "progressbar.hpp"
 
 using namespace std;
@@ -97,31 +97,31 @@ int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, doubl
     // cout << percentage << endl;
     return 0;
 }
-int Download(string url, string dir)
-{
-    try {
-        string name = (url.substr(url.find_last_of("/")));
-        string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-        CURL* curl = curl_easy_init();
-        FILE* file = fopen(filename.c_str(), "wb");
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, FALSE);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-        CURLcode response = curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-        fclose(file);
-        cout << "" << endl;
-        return 200;
-    }
-    catch (string error) {
-        return 502;
-    }
-}
+// int Download(string url, string dir)
+// {
+//     try {
+//         string name = (url.substr(url.find_last_of("/")));
+//         string filename = dir + "/" + name.replace(name.find("/"), 1, "");
+//         CURL* curl = curl_easy_init();
+//         FILE* file = fopen(filename.c_str(), "wb");
+//         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+//         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, FALSE);
+//         curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
+//         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+//         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+//         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+//         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
+//         curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+//         CURLcode response = curl_easy_perform(curl);
+//         curl_easy_cleanup(curl);
+//         fclose(file);
+//         cout << "" << endl;
+//         return 200;
+//     }
+//     catch (string error) {
+//         return 502;
+//     }
+// }
 void InstallGit()
 {
     if (TypeInstall == "open") {
@@ -1727,75 +1727,75 @@ void InstallEclipse()
         }
     }
 }
-void InstallKotlin()
-{
-    if (OS_NAME == "Windows") {
-        SetConsoleOutputCP(CP_UTF8);
-    }
-    if (TypeInstall == "open") {
-        cout << "Do you want to install Kotlin?(default yes):";
-        getline(cin, Answer);
-        Install = CheckAnswer(Answer);
-        if (Install == true) {
-            if (OS_NAME == "Windows") {
-                try {
-                    int response = Download(KotlinUrl, KotlinDir);
-                    if (response == 200) {
-                        cout << "✅ Kotlin successfully installed" << endl;
-                    }
-                    else if (response == 502) {
-                        cout << "❌ An error occurred while trying to install Kotlin" << endl;
-                    }
-                    filesystem::create_directory(NewKotlinDir);
-                    string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
-                    system(Command.c_str());
-                    string AddPathCommand = "start powershell.exe -file " + AddKotlinPathScript;
-                    system("powershell.exe  C:\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
-                    system(AddPathCommand.c_str());
-                    cout << AddKotlinPathScript << endl;
-                    // std::filesystem::copy(KotlinDir,NewKotlinDir,std::filesystem::copy_options::recursive);
-                    // auto ProjectDir = std::filesystem::current_path();
-                    // cout << "Current Path:" << ProjectDir << endl;
-                    // filesystem::create_directory();
-                    // filesystem::copy();
-                    // filesystem::remove_all();
-                }
-                catch (std::filesystem::filesystem_error& error) {
-                    cout << error.what() << endl;
-                }
-                // system("winget install -e --id EclipseAdoptium.Temurin.18.JDK");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install kotlin");
-            }
-            else if (OS_NAME == "Linux") {
-            }
-        }
-    }
-    else if (TypeInstall == "hidden") {
-        if (OS_NAME == "Windows") {
-            int response = Download(KotlinUrl, KotlinDir);
-            switch (response) {
-            case 200:
-                cout << "✅ Kotlin successfully installed" << endl;
-            case 502:
-                cout << "❌ An error occurred while trying to install Kotlin" << endl;
-            default:
-                break;
-            }
-            filesystem::create_directory(NewKotlinDir);
-            string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
-            system(Command.c_str());
-            string AddPathCommand = "powershell.exe -file " + AddKotlinPathScript;
-            system(AddPathCommand.c_str());
-        }
-        else if (OS_NAME == "macOS") {
-            system("bbrew install kotlin");
-        }
-        else if (OS_NAME == "Linux") {
-        }
-    }
-}
+// void InstallKotlin()
+// {
+//     if (OS_NAME == "Windows") {
+//         SetConsoleOutputCP(CP_UTF8);
+//     }
+//     if (TypeInstall == "open") {
+//         cout << "Do you want to install Kotlin?(default yes):";
+//         getline(cin, Answer);
+//         Install = CheckAnswer(Answer);
+//         if (Install == true) {
+//             if (OS_NAME == "Windows") {
+//                 try {
+//                     int response = Download(KotlinUrl, KotlinDir);
+//                     if (response == 200) {
+//                         cout << "✅ Kotlin successfully installed" << endl;
+//                     }
+//                     else if (response == 502) {
+//                         cout << "❌ An error occurred while trying to install Kotlin" << endl;
+//                     }
+//                     filesystem::create_directory(NewKotlinDir);
+//                     string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
+//                     system(Command.c_str());
+//                     string AddPathCommand = "start powershell.exe -file " + AddKotlinPathScript;
+//                     system("powershell.exe  C:\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
+//                     system(AddPathCommand.c_str());
+//                     cout << AddKotlinPathScript << endl;
+//                     // std::filesystem::copy(KotlinDir,NewKotlinDir,std::filesystem::copy_options::recursive);
+//                     // auto ProjectDir = std::filesystem::current_path();
+//                     // cout << "Current Path:" << ProjectDir << endl;
+//                     // filesystem::create_directory();
+//                     // filesystem::copy();
+//                     // filesystem::remove_all();
+//                 }
+//                 catch (std::filesystem::filesystem_error& error) {
+//                     cout << error.what() << endl;
+//                 }
+//                 // system("winget install -e --id EclipseAdoptium.Temurin.18.JDK");
+//             }
+//             else if (OS_NAME == "macOS") {
+//                 system("brew install kotlin");
+//             }
+//             else if (OS_NAME == "Linux") {
+//             }
+//         }
+//     }
+//     else if (TypeInstall == "hidden") {
+//         if (OS_NAME == "Windows") {
+//             int response = Download(KotlinUrl, KotlinDir);
+//             switch (response) {
+//             case 200:
+//                 cout << "✅ Kotlin successfully installed" << endl;
+//             case 502:
+//                 cout << "❌ An error occurred while trying to install Kotlin" << endl;
+//             default:
+//                 break;
+//             }
+//             filesystem::create_directory(NewKotlinDir);
+//             string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
+//             system(Command.c_str());
+//             string AddPathCommand = "powershell.exe -file " + AddKotlinPathScript;
+//             system(AddPathCommand.c_str());
+//         }
+//         else if (OS_NAME == "macOS") {
+//             system("bbrew install kotlin");
+//         }
+//         else if (OS_NAME == "Linux") {
+//         }
+//     }
+// }
 
 map<string, funct_t> Packages{
     { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "JetBrains WebStorm", InstallWebStorm },
