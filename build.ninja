@@ -47,6 +47,7 @@ build cmake_object_order_depends_target_DeveloperTools: phony || CMakeFiles/Deve
 build CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj: CXX_COMPILER__DeveloperTools_ C$:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/DeveloperTools.cpp || cmake_object_order_depends_target_DeveloperTools
   DEP_FILE = CMakeFiles\DeveloperTools.dir\DeveloperTools.cpp.obj.d
   FLAGS = -std=gnu++20
+  INCLUDES = -I"C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/../../include -L ../../lib"
   OBJECT_DIR = CMakeFiles\DeveloperTools.dir
   OBJECT_FILE_DIR = CMakeFiles\DeveloperTools.dir
 
@@ -58,8 +59,8 @@ build CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj: CXX_COMPILER__Develo
 #############################################
 # Link the executable DeveloperTools.exe
 
-build DeveloperTools.exe: CXX_EXECUTABLE_LINKER__DeveloperTools_ CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj | CURL$:$:libcurl-NOTFOUND
-  LINK_LIBRARIES = CURL::libcurl-NOTFOUND  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+build DeveloperTools.exe: CXX_EXECUTABLE_LINKER__DeveloperTools_ CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj
+  LINK_LIBRARIES = -lcurl  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\DeveloperTools.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
