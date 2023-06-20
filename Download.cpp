@@ -1,11 +1,11 @@
 #include <iostream>
 #include<Windows.h>
 #pragma comment(lib, "urlmon.lib")
-#include "Progressbar.hpp"
+// #include "Progressbar.hpp"
 
 using namespace std;
 int TempPercentage = 0;
-progressbar bar(100);
+// progressbar bar(100);
 class DownloadProgress : public IBindStatusCallback {
 public:
     HRESULT __stdcall QueryInterface(const IID &,void **) { 
@@ -46,7 +46,8 @@ public:
         int percentage = static_cast<float>(ulProgress) / static_cast<float>(ulProgressMax) * 100;
         // cout << percentage << endl;
         if (TempPercentage != percentage && TempPercentage <= 98) {
-            bar.update();
+            // bar.update();
+            cout << percentage << endl;
             TempPercentage = percentage;
         }
         // if (szStatusText) wcout << " " << szStatusText;
