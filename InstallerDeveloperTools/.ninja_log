@@ -1,0 +1,5 @@
+# ninja log v5
+6	275	7089587148143250	build.ninja	d4b53e63c0a92135
+3	236	7089587148143250	build.ninja	d4b53e63c0a92135
+3	3172	7089590669317951	CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.cpp.obj	90268b8953681339
+3187	4398	7089590681375129	InstallerDeveloperTools.exe	6024386a3f439741
