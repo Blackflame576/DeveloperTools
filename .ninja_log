@@ -1,3 +1,6 @@
 # ninja log v5
-7	11344	7089598676827432	CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj	74295f5ddc0f0c25
 11363	14096	7089598704260463	DeveloperTools.exe	f80f947976ca2794
+7	11344	7089598676827432	CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj	74295f5ddc0f0c25
+7	845	7089600887594389	build.ninja	642b6e86d4cb0cd1
+11	11583	7089601003533513	CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj	7a983228520decd5
+11584	14047	7089601028078699	DeveloperTools.exe	f80f947976ca2794
