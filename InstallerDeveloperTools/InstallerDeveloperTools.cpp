@@ -1,13 +1,19 @@
 #include <iostream>
-#include <filesystem>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include<string>
+#pragma comment(lib, "urlmon.lib")
 #include "Progressbar.hpp"
 #include "InstallerDeveloperTools.hpp"
+
+// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
+#if defined(__linux__)
+    // cout << "Linux" << endl;
+#elif __FreeBSD__
+    // cout << "FreeBSD" << endl;
+#elif __APPLE__
+    // cout << "macOS" << endl;
+#elif _WIN32
+    #include <Windows.h>
+#endif
 
 using namespace std;
 using namespace InstallerDeveloperTools;
@@ -22,7 +28,6 @@ class Installer {
             cout << "" << endl;
         }
     private:
-
     // Installer();
     // ~Installer();
 };
