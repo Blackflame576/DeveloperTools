@@ -125,7 +125,7 @@ int Download(string url, string dir)
 void InstallGit()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Git?(default yes):";
+        cout << "Вы хотите установить Git?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -152,7 +152,7 @@ void InstallGit()
 }
 void InstallVSCode()
 {   if (TypeInstall == "open") {
-        cout << "Do you want to install VSCode?(default yes):";
+        cout << "Вы хотите установить VSCode?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -181,7 +181,7 @@ void InstallVSCode()
 void InstallWebStorm()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains WebStorm?(default yes)";
+        cout << "Вы хотите установить JetBrains WebStorm?(default yes)";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -209,7 +209,7 @@ void InstallWebStorm()
 void InstallDocker()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Docker?(default yes):";
+        cout << "Вы хотите установить Docker?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -237,7 +237,7 @@ void InstallDocker()
 void InstallPostman()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Postman?(default yes):";
+        cout << "Вы хотите установить Postman?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -265,7 +265,7 @@ void InstallPostman()
 void InstallRubyMine()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains RubyMine?(default yes):";
+        cout << "Вы хотите установить JetBrains RubyMine?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -293,7 +293,7 @@ void InstallRubyMine()
 void InstallAqua()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains Aqua?(default yes):";
+        cout << "Вы хотите установить JetBrains Aqua?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -319,7 +319,7 @@ void InstallAqua()
 void InstallCLion()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains CLion?(default yes):";
+        cout << "Вы хотите установить JetBrains CLion?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -347,7 +347,7 @@ void InstallCLion()
 void InstallDataGrip()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains DataGrip?(default yes):";
+        cout << "Вы хотите установить JetBrains DataGrip?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -375,7 +375,7 @@ void InstallDataGrip()
 void InstallDataSpell()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains DataSpell?(default yes):";
+        cout << "Вы хотите установить JetBrains DataSpell?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -403,7 +403,7 @@ void InstallDataSpell()
 void InstallFleet()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains Fleet?(default yes):";
+        cout << "Вы хотите установить JetBrains Fleet?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -431,7 +431,7 @@ void InstallFleet()
 void InstallGoLand()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains GoLand?(default yes):";
+        cout << "Вы хотите установить JetBrains GoLand?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -459,7 +459,7 @@ void InstallGoLand()
 void InstallIntelliJCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains IntelliJIDEA Community?(default yes):";
+        cout << "Вы хотите установить JetBrains IntelliJIDEA Community?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -487,7 +487,7 @@ void InstallIntelliJCommunity()
 void InstallIntelliJUltimate()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains IntelliJIDEA Ultimate?(default yes):";
+        cout << "Вы хотите установить JetBrains IntelliJIDEA Ultimate?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -515,7 +515,7 @@ void InstallIntelliJUltimate()
 void InstallReSharper()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains ReSharper?(default yes):";
+        cout << "Вы хотите установить JetBrains ReSharper?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -541,7 +541,7 @@ void InstallReSharper()
 void InstallRider()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains Rider?(default yes):";
+        cout << "Вы хотите установить JetBrains Rider?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -569,7 +569,7 @@ void InstallRider()
 void InstallPhpStorm()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains PHPStorm?(default yes):";
+        cout << "Вы хотите установить JetBrains PHPStorm?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -597,7 +597,7 @@ void InstallPhpStorm()
 void InstalldotUltimate()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains dotUltimate?(default yes):";
+        cout << "Вы хотите установить JetBrains dotUltimate?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -623,7 +623,7 @@ void InstalldotUltimate()
 void InstallSpace()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains Space?(default yes):";
+        cout << "Вы хотите установить JetBrains Space?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -651,7 +651,7 @@ void InstallSpace()
 void InstallToolBox()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JetBrains Toolbox?(default yes):";
+        cout << "Вы хотите установить JetBrains Toolbox?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -679,7 +679,7 @@ void InstallToolBox()
 void InstallPostgresql()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install PostgreSQL?(default yes):";
+        cout << "Вы хотите установить PostgreSQL?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -709,7 +709,7 @@ void InstallPostgresql()
 void InstallCLink()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Clink?(default yes):";
+        cout << "Вы хотите установить Clink?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -735,7 +735,7 @@ void InstallCLink()
 void InstallNgrok()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Ngrok?(default yes):";
+        cout << "Вы хотите установить Ngrok?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -763,7 +763,7 @@ void InstallNgrok()
 void InstallWget()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Wget?(default yes):";
+        cout << "Вы хотите установить Wget?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -791,7 +791,7 @@ void InstallWget()
 void InstallSublimeText()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install SublimeText?(default yes):";
+        cout << "Вы хотите установить SublimeText?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -819,7 +819,7 @@ void InstallSublimeText()
 void InstallPyCharmCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install PyCharm Community?(default yes):";
+        cout << "Вы хотите установить PyCharm Community?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -847,7 +847,7 @@ void InstallPyCharmCommunity()
 void InstallPyCharmProffessional()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install PyCharm Professional?(default yes):";
+        cout << "Вы хотите установить PyCharm Professional?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -875,7 +875,7 @@ void InstallPyCharmProffessional()
 void InstallPowerToys()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Microsoft PowerToys?(default yes):";
+        cout << "Вы хотите установить Microsoft PowerToys?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -901,7 +901,7 @@ void InstallPowerToys()
 void InstallDiscord()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Discord?(default yes):";
+        cout << "Вы хотите установить Discord?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -929,7 +929,7 @@ void InstallDiscord()
 void InstallTelegram()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Telegram?(default yes):";
+        cout << "Вы хотите установить Telegram?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -957,7 +957,7 @@ void InstallTelegram()
 void InstallVNCServer()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install RealVNC Server?(default yes):";
+        cout << "Вы хотите установить RealVNC Server?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -985,7 +985,7 @@ void InstallVNCServer()
 void InstallVNCViewer()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install RealVNC Viewer?(default yes):";
+        cout << "Вы хотите установить RealVNC Viewer?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1013,7 +1013,7 @@ void InstallVNCViewer()
 void InstallMongoDBCompass()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install MongoDB Compass?(default yes):";
+        cout << "Вы хотите установить MongoDB Compass?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1041,7 +1041,7 @@ void InstallMongoDBCompass()
 void InstallMongoDB()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install MongoDB Server?(default yes):";
+        cout << "Вы хотите установить MongoDB Server?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1069,7 +1069,7 @@ void InstallMongoDB()
 void InstallMongoDBAtlas()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install MongoDB MongoDBAtlasCLI?(default yes):";
+        cout << "Вы хотите установить MongoDB MongoDBAtlasCLI?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1097,7 +1097,7 @@ void InstallMongoDBAtlas()
 void InstallNodeJS()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install NodeJS?(default yes):";
+        cout << "Вы хотите установить NodeJS?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1125,7 +1125,7 @@ void InstallNodeJS()
 void InstallGoLang()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install GoLang 1.18?(default yes):";
+        cout << "Вы хотите установить GoLang 1.18?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1153,7 +1153,7 @@ void InstallGoLang()
 void InstallPython3_9()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Python 3.9?(default yes):";
+        cout << "Вы хотите установить Python 3.9?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1181,7 +1181,7 @@ void InstallPython3_9()
 void InstallPython3_10()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Python 3.10?(default yes):";
+        cout << "Вы хотите установить Python 3.10?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1207,7 +1207,7 @@ void InstallPython3_10()
 void InstallPython3_11()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Python 3.11?(default yes):";
+        cout << "Вы хотите установить Python 3.11?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1235,7 +1235,7 @@ void InstallPython3_11()
 void InstallJDK_19()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JDK 19?(default yes):";
+        cout << "Вы хотите установить JDK 19?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1263,7 +1263,7 @@ void InstallJDK_19()
 void InstallJDK_18()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install JDK 18?(default yes):";
+        cout << "Вы хотите установить JDK 18?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1291,7 +1291,7 @@ void InstallJDK_18()
 void InstallRust()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Rust?(default yes):";
+        cout << "Вы хотите установить Rust?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1319,7 +1319,7 @@ void InstallRust()
 void InstallNetFramework()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Microsoft DotNet Framework?(default yes):";
+        cout << "Вы хотите установить Microsoft DotNet Framework?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1347,7 +1347,7 @@ void InstallNetFramework()
 void InstallRuby()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Ruby?(default yes):";
+        cout << "Вы хотите установить Ruby?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1375,7 +1375,7 @@ void InstallRuby()
 void InstallMSYS2()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install MSYS2?(default yes):";
+        cout << "Вы хотите установить MSYS2?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1393,7 +1393,7 @@ void InstallMSYS2()
 void InstallNuget()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Microsoft NuGet?(default yes):";
+        cout << "Вы хотите установить Microsoft NuGet?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1421,7 +1421,7 @@ void InstallNuget()
 void InstallGitHubDesktop()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install GitHub Desktop?(default yes):";
+        cout << "Вы хотите установить GitHub Desktop?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1449,7 +1449,7 @@ void InstallGitHubDesktop()
 void InstallGitHubCLi()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install GitHub CLI?(default yes):";
+        cout << "Вы хотите установить GitHub CLI?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1477,7 +1477,7 @@ void InstallGitHubCLi()
 void InstallKubernetes()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Kubernetes?(default yes):";
+        cout << "Вы хотите установить Kubernetes?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1505,7 +1505,7 @@ void InstallKubernetes()
 void InstallVisualStudioCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Visual Studio Community?(default yes):";
+        cout << "Вы хотите установить Visual Studio Community?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1534,7 +1534,7 @@ void InstallVisualStudioCommunity()
 void InstallVisualStudioProffessional()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Visual Studio Proffessional?(default yes):";
+        cout << "Вы хотите установить Visual Studio Proffessional?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1562,7 +1562,7 @@ void InstallVisualStudioProffessional()
 void InstallSlack()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Slack?(default yes):";
+        cout << "Вы хотите установить Slack?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1590,7 +1590,7 @@ void InstallSlack()
 void InstallVim()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Vim?(default yes):";
+        cout << "Вы хотите установить Vim?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1618,7 +1618,7 @@ void InstallVim()
 void InstallNeoVim()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install NeoVim?(default yes):";
+        cout << "Вы хотите установить NeoVim?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1646,7 +1646,7 @@ void InstallNeoVim()
 void InstallGoogleChrome()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Google Chrome?(default yes):";
+        cout << "Вы хотите установить Google Chrome?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1674,7 +1674,7 @@ void InstallGoogleChrome()
 void InstallAndroidStudio()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Android Studio?(default yes):";
+        cout << "Вы хотите установить Android Studio?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1702,7 +1702,7 @@ void InstallAndroidStudio()
 void InstallEclipse()
 {
     if (TypeInstall == "open") {
-        cout << "Do you want to install Eclipse?(default yes):";
+        cout << "Вы хотите установить Eclipse?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1733,7 +1733,7 @@ void InstallKotlin()
         SetConsoleOutputCP(CP_UTF8);
     }
     if (TypeInstall == "open") {
-        cout << "Do you want to install Kotlin?(default yes):";
+        cout << "Вы хотите установить Kotlin?(default yes):";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {

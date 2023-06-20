@@ -56,10 +56,10 @@ class Main {
     public:
         void CommandManager() {
             string InstallTools;
-            cout << "1. Choose a ready-made set of DevelopmentTools for a specific programming language" << endl;
-            cout << "2. Manual selection of DeveloperTools packages" << endl;
-            cout << "3. Install all packages of DeveloperTools" << endl;
-            cout << "Select the option to install DeveloperTools (Default - 2):";
+            cout << "1. Выбрать готовый набор DeveloperTools для конкретного языка программирования" << endl;
+            cout << "2. Ручной выбор пакетов DeveloperTools" << endl;
+            cout << "3. Установитm все пакеты DeveloperTools" << endl;
+            cout << "Выберите вариант установки DeveloperTools (по умолчанию — 2):";
             getline(cin,InstallTools);
             if (InstallTools == "1") {
                 ReadySet();
@@ -94,6 +94,7 @@ class Main {
             cout << "8. C" << endl;
             cout << "9. C#" << endl;
             cout << "10. PHP" << endl;
+            cout << "Выберите нужный язык программирования:";
             getline(cin,LangReadySet);
             if (LangReadySet == "1") {
                 TypeInstall = "open";
