@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Download
+# Project: DeveloperTools
 # Configurations: 
 # =============================================================================
 
@@ -36,41 +36,41 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/
 # =============================================================================
-# Object build statements for EXECUTABLE target Download
+# Object build statements for EXECUTABLE target DeveloperTools
 
 
 #############################################
-# Order-only phony target for Download
+# Order-only phony target for DeveloperTools
 
-build cmake_object_order_depends_target_Download: phony || CMakeFiles/Download.dir
+build cmake_object_order_depends_target_DeveloperTools: phony || CMakeFiles/DeveloperTools.dir
 
-build CMakeFiles/Download.dir/Download.cpp.obj: CXX_COMPILER__Download_unscanned_ C$:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/Download.cpp || cmake_object_order_depends_target_Download
-  DEP_FILE = CMakeFiles\Download.dir\Download.cpp.obj.d
+build CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj: CXX_COMPILER__DeveloperTools_unscanned_ C$:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/DeveloperTools.cpp || cmake_object_order_depends_target_DeveloperTools
+  DEP_FILE = CMakeFiles\DeveloperTools.dir\DeveloperTools.cpp.obj.d
   FLAGS = -std=c++20 -std=gnu++20
-  OBJECT_DIR = CMakeFiles\Download.dir
-  OBJECT_FILE_DIR = CMakeFiles\Download.dir
-  TARGET_COMPILE_PDB = CMakeFiles\Download.dir\
-  TARGET_PDB = Download.pdb
+  OBJECT_DIR = CMakeFiles\DeveloperTools.dir
+  OBJECT_FILE_DIR = CMakeFiles\DeveloperTools.dir
+  TARGET_COMPILE_PDB = CMakeFiles\DeveloperTools.dir\
+  TARGET_PDB = DeveloperTools.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Download
+# Link build statements for EXECUTABLE target DeveloperTools
 
 
 #############################################
-# Link the executable Download.exe
+# Link the executable DeveloperTools.exe
 
-build Download.exe: CXX_EXECUTABLE_LINKER__Download_ CMakeFiles/Download.dir/Download.cpp.obj
+build DeveloperTools.exe: CXX_EXECUTABLE_LINKER__DeveloperTools_ CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj
   FLAGS = -std=c++20
-  LINK_FLAGS = -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  LINK_LIBRARIES = -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32  -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\Download.dir
+  LINK_FLAGS = -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32  -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\DeveloperTools.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\Download.dir\
-  TARGET_FILE = Download.exe
-  TARGET_IMPLIB = libDownload.dll.a
-  TARGET_PDB = Download.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\DeveloperTools.dir\
+  TARGET_FILE = DeveloperTools.exe
+  TARGET_IMPLIB = libDeveloperTools.dll.a
+  TARGET_PDB = DeveloperTools.pdb
 
 
 #############################################
@@ -99,7 +99,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Download: phony Download.exe
+build DeveloperTools: phony DeveloperTools.exe
 
 # =============================================================================
 # Folder targets.
@@ -109,7 +109,7 @@ build Download: phony Download.exe
 #############################################
 # Folder: C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools
 
-build all: phony Download.exe
+build all: phony DeveloperTools.exe
 
 # =============================================================================
 # Built-in targets
