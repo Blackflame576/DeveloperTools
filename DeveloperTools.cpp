@@ -1,91 +1,65 @@
 // Импортирование необходимых библиотек
-#include <curl/curl.h>
 #include <iostream>
 #include <cstdio>
 #include <string>
-#include "AppInstaller.h"
-// #include <cctype>
-// #include <cstring>
-// #include <fstream>
-// #include <iterator>
-// #include <algorithm>
+#include "AppInstaller.hpp"
+#include <map>
+#include "Logger.hpp"
+#include <regex>
+#include <fstream>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
-    std::cout << "Linux" << endl;
+    // cout << "Linux" << endl;
 #elif __FreeBSD__
-    std::cout << "FreeBSD" << endl;
+    // cout << "FreeBSD" << endl;
 #elif __APPLE__
-    std::cout << "macOS" << endl;
+    // cout << "macOS" << endl;
 #elif _WIN32
     #include <Windows.h>
 #endif
 
 using namespace std;
+using funct_t = void(*)(void);
 using namespace AppInstaller;
+using namespace Logger;
 
 // Переменные 
-bool JavaDevelopment;
-bool PythonDevelopment;
-bool JavaScriptDevelopment;
-bool RustDevelopment;
-bool RubyDevelopment;
-bool CppDevelopment;
-bool CSDevelopment;
-bool GoDevelopment;
 bool Install;
-string OS_NAME;
+string LangReadySet;
 string Answer;
 string new_sentence;
-Installer installer;
-const string TrueVarious[] = {"yes","y","1","Y","YES","Yes"};
 
 size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
     size_t WriteProcess = fwrite(ptr,size,nmemb,stream);
     return WriteProcess;
 }
 
+string GetNameDistribution() {
+    if (OS_NAME == "Windows") {
+        ifstream stream("/etc/os-release");
+        string line;
+        regex nameRegex("^NAME=\"(.*?)\"$");
+        smatch match;
+        string name;
+        while (getline(stream,line)) {
+            if (regex_search(line,match,nameRegex)) {
+                name = match[1].str();
+                break;
+            }
+        }
+        return name;
+    } 
+}
 // Функции
-string to_lower(string sentence) {
-    new_sentence = "";
-    for (int i = 0;i<sizeof(sentence);i++) {
-        new_sentence += tolower(sentence[i]);
-    }
-    return new_sentence;
-}
-
-bool CheckAnswer(string answer) {
-    bool status;
-    // string Answer = to_lower(answer);
-    string Answer = answer;
-    for (int i = 0;i < TrueVarious->size();i++) {
-        if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n") {
-            status = true;
-        }
-        else {
-            status = false;
-        }
-    }
-    return status;
-}
-
 class Main {
     public:
-        void Download(string url,auto filename) {
-            cout << typeid(url).name() << endl;
-            CURL* curl = curl_easy_init();
-            FILE* file = fopen(filename,"wb");
-            curl_easy_setopt(curl,CURLOPT_URL,url.c_str());
-            curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,WriteData);
-            curl_easy_setopt(curl,CURLOPT_WRITEDATA,file);
-            CURLcode response = curl_easy_perform(curl);
-            curl_easy_cleanup(curl);
-        }
         void CommandManager() {
             string InstallTools;
-            cout << "1. Choose a ready-made set of DevelopmentTools for a specific programming language" << endl;
-            cout << "2. Manual selection of DeveloperTools tools" << endl;
-            cout << "Select the option to install DeveloperTools (Default - 2):";
+            cout << "1. Выбрать готовый набор DeveloperTools для конкретного языка программирования" << endl;
+            cout << "2. Ручной выбор пакетов DeveloperTools" << endl;
+            cout << "3. Установитm все пакеты DeveloperTools" << endl;
+            cout << "Выберите вариант установки DeveloperTools (по умолчанию — 2):";
             getline(cin,InstallTools);
             if (InstallTools == "1") {
                 ReadySet();
@@ -93,68 +67,129 @@ class Main {
             else if (InstallTools == "2" or InstallTools.empty()) {
                 ManualSelection();
             }
+            else if (InstallTools == "3") {
+                InstallAllPackages();
+            }
             else {
                 ManualSelection();
             }
 
         }
         void ManualSelection() {
-            installer.InstallGit();
-            installer.InstallVSCode();
-            installer.InstallPyCharmCommunity();
-            installer.InstallPyCharmProffessional();
-            installer.InstallSublimeText();
-            installer.InstallPython3_9();
-            installer.InstallPython3_10();
-            installer.InstallPython3_11();
-            installer.InstallNodeJS();
-            installer.InstallJDK_18();
-            installer.InstallJDK_19();
-            installer.InstallGoLang();
-            installer.InstallRuby();
-            installer.InstallRust();
-            installer.InstallNetFramework();
-            installer.InstallMSYS2();
-            installer.InstallDocker();
-            installer.InstallCLink();
-            installer.InstallNgrok();
-            installer.InstallNuget();
-            installer.InstallPostgresql();
-            installer.InstallPostman();
-            installer.InstallWget();
-            installer.InstallVNCServer();
-            installer.InstallVNCViewer();
-            installer.InstallMongoDB();
-            installer.InstallMongoDBAtlas();
-            installer.InstallMongoDBCompass();
-            installer.InstallTelegram();
-            installer.InstallDiscord();
+            TypeInstall = "open";
+            for (const auto &element:Packages) {
+                // cout << p.first << "\t" << p.second << endl;
+                string name = element.first;
+                element.second();
+            }
         }
         void ReadySet() {
-
+            cout << "1. Python" << endl;
+            cout << "2. JavaScript" << endl;
+            cout << "3. C++" << endl;
+            cout << "4. Java" << endl;
+            cout << "5. Go" << endl;
+            cout << "6. Rust" << endl;
+            cout << "7. Ruby" << endl;
+            cout << "8. C" << endl;
+            cout << "9. C#" << endl;
+            cout << "10. PHP" << endl;
+            cout << "Выберите нужный язык программирования:";
+            getline(cin,LangReadySet);
+            if (LangReadySet == "1") {
+                TypeInstall = "open";
+                AppInstaller::PythonDevelopment();
+            }
+            else if (LangReadySet == "2") {
+                TypeInstall = "open";
+                AppInstaller::JavaDevelopment();
+            }
+            else if (LangReadySet == "3") {
+                TypeInstall = "open";
+                AppInstaller::CppDevelopment();
+            }
+            else if (LangReadySet == "4") {
+                TypeInstall = "open";
+                AppInstaller::JavaDevelopment();
+            }
+            else if (LangReadySet == "5") {
+                TypeInstall = "open";
+                AppInstaller::GoDevelopment();
+            }
+            else if (LangReadySet == "6") {
+                TypeInstall = "open";
+                AppInstaller::RustDevelopment();
+            }
+            else if (LangReadySet == "7") {
+                TypeInstall = "open";
+                AppInstaller::RubyDevelopment();
+            }
+            else if (LangReadySet == "8") {
+                TypeInstall = "open";
+                AppInstaller::CDevelopment();
+            }
+            else if (LangReadySet == "9") {
+                TypeInstall = "open";
+                AppInstaller::CSDevelopment();
+            }
+            else if (LangReadySet == "10") {
+                TypeInstall = "open";
+                AppInstaller::PHPDevelopment();
+            }
         }
+        void InstallAllPackages() {
+            TypeInstall = "hidden";
+            for (const auto &element:Packages) {
+                string name = element.first;
+                cout << name << endl;
+                element.second();
+            }
+        }
+        Main () {
+            if (OS_NAME == "Windows") {
+                InstallWinGet();
+            }
+            else if (OS_NAME == "macOS") {
+                InstallBrew();
+            }
+            else if (OS_NAME == "Linux") {
+
+            }
+        }
+        ~Main () {
+            
+        };
     private:
         void InstallBrew() {
             system("bash ./Scripts/InstallBrew.sh");
         }
         
+        void InstallWinGet() {
+            // system();
+        }
+    // Main::Main();
+    // Main::~Main();
+        
 };
 
 int main() {
-    setlocale(LC_ALL, "Russian");
-    setlocale(LC_CTYPE,"Russian");
+    // setlocale(LC_ALL, "Russian");
     #if defined(__linux__)
         OS_NAME = "Linux";
+        NameDistribution = GetNameDistribution();
     #elif __FreeBSD__
         OS_NAME = "FreeBSD";
     #elif __APPLE__
         OS_NAME = "macOS";
     #elif _WIN32
         OS_NAME = "Windows";
+        SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
     #endif
-    
+
     Main main;
     main.CommandManager();
+    // AppInstaller::InstallKotlin();
     // string url;
     // cin >> url;
     // main.Download(url,"file.exe");
