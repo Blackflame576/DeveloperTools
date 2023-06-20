@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.25)
+project(Download)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+#add_executable(Download main.cpp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+set(SOURCE_FILES Download.cpp)
+add_executable(Download ${SOURCE_FILES})
+target_link_libraries(Download ${CMAKE_EXE_LINKER_FLAGS})
