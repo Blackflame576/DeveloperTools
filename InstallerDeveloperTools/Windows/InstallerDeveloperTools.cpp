@@ -3,6 +3,13 @@
 #include "Progressbar.hpp"
 #include "InstallerDeveloperTools.hpp"
 #pragma comment(lib, "urlmon.lib")
+#include <filesystem>
+#include <conio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 using namespace InstallerDeveloperTools;
@@ -57,11 +64,23 @@ public:
 class Installer {
     public:
         void InstallDeveloperTools_Stable() {
+            if (filesystem::exists(NewOrganizationFolder) == false) {
+                filesystem::create_directory(NewOrganizationFolder);
+            }
+            if (filesystem::exists(NewApplicationFolder) == false) {
+                filesystem::create_directory(NewApplicationFolder);
+            }
             DownloadProgress Progress;
             HRESULT Download = URLDownloadToFile(NULL, DownloadURL.c_str(), InstallPath.c_str(), 0, static_cast<IBindStatusCallback*>(&Progress));
             cout << "" << endl;
         }
         void InstallDeveloperTools_Beta() {
+            if (filesystem::exists(NewOrganizationFolder) == false) {
+                filesystem::create_directory(NewOrganizationFolder);
+            }
+            if (filesystem::exists(NewApplicationFolder) == false) {
+                filesystem::create_directory(NewApplicationFolder);
+            }
             DownloadProgress Progress;
             HRESULT Download = URLDownloadToFile(NULL, BetaDownloadURL.c_str(), InstallPath.c_str(), 0, static_cast<IBindStatusCallback*>(&Progress));
             cout << "" << endl;
@@ -74,6 +93,7 @@ int main()
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
     Installer installer;
+    string new_dir = "C:/Program Files/aaaaaa";
     cout << "1. DeveloperTools Stable Version" << endl;
     cout << "2. DeveloperTools Beta Version" << endl;
     cout << "Выберите версию DeveloperTools:";
@@ -84,5 +104,6 @@ int main()
     else if (Answer == "2") {
         installer.InstallDeveloperTools_Beta();
     }
+    
     return 0;
 }

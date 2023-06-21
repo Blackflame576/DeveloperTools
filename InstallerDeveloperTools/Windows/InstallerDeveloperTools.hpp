@@ -14,4 +14,7 @@ namespace InstallerDeveloperTools {
     const string BetaDownloadURL = "";
     const string BetaInstallPath = "";
     string Answer;
+    const string NewOrganizationFolder = "C:\\ProgramData\\DigitalBitTechnologies";
+    const string NewApplicationFolder = "C:\\ProgramData\\DigitalBitTechnologies\\DeveloperTools";
+    // string NewApplicationFolder = 'C:/ProgramData/DigitalBitTechnologies/DeveloperTools';
 }
