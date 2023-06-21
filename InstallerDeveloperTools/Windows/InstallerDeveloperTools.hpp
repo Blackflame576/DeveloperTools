@@ -10,7 +10,8 @@ namespace InstallerDeveloperTools {
     int TempPercentage = 0;
     string ProjectDir = std::filesystem::current_path().generic_string();
     const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
-    const string InstallPath = "";
+    const string InstallPath = "kotlin-compiler-1.8.22.zip";
     const string BetaDownloadURL = "";
+    const string BetaInstallPath = "";
     string Answer;
 }
