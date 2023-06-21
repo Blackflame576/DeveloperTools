@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+# cmake_minimum_required(VERSION 3.25)
 project(InstallerDeveloperTools)
 
 include (GNUInstallDirs)
@@ -17,10 +17,10 @@ cpack_add_component(major DESCRIPTION "Something for demo")
 cpack_add_component(devel DESCRIPTION "For Development")
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++   ${CMAKE_CXX_STANDARD_LIBRARIES}")
 #add_executable(Download main.cpp)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++  ${CMAKE_CXX_STANDARD_LIBRARIES}")
 set(SOURCE_FILES InstallerDeveloperTools.cpp)
 add_executable(InstallerDeveloperTools ${SOURCE_FILES})
 target_sources(InstallerDeveloperTools PRIVATE resource.rc)
