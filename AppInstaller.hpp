@@ -106,7 +106,7 @@ int Download(string url, string dir)
         FILE* file = fopen(filename.c_str(), "wb");
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_NOPROGRESS, FALSE);
-        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_func);
+        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
