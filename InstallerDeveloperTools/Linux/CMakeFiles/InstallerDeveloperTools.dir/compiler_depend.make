@@ -258,8 +258,72 @@ CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.o: InstallerDevel
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/linux/close_range.h \
-  /usr/include/c++/11/stdlib.h
+  /usr/include/c++/11/stdlib.h \
+  /usr/include/x86_64-linux-gnu/curl/curl.h \
+  /usr/include/x86_64-linux-gnu/curl/curlver.h \
+  /usr/include/x86_64-linux-gnu/curl/system.h \
+  /usr/include/x86_64-linux-gnu/sys/socket.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+  /usr/include/x86_64-linux-gnu/bits/socket.h \
+  /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+  /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+  /usr/include/x86_64-linux-gnu/asm/socket.h \
+  /usr/include/asm-generic/socket.h \
+  /usr/include/x86_64-linux-gnu/asm/sockios.h \
+  /usr/include/asm-generic/sockios.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/sys/time.h \
+  /usr/include/x86_64-linux-gnu/curl/easy.h \
+  /usr/include/x86_64-linux-gnu/curl/multi.h \
+  /usr/include/x86_64-linux-gnu/curl/curl.h \
+  /usr/include/x86_64-linux-gnu/curl/urlapi.h \
+  /usr/include/x86_64-linux-gnu/curl/options.h
 
+
+/usr/include/x86_64-linux-gnu/curl/options.h:
+
+/usr/include/x86_64-linux-gnu/curl/urlapi.h:
+
+/usr/include/x86_64-linux-gnu/curl/multi.h:
+
+/usr/include/x86_64-linux-gnu/curl/easy.h:
+
+/usr/include/x86_64-linux-gnu/sys/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
+
+/usr/include/asm-generic/sockios.h:
+
+/usr/include/x86_64-linux-gnu/bits/sockaddr.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket_type.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/usr/include/x86_64-linux-gnu/curl/system.h:
+
+/usr/include/x86_64-linux-gnu/curl/curlver.h:
+
+/usr/include/x86_64-linux-gnu/curl/curl.h:
 
 /usr/include/c++/11/stdlib.h:
 
@@ -319,6 +383,8 @@ CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.o: InstallerDevel
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
+/usr/include/linux/limits.h:
+
 /usr/include/c++/11/bits/shared_ptr_base.h:
 
 /usr/include/c++/11/bits/basic_string.h:
@@ -377,6 +443,8 @@ CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.o: InstallerDevel
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
 
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+
 /usr/include/c++/11/string:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
@@ -395,6 +463,8 @@ CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.o: InstallerDevel
 
 /usr/include/c++/11/exception:
 
+/usr/include/asm-generic/socket.h:
+
 /usr/include/c++/11/bits/invoke.h:
 
 /usr/include/c++/11/bits/postypes.h:
@@ -411,11 +481,15 @@ CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.o: InstallerDevel
 
 /usr/include/c++/11/locale:
 
+/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
+
 /usr/include/c++/11/debug/debug.h:
 
 /usr/include/features-time64.h:
 
 /usr/include/c++/11/bits/stringfwd.h:
+
+/usr/include/x86_64-linux-gnu/asm/socket.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
@@ -432,6 +506,10 @@ InstallerDeveloperTools.cpp:
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/asm-generic/posix_types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
+
+/usr/include/x86_64-linux-gnu/sys/socket.h:
 
 /usr/include/c++/11/bits/memoryfwd.h:
 
@@ -502,6 +580,8 @@ InstallerDeveloperTools.cpp:
 /usr/include/c++/11/bits/nested_exception.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+
+/usr/include/x86_64-linux-gnu/asm/sockios.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
@@ -688,6 +768,8 @@ InstallerDeveloperTools.cpp:
 /usr/include/c++/11/istream:
 
 /usr/include/c++/11/bits/istream.tcc:
+
+/usr/include/limits.h:
 
 /usr/include/c++/11/bits/stl_relops.h:
 
