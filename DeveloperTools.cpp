@@ -31,11 +31,6 @@ string Answer;
 string new_sentence;
 string SelectPackages;
 
-size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
-    size_t WriteProcess = fwrite(ptr,size,nmemb,stream);
-    return WriteProcess;
-}
-
 // string GetNameDistribution() {
 //     if (OS_NAME == "Windows") {
 //         ifstream stream("/etc/os-release");
