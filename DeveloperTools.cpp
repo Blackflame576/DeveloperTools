@@ -29,28 +29,29 @@ bool Install;
 string LangReadySet;
 string Answer;
 string new_sentence;
+string SelectPackages;
 
 size_t WriteData(void* ptr,size_t size,size_t nmemb,FILE* stream) {
     size_t WriteProcess = fwrite(ptr,size,nmemb,stream);
     return WriteProcess;
 }
 
-string GetNameDistribution() {
-    if (OS_NAME == "Windows") {
-        ifstream stream("/etc/os-release");
-        string line;
-        regex nameRegex("^NAME=\"(.*?)\"$");
-        smatch match;
-        string name;
-        while (getline(stream,line)) {
-            if (regex_search(line,match,nameRegex)) {
-                name = match[1].str();
-                break;
-            }
-        }
-        return name;
-    } 
-}
+// string GetNameDistribution() {
+//     if (OS_NAME == "Windows") {
+//         ifstream stream("/etc/os-release");
+//         string line;
+//         regex nameRegex("^NAME=\"(.*?)\"$");
+//         smatch match;
+//         string name;
+//         while (getline(stream,line)) {
+//             if (regex_search(line,match,nameRegex)) {
+//                 name = match[1].str();
+//                 break;
+//             }
+//         }
+//         return name;
+//     } 
+// }
 // Функции
 class Main {
     public:
@@ -58,8 +59,9 @@ class Main {
             string InstallTools;
             cout << "1. Выбрать готовый набор DeveloperTools для конкретного языка программирования" << endl;
             cout << "2. Ручной выбор пакетов DeveloperTools" << endl;
-            cout << "3. Установитm все пакеты DeveloperTools" << endl;
-            cout << "Выберите вариант установки DeveloperTools (по умолчанию — 2):";
+            cout << "3. Установить все пакеты DeveloperTools" << endl;
+            cout << "4. Выйти из приложения" << endl;
+            cout << "Выберите вариант ответа (по умолчанию — 2):";
             getline(cin,InstallTools);
             if (InstallTools == "1") {
                 ReadySet();
@@ -70,18 +72,38 @@ class Main {
             else if (InstallTools == "3") {
                 InstallAllPackages();
             }
+            else if (InstallTools == "4") {
+                exit(0);
+            }
             else {
                 ManualSelection();
             }
 
         }
         void ManualSelection() {
-            TypeInstall = "open";
+            TypeInstall = "hidden";
+            int i = 1;
+            map<int,string> EnumeratePackages;
             for (const auto &element:Packages) {
-                // cout << p.first << "\t" << p.second << endl;
-                string name = element.first;
-                element.second();
+                EnumeratePackages.insert(pair<int,string>(i,element.first));
+                cout << i << ". "<< element.first << endl;
+                i++;
             }
+            cout << "Выберите номера пакетов для установки(через ,):";
+            getline(cin,SelectPackages);
+            std::string delimiter = ",";
+            size_t pos = 0;
+            std::string token;
+            while ((pos = SelectPackages.find(delimiter)) != std::string::npos) {
+                token = SelectPackages.substr(0, pos);
+                string name = EnumeratePackages[stoi(token)];
+                Packages[name]();
+                SelectPackages.erase(0, pos + delimiter.length());
+            }
+            std::cout << SelectPackages << std::endl;
+            string NamePackage = EnumeratePackages[stoi(SelectPackages)];
+            Packages[NamePackage]();
+            CommandManager();
         }
         void ReadySet() {
             cout << "1. Python" << endl;
@@ -136,14 +158,15 @@ class Main {
                 TypeInstall = "open";
                 AppInstaller::PHPDevelopment();
             }
+            CommandManager();
         }
         void InstallAllPackages() {
             TypeInstall = "hidden";
             for (const auto &element:Packages) {
                 string name = element.first;
-                cout << name << endl;
                 element.second();
             }
+            CommandManager();
         }
         Main () {
             if (OS_NAME == "Windows") {
@@ -153,7 +176,7 @@ class Main {
                 InstallBrew();
             }
             else if (OS_NAME == "Linux") {
-
+                InstallSnap();
             }
         }
         ~Main () {
@@ -165,7 +188,11 @@ class Main {
         }
         
         void InstallWinGet() {
-            // system();
+            string CommandInstallWinGet = ProjectDir + "/Scripts/InstallWinGet.ps1";
+            system(CommandInstallWinGet.c_str());
+        }
+        void InstallSnap() {
+
         }
     // Main::Main();
     // Main::~Main();
@@ -176,7 +203,7 @@ int main() {
     // setlocale(LC_ALL, "Russian");
     #if defined(__linux__)
         OS_NAME = "Linux";
-        NameDistribution = GetNameDistribution();
+        // NameDistribution = GetNameDistribution();
     #elif __FreeBSD__
         OS_NAME = "FreeBSD";
     #elif __APPLE__
