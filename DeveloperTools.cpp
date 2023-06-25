@@ -25,9 +25,7 @@ using namespace AppInstaller;
 using namespace Logger;
 
 // Переменные 
-bool Install;
 string LangReadySet;
-string Answer;
 string new_sentence;
 string SelectPackages;
 
@@ -159,20 +157,30 @@ class Main {
             TypeInstall = "hidden";
             for (const auto &element:Packages) {
                 string name = element.first;
-                element.second();
+                cout << name << ";";
+            }
+            cout << "" << endl;
+            cout << "Вы точно хотите установить все пакеты (по умолчанию - да)?";
+            getline(cin,Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                for (const auto &element:Packages) {
+                    string name = element.first;
+                    element.second();
+                }
             }
             CommandManager();
         }
         Main () {
-            if (OS_NAME == "Windows") {
-                InstallWinGet();
-            }
-            else if (OS_NAME == "macOS") {
-                InstallBrew();
-            }
-            else if (OS_NAME == "Linux") {
-                InstallSnap();
-            }
+            // if (OS_NAME == "Windows") {
+            //     InstallWinGet();
+            // }
+            // else if (OS_NAME == "macOS") {
+            //     InstallBrew();
+            // }
+            // else if (OS_NAME == "Linux") {
+            //     InstallSnap();
+            // }
         }
         ~Main () {
             
@@ -183,7 +191,7 @@ class Main {
         }
         
         void InstallWinGet() {
-            string CommandInstallWinGet = ProjectDir + "/Scripts/InstallWinGet.ps1";
+            string CommandInstallWinGet ="powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
             system(CommandInstallWinGet.c_str());
         }
         void InstallSnap() {

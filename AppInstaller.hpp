@@ -125,7 +125,7 @@ int Download(string url, string dir)
 void InstallGit()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Git?(default yes):";
+        cout << "Вы хотите установить Git (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -152,7 +152,7 @@ void InstallGit()
 }
 void InstallVSCode()
 {   if (TypeInstall == "open") {
-        cout << "Вы хотите установить VSCode?(default yes):";
+        cout << "Вы хотите установить VSCode (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -169,19 +169,19 @@ void InstallVSCode()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Microsoft.VisualStudioCode");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask visual-studio-code");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Microsoft.VisualStudioCode");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask visual-studio-code");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallWebStorm()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains WebStorm?(default yes)";
+        cout << "Вы хотите установить JetBrains WebStorm (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -197,19 +197,19 @@ void InstallWebStorm()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.WebStorm");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask webstorm");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.WebStorm");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask webstorm");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallDocker()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Docker?(default yes):";
+        cout << "Вы хотите установить Docker (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -225,19 +225,19 @@ void InstallDocker()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Docker.DockerDesktop");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask docker");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Docker.DockerDesktop");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask docker");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPostman()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Postman?(default yes):";
+        cout << "Вы хотите установить Postman (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -253,19 +253,19 @@ void InstallPostman()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Postman.Postman");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask postman");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Postman.Postman");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask postman");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallRubyMine()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains RubyMine?(default yes):";
+        cout << "Вы хотите установить JetBrains RubyMine (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -281,19 +281,19 @@ void InstallRubyMine()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.RubyMine");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask rubymine");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.RubyMine");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask rubymine");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallAqua()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains Aqua?(default yes):";
+        cout << "Вы хотите установить JetBrains Aqua (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -308,18 +308,18 @@ void InstallAqua()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.Aqua.EAP");
-            }
-            else if (OS_NAME == "macOS") {
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.Aqua.EAP");
+        }
+        else if (OS_NAME == "macOS") {
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallCLion()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains CLion?(default yes):";
+        cout << "Вы хотите установить JetBrains CLion (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -335,19 +335,19 @@ void InstallCLion()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.CLion");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask clion");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.CLion");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask clion");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallDataGrip()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains DataGrip?(default yes):";
+        cout << "Вы хотите установить JetBrains DataGrip (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -363,19 +363,19 @@ void InstallDataGrip()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.DataGrip");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask datagrip");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.DataGrip");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask datagrip");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallDataSpell()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains DataSpell?(default yes):";
+        cout << "Вы хотите установить JetBrains DataSpell (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -391,19 +391,19 @@ void InstallDataSpell()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.DataSpell");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask dataspell");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.DataSpell");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask dataspell");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallFleet()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains Fleet?(default yes):";
+        cout << "Вы хотите установить JetBrains Fleet (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -419,19 +419,19 @@ void InstallFleet()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.FleetLauncher.Preview");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask fleet");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.FleetLauncher.Preview");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask fleet");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallGoLand()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains GoLand?(default yes):";
+        cout << "Вы хотите установить JetBrains GoLand (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -447,19 +447,19 @@ void InstallGoLand()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.GoLand");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask goland");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.GoLand");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask goland");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallIntelliJCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains IntelliJIDEA Community?(default yes):";
+        cout << "Вы хотите установить JetBrains IntelliJIDEA Community (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -475,19 +475,19 @@ void InstallIntelliJCommunity()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.IntelliJIDEA.Community");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask intellij-idea-ce");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.IntelliJIDEA.Community");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask intellij-idea-ce");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallIntelliJUltimate()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains IntelliJIDEA Ultimate?(default yes):";
+        cout << "Вы хотите установить JetBrains IntelliJIDEA Ultimate (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -503,19 +503,19 @@ void InstallIntelliJUltimate()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask intellij-idea");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask intellij-idea");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallReSharper()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains ReSharper?(default yes):";
+        cout << "Вы хотите установить JetBrains ReSharper (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -530,18 +530,18 @@ void InstallReSharper()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.ReSharper");
-            }
-            else if (OS_NAME == "macOS") {
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.ReSharper");
+        }
+        else if (OS_NAME == "macOS") {
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallRider()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains Rider?(default yes):";
+        cout << "Вы хотите установить JetBrains Rider (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -557,19 +557,19 @@ void InstallRider()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.Rider");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask rider");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.Rider");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask rider");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPhpStorm()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains PHPStorm?(default yes):";
+        cout << "Вы хотите установить JetBrains PHPStorm (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -585,19 +585,19 @@ void InstallPhpStorm()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.PHPStorm");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask phpstorm");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.PHPStorm");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask phpstorm");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstalldotUltimate()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains dotUltimate?(default yes):";
+        cout << "Вы хотите установить JetBrains dotUltimate (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -612,18 +612,18 @@ void InstalldotUltimate()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.dotUltimate");
-            }
-            else if (OS_NAME == "macOS") {
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.dotUltimate");
+        }
+        else if (OS_NAME == "macOS") {
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallSpace()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains Space?(default yes):";
+        cout << "Вы хотите установить JetBrains Space (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -639,19 +639,19 @@ void InstallSpace()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.Space");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask jetbrains-space");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.Space");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask jetbrains-space");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallToolBox()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JetBrains Toolbox?(default yes):";
+        cout << "Вы хотите установить JetBrains Toolbox (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -667,19 +667,19 @@ void InstallToolBox()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.Toolbox");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask jetbrains-toolbox");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.Toolbox");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask jetbrains-toolbox");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPostgresql()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить PostgreSQL?(default yes):";
+        cout << "Вы хотите установить PostgreSQL (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -696,20 +696,21 @@ void InstallPostgresql()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id PostgreSQL.PostgreSQL");
-                system("winget install -e --id PostgreSQL.pgAdmin");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install postgresql@14");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id PostgreSQL.PostgreSQL");
+            system("winget install -e --id PostgreSQL.pgAdmin");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install postgresql@14");
+            system("brew install --cask pgadmin4");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallCLink()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Clink?(default yes):";
+        cout << "Вы хотите установить Clink (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -724,18 +725,18 @@ void InstallCLink()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id chrisant996.Clink");
-            }
-            else if (OS_NAME == "macOS") {
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id chrisant996.Clink");
+        }
+        else if (OS_NAME == "macOS") {
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallNgrok()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Ngrok?(default yes):";
+        cout << "Вы хотите установить Ngrok (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -751,19 +752,19 @@ void InstallNgrok()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Ngrok.Ngrok");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask ngrok");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Ngrok.Ngrok");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask ngrok");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallWget()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Wget?(default yes):";
+        cout << "Вы хотите установить Wget? (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -779,19 +780,19 @@ void InstallWget()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JernejSimoncic.Wget");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install wget");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JernejSimoncic.Wget");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install wget");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallSublimeText()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить SublimeText?(default yes):";
+        cout << "Вы хотите установить SublimeText (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -807,19 +808,19 @@ void InstallSublimeText()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id SublimeHQ.SublimeText.4");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask sublime-text");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id SublimeHQ.SublimeText.4");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask sublime-text");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPyCharmCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить PyCharm Community?(default yes):";
+        cout << "Вы хотите установить PyCharm Community (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -835,19 +836,19 @@ void InstallPyCharmCommunity()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.PyCharm.Community");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask pycharm-ce");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.PyCharm.Community");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask pycharm-ce");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPyCharmProffessional()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить PyCharm Professional?(default yes):";
+        cout << "Вы хотите установить PyCharm Professional (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -863,19 +864,19 @@ void InstallPyCharmProffessional()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id JetBrains.PyCharm.Professional");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask pycharm");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id JetBrains.PyCharm.Professional");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask pycharm");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPowerToys()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Microsoft PowerToys?(default yes):";
+        cout << "Вы хотите установить Microsoft PowerToys (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -890,18 +891,20 @@ void InstallPowerToys()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Microsoft.PowerToys");
-            }
-            else if (OS_NAME == "macOS") {
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Microsoft.PowerToys");
+        }
+        else if (OS_NAME == "macOS") {
+            cout << "Microsoft PowerToys не предназначена для macOS и устанавливается только на Windows" << endl;
+        }
+        else if (OS_NAME == "Linux") {
+            cout << "Microsoft PowerToys не предназначена для macOS и устанавливается только на Windows" << endl;
+        }
     }
 }
 void InstallDiscord()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Discord?(default yes):";
+        cout << "Вы хотите установить Discord (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -917,19 +920,19 @@ void InstallDiscord()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Discord.Discord");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask discord");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Discord.Discord");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask discord");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallTelegram()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Telegram?(default yes):";
+        cout << "Вы хотите установить Telegram (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -945,19 +948,19 @@ void InstallTelegram()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Telegram.TelegramDesktop");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask telegram");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Telegram.TelegramDesktop");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask telegram");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallVNCServer()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить RealVNC Server?(default yes):";
+        cout << "Вы хотите установить RealVNC Server (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -973,19 +976,19 @@ void InstallVNCServer()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id RealVNC.VNCServer");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask vn-server");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id RealVNC.VNCServer");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask vn-server");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallVNCViewer()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить RealVNC Viewer?(default yes):";
+        cout << "Вы хотите установить RealVNC Viewer (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1001,19 +1004,19 @@ void InstallVNCViewer()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id RealVNC.VNCViewer");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask vn-viewer");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id RealVNC.VNCViewer");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask vn-viewer");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallMongoDBCompass()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить MongoDB Compass?(default yes):";
+        cout << "Вы хотите установить MongoDB Compass (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1029,19 +1032,19 @@ void InstallMongoDBCompass()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id MongoDB.Compass.Full");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask mongodb-compass");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id MongoDB.Compass.Full");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask mongodb-compass");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallMongoDB()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить MongoDB Server?(default yes):";
+        cout << "Вы хотите установить MongoDB Server (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1057,19 +1060,19 @@ void InstallMongoDB()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id MongoDB.Server");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install mongodb-community");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id MongoDB.Server");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install mongodb-community");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallMongoDBAtlas()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить MongoDB MongoDBAtlasCLI?(default yes):";
+        cout << "Вы хотите установить MongoDB MongoDBAtlasCLI (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1085,19 +1088,19 @@ void InstallMongoDBAtlas()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id MongoDB.MongoDBAtlasCLI");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install mongodb-atlas-cli");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id MongoDB.MongoDBAtlasCLI");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install mongodb-atlas-cli");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallNodeJS()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить NodeJS?(default yes):";
+        cout << "Вы хотите установить NodeJS (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1113,19 +1116,19 @@ void InstallNodeJS()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id OpenJS.NodeJS");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install node");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id OpenJS.NodeJS");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install node");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallGoLang()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить GoLang 1.18?(default yes):";
+        cout << "Вы хотите установить GoLang 1.18 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1141,101 +1144,121 @@ void InstallGoLang()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id GoLang.Go.1.18");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install go");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id GoLang.Go.1.18");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install go");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallPython3_9()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Python 3.9?(default yes):";
+        cout << "Вы хотите установить Python 3.9 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
             if (OS_NAME == "Windows") {
+                cout << "Установка 🐍 python 3.9..." << endl;
                 system("winget install -e --id Python.Python.3.9");
             }
             else if (OS_NAME == "macOS") {
+                cout << "Установка 🐍 python 3.9..." << endl;
                 system("brew install python@3.9");
             }
             else if (OS_NAME == "Linux") {
+                cout << "Установка 🐍 python 3.9..." << endl;
             }
         }
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Python.Python.3.9");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install python@3.9");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            cout << "Установка 🐍 python 3.9..." << endl;
+            system("winget install -e --id Python.Python.3.9");
+        }
+        else if (OS_NAME == "macOS") {
+            cout << "Установка 🐍 python 3.9..." << endl;
+            system("brew install python@3.9");
+        }
+        else if (OS_NAME == "Linux") {
+            cout << "Установка 🐍 python 3.9..." << endl;
+        }
     }
 }
 void InstallPython3_10()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Python 3.10?(default yes):";
+        cout << "Вы хотите установить Python 3.10 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
             if (OS_NAME == "Windows") {
+                cout << "Установка 🐍 python 3.10..." << endl;
                 system("winget install -e --id Python.Python.3.10");
             }
             else if (OS_NAME == "macOS") {
+                cout << "Установка 🐍 python 3.10..." << endl;
+                system("brew install python@3.10");
             }
             else if (OS_NAME == "Linux") {
+                cout << "Установка 🐍 python 3.10..." << endl;
             }
         }
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
+                cout << "Установка 🐍 python 3.10..." << endl;
                 system("winget install -e --id Python.Python.3.10");
             }
             else if (OS_NAME == "macOS") {
+                cout << "Установка 🐍 python 3.10..." << endl;
+                system("brew install python@3.10");
             }
             else if (OS_NAME == "Linux") {
+                cout << "Установка 🐍 python 3.10..." << endl;
             }
     }
 }
 void InstallPython3_11()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Python 3.11?(default yes):";
+        cout << "Вы хотите установить Python 3.11 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
             if (OS_NAME == "Windows") {
+                cout << "Установка 🐍 python 3.11..." << endl;
                 system("winget install -e --id Python.Python.3.11");
             }
             else if (OS_NAME == "macOS") {
-                system("winget install -e --id Python.Python.3.11");
+                cout << "Установка 🐍 python 3.11..." << endl;
+                system("brew install python@3.11");
             }
             else if (OS_NAME == "Linux") {
+                cout << "Установка 🐍 python 3.11..." << endl;
             }
         }
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Python.Python.3.11");
-            }
-            else if (OS_NAME == "macOS") {
-                system("winget install -e --id Python.Python.3.11");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            cout << "Установка 🐍 python 3.11..." << endl;
+            system("winget install -e --id Python.Python.3.11");
+        }
+        else if (OS_NAME == "macOS") {
+            cout << "Установка 🐍 python 3.11..." << endl;
+            system("brew install python@3.11");
+        }
+        else if (OS_NAME == "Linux") {
+            cout << "Установка 🐍 python 3.11..." << endl;
+        }
     }
 }
 void InstallJDK_19()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JDK 19?(default yes):";
+        cout << "Вы хотите установить JDK 19 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1251,19 +1274,19 @@ void InstallJDK_19()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Oracle.JDK.19");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install openjdk@19");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Oracle.JDK.19");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install openjdk@19");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallJDK_18()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить JDK 18?(default yes):";
+        cout << "Вы хотите установить JDK 18 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1279,19 +1302,19 @@ void InstallJDK_18()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Oracle.JDK.18");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install openjdk@18");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Oracle.JDK.18");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install openjdk@18");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallRust()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Rust?(default yes):";
+        cout << "Вы хотите установить Rust (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1307,19 +1330,19 @@ void InstallRust()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Rustlang.Rust.MSVC");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install rust");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Rustlang.Rust.MSVC");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install rust");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallNetFramework()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Microsoft DotNet Framework?(default yes):";
+        cout << "Вы хотите установить Microsoft DotNet Framework (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1335,19 +1358,19 @@ void InstallNetFramework()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Microsoft.DotNet.Framework.DeveloperPack_4");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install dotnet");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Microsoft.DotNet.Framework.DeveloperPack_4");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install dotnet");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallRuby()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Ruby?(default yes):";
+        cout << "Вы хотите установить Ruby (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1363,19 +1386,19 @@ void InstallRuby()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id RubyInstallerTeam.Ruby.3.1");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install ruby");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id RubyInstallerTeam.Ruby.3.1");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install ruby");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallMSYS2()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить MSYS2?(default yes):";
+        cout << "Вы хотите установить MSYS2 (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1386,14 +1409,14 @@ void InstallMSYS2()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id MSYS2.MSYS2");
-            }
+            system("winget install -e --id MSYS2.MSYS2");
+        }
     }
 }
 void InstallNuget()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Microsoft NuGet?(default yes):";
+        cout << "Вы хотите установить Microsoft NuGet (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1409,19 +1432,19 @@ void InstallNuget()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Microsoft.NuGet");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install nuget");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Microsoft.NuGet");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install nuget");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallGitHubDesktop()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить GitHub Desktop?(default yes):";
+        cout << "Вы хотите установить GitHub Desktop (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1437,19 +1460,19 @@ void InstallGitHubDesktop()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id GitHub.GitHubDesktop");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask github");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id GitHub.GitHubDesktop");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask github");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallGitHubCLi()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить GitHub CLI?(default yes):";
+        cout << "Вы хотите установить GitHub CLI (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1465,19 +1488,19 @@ void InstallGitHubCLi()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id GitHub.cli");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install gh");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id GitHub.cli");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install gh");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallKubernetes()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Kubernetes?(default yes):";
+        cout << "Вы хотите установить Kubernetes (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1493,19 +1516,19 @@ void InstallKubernetes()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Kubernetes.kubectl");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install kubernetes-cli");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Kubernetes.kubectl");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install kubernetes-cli");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 void InstallVisualStudioCommunity()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Visual Studio Community?(default yes):";
+        cout << "Вы хотите установить Visual Studio Community (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1521,20 +1544,20 @@ void InstallVisualStudioCommunity()
     }
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
-                system("winget install -e --id Microsoft.VisualStudio.2022.Community.Preview");
-            }
-            else if (OS_NAME == "macOS") {
-                system("brew install --cask visual-studio");
-            }
-            else if (OS_NAME == "Linux") {
-            }
+            system("winget install -e --id Microsoft.VisualStudio.2022.Community.Preview");
+        }
+        else if (OS_NAME == "macOS") {
+            system("brew install --cask visual-studio");
+        }
+        else if (OS_NAME == "Linux") {
+        }
     }
 }
 
 void InstallVisualStudioProffessional()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Visual Studio Proffessional?(default yes):";
+        cout << "Вы хотите установить Visual Studio Proffessional (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1562,7 +1585,7 @@ void InstallVisualStudioProffessional()
 void InstallSlack()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Slack?(default yes):";
+        cout << "Вы хотите установить Slack (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1590,7 +1613,7 @@ void InstallSlack()
 void InstallVim()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Vim?(default yes):";
+        cout << "Вы хотите установить Vim (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1618,7 +1641,7 @@ void InstallVim()
 void InstallNeoVim()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить NeoVim?(default yes):";
+        cout << "Вы хотите установить NeoVim (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1646,7 +1669,7 @@ void InstallNeoVim()
 void InstallGoogleChrome()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Google Chrome?(default yes):";
+        cout << "Вы хотите установить Google Chrome (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1674,7 +1697,7 @@ void InstallGoogleChrome()
 void InstallAndroidStudio()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Android Studio?(default yes):";
+        cout << "Вы хотите установить Android Studio (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1702,7 +1725,7 @@ void InstallAndroidStudio()
 void InstallEclipse()
 {
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Eclipse?(default yes):";
+        cout << "Вы хотите установить Eclipse (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1733,7 +1756,7 @@ void InstallKotlin()
         SetConsoleOutputCP(CP_UTF8);
     }
     if (TypeInstall == "open") {
-        cout << "Вы хотите установить Kotlin?(default yes):";
+        cout << "Вы хотите установить Kotlin (по умолчанию - да)?";
         getline(cin, Answer);
         Install = CheckAnswer(Answer);
         if (Install == true) {
@@ -1750,15 +1773,15 @@ void InstallKotlin()
                     string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
                     system(Command.c_str());
                     string AddPathCommand = "start powershell.exe -file " + AddKotlinPathScript;
-                    system("powershell.exe  C:\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
+                    system("powershell.exe  C?\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
                     system(AddPathCommand.c_str());
                     cout << AddKotlinPathScript << endl;
-                    // std::filesystem::copy(KotlinDir,NewKotlinDir,std::filesystem::copy_options::recursive);
-                    // auto ProjectDir = std::filesystem::current_path();
-                    // cout << "Current Path:" << ProjectDir << endl;
-                    // filesystem::create_directory();
-                    // filesystem::copy();
-                    // filesystem::remove_all();
+                    // std??filesystem??copy(KotlinDir,NewKotlinDir,std??filesystem??copy_options??recursive);
+                    // auto ProjectDir = std??filesystem??current_path();
+                    // cout << "Current Path?" << ProjectDir << endl;
+                    // filesystem??create_directory();
+                    // filesystem??copy();
+                    // filesystem??remove_all();
                 }
                 catch (std::filesystem::filesystem_error& error) {
                     cout << error.what() << endl;
@@ -1775,13 +1798,11 @@ void InstallKotlin()
     else if (TypeInstall == "hidden") {
         if (OS_NAME == "Windows") {
             int response = Download(KotlinUrl, KotlinDir);
-            switch (response) {
-            case 200:
+            if (response == 200) {
                 cout << "✅ Kotlin successfully installed" << endl;
-            case 502:
+            }
+            else if (response == 502) {
                 cout << "❌ An error occurred while trying to install Kotlin" << endl;
-            default:
-                break;
             }
             filesystem::create_directory(NewKotlinDir);
             string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
