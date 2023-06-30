@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -Wl,-Bstatic 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
 set(SOURCE_FILES DeveloperTools.cpp)
+add_compile_options(-w)
 add_executable(DeveloperTools ${SOURCE_FILES})
 target_sources(DeveloperTools PRIVATE resource.rc)
 target_link_libraries(DeveloperTools ${CMAKE_EXE_LINKER_FLAGS} gtest gmock pthread)

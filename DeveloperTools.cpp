@@ -98,57 +98,15 @@ class Main {
             CommandManager();
         }
         void ReadySet() {
-            cout << "1. Python" << endl;
-            cout << "2. JavaScript" << endl;
-            cout << "3. C++" << endl;
-            cout << "4. Java" << endl;
-            cout << "5. Go" << endl;
-            cout << "6. Rust" << endl;
-            cout << "7. Ruby" << endl;
-            cout << "8. C" << endl;
-            cout << "9. C#" << endl;
-            cout << "10. PHP" << endl;
+            for(int i = 1;i < Languages.size() + 1;i++){
+                cout << i << ". " << Languages[i] << endl;
+            }
             cout << "Выберите нужный язык программирования:";
             getline(cin,LangReadySet);
-            if (LangReadySet == "1") {
-                TypeInstall = "open";
-                AppInstaller::PythonDevelopment();
-            }
-            else if (LangReadySet == "2") {
-                TypeInstall = "open";
-                AppInstaller::JavaDevelopment();
-            }
-            else if (LangReadySet == "3") {
-                TypeInstall = "open";
-                AppInstaller::CppDevelopment();
-            }
-            else if (LangReadySet == "4") {
-                TypeInstall = "open";
-                AppInstaller::JavaDevelopment();
-            }
-            else if (LangReadySet == "5") {
-                TypeInstall = "open";
-                AppInstaller::GoDevelopment();
-            }
-            else if (LangReadySet == "6") {
-                TypeInstall = "open";
-                AppInstaller::RustDevelopment();
-            }
-            else if (LangReadySet == "7") {
-                TypeInstall = "open";
-                AppInstaller::RubyDevelopment();
-            }
-            else if (LangReadySet == "8") {
-                TypeInstall = "open";
-                AppInstaller::CDevelopment();
-            }
-            else if (LangReadySet == "9") {
-                TypeInstall = "open";
-                AppInstaller::CSDevelopment();
-            }
-            else if (LangReadySet == "10") {
-                TypeInstall = "open";
-                AppInstaller::PHPDevelopment();
+            for(int i = 1;i < DevelopmentPacks.size();i++){
+                if (LangReadySet == to_string(i)) {
+                    DevelopmentPacks[i]();
+                }
             }
             CommandManager();
         }

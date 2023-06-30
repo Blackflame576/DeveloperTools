@@ -46,7 +46,7 @@ build cmake_object_order_depends_target_DeveloperTools: phony || CMakeFiles/Deve
 
 build CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.obj: CXX_COMPILER__DeveloperTools_unscanned_ C$:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/DeveloperTools.cpp || cmake_object_order_depends_target_DeveloperTools
   DEP_FILE = CMakeFiles\DeveloperTools.dir\DeveloperTools.cpp.obj.d
-  FLAGS = -std=c++20 -std=gnu++20
+  FLAGS = -std=c++20 -std=gnu++20 -w
   INCLUDES = -I"C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/../../include -L ../../lib"
   OBJECT_DIR = CMakeFiles\DeveloperTools.dir
   OBJECT_FILE_DIR = CMakeFiles\DeveloperTools.dir
