@@ -84,16 +84,15 @@ class Main {
             }
             cout << "Выберите номера пакетов для установки(через ,):";
             getline(cin,SelectPackages);
-            std::string delimiter = ",";
+            string delimiter = ",";
             size_t pos = 0;
-            std::string token;
-            while ((pos = SelectPackages.find(delimiter)) != std::string::npos) {
+            string token;
+            while ((pos = SelectPackages.find(delimiter)) != string::npos) {
                 token = SelectPackages.substr(0, pos);
                 string name = EnumeratePackages[stoi(token)];
                 Packages[name]();
                 SelectPackages.erase(0, pos + delimiter.length());
             }
-            std::cout << SelectPackages << std::endl;
             string NamePackage = EnumeratePackages[stoi(SelectPackages)];
             Packages[NamePackage]();
             CommandManager();
@@ -187,14 +186,17 @@ class Main {
         };
     private:
         void InstallBrew() {
+            cout << "Установка Brew ..." << endl;
             system("bash ./Scripts/InstallBrew.sh");
         }
         
         void InstallWinGet() {
+            cout << "Установка WinGet ..." << endl;
             string CommandInstallWinGet ="powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
             system(CommandInstallWinGet.c_str());
         }
         void InstallSnap() {
+            cout << "Установка Snap ..." << endl;
 
         }
     // Main::Main();

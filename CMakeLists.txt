@@ -13,4 +13,4 @@ set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc
 set(SOURCE_FILES DeveloperTools.cpp)
 add_executable(DeveloperTools ${SOURCE_FILES})
 target_sources(DeveloperTools PRIVATE resource.rc)
-target_link_libraries(DeveloperTools ${CMAKE_EXE_LINKER_FLAGS})
+target_link_libraries(DeveloperTools ${CMAKE_EXE_LINKER_FLAGS} gtest gmock pthread)
