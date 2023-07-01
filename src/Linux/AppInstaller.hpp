@@ -17,23 +17,15 @@
 #include <vector>
 
 using namespace std;
+using funct_t = void (*)(void);
 // using namespace std::filesystem;
 
-// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
-#if defined(__linux__)
-// cout << "Linux" << endl;
-#elif __FreeBSD__
-// cout << "FreeBSD" << endl;
-#elif __APPLE__
-// cout << "macOS" << endl;
-#elif _WIN32
-    #include <Windows.h>
-#endif
-
 namespace AppInstaller {
-    using funct_t = void (*)(void);
     // Переменные
     bool Install;
+    string LangReadySet;
+    string new_sentence;
+    string SelectPackages;
     string OS_NAME;
     string NameDistribution;
     string Answer;

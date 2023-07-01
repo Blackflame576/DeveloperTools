@@ -8,43 +8,29 @@
 #include <regex>
 #include <fstream>
 
-// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
-#if defined(__linux__)
-    // cout << "Linux" << endl;
-#elif __FreeBSD__
-    // cout << "FreeBSD" << endl;
-#elif __APPLE__
-    // cout << "macOS" << endl;
-#elif _WIN32
-    #include <Windows.h>
-#endif
-
 using namespace std;
 using funct_t = void(*)(void);
 using namespace AppInstaller;
 using namespace Logger;
 
-// Переменные 
-string LangReadySet;
-string new_sentence;
-string SelectPackages;
+// Переменные
+string GetNameDistribution() {
+    if (OS_NAME == "Windows") {
+        ifstream stream("/etc/os-release");
+        string line;
+        regex nameRegex("^NAME=\"(.*?)\"$");
+        smatch match;
+        string name;
+        while (getline(stream,line)) {
+            if (regex_search(line,match,nameRegex)) {
+                name = match[1].str();
+                break;
+            }
+        }
+        return name;
+    } 
+}
 
-// string GetNameDistribution() {
-//     if (OS_NAME == "Windows") {
-//         ifstream stream("/etc/os-release");
-//         string line;
-//         regex nameRegex("^NAME=\"(.*?)\"$");
-//         smatch match;
-//         string name;
-//         while (getline(stream,line)) {
-//             if (regex_search(line,match,nameRegex)) {
-//                 name = match[1].str();
-//                 break;
-//             }
-//         }
-//         return name;
-//     } 
-// }
 // Функции
 class Main {
     public:
@@ -188,15 +174,6 @@ class Main {
             CommandManager();
         }
         Main () {
-            // if (OS_NAME == "Windows") {
-            //     InstallWinGet();
-            // }
-            // else if (OS_NAME == "macOS") {
-            //     InstallBrew();
-            // }
-            // else if (OS_NAME == "Linux") {
-            //     InstallSnap();
-            // }
         }
         ~Main () {
             
@@ -206,12 +183,6 @@ class Main {
         //     cout << "Установка Brew ..." << endl;
         //     system("bash ./Scripts/InstallBrew.sh");
         // }
-        
-        // void InstallWinGet() {
-        //     cout << "Установка WinGet ..." << endl;
-        //     string CommandInstallWinGet ="powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
-        //     system(CommandInstallWinGet.c_str());
-        // }
         // void InstallSnap() {
         //     cout << "Установка Snap ..." << endl;
         // }
@@ -219,26 +190,9 @@ class Main {
 };
 
 int main() {
-    // setlocale(LC_ALL, "Russian");
-    #if defined(__linux__)
-        OS_NAME = "Linux";
-        // NameDistribution = GetNameDistribution();
-    #elif __FreeBSD__
-        OS_NAME = "FreeBSD";
-    #elif __APPLE__
-        OS_NAME = "macOS";
-    #elif _WIN32
-        OS_NAME = "Windows";
-        SetConsoleOutputCP(CP_UTF8);
-        SetConsoleCP(CP_UTF8);
-    #endif
-
     Main main;
     main.CommandManager();
     // AppInstaller::InstallKotlin();
-    // string url;
-    // cin >> url;
-    // main.Download(url,"file.exe");
     system("pause");
     return 0;
 }

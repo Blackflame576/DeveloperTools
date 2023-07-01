@@ -1,5 +1,0 @@
-/home/blackflame576/DeveloperTools/CMakeFiles/DeveloperTools.dir
-/home/blackflame576/DeveloperTools/CMakeFiles/package.dir
-/home/blackflame576/DeveloperTools/CMakeFiles/package_source.dir
-/home/blackflame576/DeveloperTools/CMakeFiles/edit_cache.dir
-/home/blackflame576/DeveloperTools/CMakeFiles/rebuild_cache.dir
