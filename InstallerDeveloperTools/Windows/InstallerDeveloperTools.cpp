@@ -85,7 +85,13 @@ class Installer {
             HRESULT Download = URLDownloadToFile(NULL, BetaDownloadURL.c_str(), InstallPath.c_str(), 0, static_cast<IBindStatusCallback*>(&Progress));
             cout << "" << endl;
         }
+        void InstallWinGet() {
+            cout << "Установка WinGet ..." << endl;
+            string CommandInstallWinGet ="powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
+            system(CommandInstallWinGet.c_str());
+        }
     private:
+        
 };
 
 int main()
@@ -93,6 +99,7 @@ int main()
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
     Installer installer;
+    installer.InstallWinGet();
     cout << "1. DeveloperTools Stable Version" << endl;
     cout << "2. DeveloperTools Beta Version" << endl;
     cout << "Выберите версию DeveloperTools:";

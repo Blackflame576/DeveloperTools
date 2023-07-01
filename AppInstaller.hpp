@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <curl/curl.h>
 #include "Progressbar.hpp"
+#include <cctype>
+#include <vector>
 
 using namespace std;
 // using namespace std::filesystem;
@@ -63,9 +65,12 @@ namespace AppInstaller {
     // Функции
     string to_lower(string sentence)
     {
-        new_sentence = "";
-        for (int i = 0; i < sizeof(sentence); i++) {
-            new_sentence += tolower(sentence[i]);
+        string new_sentence = "";
+        for(int i = 0;i < sentence.length();i++) {
+            char ch = sentence[i];
+            // cout << ch << endl;
+            ch = tolower(ch);
+            new_sentence += ch;
         }
         return new_sentence;
     }
@@ -2079,12 +2084,7 @@ namespace AppInstaller {
                     try {
                         cout << "Установка Kotlin ..." << endl;
                         int response = Download(KotlinUrl, KotlinDir);
-                        if (response == 200) {
-                            cout << "✅ Kotlin successfully installed" << endl;
-                        }
-                        else if (response == 502) {
-                            cout << "❌ An error occurred while trying to install Kotlin" << endl;
-                        }
+                        
                         filesystem::create_directory(NewKotlinDir);
                         string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
                         system(Command.c_str());
@@ -2092,6 +2092,14 @@ namespace AppInstaller {
                         system("powershell.exe  C?\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
                         system(AddPathCommand.c_str());
                         cout << AddKotlinPathScript << endl;
+                        switch (response) {
+                            case 200:
+                                cout << "✅ Kotlin успешно скачан" << endl;
+                                break;
+                            case 502:
+                                cout << "❌ Произошла ошибка при попытке скачать Kotlin" << endl;
+                                break;
+                        }
                         // std??filesystem??copy(KotlinDir,NewKotlinDir,std??filesystem??copy_options??recursive);
                         // auto ProjectDir = std??filesystem??current_path();
                         // cout << "Current Path?" << ProjectDir << endl;
@@ -2117,17 +2125,19 @@ namespace AppInstaller {
             if (OS_NAME == "Windows") {
                 cout << "Установка Kotlin ..." << endl;
                 int response = Download(KotlinUrl, KotlinDir);
-                if (response == 200) {
-                    cout << "✅ Kotlin successfully installed" << endl;
-                }
-                else if (response == 502) {
-                    cout << "❌ An error occurred while trying to install Kotlin" << endl;
-                }
                 filesystem::create_directory(NewKotlinDir);
                 string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
                 system(Command.c_str());
                 string AddPathCommand = "powershell.exe -file " + AddKotlinPathScript;
                 system(AddPathCommand.c_str());
+                switch (response) {
+                    case 200:
+                        cout << "✅ Kotlin успешно скачан" << endl;
+                        break;
+                    case 502:
+                        cout << "❌ Произошла ошибка при попытке скачать Kotlin" << endl;
+                        break;
+                }
             }
             else if (OS_NAME == "macOS") {
                 cout << "Установка Kotlin ..." << endl;

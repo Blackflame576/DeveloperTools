@@ -64,6 +64,9 @@ class Installer {
             Download(BetaDownloadURL,BetaInstallPath);
             cout << "" << endl;
         }
+        void InstallSnap() {
+            cout << "Установка Snap ..." << endl;
+        }
     private:
         int Download(string url, string dir)
         {
@@ -95,6 +98,7 @@ class Installer {
 int main()
 {
     Installer installer;
+    installer.InstallSnap();
     cout << "1. DeveloperTools Stable Version" << endl;
     cout << "2. DeveloperTools Beta Version" << endl;
     cout << "Выберите версию DeveloperTools:";
