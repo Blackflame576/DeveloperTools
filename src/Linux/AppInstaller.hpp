@@ -1,5 +1,3 @@
-#pragma warning( push )
-#pragma warning( pop )
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -24,7 +22,6 @@ namespace AppInstaller {
     // Переменные
     bool Install;
     string LangReadySet;
-    string new_sentence;
     string SelectPackages;
     string OS_NAME;
     string NameDistribution;
@@ -109,7 +106,7 @@ namespace AppInstaller {
             CURL* curl = curl_easy_init();
             FILE* file = fopen(filename.c_str(), "wb");
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, FALSE);
+            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
             curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
             curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
@@ -1106,6 +1103,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Telegram ..." << endl;
+                    system("snap install telegram-desktop");
                 }
             }
         }
@@ -1120,6 +1118,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Telegram ..." << endl;
+                system("snap install telegram-desktop");
             }
         }
     }
@@ -2064,9 +2063,6 @@ namespace AppInstaller {
     }
     void InstallKotlin()
     {
-        if (OS_NAME == "Windows") {
-            SetConsoleOutputCP(CP_UTF8);
-        }
         if (TypeInstall == "open") {
             cout << "Вы хотите установить Kotlin (по умолчанию - да)?";
             getline(cin, Answer);

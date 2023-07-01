@@ -15,20 +15,19 @@ using namespace Logger;
 
 // Переменные
 string GetNameDistribution() {
-    if (OS_NAME == "Windows") {
-        ifstream stream("/etc/os-release");
-        string line;
-        regex nameRegex("^NAME=\"(.*?)\"$");
-        smatch match;
-        string name;
-        while (getline(stream,line)) {
-            if (regex_search(line,match,nameRegex)) {
-                name = match[1].str();
-                break;
-            }
+    ifstream stream("/etc/os-release");
+    string line;
+    regex nameRegex("^NAME=\"(.*?)\"$");
+    smatch match;
+    string name;
+    while (getline(stream,line)) {
+        if (regex_search(line,match,nameRegex)) {
+            name = match[1].str();
+            break;
         }
-        return name;
-    } 
+    }
+    return name;
+     
 }
 
 // Функции
@@ -190,6 +189,16 @@ class Main {
 };
 
 int main() {
+    #if defined(__linux__)
+        OS_NAME = "Linux";
+        // NameDistribution = GetNameDistribution();
+    #elif __FreeBSD__
+        OS_NAME = "FreeBSD";
+    #elif __APPLE__
+        OS_NAME = "macOS";
+    #elif _WIN32
+        OS_NAME = "Windows";
+    #endif
     Main main;
     main.CommandManager();
     // AppInstaller::InstallKotlin();
