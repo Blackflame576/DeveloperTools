@@ -1,3 +1,5 @@
-C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/CMakeFiles/DeveloperTools.dir
-C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/CMakeFiles/edit_cache.dir
-C:/Users/Blackflame576/Documents/Blackflame576/DigitalBit/DeveloperTools/CMakeFiles/rebuild_cache.dir
+/home/blackflame576/DeveloperTools/CMakeFiles/DeveloperTools.dir
+/home/blackflame576/DeveloperTools/CMakeFiles/package.dir
+/home/blackflame576/DeveloperTools/CMakeFiles/package_source.dir
+/home/blackflame576/DeveloperTools/CMakeFiles/edit_cache.dir
+/home/blackflame576/DeveloperTools/CMakeFiles/rebuild_cache.dir
