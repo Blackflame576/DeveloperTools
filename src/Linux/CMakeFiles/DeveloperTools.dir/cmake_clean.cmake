@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/DeveloperTools.dir/DeveloperTools.o"
-  "CMakeFiles/DeveloperTools.dir/DeveloperTools.o.d"
+  "CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.o"
+  "CMakeFiles/DeveloperTools.dir/DeveloperTools.cpp.o.d"
   "DeveloperTools"
   "DeveloperTools.pdb"
 )

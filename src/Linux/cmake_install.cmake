@@ -1,4 +1,4 @@
-# Install script for directory: /home/blackflame576/DeveloperTools/src/Linux
+# Install script for directory: /mnt/c/Users/blackflame576/Documents/blackflame576/DigitalBit/DeveloperTools/src/Linux
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/blackflame576/DeveloperTools/src/Linux/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/blackflame576/Documents/blackflame576/DigitalBit/DeveloperTools/src/Linux/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

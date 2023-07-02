@@ -1,20 +1,6 @@
-# cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.00)
 project(InstallerDeveloperTools)
-
 include (GNUInstallDirs)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Installer DeveloperTools")
-set(CPACK_COMPONENTS_ALL major devel)
-set(CPACK_GENERATOR RPM)
-set(CPACK_RPM_PACKAGE_RELEASE 10)
-set(CPACK_RPM_PACKAGE_RELEASE_DIST  ON)
-set(CPACK_RPM_COMPONENT_INSTALL ON)
-set(CPACK_RPM_MAIN_COMPONENT major) # Which set the major package name to foo instead of foo-major
-set(CPACK_RPM_FILE_NAME "RPM-DEFAULT") # Which makes the rpm name from foo-1.2.3-devel to foo-devel-1.2.3
-set(CPACK_RPM_DEBUGINFO_PACKAGE ON)
-set(CPACK_RPM_DEBUGINFO_SINGLE_PACKAGE ON)
-include (CPack) 
-cpack_add_component(major DESCRIPTION "Something for demo")
-cpack_add_component(devel DESCRIPTION "For Development")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic -lurlmon -lcurl -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
 #add_executable(Download main.cpp)

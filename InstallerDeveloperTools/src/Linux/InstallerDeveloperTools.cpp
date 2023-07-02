@@ -9,11 +9,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curl/curl.h>
+#include <regex>
+#include <fstream>
 
 using namespace std;
 using namespace InstallerDeveloperTools;
 
+// Переменные
 progressbar bar(100);
+
+// Функции
+string GetNameDistribution() {
+    ifstream stream("/etc/os-release");
+    string line;
+    regex nameRegex("^NAME=\"(.*?)\"$");
+    smatch match;
+    string name;
+    while (getline(stream,line)) {
+        if (regex_search(line,match,nameRegex)) {
+            name = match[1].str();
+            break;
+        }
+    }
+    return name;
+     
+}
 
 size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
@@ -66,6 +86,12 @@ class Installer {
         }
         void InstallSnap() {
             cout << "Установка Snap ..." << endl;
+            cout << NameDistribution << endl;
+            if (NameDistribution == "Ubuntu" || NameDistribution == "Kali GNU/Linux") {
+                system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
+                system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
+                system("apt install snap snapd");
+            }
         }
     private:
         int Download(string url, string dir)
@@ -97,6 +123,7 @@ class Installer {
 
 int main()
 {
+    NameDistribution = GetNameDistribution();
     Installer installer;
     installer.InstallSnap();
     cout << "1. DeveloperTools Stable Version" << endl;

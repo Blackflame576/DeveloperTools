@@ -23,6 +23,7 @@ using funct_t = void (*)(void);
 namespace AppInstaller {
     // Переменные
     bool Install;
+    string Language = "English";
     string LangReadySet;
     string new_sentence;
     string SelectPackages;
@@ -176,6 +177,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка VSCode ..." << endl;
+                    system("snap install code --classic");
                 }
             }
         
@@ -191,6 +193,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка VSCode ..." << endl;
+                system("snap install code --classic");
             }
         }
     }
@@ -211,6 +214,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains WebStorm ..." << endl;
+                    system("snap install webstorm --classic");
                 }
             }
         }
@@ -225,6 +229,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains WebStorm ..." << endl;
+                system("snap install webstorm --classic");
             }
         }
     }
@@ -245,6 +250,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Docker ..." << endl;
+                    system("snap install docker");
                 }
             }
         }
@@ -259,6 +265,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Docker ..." << endl;
+                system("snap install docker");
             }
         }
     }
@@ -279,6 +286,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Postman ..." << endl;
+                    system("snap install postman");
                 }
             }
         }
@@ -293,6 +301,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Postman ..." << endl;
+                system("snap install postman");
             }
         }
     }
@@ -313,6 +322,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains RubyMine ..." << endl;
+                    system("snap install rubymine --classic");
                 }
             }
         }
@@ -327,6 +337,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains RubyMine ..." << endl;
+                system("snap install rubymine --classic");
             }
         }
     }
@@ -346,6 +357,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains Aqua ..." << endl;
+                    system("snap install jetbrains aqua --classic");
                 }
             }
         }
@@ -359,6 +371,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains Aqua ..." << endl;
+                system("snap install jetbrains aqua --classic");
             }
         }
     }
@@ -379,6 +392,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains CLion ..." << endl;
+                    system("snap install clion --classic");
                 }
             }
         }
@@ -393,6 +407,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains CLion ..." << endl;
+                system("snap install clion --classic");
             }
         }
     }
@@ -413,6 +428,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains DataGrip ..." << endl;
+                    system("snap install datagrip --classic");
                 }
             }
         }
@@ -427,6 +443,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains DataGrip ..." << endl;
+                system("snap install datagrip --classic");
             }
         }
     }
@@ -447,6 +464,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains DataSpell ..." << endl;
+                    system("snap install dataspell --classic");
                 }
             }
         }
@@ -461,6 +479,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains DataSpell ..." << endl;
+                system("snap install dataspell --classic");
             }
         }
     }
@@ -515,6 +534,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains GoLand ..." << endl;
+                    system("snap install goland --classic");
                 }
             }
         }
@@ -529,6 +549,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains GoLand ..." << endl;
+                system("snap install goland --classic");
             }
         }
     }
@@ -549,6 +570,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                    system("snap install intellij-idea-community --classic");
                 }
             }
         }
@@ -563,6 +585,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                system("snap install intellij-idea-community --classic");
             }
         }
     }
@@ -583,6 +606,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                    system("snap install intellij-idea-ultimate --classic");
                 }
             }
         }
@@ -597,6 +621,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                system("snap install intellij-idea-ultimate --classic");
             }
         }
     }
@@ -612,19 +637,23 @@ namespace AppInstaller {
                     system("winget install -e --id JetBrains.ReSharper");
                 }
                 else if (OS_NAME == "macOS") {
-                    
+                    cout << "ReSharper не поддерживается на MacOS" << endl;
                 }
                 else if (OS_NAME == "Linux") {
+                    cout << "ReSharper не поддерживается на Linux" << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
+                cout << "Установка JetBrains ReSharper ..." << endl;
                 system("winget install -e --id JetBrains.ReSharper");
             }
             else if (OS_NAME == "macOS") {
+                cout << "ReSharper не поддерживается на MacOS" << endl;
             }
             else if (OS_NAME == "Linux") {
+                cout << "ReSharper не поддерживается на Linux" << endl;
             }
         }
     }
@@ -645,6 +674,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains Rider ..." << endl;
+                    system("snap install rider --classic");
                 }
             }
         }
@@ -659,6 +689,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains Rider ..." << endl;
+                system("snap install rider --classic");
             }
         }
     }
@@ -679,6 +710,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains PHPStorm ..." << endl;
+                    system("snap install phpstorm --classic");
                 }
             }
         }
@@ -693,6 +725,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains PHPStorm ..." << endl;
+                system("snap install phpstorm --classic");
             }
         }
     }
@@ -708,8 +741,10 @@ namespace AppInstaller {
                     system("winget install -e --id JetBrains.dotUltimate");
                 }
                 else if (OS_NAME == "macOS") {
+                    cout << "dotUltimate не поддерживается на MacOS" << endl;
                 }
                 else if (OS_NAME == "Linux") {
+                    cout << "dotUltimate не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -718,8 +753,10 @@ namespace AppInstaller {
                 system("winget install -e --id JetBrains.dotUltimate");
             }
             else if (OS_NAME == "macOS") {
+                cout << "dotUltimate не поддерживается на MacOS" << endl;
             }
             else if (OS_NAME == "Linux") {
+                cout << "dotUltimate не поддерживается на Linux" << endl;
             }
         }
     }
@@ -740,6 +777,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains Space ..." << endl;
+                    system("snap install space");
                 }
             }
         }
@@ -754,6 +792,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains Space ..." << endl;
+                system("snap install space");
             }
         }
     }
@@ -809,6 +848,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка PostgreSQL ..." << endl;
+                    system("snap install postgresql");
                 }
             }
         }
@@ -825,6 +865,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка PostgreSQL ..." << endl;
+                system("snap install postgresql");
             }
         }
     }
@@ -840,8 +881,10 @@ namespace AppInstaller {
                     system("winget install -e --id chrisant996.Clink");
                 }
                 else if (OS_NAME == "macOS") {
+                    cout << "CLink не поддерживается на MacOS" << endl;
                 }
                 else if (OS_NAME == "Linux") {
+                    cout << "CLink не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -851,8 +894,10 @@ namespace AppInstaller {
                 system("winget install -e --id chrisant996.Clink");
             }
             else if (OS_NAME == "macOS") {
+                cout << "CLink не поддерживается на MacOS" << endl;
             }
             else if (OS_NAME == "Linux") {
+                cout << "CLink не поддерживается на Linux" << endl;
             }
         }
     }
@@ -873,6 +918,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Ngrok ..." << endl;
+                    system("snap install ngrok");
                 }
             }
         }
@@ -887,6 +933,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Ngrok ..." << endl;
+                system("snap install ngrok");
             }
         }
     }
@@ -941,6 +988,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка SublimeText ..." << endl;
+                    system("snap install sublime-text --classic");
                 }
             }
         }
@@ -955,6 +1003,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка SublimeText ..." << endl;
+                system("snap install sublime-text --classic");
             }
         }
     }
@@ -975,6 +1024,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains PyCharm Community ..." << endl;
+                    system("snap install pycharm-community --classic");
                 }
             }
         }
@@ -989,6 +1039,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains PyCharm Community ..." << endl;
+                system("snap install pycharm-community --classic");
             }
         }
     }
@@ -1009,6 +1060,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка JetBrains PyCharm Professional ..." << endl;
+                    system("snap install pycharm-professional --classic");
                 }
             }
         }
@@ -1022,6 +1074,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка JetBrains PyCharm Professional ..." << endl;
+                system("snap install pycharm-professional --classic");
             }
         }
     }
@@ -1037,8 +1090,10 @@ namespace AppInstaller {
                     system("winget install -e --id Microsoft.PowerToys");
                 }
                 else if (OS_NAME == "macOS") {
+                    cout << "Microsoft PowerToys не поддерживается на MacOS" << endl;
                 }
                 else if (OS_NAME == "Linux") {
+                    cout << "Microsoft PowerToys не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -1048,10 +1103,10 @@ namespace AppInstaller {
                 system("winget install -e --id Microsoft.PowerToys");
             }
             else if (OS_NAME == "macOS") {
-                cout << "Microsoft PowerToys не предназначена для macOS и устанавливается только на Windows" << endl;
+                cout << "Microsoft PowerToys не поддерживается на MacOS" << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Microsoft PowerToys не предназначена для macOS и устанавливается только на Windows" << endl;
+                cout << "Microsoft PowerToys не поддерживается на Linux" << endl;
             }
         }
     }
@@ -1072,6 +1127,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Discord ..." << endl;
+                    system("snap install discord");
                 }
             }
         }
@@ -1086,6 +1142,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Discord ..." << endl;
+                system("snap install discord");
             }
         }
     }
@@ -1106,6 +1163,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Telegram ..." << endl;
+                    system("snap install telegram-desktop");
                 }
             }
         }
@@ -1120,6 +1178,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Telegram ..." << endl;
+                system("snap install telegram-desktop");
             }
         }
     }
@@ -1310,6 +1369,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка NodeJS ..." << endl;
+                    system("snap install node --classic");
                 }
             }
         }
@@ -1324,6 +1384,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка NodeJS ..." << endl;
+                system("snap install node --classic");
             }
         }
     }
@@ -1344,6 +1405,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка GoLang ..." << endl;
+                    system("snap install go --classic");
                 }
             }
         }
@@ -1358,6 +1420,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка GoLang ..." << endl;
+                system("snap install go --classic");
             }
         }
     }
@@ -1479,7 +1542,8 @@ namespace AppInstaller {
                     system("brew install openjdk@19");
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JDK 19 ..." << endl;
+                    cout << "Установка OpenJDK ..." << endl;
+                    system("snap install openjdk");
                 }
             }
         }
@@ -1493,7 +1557,8 @@ namespace AppInstaller {
                 system("brew install openjdk@19");
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JDK 19 ..." << endl;
+                cout << "Установка OpenJDK ..." << endl;
+                system("snap install openjdk");
             }
         }
     }
@@ -1513,7 +1578,8 @@ namespace AppInstaller {
                     system("brew install openjdk@18");
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JDK 18 ..." << endl;
+                    cout << "Установка OpenJDK ..." << endl;
+                    system("snap install openjdk");
                 }
             }
         }
@@ -1527,7 +1593,8 @@ namespace AppInstaller {
                 system("brew install openjdk@18");
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JDK 18 ..." << endl;
+                cout << "Установка OpenJDK ..." << endl;
+                system("snap install openjdk");
             }
         }
     }
@@ -1548,6 +1615,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Rust ..." << endl;
+                    system("snap install rustup --classic");
                 }
             }
         }
@@ -1562,6 +1630,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Rust ..." << endl;
+                system("snap install rustup --classic");
             }
         }
     }
@@ -1581,7 +1650,8 @@ namespace AppInstaller {
                     system("brew install dotnet");
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Microsoft DotNet Framework ..." << endl;
+                    cout << "Установка Microsoft .NET Core SDK ..." << endl;
+                    system("snap install dotnet-sdk --classic");
                 }
             }
         }
@@ -1595,7 +1665,8 @@ namespace AppInstaller {
                 system("brew install dotnet");
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Microsoft DotNet Framework ..." << endl;
+                cout << "Установка Microsoft .NET Core SDK ..." << endl;
+                system("snap install dotnet-sdk --classic");
             }
         }
     }
@@ -1616,6 +1687,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Ruby ..." << endl;
+                    system("snap install ruby --classic");
                 }
             }
         }
@@ -1630,6 +1702,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Ruby ..." << endl;
+                system("snap install ruby --classic");
             }
         }
     }
@@ -1645,11 +1718,23 @@ namespace AppInstaller {
                     system("winget install -e --id MSYS2.MSYS2");
                 }
             }
+            else if (OS_NAME == "macOS") {
+                cout << "MSYS2 не поддерживается на MacOS" << endl;
+            }
+            else if (OS_NAME == "Linux") {
+                cout << "MSYS2 не поддерживается на MacOS" << endl;
+            }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
                 cout << "Установка MSYS2 ..." << endl;
                 system("winget install -e --id MSYS2.MSYS2");
+            }
+            else if (OS_NAME == "macOS") {
+                cout << "MSYS2 не поддерживается на MacOS" << endl;
+            }
+            else if (OS_NAME == "Linux") {
+                cout << "MSYS2 не поддерживается на MacOS" << endl;
             }
         }
     }
@@ -1670,6 +1755,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Nuget ..." << endl;
+                    cout << "Nuget не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -1684,6 +1770,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Nuget ..." << endl;
+                cout << "Nuget не поддерживается на Linux" << endl;
             }
         }
     }
@@ -1704,6 +1791,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка GitHub Desktop ..." << endl;
+                    system("snap install github-gui");
                 }
             }
         }
@@ -1718,6 +1806,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка GitHub Desktop ..." << endl;
+                system("snap install github-gui");
             }
         }
     }
@@ -1738,6 +1827,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка GitHub CLI ..." << endl;
+                    system("snap install gh");
                 }
             }
         }
@@ -1752,6 +1842,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка GitHub CLI ..." << endl;
+                system("snap install gh");
             }
         }
     }
@@ -1772,6 +1863,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Kubernetes ..." << endl;
+                    system("snap install kubectl --classic");
                 }
             }
         }
@@ -1786,6 +1878,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Kubernetes ..." << endl;
+                system("snap install kubectl --classic");
             }
         }
     }
@@ -1806,6 +1899,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Visual Studio Community ..." << endl;
+                    cout << "Visual Studio Community не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -1820,6 +1914,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Visual Studio Community ..." << endl;
+                cout << "Visual Studio Community не поддерживается на Linux" << endl;
             }
         }
     }
@@ -1836,11 +1931,11 @@ namespace AppInstaller {
                     system("winget install -e --id Microsoft.VisualStudio.2022.Professional.Preview");
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка Visual Studio Proffessional ..." << endl;
+                    cout << "Установка Visual Studio Community ..." << endl;
                     system("brew install --cask visual-studio");
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Visual Studio Proffessional ..." << endl;
+                    cout << "Visual Studio Proffessional не поддерживается на Linux" << endl;
                 }
             }
         }
@@ -1850,11 +1945,11 @@ namespace AppInstaller {
                 system("winget install -e --id Microsoft.VisualStudio.2022.Professional.Preview");
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка Visual Studio Proffessional ..." << endl;
+                cout << "Установка Visual Studio Community ..." << endl;
                 system("brew install --cask visual-studio");
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Visual Studio Proffessional ..." << endl;
+                cout << "Visual Studio Proffessional не поддерживается на Linux" << endl;
             }
         }
     }
@@ -1875,6 +1970,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Slack ..." << endl;
+                    system("snap install slack");
                 }
             }
         }
@@ -1889,6 +1985,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Slack ..." << endl;
+                system("snap install slack");
             }
         }
     }
@@ -1909,6 +2006,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Vim ..." << endl;
+                    system("snap install vim-editor --beta");
                 }
             }
         }
@@ -1923,6 +2021,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Vim ..." << endl;
+                system("snap install vim-editor --beta");
             }
         }
     }
@@ -1943,6 +2042,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка NeoVim ..." << endl;
+                    system("snap install nvim --classic");
                 }
             }
         }
@@ -1957,6 +2057,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка NeoVim ..." << endl;
+                system("snap install nvim --classic");
             }
         }
     }
@@ -1976,7 +2077,8 @@ namespace AppInstaller {
                     system("brew install --cask google-chrome");
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Google Chrome ..." << endl;
+                    cout << "Установка Chromium ..." << endl;
+                    system("snap install chromium");
                 }
             }
         }
@@ -1990,7 +2092,8 @@ namespace AppInstaller {
                 system("brew install --cask google-chrome");
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Google Chrome ..." << endl;
+                cout << "Установка Chromium ..." << endl;
+                system("snap install chromium");
             }
         }
     }
@@ -2011,6 +2114,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Android Studio ..." << endl;
+                    system("snap install android-studio --classic");
                 }
             }
         }
@@ -2025,6 +2129,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Android Studio ..." << endl;
+                system("snap install android-studio --classic");
             }
         }
     }
@@ -2045,6 +2150,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Eclipse ..." << endl;
+                    system("snap install eclipse --classic");
                 }
             }
         }
@@ -2059,6 +2165,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Eclipse ..." << endl;
+                system("snap install eclipse --classic");
             }
         }
     }
@@ -2110,6 +2217,7 @@ namespace AppInstaller {
                 }
                 else if (OS_NAME == "Linux") {
                     cout << "Установка Kotlin ..." << endl;
+                    system("snap install kotlin --classic");
                 }
             }
         }
@@ -2137,6 +2245,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Kotlin ..." << endl;
+                system("snap install kotlin --classic");
             }
         }
     }

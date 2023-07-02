@@ -6,6 +6,7 @@ using namespace  std;
 
 namespace InstallerDeveloperTools {
     string OS_NAME;
+    string Language;
     int Percentage;
     int TempPercentage = 0;
     string ProjectDir = std::filesystem::current_path().generic_string();
