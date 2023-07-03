@@ -1,0 +1,7 @@
+# ninja log v5
+5870	6874	7100854308965750	build/Windows/DeveloperTools.exe	6494cc625441225
+7	920	7100854733689636	build.ninja	642b6e86d4cb0cd1
+18	272	7100854243158604	CMakeFiles/DeveloperTools.dir/src/resource.rc.obj	4faeea4f48f9921a
+13	5869	7100854299086095	CMakeFiles/DeveloperTools.dir/src/DeveloperTools.cpp.obj	59b474b07805e3b0
+9192	10413	7100836399648607	DeveloperTools.exe	fe2a8b6e586bfb6c
+18	929	7100854762473036	build/Windows/DeveloperTools.exe	6494cc625441225
