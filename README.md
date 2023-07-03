@@ -1,4 +1,4 @@
-<p align="center"><img src="Logo/DeveloperTools.ico"></p>
+<p align="center"><img src="Logo/MainLogo.png"></p>
 
 <h2 align="center">DeveloperTools</h2>
 <h3 align="center">DeveloperTools - установщик необходимых инструментов для программирования.</h3>
