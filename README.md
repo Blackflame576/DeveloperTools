@@ -1,7 +1,7 @@
 <p align="center"><img src="Logo/MainLogo.png"></p>
 
-<h2 align="center">DeveloperTools</h2>
-<h3 align="center">DeveloperTools - установщик необходимых инструментов для программирования.</h3>
+<h2 align="center">DeepForge Toolset</h2>
+<h3 align="center">DeepForge Toolset - installer of necessary tools for programming.</h3>
 
 ## 🚀 Installation(Установка)
 
@@ -19,6 +19,10 @@
 </details>
 
 ## Authors(Авторы)
+ - @Blackflame576
+ - @DeepForge-Technology
 ## Support(Поддержка)
+ - deepforge.technology@gmail.com
 ## Donating(Донаты)
 ## License(Лицензия)
+[GNU GENERAL PUBLIC LICENSE]:(LICENSE)
