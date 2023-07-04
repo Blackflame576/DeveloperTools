@@ -1,6 +1,0 @@
-# ninja log v5
-3322	4183	7099177877443421	InstallerDeveloperTools.exe	8151cce06cb761d4
-10	3322	7099177868975036	CMakeFiles/InstallerDeveloperTools.dir/InstallerDeveloperTools.cpp.obj	21b5aeaeb0da6b6b
-13	281	7099177838633490	CMakeFiles/InstallerDeveloperTools.dir/resource.rc.obj	9350d36c092c9e98
-6	240	7099178760860961	build.ninja	1c6979fdb9621135
-3	219	7099178760860961	build.ninja	1c6979fdb9621135
