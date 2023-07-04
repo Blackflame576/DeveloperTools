@@ -2246,7 +2246,7 @@ namespace AppInstaller {
             }
             else if (OS_NAME == "macOS") {
                 cout << "Установка Kotlin ..." << endl;
-                system("bbrew install kotlin");
+                system("brew install kotlin");
             }
             else if (OS_NAME == "Linux") {
                 cout << "Установка Kotlin ..." << endl;
@@ -2254,6 +2254,222 @@ namespace AppInstaller {
             }
         }
     }
+    
+    void InstallNetSDK_7() {
+        if (TypeInstall == "open") {
+            if (Language == "Russian") {
+                cout << "Вы хотите установить Microsoft .NET SDK 7.0 (по умолчанию - да)?";
+            }
+            else {
+                cout << "Do you want to install Microsoft .NET SDK 7.0 (default - yes)?";
+            }
+            getline(cin, Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 7.0 ..." << endl;
+                    }
+                    system("winget install -e --id Microsoft.DotNet.SDK.7");
+                }
+                else if (OS_NAME == "macOS") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 7.0 ..." << endl;
+                    }
+                    system("brew install dotnet");
+                }
+                else if (OS_NAME == "Linux") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 7.0 ..." << endl;
+                    }
+                    system("sudo snap install dotnet-sdk --classic --channel=7.0");
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 7.0 ..." << endl;
+                }
+                system("winget install -e --id Microsoft.DotNet.SDK.7");
+            }
+            else if (OS_NAME == "macOS") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 7.0 ..." << endl;
+                }
+                system("brew install dotnet");
+            }
+            else if (OS_NAME == "Linux") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 7.0 ..." << endl;
+                }
+                system("sudo snap install dotnet-sdk --classic --channel=7.0");
+            }
+        }
+    }
+
+    void InstallNetSDK_6() {
+        if (TypeInstall == "open") {
+            if (Language == "Russian") {
+                cout << "Вы хотите установить Microsoft .NET SDK 6.0 (по умолчанию - да)?";
+            }
+            else {
+                cout << "Do you want to install Microsoft .NET SDK 6.0 (default - yes)?";
+            }
+            getline(cin, Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 6.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 6.0 ..." << endl;
+                    }
+                    system("winget install -e --id Microsoft.DotNet.SDK.6");
+                }
+                else if (OS_NAME == "macOS") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 6.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 6.0 ..." << endl;
+                    }
+                    system("brew install dotnet@6");
+                }
+                else if (OS_NAME == "Linux") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET SDK 6.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET SDK 6.0 ..." << endl;
+                    }
+                    system("sudo snap install dotnet-sdk --classic --channel=6.0");
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 6.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 6.0 ..." << endl;
+                }
+                system("winget install -e --id Microsoft.DotNet.SDK.6");
+            }
+            else if (OS_NAME == "macOS") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 6.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 6.0 ..." << endl;
+                }
+                system("brew install dotnet@6");
+            }
+            else if (OS_NAME == "Linux") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET SDK 6.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET SDK 6.0 ..." << endl;
+                }
+                system("sudo snap install dotnet-sdk --classic --channel=6.0");
+            }
+        }
+    }
+
+    void InstallNetRuntime_7() {
+        if (TypeInstall == "open") {
+            if (Language == "Russian") {
+                cout << "Вы хотите установить Microsoft .NET Runtime 7.0 (по умолчанию - да)?";
+            }
+            else {
+                cout << "Do you want to install Microsoft .NET Runtime 7.0 (default - yes)?";
+            }
+            getline(cin, Answer);
+            Install = CheckAnswer(Answer);
+            if (Install == true) {
+                if (OS_NAME == "Windows") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET Runtime 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET Runtime 7.0 ..." << endl;
+                    }
+                    system("winget install -e --id Microsoft.DotNet.Runtime.7");
+                }
+                else if (OS_NAME == "macOS") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET Runtime 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET Runtime 7.0 ..." << endl;
+                    }
+                    system("brew install --cask dotnet");
+                }
+                else if (OS_NAME == "Linux") {
+                    if (Language == "Russian") {
+                        cout << "Установка .NET Runtime 7.0 ..." << endl;
+                    }
+                    else {
+                        cout << "Installing .NET Runtime 7.0 ..." << endl;
+                    }
+                    system("snap install dotnet-runtime-70 --classic");
+                    system("snap alias dotnet-runtime-70.dotnet dotnet");
+                }
+            }
+        }
+        else if (TypeInstall == "hidden") {
+            if (OS_NAME == "Windows") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET Runtime 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET Runtime 7.0 ..." << endl;
+                }
+                system("winget install -e --id Microsoft.DotNet.Runtime.7");
+            }
+            else if (OS_NAME == "macOS") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET Runtime 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET Runtime 7.0 ..." << endl;
+                }
+                system("brew install --cask dotnet");
+            }
+            else if (OS_NAME == "Linux") {
+                if (Language == "Russian") {
+                    cout << "Установка .NET Runtime 7.0 ..." << endl;
+                }
+                else {
+                    cout << "Installing .NET Runtime 7.0 ..." << endl;
+                }
+                system("snap install dotnet-runtime-70 --classic");
+                system("snap alias dotnet-runtime-70.dotnet dotnet");
+            }
+        }
+    }
+
 
     map<string, funct_t> Packages{
         { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "JetBrains WebStorm", InstallWebStorm },
@@ -2269,12 +2485,13 @@ namespace AppInstaller {
         { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
         { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas }, { "NodeJS", InstallNodeJS }, { "GoLang", InstallGoLang },
         { "Python 3.9", InstallPython3_9 }, { "Python 3.10", InstallPython3_10 }, { "Python 3.11", InstallPython3_11 },
-        { "JDK 18", InstallJDK_18 }, { "JDK 19", InstallJDK_19 }, { "Rust", InstallRust }, { ".Net Framework", InstallNetFramework },
+        { "JDK 18", InstallJDK_18 }, { "JDK 19", InstallJDK_19 }, { "Rust", InstallRust }, { ".NET Framework", InstallNetFramework },
         { "Ruby", InstallRuby }, { "MSYS2", InstallMSYS2 }, { "Nuget", InstallNuget },
         { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes },
         { "Visual Studio Proffessional", InstallVisualStudioProffessional }, { "Visual Studio Community", InstallVisualStudioCommunity },
         { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome },
-        { "Android Studio", InstallAndroidStudio }, { "Eclipse", InstallEclipse }, { "Kotlin", InstallKotlin }
+        { "Android Studio", InstallAndroidStudio }, { "Eclipse", InstallEclipse }, { "Kotlin", InstallKotlin },
+        {".NET SDK 7.0",InstallNetSDK_7},{".NET SDK 6.0",InstallNetSDK_6},{".NET Runtime 7.0",InstallNetRuntime_7}
     };
     map<string, funct_t> PythonDevelopmentTools{
         { "Python 3.9", InstallPython3_9 }, { "Python 3.10", InstallPython3_10 }, { "Python 3.11", InstallPython3_11 },
@@ -2337,7 +2554,8 @@ namespace AppInstaller {
         { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText }, { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
         { "JetBrains dotUltimate", InstalldotUltimate }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
         { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas }, { "Postgresql", InstallPostgresql },
-        { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome },
+        {".NET SDK 7.0",InstallNetSDK_7},{".NET SDK 6.0",InstallNetSDK_6},{".NET Runtime 7.0",InstallNetRuntime_7}
     };
     map<string, funct_t> CDevelopmentTools{
         { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "MSYS2", InstallMSYS2 }, { "Nuget", InstallNuget },
