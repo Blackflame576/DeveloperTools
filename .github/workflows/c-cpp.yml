@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Install licurl
-      run: sudo apt install libcurl4
+    - name: Install libraries
+      run: sudo apt update && sudo apt upgrade && sudo apt install curl && sudo apt-get install libcurl4-openssl-dev
     - name: Init cmake
       run: cmake .
     - name: Build
