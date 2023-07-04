@@ -1,9 +1,9 @@
 # ninja log v5
-9610	12330	7101596340281911	build/Windows/DeveloperTools.exe	6494cc625441225
-38	930	7101596932567005	build.ninja	642b6e86d4cb0cd1
+20	1198	7101627905845629	build/Windows/DeveloperTools.exe	6494cc625441225
+7	761	7101628251839213	build.ninja	642b6e86d4cb0cd1
 18	272	7100854243158604	CMakeFiles/DeveloperTools.dir/src/resource.rc.obj	4faeea4f48f9921a
-20	9609	7101596313308133	CMakeFiles/DeveloperTools.dir/src/DeveloperTools.cpp.obj	59b474b07805e3b0
-9192	10413	7100836399648607	DeveloperTools.exe	fe2a8b6e586bfb6c
-7	761	7101596932567005	build.ninja	642b6e86d4cb0cd1
 20	8951	7101597022629588	CMakeFiles/DeveloperTools.dir/src/DeveloperTools.cpp.obj	59b474b07805e3b0
-8953	10375	7101597036740224	build/Windows/DeveloperTools.exe	6494cc625441225
+9192	10413	7100836399648607	DeveloperTools.exe	fe2a8b6e586bfb6c
+29	388	7101628280774878	CMakeFiles/DeveloperTools.dir/src/resource.rc.obj	4faeea4f48f9921a
+21	11408	7101628390770828	CMakeFiles/DeveloperTools.dir/src/DeveloperTools.cpp.obj	59b474b07805e3b0
+11411	12762	7101628404070477	build/Windows/DeveloperTools.exe	6494cc625441225
