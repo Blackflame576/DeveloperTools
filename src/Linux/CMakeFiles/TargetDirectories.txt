@@ -1,3 +1,0 @@
-/mnt/c/Users/blackflame576/Documents/blackflame576/DigitalBit/DeveloperTools/src/Linux/CMakeFiles/DeveloperTools.dir
-/mnt/c/Users/blackflame576/Documents/blackflame576/DigitalBit/DeveloperTools/src/Linux/CMakeFiles/edit_cache.dir
-/mnt/c/Users/blackflame576/Documents/blackflame576/DigitalBit/DeveloperTools/src/Linux/CMakeFiles/rebuild_cache.dir
