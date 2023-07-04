@@ -25,4 +25,4 @@
  - deepforge.technology@gmail.com
 ## Donating(Донаты)
 ## License(Лицензия)
-
+[GNU GENERAL PUBLIC LICENSE]:(LICENSE)
