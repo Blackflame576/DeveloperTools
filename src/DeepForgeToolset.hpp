@@ -11,25 +11,33 @@
 #include <curl/curl.h>
 #include "Progressbar.hpp"
 #include <cctype>
-
-using namespace std;
-using funct_t = void (*)(void);
-// using namespace std::filesystem;
+#include <fstream>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 #if defined(__linux__)
+    #include <jsoncpp/json/json.h>
 // cout << "Linux" << endl;
 #elif __FreeBSD__
+    #include <jsoncpp/json/json.h>
 // cout << "FreeBSD" << endl;
 #elif __APPLE__
+    #include <jsoncpp/json/json.h>
 // cout << "macOS" << endl;
 #elif _WIN32
+    #include <json/json.h>
     #include <conio.h>
     #include <Windows.h>
 #endif
 
+using namespace std;
+using funct_t = void (*)(void);
+using namespace Json;
+// using namespace std::filesystem;
+
+
 namespace AppInstaller {
     // Переменные
+    Value translate;
     bool Install;
     string InstallTools;
     string LangReadySet;
@@ -138,498 +146,583 @@ namespace AppInstaller {
     void InstallGit()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить Git (по умолчанию - да)?";
+            cout << translate["WantInstallGit"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка Git ..." << endl;
+                    cout << translate["InstallGit"].asString() << endl;
                     system("winget install --id Git.Git -e --source winget");
+                    cout << translate["InstalledGit"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка Git ..." << endl;
+                    cout << translate["InstallGit"].asString() << endl;
                     system("brew install --cask git");
+                    cout << translate["InstalledGit"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Git ..." << endl;
+                    cout << translate["InstallGit"].asString() << endl;
+                    cout << translate["InstalledGit"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка Git ..." << endl;
+                cout << translate["InstallGit"].asString() << endl;
                 system("winget install --id Git.Git -e --source winget");
+                cout << translate["InstalledGit"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка Git ..." << endl;
+                cout << translate["InstallGit"].asString() << endl;
                 system("brew install --cask git");
+                cout << translate["InstalledGit"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Git ..." << endl;
+                cout << translate["InstallGit"].asString() << endl;
+                cout << translate["InstalledGit"].asString() << endl;
             }
         }
     }
     void InstallVSCode()
     {   if (TypeInstall == "open") {
-            cout << "Вы хотите установить VSCode (по умолчанию - да)?";
+            cout << translate["WantInstallVSCode"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка VSCode ..." << endl;
+                    cout << translate["InstallVSCode"].asString() << endl;
                     system("winget install -e --id Microsoft.VisualStudioCode");
+                    cout << translate["InstalledVSCode"] << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка VSCode ..." << endl;
+                    cout << translate["InstallVSCode"].asString() << endl;
                     system("brew install --cask visual-studio-code");
+                    cout << translate["InstalledVSCode"] << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка VSCode ..." << endl;
+                    cout << translate["InstallVSCode"].asString() << endl;
                     system("snap install code --classic");
+                    cout << translate["InstalledVSCode"] << endl;
                 }
             }
         
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка VSCode ..." << endl;
+                cout << translate["InstallVSCode"].asString() << endl;
                 system("winget install -e --id Microsoft.VisualStudioCode");
+                cout << translate["InstalledVSCode"] << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка VSCode ..." << endl;
+                cout << translate["InstallVSCode"].asString() << endl;
                 system("brew install --cask visual-studio-code");
+                cout << translate["InstalledVSCode"] << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка VSCode ..." << endl;
+                cout << translate["InstallVSCode"].asString() << endl;
                 system("snap install code --classic");
+                cout << translate["InstalledVSCode"] << endl;
             }
         }
     }
     void InstallWebStorm()
     {
         if (TypeInstall == "open") {
+            cout << translate["WantInstallWebStorm"].asString();
             cout << "Вы хотите установить JetBrains WebStorm (по умолчанию - да)?";
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains WebStorm ..." << endl;
+                    cout << translate["InstallWebStorm"].asString() << endl;
                     system("winget install -e --id JetBrains.WebStorm");
+                    cout << translate["InstalledWebStorm"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains WebStorm ..." << endl;
+                    cout << translate["InstallWebStorm"].asString() << endl;
                     system("brew install --cask webstorm");
+                    cout << translate["InstalledWebStorm"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains WebStorm ..." << endl;
+                    cout << translate["InstallWebStorm"].asString() << endl;
                     system("snap install webstorm --classic");
+                    cout << translate["InstalledWebStorm"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains WebStorm ..." << endl;
+                cout << translate["InstallWebStorm"].asString() << endl;
                 system("winget install -e --id JetBrains.WebStorm");
+                cout << translate["InstalledWebStorm"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains WebStorm ..." << endl;
+                cout << translate["InstallWebStorm"].asString() << endl;
                 system("brew install --cask webstorm");
+                cout << translate["InstalledWebStorm"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains WebStorm ..." << endl;
+                cout << translate["InstallWebStorm"].asString() << endl;
                 system("snap install webstorm --classic");
+                cout << translate["InstalledWebStorm"].asString() << endl;
             }
         }
     }
     void InstallDocker()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить Docker (по умолчанию - да)?";
+            cout << translate["WantInstallDocker"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка Docker ..." << endl;
+                    cout << translate["InstallDocker"].asString() << endl;
                     system("winget install -e --id Docker.DockerDesktop");
+                    cout << translate["InstalledDocker"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка Docker ..." << endl;
+                    cout << translate["InstallDocker"].asString() << endl;
                     system("brew install --cask docker");
+                    cout << translate["InstalledDocker"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Docker ..." << endl;
+                    cout << translate["InstallDocker"].asString() << endl;
                     system("snap install docker");
+                    cout << translate["InstalledDocker"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка Docker ..." << endl;
+                cout << translate["InstallDocker"].asString() << endl;
                 system("winget install -e --id Docker.DockerDesktop");
+                cout << translate["InstalledDocker"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка Docker ..." << endl;
+                cout << translate["InstallDocker"].asString() << endl;
                 system("brew install --cask docker");
+                cout << translate["InstalledDocker"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Docker ..." << endl;
+                cout << translate["InstallDocker"].asString() << endl;
                 system("snap install docker");
+                cout << translate["InstalledDocker"].asString() << endl;
             }
         }
     }
     void InstallPostman()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить Postman (по умолчанию - да)?";
+            cout << translate["WantInstallPostman"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка Postman ..." << endl;
+                    cout << translate["InstallPostman"].asString() << endl;
                     system("winget install -e --id Postman.Postman");
+                    cout << translate["InstalledPostman"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка Postman ..." << endl;
+                    cout << translate["InstallPostman"].asString() << endl;
                     system("brew install --cask postman");
+                    cout << translate["InstalledPostman"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка Postman ..." << endl;
+                    cout << translate["InstallPostman"].asString() << endl;
                     system("snap install postman");
+                    cout << translate["InstalledPostman"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка Postman ..." << endl;
+                cout << translate["InstallPostman"].asString() << endl;
                 system("winget install -e --id Postman.Postman");
+                cout << translate["InstalledPostman"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка Postman ..." << endl;
+                cout << translate["InstallPostman"].asString() << endl;
                 system("brew install --cask postman");
+                cout << translate["InstalledPostman"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка Postman ..." << endl;
+                cout << translate["InstallPostman"].asString() << endl;
                 system("snap install postman");
+                cout << translate["InstalledPostman"].asString() << endl;
             }
         }
     }
     void InstallRubyMine()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains RubyMine (по умолчанию - да)?";
+            cout << translate["WantInstallRubyMine"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains RubyMine ..." << endl;
+                    cout << translate["InstallRubyMine"].asString() << endl;
                     system("winget install -e --id JetBrains.RubyMine");
+                    cout << translate["InstalledRubyMine"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains RubyMine ..." << endl;
+                    cout << translate["InstallRubyMine"].asString() << endl;
                     system("brew install --cask rubymine");
+                    cout << translate["InstalledRubyMine"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains RubyMine ..." << endl;
+                    cout << translate["InstallRubyMine"].asString() << endl;
                     system("snap install rubymine --classic");
+                    cout << translate["InstalledRubyMine"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains RubyMine ..." << endl;
+                cout << translate["InstallRubyMine"].asString() << endl;
                 system("winget install -e --id JetBrains.RubyMine");
+                cout << translate["InstalledRubyMine"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains RubyMine ..." << endl;
+                cout << translate["InstallRubyMine"].asString() << endl;
                 system("brew install --cask rubymine");
+                cout << translate["InstalledRubyMine"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains RubyMine ..." << endl;
+                cout << translate["InstallRubyMine"].asString() << endl;
                 system("snap install rubymine --classic");
+                cout << translate["InstalledRubyMine"].asString() << endl;
             }
         }
     }
     void InstallAqua()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains Aqua (по умолчанию - да)?";
+            cout << translate["WantInstallAqua"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains Aqua ..." << endl;
+                    cout << translate["InstallAqua"].asString() << endl;
                     system("winget install -e --id JetBrains.Aqua.EAP");
+                    cout << translate["InstalledAqua"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains Aqua ..." << endl;
+                    cout << translate["InstallAqua"].asString() << endl;
+                    cout << translate["InstalledAqua"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains Aqua ..." << endl;
+                    cout << translate["InstallAqua"].asString() << endl;
                     system("snap install jetbrains aqua --classic");
+                    cout << translate["InstalledAqua"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains Aqua ..." << endl;
+                cout << translate["InstallAqua"].asString() << endl;
                 system("winget install -e --id JetBrains.Aqua.EAP");
+                cout << translate["InstalledAqua"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains Aqua ..." << endl;
+                cout << translate["InstallAqua"].asString() << endl;
+                cout << translate["InstalledAqua"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains Aqua ..." << endl;
+                cout << translate["InstallAqua"].asString() << endl;
                 system("snap install jetbrains aqua --classic");
+                cout << translate["InstalledAqua"].asString() << endl;
             }
         }
     }
     void InstallCLion()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains CLion (по умолчанию - да)?";
+            cout << translate["WantInstallCLion"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains CLion ..." << endl;
+                    cout << translate["InstallCLion"].asString() << endl;
                     system("winget install -e --id JetBrains.CLion");
+                    cout << translate["InstalledCLion"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains CLion ..." << endl;
+                    cout << translate["InstallCLion"].asString() << endl;
                     system("brew install --cask clion");
+                    cout << translate["InstalledCLion"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains CLion ..." << endl;
+                    cout << translate["InstallCLion"].asString() << endl;
                     system("snap install clion --classic");
+                    cout << translate["InstalledCLion"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains CLion ..." << endl;
+                cout << translate["InstallCLion"].asString() << endl;
                 system("winget install -e --id JetBrains.CLion");
+                cout << translate["InstalledCLion"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains CLion ..." << endl;
+                cout << translate["InstallCLion"].asString() << endl;
                 system("brew install --cask clion");
+                cout << translate["InstalledCLion"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains CLion ..." << endl;
+                cout << translate["InstallCLion"].asString() << endl;
                 system("snap install clion --classic");
+                cout << translate["InstalledCLion"].asString() << endl;
             }
         }
     }
     void InstallDataGrip()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains DataGrip (по умолчанию - да)?";
+            cout << translate["WantInstallDataGrip"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains DataGrip ..." << endl;
+                    cout << translate["InstallDataGrip"].asString() << endl;
                     system("winget install -e --id JetBrains.DataGrip");
+                    cout << translate["InstalledDataGrip"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains DataGrip ..." << endl;
+                    cout << translate["InstallDataGrip"].asString() << endl;
                     system("brew install --cask datagrip");
+                    cout << translate["InstalledDataGrip"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains DataGrip ..." << endl;
+                    cout << translate["InstallDataGrip"].asString() << endl;
                     system("snap install datagrip --classic");
+                    cout << translate["InstalledDataGrip"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains DataGrip ..." << endl;
+                cout << translate["InstallDataGrip"].asString() << endl;
                 system("winget install -e --id JetBrains.DataGrip");
+                cout << translate["InstalledDataGrip"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains DataGrip ..." << endl;
+                cout << translate["InstallDataGrip"].asString() << endl;
                 system("brew install --cask datagrip");
+                cout << translate["InstalledDataGrip"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains DataGrip ..." << endl;
+                cout << translate["InstallDataGrip"].asString() << endl;
                 system("snap install datagrip --classic");
+                cout << translate["InstalledDataGrip"].asString() << endl;
             }
         }
     }
     void InstallDataSpell()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains DataSpell (по умолчанию - да)?";
+            cout << translate["WantInstallDataSpell"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains DataSpell ..." << endl;
+                    cout << translate["InstallDataSpell"].asString() << endl;
                     system("winget install -e --id JetBrains.DataSpell");
+                    cout << translate["InstalledDataSpell"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains DataSpell ..." << endl;
+                    cout << translate["InstallDataSpell"].asString() << endl;
                     system("brew install --cask dataspell");
+                    cout << translate["InstalledDataSpell"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains DataSpell ..." << endl;
+                    cout << translate["InstallDataSpell"].asString() << endl;
                     system("snap install dataspell --classic");
+                    cout << translate["InstalledDataSpell"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains DataSpell ..." << endl;
+                cout << translate["InstallDataSpell"].asString() << endl;
                 system("winget install -e --id JetBrains.DataSpell");
+                cout << translate["InstalledDataSpell"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains DataSpell ..." << endl;
+                cout << translate["InstallDataSpell"].asString() << endl;
                 system("brew install --cask dataspell");
+                cout << translate["InstalledDataSpell"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains DataSpell ..." << endl;
+                cout << translate["InstallDataSpell"].asString() << endl;
                 system("snap install dataspell --classic");
+                cout << translate["InstalledDataSpell"].asString() << endl;
             }
         }
     }
     void InstallFleet()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains Fleet (по умолчанию - да)?";
+            cout << translate["WantInstallFleet"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains Fleet ..." << endl;
+                    cout << translate["InstallFleet"].asString() << endl;
                     system("winget install -e --id JetBrains.FleetLauncher.Preview");
+                    cout << translate["InstalledFleet"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains Fleet ..." << endl;
+                    cout << translate["InstallFleet"].asString() << endl;
                     system("brew install --cask fleet");
+                    cout << translate["InstalledFleet"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains Fleet ..." << endl;
+                    cout << translate["InstallFleet"].asString() << endl;
+                    cout << translate["InstalledFleet"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains Fleet ..." << endl;
+                cout << translate["InstallFleet"].asString() << endl;
                 system("winget install -e --id JetBrains.FleetLauncher.Preview");
+                cout << translate["InstalledFleet"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains Fleet ..." << endl;
+                cout << translate["InstallFleet"].asString() << endl;
                 system("brew install --cask fleet");
+                cout << translate["InstalledFleet"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains Fleet ..." << endl;
+                cout << translate["InstallFleet"].asString() << endl;
+                cout << translate["InstalledFleet"].asString() << endl;
             }
         }
     }
     void InstallGoLand()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains GoLand (по умолчанию - да)?";
+            cout << translate["WantInstallGoLand"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains GoLand ..." << endl;
+                    cout << translate["InstallGoLand"].asString() << endl;
                     system("winget install -e --id JetBrains.GoLand");
+                    cout << translate["InstalledGoLand"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains GoLand ..." << endl;
+                    cout << translate["InstallGoLand"].asString() << endl;
                     system("brew install --cask goland");
+                    cout << translate["InstalledGoLand"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains GoLand ..." << endl;
+                    cout << translate["InstallGoLand"].asString() << endl;
                     system("snap install goland --classic");
+                    cout << translate["InstalledGoLand"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains GoLand ..." << endl;
+                cout << translate["InstallGoLand"].asString() << endl;
                 system("winget install -e --id JetBrains.GoLand");
+                cout << translate["InstalledGoLand"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains GoLand ..." << endl;
+                cout << translate["InstallGoLand"].asString() << endl;
                 system("brew install --cask goland");
+                cout << translate["InstalledGoLand"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains GoLand ..." << endl;
+                cout << translate["InstallGoLand"].asString() << endl;
                 system("snap install goland --classic");
+                cout << translate["InstalledGoLand"].asString() << endl;
             }
         }
     }
     void InstallIntelliJCommunity()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains IntelliJIDEA Community (по умолчанию - да)?";
+            cout << translate["WantInstallIntelliJIDEA Community"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                     system("winget install -e --id JetBrains.IntelliJIDEA.Community");
+                    cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                     system("brew install --cask intellij-idea-ce");
+                    cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                     system("snap install intellij-idea-community --classic");
+                    cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                 system("winget install -e --id JetBrains.IntelliJIDEA.Community");
+                cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                 system("brew install --cask intellij-idea-ce");
+                cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains IntelliJIDEA Community ..." << endl;
+                cout << translate["InstallIntelliJIDEA Community"].asString() << endl;
                 system("snap install intellij-idea-community --classic");
+                cout << translate["InstalledIntelliJIDEA Community"].asString() << endl;
             }
         }
     }
     void InstallIntelliJUltimate()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains IntelliJIDEA Ultimate (по умолчанию - да)?";
+            cout << translate["WantInstallIntelliJIDEA Ultimate"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                     system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
+                    cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                     system("brew install --cask intellij-idea");
+                    cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                    cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                     system("snap install intellij-idea-ultimate --classic");
+                    cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                 system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
+                cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                 system("brew install --cask intellij-idea");
+                cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains IntelliJIDEA Ultimate ..." << endl;
+                cout << translate["InstallIntelliJIDEA Ultimate"].asString() << endl;
                 system("snap install intellij-idea-ultimate --classic");
+                cout << translate["InstalledIntelliJIDEA Ultimate"].asString() << endl;
             }
         }
     }
