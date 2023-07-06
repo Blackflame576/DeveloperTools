@@ -81,5 +81,10 @@
     "InstalledToolbox":"✅ JetBrains Toolbox successfully installed",
     "WantInstallPostgreSQL":"Do you want to install  PostgreSQL (default - yes)?",
     "InstallPostgreSQL":"Installing  PostgreSQL ...",
-    "InstalledPostgreSQL":"✅  PostgreSQL successfully installed"
+    "InstalledPostgreSQL":"✅  PostgreSQL successfully installed",
+    "WantInstallCLink":"Do you want to install  CLink (default - yes)?",
+    "InstallCLink":"Installing  CLink ...",
+    "InstalledCLink":"✅  CLink successfully installed",
+    "CLink_MacOS":"CLink is not supported on MacOS",
+    "CLink":"CLink is not supported on Linux"
 }

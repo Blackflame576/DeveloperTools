@@ -1007,32 +1007,34 @@ namespace AppInstaller {
     void InstallCLink()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить Clink (по умолчанию - да)?";
+            cout << translate["WantInstallCLink"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка Clink ..." << endl;
+                    cout << translate["InstallCLink"].asString() << endl;
                     system("winget install -e --id chrisant996.Clink");
+                    cout << translate["InstalledCLink"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "CLink не поддерживается на MacOS" << endl;
+                    cout << translate["CLink_MacOS"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "CLink не поддерживается на Linux" << endl;
+                    cout << translate["CLink_Linux"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка Clink ..." << endl;
+                cout << translate["InstallCLink"].asString() << endl;
                 system("winget install -e --id chrisant996.Clink");
+                cout << translate["InstalledCLink"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "CLink не поддерживается на MacOS" << endl;
+                cout << translate["CLink_MacOS"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "CLink не поддерживается на Linux" << endl;
+                cout << translate["CLink_Linux"].asString() << endl;
             }
         }
     }
