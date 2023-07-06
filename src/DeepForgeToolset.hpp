@@ -729,244 +729,278 @@ namespace AppInstaller {
     void InstallReSharper()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains ReSharper (по умолчанию - да)?";
+            cout << translate["WantInstallReSharper"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains ReSharper ..." << endl;
+                    cout << translate["InstallReSharper"].asString() << endl;
                     system("winget install -e --id JetBrains.ReSharper");
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "ReSharper не поддерживается на MacOS" << endl;
+                    cout << translate["ReSharper_MacOS"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "ReSharper не поддерживается на Linux" << endl;
+                    cout << translate["ReSharper_Linux"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains ReSharper ..." << endl;
+                cout << translate["InstallReSharper"].asString() << endl;
                 system("winget install -e --id JetBrains.ReSharper");
             }
             else if (OS_NAME == "macOS") {
-                cout << "ReSharper не поддерживается на MacOS" << endl;
+                cout << translate["ReSharper_MacOS"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "ReSharper не поддерживается на Linux" << endl;
+                cout << translate["ReSharper_Linux"].asString() << endl;
             }
         }
     }
     void InstallRider()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains Rider (по умолчанию - да)?";
+            cout << translate["WantInstallRider"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains Rider ..." << endl;
+                    cout << translate["InstallRider"].asString() << endl;
                     system("winget install -e --id JetBrains.Rider");
+                    cout << translate["InstalledRider"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains Rider ..." << endl;
+                    cout << translate["InstallRider"].asString() << endl;
                     system("brew install --cask rider");
+                    cout << translate["InstalledRider"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains Rider ..." << endl;
+                    cout << translate["InstallRider"].asString() << endl;
                     system("snap install rider --classic");
+                    cout << translate["InstalledRider"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains Rider ..." << endl;
+                cout << translate["InstallRider"].asString() << endl;
                 system("winget install -e --id JetBrains.Rider");
+                cout << translate["InstalledRider"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains Rider ..." << endl;
+                cout << translate["InstallRider"].asString() << endl;
                 system("brew install --cask rider");
+                cout << translate["InstalledRider"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains Rider ..." << endl;
+                cout << translate["InstallRider"].asString() << endl;
                 system("snap install rider --classic");
+                cout << translate["InstalledRider"].asString() << endl;
             }
         }
     }
     void InstallPhpStorm()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains PHPStorm (по умолчанию - да)?";
+            cout << translate["WantInstallPHPStorm"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains PHPStorm ..." << endl;
+                    cout << translate["InstallPHPStorm"].asString() << endl;
                     system("winget install -e --id JetBrains.PHPStorm");
+                    cout << translate["InstalledPHPStorm"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains PHPStorm ..." << endl;
+                    cout << translate["InstallPHPStorm"].asString() << endl;
                     system("brew install --cask phpstorm");
+                    cout << translate["InstalledPHPStorm"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains PHPStorm ..." << endl;
+                    cout << translate["InstallPHPStorm"].asString() << endl;
                     system("snap install phpstorm --classic");
+                    cout << translate["InstalledPHPStorm"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains PHPStorm ..." << endl;
+                cout << translate["InstallPHPStorm"].asString() << endl;
                 system("winget install -e --id JetBrains.PHPStorm");
+                cout << translate["InstalledPHPStorm"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains PHPStorm ..." << endl;
+                cout << translate["InstallPHPStorm"].asString() << endl;
                 system("brew install --cask phpstorm");
+                cout << translate["InstalledPHPStorm"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains PHPStorm ..." << endl;
+                cout << translate["InstallPHPStorm"].asString() << endl;
                 system("snap install phpstorm --classic");
+                cout << translate["InstalledPHPStorm"].asString() << endl;
             }
         }
     }
     void InstalldotUltimate()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains dotUltimate (по умолчанию - да)?";
+            cout << translate["WantInstalldotUltimate"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains dotUltimate ..." << endl;
+                    cout << translate["InstalldotUltimate"].asString() << endl;
                     system("winget install -e --id JetBrains.dotUltimate");
+                    cout << translate["InstalleddotUltimate"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "dotUltimate не поддерживается на MacOS" << endl;
+                    cout << translate["dotUltimate_MacOS"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "dotUltimate не поддерживается на Linux" << endl;
+                    cout << translate["dotUltimate_Linux"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
+                cout << translate["InstalldotUltimate"].asString() << endl;
                 system("winget install -e --id JetBrains.dotUltimate");
+                cout << translate["InstalleddotUltimate"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "dotUltimate не поддерживается на MacOS" << endl;
+                cout << translate["dotUltimate_MacOS"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "dotUltimate не поддерживается на Linux" << endl;
+                cout << translate["dotUltimate_Linux"].asString() << endl;
             }
         }
     }
     void InstallSpace()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains Space (по умолчанию - да)?";
+            cout << translate["WantInstallSpace"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains Space ..." << endl;
+                    cout << translate["InstallSpace"].asString() << endl;
                     system("winget install -e --id JetBrains.Space");
+                    cout << translate["InstalledSpace"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains Space ..." << endl;
+                    cout << translate["InstallSpace"].asString() << endl;
                     system("brew install --cask jetbrains-space");
+                    cout << translate["InstalledSpace"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains Space ..." << endl;
+                    cout << translate["InstallSpace"].asString() << endl;
                     system("snap install space");
+                    cout << translate["InstalledSpace"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains Space ..." << endl;
+                cout << translate["InstallSpace"].asString() << endl;
                 system("winget install -e --id JetBrains.Space");
+                cout << translate["InstalledSpace"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains Space ..." << endl;
+                cout << translate["InstallSpace"].asString() << endl;
                 system("brew install --cask jetbrains-space");
+                cout << translate["InstalledSpace"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains Space ..." << endl;
+                cout << translate["InstallSpace"].asString() << endl;
                 system("snap install space");
+                cout << translate["InstalledSpace"].asString() << endl;
             }
         }
     }
     void InstallToolBox()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить JetBrains Toolbox (по умолчанию - да)?";
+            cout << translate["WantInstallToolbox"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка JetBrains Toolbox ..." << endl;
+                    cout << translate["InstallToolbox"].asString() << endl;
                     system("winget install -e --id JetBrains.Toolbox");
+                    cout << translate["InstalledToolbox"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка JetBrains Toolbox ..." << endl;
+                    cout << translate["InstallToolbox"].asString() << endl;
                     system("brew install --cask jetbrains-toolbox");
+                    cout << translate["InstalledToolbox"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка JetBrains Toolbox ..." << endl;
+                    cout << translate["InstallToolbox"].asString() << endl;
+                    cout << translate["InstalledToolbox"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка JetBrains Toolbox ..." << endl;
+                cout << translate["InstallToolbox"].asString() << endl;
                 system("winget install -e --id JetBrains.Toolbox");
+                cout << translate["InstalledToolbox"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка JetBrains Toolbox ..." << endl;
+                cout << translate["InstallToolbox"].asString() << endl;
                 system("brew install --cask jetbrains-toolbox");
+                cout << translate["InstalledToolbox"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка JetBrains Toolbox ..." << endl;
+                cout << translate["InstallToolbox"].asString() << endl;
+                cout << translate["InstalledToolbox"].asString() << endl;
             }
         }
     }
     void InstallPostgresql()
     {
         if (TypeInstall == "open") {
-            cout << "Вы хотите установить PostgreSQL (по умолчанию - да)?";
+            cout << translate["WantInstallPostgreSQL"].asString();
             getline(cin, Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 if (OS_NAME == "Windows") {
-                    cout << "Установка PostgreSQL ..." << endl;
+                    cout << translate["InstallPostgreSQL"].asString() << endl;
                     system("winget install -e --id PostgreSQL.PostgreSQL");
                     system("winget install -e --id PostgreSQL.pgAdmin");
+                    cout << translate["InstalledPostgreSQL"].asString() << endl;
                 }
                 else if (OS_NAME == "macOS") {
-                    cout << "Установка PostgreSQL ..." << endl;
+                    cout << translate["InstallPostgreSQL"].asString() << endl;
                     system("brew install postgresql@14");
+                    system("brew install --cask pgadmin4");
+                    cout << translate["InstalledPostgreSQL"].asString() << endl;
                 }
                 else if (OS_NAME == "Linux") {
-                    cout << "Установка PostgreSQL ..." << endl;
+                    cout << translate["InstallPostgreSQL"].asString() << endl;
                     system("snap install postgresql");
+                    cout << translate["InstalledPostgreSQL"].asString() << endl;
                 }
             }
         }
         else if (TypeInstall == "hidden") {
             if (OS_NAME == "Windows") {
-                cout << "Установка PostgreSQL ..." << endl;
+                cout << translate["InstallPostgreSQL"].asString() << endl;
                 system("winget install -e --id PostgreSQL.PostgreSQL");
                 system("winget install -e --id PostgreSQL.pgAdmin");
+                cout << translate["InstalledPostgreSQL"].asString() << endl;
             }
             else if (OS_NAME == "macOS") {
-                cout << "Установка PostgreSQL ..." << endl;
+                cout << translate["InstallPostgreSQL"].asString() << endl;
                 system("brew install postgresql@14");
                 system("brew install --cask pgadmin4");
+                cout << translate["InstalledPostgreSQL"].asString() << endl;
             }
             else if (OS_NAME == "Linux") {
-                cout << "Установка PostgreSQL ..." << endl;
+                cout << translate["InstallPostgreSQL"].asString() << endl;
                 system("snap install postgresql");
+                cout << translate["InstalledPostgreSQL"].asString() << endl;
             }
         }
     }
