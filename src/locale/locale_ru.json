@@ -14,6 +14,7 @@
     "SelectNumber":"Выберите номер нужного пакета (по умолчанию - выход):",
     "NotFoundPackage":"🙈 Пакета с таким номером нет!",
     "QueryNotFound":"⚠️ No packages found for your search.",
+    "AnswerNotCorrect":"Your answer was entered incorrectly",
     "InstallWinGet":"Установка WinGet ...",
     "WantInstallGit":"Вы хотите установить Git (по умолчанию - да)?",
     "InstallGit":"Установка Git ...",
@@ -86,6 +87,20 @@
     "InstallCLink":"Установка  CLink ...",
     "InstalledCLink":"✅  CLink успешно установлен",
     "CLink_MacOS":"CLink не поддерживается на MacOS",
-    "CLink_Linux":"CLink не поддерживается на Linux"
-
+    "CLink_Linux":"CLink не поддерживается на Linux",
+    "WantInstallNgrok":"Вы хотите установить  Ngrok (по умолчанию - да)?",
+    "InstallNgrok":"Установка  Ngrok ...",
+    "InstalledNgrok":"✅  Ngrok успешно установлен",
+    "WantInstallWget":"Вы хотите установить  Wget (по умолчанию - да)?",
+    "InstallWget":"Установка  Wget ...",
+    "InstalledWget":"✅  Wget успешно установлен",
+    "WantInstallSublimeText":"Вы хотите установить  SublimeText (по умолчанию - да)?",
+    "InstallSublimeText":"Установка  SublimeText ...",
+    "InstalledSublimeText":"✅  SublimeText успешно установлен",
+    "WantInstallPyCharm_CE":"Вы хотите установить  JetBrains PyCharm Community (по умолчанию - да)?",
+    "InstallPyCharm_CE":"Установка  PyCharm Community ...",
+    "InstalledPyCharm_CE":"✅ PyCharm Community успешно установлен",
+    "WantInstallPyCharm_PE":"Вы хотите установить  JetBrains PyCharm Professional (по умолчанию - да)?",
+    "InstallPyCharm_PE":"Установка  PyCharm Professional ...",
+    "InstalledPyCharm_PE":"✅ PyCharm Professional успешно установлен"
 }
