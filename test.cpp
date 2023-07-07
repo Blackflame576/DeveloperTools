@@ -68,29 +68,55 @@
 //     return 0;
 // }
 #include <iostream>
-#include <cctype>
-#include <string_view>
-#include <string>
-
+// #include "test.hpp"
+#include <map>
+#include <functional>
+#include "test_test.cpp"
 using namespace std;
+using funct_t = void (*)(void);
+
+void print() {
+    cout << "ddjisjidd" << endl;
+}
+
+class example {
+    public:
+        void print() {
+            cout << "ddjisjidd" << endl;
+        }
+
+};
+// typedef void (example::*Ptr) ();
+// using namespace N;
+// using MapType = std::map<string, std::function<void()>>;
+// typedef void(example::*runFunc)(void) mapType;
+// typedef std::map<string, runFunc> myMapType;
 
 int main() {
-    int num = 200;
-    switch (num)
-    {
-    case 502:
-            cout << "Hello world" << endl;
-            break;
-    case 200:
-            cout << "2" << endl;
-            break;
-        // default:
-        //     cout << "Default" << endl;
-    }
-    // convert 'A' to lowercase
-    char ch = tolower('A');
-
-    cout << ch;
-
+    // Ptr ptr;
+    funct_t functions[] = {&print};
+    functions[0]();
+    // MacOS class_var;
+    // class_var.print_test();
+    // example var;
+    // map<string, funct_t> Tools = {
+    //     {"test",&example::print}
+    // };
+    // var.Tools["test"]();
+    // map<string, Ptr> Tools = {
+    //     {"test",print}
+    // };
+    // var.print();
+    // map<string, function<void()>> Tools = {
+    //     {"test",[&var](){var.print();}}
+    // };
+    // cout << typeid(Tools["test"]).name() << endl;
+    // map<string,void(example::*)()> Tools = {
+    //     {"test",print}
+    // };
+    // map<string, funct_t> Tools = {
+    //     {"test",example::print}
+    // };
+    // Tools["test"]();
     return 0;
 }

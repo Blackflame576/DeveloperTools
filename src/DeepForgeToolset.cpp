@@ -1,173 +1,119 @@
-// Импортирование необходимых заголовков
 #include "DeepForgeToolset.hpp"
-#include "Logger.hpp"
+
+// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
+#if defined(__linux__)
+    
+// cout << "Linux" << endl;
+#elif __FreeBSD__
+    // cout << "FreeBSD" << endl;
+#elif __APPLE__
+    // cout << "macOS" << endl;
+#elif _WIN32
+    #include "AppInstaller_Windows.cpp"
+    using namespace Windows;
+#endif
 
 using namespace std;
-using funct_t = void(*)(void);
-using namespace AppInstaller;
-using namespace Logger;
 
-// Функции
-class Main {
+// Импортирование класса с функциями для установки приложений
+AppInstaller Installer;
+
+class MainApp {
     public:
-    
         void SetLanguage() {
             string NumLang;
             cout << "1. Russian" << endl;
             cout << "2. English" << endl;
             cout << "Choose language (default - 1):";
             getline(cin,NumLang);
-            if (NumLang == "1") {
+            if (NumLang == "1" || NumLang.empty()) {
                 Language = "Russian";
+                ReadJSON("Russian");
             }
             else if (NumLang == "2") {
                 Language = "English";
+                ReadJSON("English");
             }
         }
 
         void CommandManager() {
-            if (Language == "Russian") {
-                cout << "1. Выбрать готовый набор DeveloperTools для конкретного языка программирования" << endl;
-                cout << "2. Ручной выбор пакетов DeveloperTools" << endl;
-                cout << "3. Установить все пакеты DeveloperTools" << endl;
-                cout << "4. Поиск нужного пакета" << endl;
-                cout << "5. Выйти из приложения" << endl;
-                cout << "Выберите вариант ответа (по умолчанию — 2):";
-            }
-            else  {
-                cout << "1. Select a ready set of DeveloperTools for a specific programming language" << endl;
-                cout << "2. Manual selection of DeveloperTools packages" << endl;
-                cout << "3. Install all DeveloperTools packages" << endl;
-                cout << "4. Finding the right package" << endl;
-                cout << "5. Exit the application" << endl;
-                cout << "Select an answer (default - 2):";
-            }
+            // MainApp app;
+            // app = this;
+            using funct_t = void(MainApp::*)(void);
+            map<int,funct_t> Commands= {
+                {1,MainApp::ReadySet},{2,MainApp::ManualSelection},
+                {3,MainApp::InstallAllPackages},
+                {4,MainApp::SearchPackages},{5,MainApp::ExitApp}
+            };
+            cout << translate["CommandManager_1"].asString() << endl;
+            cout << translate["CommandManager_2"].asString() << endl;
+            cout << translate["CommandManager_3"].asString() << endl;
+            cout << translate["CommandManager_4"].asString() << endl;
+            cout << translate["CommandManager_5"].asString() << endl;
+            cout << translate["CommandManager_ch_answ"].asString();
             getline(cin,InstallTools);
-            if (InstallTools == "1") {
-                ReadySet();
-            }
-            else if (InstallTools == "2" or InstallTools.empty()) {
-                ManualSelection();
-            }
-            else if (InstallTools == "3") {
-                InstallAllPackages();
-            }
-            else if (InstallTools == "4") {
-                SearchPackages();
-            }
-            else if (InstallTools == "5") {
-                bool isExit = false;
-                if (Language == "Russian") {
-                    cout << "🚪Вы уверенны, что хотите выйти из программы (по умолчанию - нет)?";
+            int NumCommand = 0;
+            try {
+                if (InstallTools.empty()) {
+                    (this->*(Commands[1]))();
                 }
                 else {
-                    cout << "🚪Are you sure you want to exit the program (default - no)?";
+                    int TempInstallTools = stoi(InstallTools);
+                    for (int i = 1;const auto &element:Commands) {
+                        if (TempInstallTools == element.first) {
+                            NumCommand = element.first;
+                            break;
+                        }
+                    }
                 }
-                getline(cin, Answer);
-                isExit = CheckAnswer(Answer);
-                exit(0);
+                if (Commands.find(NumCommand) != Commands.end()) {
+                    (this->*(Commands[NumCommand]))();
+                }
+                else {
+                    CommandManager();
+                }
             }
-            else {
-                ManualSelection();
+            catch (exception& error) {
+                cout << translate["AnswerNotCorrect"].asString() << endl;
+                // CommandManager();
             }
-
-        }
-
-        void ManualSelection() {
-            TypeInstall = "hidden";
-            map<int,string> EnumeratePackages;
-            for (int i = 1;const auto &element:Packages) {
-                EnumeratePackages.insert(pair<int,string>(i,element.first));
-                cout << i << ". "<< element.first << endl;
-                i++;
-            }
-            if (Language == "Russian") {
-                cout << "Выберите номера пакетов для установки(через ,):";
-            }
-            else {
-                cout << "Select package numbers to install (via ,):";
-            }
-            getline(cin,SelectPackages);
-            string delimiter = ",";
-            size_t pos = 0;
-            string token;
-            while ((pos = SelectPackages.find(delimiter)) != string::npos) {
-                token = SelectPackages.substr(0, pos);
-                string name = EnumeratePackages[stoi(token)];
-                Packages[name]();
-                SelectPackages.erase(0, pos + delimiter.length());
-            }
-            string NamePackage = EnumeratePackages[stoi(SelectPackages)];
-            Packages[NamePackage]();
-            CommandManager();
         }
 
         void ReadySet() {
-            for(int i = 1;i < Languages.size() + 1;i++){
-                cout << i << ". " << Languages[i] << endl;
-            }
-            if (Language == "Russian") {
-                cout << "Выберите нужный язык программирования:";
-            }
-            else {
-                cout << "Select the desired programming language:";
-            }
-            getline(cin,LangReadySet);
-            for(int i = 1;i < DevelopmentPacks.size();i++){
-                if (LangReadySet == to_string(i)) {
-                    DevelopmentPacks[i]();
-                }
-            }
-            CommandManager();
+            // for(int i = 1;i < Languages.size() + 1;i++){
+            //     cout << i << ". " << Languages[i] << endl;
+            // }
+            // cout << translate["ChooseLanguage"].asString();
+            // getline(cin,LangReadySet);
+            // for(int i = 1;i < DevelopmentPacks.size();i++){
+            //     if (LangReadySet == to_string(i)) {
+            //         DevelopmentPacks[i]();
+            //     }
+            // }
+            // CommandManager();
         }
-
         void InstallAllPackages() {
-            TypeInstall = "hidden";
             for (const auto &element:Packages) {
                 string name = element.first;
                 cout << name << ";";
             }
             cout << "" << endl;
-            if (Language == "Russian") {
-                cout << "Вы точно хотите установить все пакеты (по умолчанию - да)?";
-            }
-            else {
-                cout << "Are you sure you want to install all packages (default yes)?";
-            }
+            cout << translate["InstallAllPackages"].asString();
             getline(cin,Answer);
             Install = CheckAnswer(Answer);
             if (Install == true) {
                 for (const auto &element:Packages) {
                     string name = element.first;
-                    element.second();
+                    (Installer.*(element.second))();
                 }
             }
             CommandManager();
         }
-
-        string Last_str_word(const string& text)
-        {
-            int i = text.length() - 1;
-            
-            if (isspace(text[i]))
-                while (isspace(text[i])) i--;
-            
-            while (i != 0 && !isspace(text[i])) --i;
-            
-            string lastword = text.substr(i + 1);
-            return lastword;
-        }
-
         void SearchPackages() {
             string SearchingPackage;
             bool isSearched = false;
             map<int,string> EnumeratePackages;
-            if (Language == "Russian") {
-                cout << "ℹ️ Имя пакета:";
-            }
-            else {
-                cout << "ℹ️ Package name:";
-            }
+            cout << translate["PackageName"].asString();
             getline(cin,SearchingPackage);
             SearchingPackage = to_lower(SearchingPackage);
             for (int i = 1;const auto &element:Packages) {
@@ -179,21 +125,11 @@ class Main {
                 }
             }
             if (isSearched == true) {
-                if (Language == "Russian") {
-                    cout << "🔎 По вашему запросу найдены следующие пакеты:" << endl;
-                }
-                else {
-                    cout << "🔎 The following packages were found for your query:" << endl;
-                }
+                cout << translate["Result"].asString() << endl;
                 for (const auto &element:EnumeratePackages) {
                     cout << element.first << ". " << element.second << endl;
                 }
-                if (Language == "Russian") {
-                    cout << "Выберите номер нужного пакета (по умолчанию - выход):";
-                }
-                else {
-                    cout << "Select the desired batch number (default is output):";
-                }
+                cout << translate["SelectNumber"].asString();
                 getline(cin,SelectPackages);
                 if (SelectPackages.empty() || SelectPackages == "\n") {
                     exit(0);
@@ -201,48 +137,71 @@ class Main {
                 else {
                     if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
                         string NameSelectedPackage = EnumeratePackages[stoi(SelectPackages)];
-                        Packages[NameSelectedPackage]();
+                        (Installer.*(Packages[NameSelectedPackage]))();
                     }
                     else {
-                        if (Language == "Russian") {
-                            cout << "🙈 Пакета с таким номером нет!" << endl;
-                        }
-                        else {
-                            cout << "🙈 There is no package with this number!" <<endl;
-                        }
+                        cout << translate["NotFoundPackage"].asString() << endl;
                     }
                 }
             }
             else {
-                if (Language == "Russian") {
-                    cout << "⚠️ По вашему запросу не найдено ни одного пакета." << endl;
-                }
-                else {
-                    cout << "⚠️ No packages found for your search." <<endl;
-                }
+                cout << translate["QueryNotFound"].asString() << endl;
             }
             CommandManager();
         }
 
-        void InstallWinGet() {
-            if (Language == "Russian") {
-                cout << "Установка WinGet ..." << endl;
+        void ManualSelection() {
+            map<int,string> EnumeratePackages;
+            for (int i = 1;const auto &element:Packages) {
+                EnumeratePackages.insert(pair<int,string>(i,element.first));
+                cout << i << ". "<< element.first << endl;
+                i++;
             }
-            else {
-                cout << "Installing WinGet ..." << endl;
+            cout << translate["SelectingPackages"].asString();
+            getline(cin,SelectPackages);
+            string delimiter = ",";
+            size_t pos = 0;
+            string token;
+            if (SelectPackages.empty() == false) {
+                while ((pos = SelectPackages.find(delimiter)) != string::npos) {
+                    token = SelectPackages.substr(0, pos);
+                    string name = EnumeratePackages[stoi(token)];
+                    (Installer.*(Packages[name]))();
+                    SelectPackages.erase(0, pos + delimiter.length());
+                }
+                string NamePackage = EnumeratePackages[stoi(SelectPackages)];
+                (Installer.*(Packages[NamePackage]))();
             }
-            string CommandInstallWinGet ="powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
-            system(CommandInstallWinGet.c_str());
+            CommandManager();
         }
 
-        Main () {
-        }
-
-        ~Main () {
-            
+        MainApp () {
+            SetLanguage();
         };
+        ~MainApp() {}
     private:
-        
+        void ReadJSON(string lang) {
+            try {
+                if (lang == "Russian") {
+                    ifstream f("./locale/locale_ru.json");
+                    if (f.is_open()) {
+                        f >> translate;
+                    }
+                }
+                else if(lang == "English") {
+                    ifstream f("./locale/locale_en.json");
+                    if (f.is_open()) {
+                        f >> translate;
+                    }
+                }
+            }
+            catch (exception& error) {
+                cout << error.what() << endl;
+            }
+        }
+        void ExitApp() {
+            exit(0);
+        }
 };
 
 int main() {
@@ -256,11 +215,8 @@ int main() {
         OS_NAME = "Windows";
         system("chcp 65001");
     #endif
-
-    Main main;
-    main.SetLanguage();
-    main.CommandManager();
-    // AppInstaller::InstallKotlin();
+    MainApp app;
+    app.CommandManager();
     system("pause");
     return 0;
 }
