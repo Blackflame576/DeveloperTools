@@ -89,5 +89,9 @@
     "InstalledPyCharm_CE":"✅ PyCharm Community successfully installed",
     "WantInstallPyCharm_PE":"Do you want to install  JetBrains PyCharm Professional (default - yes)?",
     "InstallPyCharm_PE":"Installing  PyCharm Professional ...",
-    "InstalledPyCharm_PE":"✅ PyCharm Professional successfully installed"
+    "InstalledPyCharm_PE":"✅ PyCharm Professional successfully installed",
+    "InstallDiscord":"Installing  Discord ...",
+    "InstalledDiscord":"✅ Discord successfully installed",
+    "InstallTelegram":"Installing  Telegram ...",
+    "InstalledTelegram":"✅ Telegram successfully installed"
 }

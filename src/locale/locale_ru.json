@@ -102,5 +102,9 @@
     "InstalledPyCharm_CE":"✅ PyCharm Community успешно установлен",
     "WantInstallPyCharm_PE":"Вы хотите установить  JetBrains PyCharm Professional (по умолчанию - да)?",
     "InstallPyCharm_PE":"Установка  PyCharm Professional ...",
-    "InstalledPyCharm_PE":"✅ PyCharm Professional успешно установлен"
+    "InstalledPyCharm_PE":"✅ PyCharm Professional успешно установлен",
+    "InstallDiscord":"Установка  PyCharm Professional ...",
+    "InstalledDiscord":"✅ PyCharm Professional успешно установлен",
+    "InstallTelegram":"Установка  Telegram ...",
+    "InstalledTelegram":"✅ Telegram успешно установлен"
 }

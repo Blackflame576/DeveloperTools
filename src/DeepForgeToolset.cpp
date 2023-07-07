@@ -15,8 +15,7 @@
 
 using namespace std;
 
-// Импортирование класса с функциями для установки приложений
-AppInstaller Installer;
+
 
 class MainApp {
     public:
@@ -37,8 +36,6 @@ class MainApp {
         }
 
         void CommandManager() {
-            // MainApp app;
-            // app = this;
             using funct_t = void(MainApp::*)(void);
             map<int,funct_t> Commands= {
                 {1,MainApp::ReadySet},{2,MainApp::ManualSelection},
@@ -80,17 +77,17 @@ class MainApp {
         }
 
         void ReadySet() {
-            // for(int i = 1;i < Languages.size() + 1;i++){
-            //     cout << i << ". " << Languages[i] << endl;
-            // }
-            // cout << translate["ChooseLanguage"].asString();
-            // getline(cin,LangReadySet);
-            // for(int i = 1;i < DevelopmentPacks.size();i++){
-            //     if (LangReadySet == to_string(i)) {
-            //         DevelopmentPacks[i]();
-            //     }
-            // }
-            // CommandManager();
+            for(int i = 1;i < Languages.size() + 1;i++){
+                cout << i << ". " << Languages[i] << endl;
+            }
+            cout << translate["ChooseLanguage"].asString();
+            getline(cin,LangReadySet);
+            for(int i = 1;i < DevelopmentPacks.size();i++){
+                if (LangReadySet == to_string(i)) {
+                    DevelopmentPacks[i]();
+                }
+            }
+            CommandManager();
         }
         void InstallAllPackages() {
             for (const auto &element:Packages) {
