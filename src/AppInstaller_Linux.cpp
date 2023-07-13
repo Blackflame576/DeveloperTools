@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace Windows {
+namespace Linux {
     class AppInstaller {
         public:
             int InstallGit() {
@@ -456,13 +456,13 @@ namespace Windows {
         // { "Eclipse", InstallEclipse }
     };
 
-     map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
-        {1,Windows::PythonDevelopmentTools},{2,Windows::JavaScriptDevelopmentTools},
-        {3,Windows::CppDevelopmentTools},{4,Windows::JavaDevelopmentTools},
-        {5,Windows::GoDevelopmentTools},{6,Windows::RustDevelopmentTools},
-        {7,Windows::RubyDevelopmentTools},{8,Windows::CDevelopmentTools},
-        {9,Windows::CSDevelopmentTools},{10,Windows::PhpDevelopmentTools},
-        {11,Windows::KotlinDevelopmentTools}
+    map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
+        {1,Linux::PythonDevelopmentTools},{2,Linux::JavaScriptDevelopmentTools},
+        {3,Linux::CppDevelopmentTools},{4,Linux::JavaDevelopmentTools},
+        {5,Linux::GoDevelopmentTools},{6,Linux::RustDevelopmentTools},
+        {7,Linux::RubyDevelopmentTools},{8,Linux::CDevelopmentTools},
+        {9,Linux::CSDevelopmentTools},{10,Linux::PhpDevelopmentTools},
+        {11,Linux::KotlinDevelopmentTools}
     };
 
     void InstallDevelopmentPack(auto DevelopmentPack) {

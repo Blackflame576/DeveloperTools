@@ -1,6 +1,17 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "string": "cpp",
+        "format": "cpp",
+        "ostream": "cpp",
+        "iomanip": "cpp",
+        "exception": "cpp",
+        "functional": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "stdexcept": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp"
     }
 }

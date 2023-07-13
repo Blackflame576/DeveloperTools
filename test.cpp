@@ -72,7 +72,14 @@
 #include <map>
 #include <functional>
 #include "test_test.cpp"
+#include "src/Logger.cpp"
+#include <iomanip>
+#include <stdio.h>
+// #include <fmt/format.h>
+#include <format>
+
 using namespace std;
+using namespace Logger;
 using funct_t = void (*)(void);
 
 void print() {
@@ -86,6 +93,21 @@ class example {
         }
 
 };
+string haveString = "";
+string new_string(string sentence) {
+    string new_sentence = "";
+    if (haveString == "") {
+        haveString = sentence;
+        return new_sentence;
+    }
+    else {
+        new_sentence = format("{:<40} {:<15}\n",haveString,sentence);
+        // new_sentence = haveString
+        // cout << new_sentence << endl;
+        haveString = "";
+        return new_sentence;
+    }
+}
 // typedef void (example::*Ptr) ();
 // using namespace N;
 // using MapType = std::map<string, std::function<void()>>;
@@ -93,30 +115,89 @@ class example {
 // typedef std::map<string, runFunc> myMapType;
 
 int main() {
+    example example_class;
+    string table_rows;
+    map<int,string> programms = {
+        {1,"Git"},{2,"VSCode"},{3,"PyCharm"},{4,"Sublime Text"},
+        {5,"IntelliJIDEA Community"},{6,"IntelliJIDEA Ultimate"}
+    };
+    int isPrinted_1;
+    int isPrinted_2;
+    for(int i = 1;const auto &element:programms) {
+        string name = to_string(element.first) + ". " + element.second;
+        string getString = new_string(name);
+        if (programms.size() % 2 == 0) {
+            if (getString != "") {
+                cout << getString << endl;
+            }
+        }
+        // else (i == programms.size());{
+        //     if (getString != ""){
+        //         cout << getString <<endl;
+        //     }
+        // }
+        else {
+            if (getString != "") {
+                cout << getString << endl;
+            }
+            if (i == programms.size()) {
+                cout << name << endl;
+            }
+            // if (i == programms.size()) {
+                
+            //     if (i ==) {
+            //         cout << name << endl;
+            //     }
+            // }
+            // cout << name << endl;
+        }
+        // if ((i + 1) <= programms.size()) {
+        //     if (i != isPrinted_1 && i != isPrinted_2) {
+        //         cout << i << endl;
+        //         string name_1 = to_string(element.first);
+        //         string name_2 = to_string(i + 1);
+        //         table_rows += format("{:<10} {:<10}\n",to_string(element.first) + ". " + element.second,to_string(i + 1) + ". " + programms[i + 1]);
+        //         isPrinted_1 = i + 1;
+        //         isPrinted_2 = i;
+        //     }
+        //     else {
+        //         table_rows += format("{:<10}\n",to_string(i + 1) + ". " + programms[i + 1]);
+        //     }
+            
+        // }
+        // cout << setw(4) << left  << element.first + ". " << element.second << endl;
+        // table_rows += format("{:<10} | {:<15}\n",element.first,element.second);
+        i++;
+    }
+    // cout << programms.size() << endl;
+    cout << table_rows << endl;
     // Ptr ptr;
-    funct_t functions[] = {&print};
-    functions[0]();
-    // MacOS class_var;
-    // class_var.print_test();
-    // example var;
-    // map<string, funct_t> Tools = {
-    //     {"test",&example::print}
+    // system("chcp 65001");
+    // using funct_t = void(example::*)(void);
+    // map<int,funct_t> Commands= {
+    //     {1,&example::print}
     // };
-    // var.Tools["test"]();
-    // map<string, Ptr> Tools = {
-    //     {"test",print}
-    // };
-    // var.print();
+    // (example_class.*(Commands[1]))();
     // map<string, function<void()>> Tools = {
-    //     {"test",[&var](){var.print();}}
-    // };
-    // cout << typeid(Tools["test"]).name() << endl;
-    // map<string,void(example::*)()> Tools = {
-    //     {"test",print}
-    // };
-    // map<string, funct_t> Tools = {
-    //     {"test",example::print}
+    //     {"test",[&example_class](){example_class.print();}}
     // };
     // Tools["test"]();
+    // typedef void (example::*funct_t)(void);
+    // typedef std::map<std::int, funct_t> Commands_func_map_t;
+    // Commands_func_map_t Commands = {
+    //     {1,&example::print}
+    // };
+
+
+    // funct_t functions[] = {&print};
+    // functions[0]();
+    // const char *test_str = "test_string error test_string error test_string error test_string error test_string error test_string error test_string error test_string error test_string error";
+    // MainLogger main_class(false);
+    // main_class.SetLogPath("logs/test.log");
+    // main_class.Debug("Test");
+    // main_class.Error("Error");
+    // main_class.Info("Info");
+    // main_class.Success("Success");
+    // main_class.Warning("Warning");
     return 0;
 }
