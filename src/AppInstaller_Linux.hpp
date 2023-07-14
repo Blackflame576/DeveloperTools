@@ -16,12 +16,16 @@
 #include <conio.h>
 #include <functional>
 #include "Logger.cpp"
-#include <fmt/format>
+// #include <fmt/core.h>
+#include <fmt/format.h>
+#include "fmt/format.h"
+#include <fmt/core.h>
+#include "fmt/core.h"
 
 using namespace std;
 using namespace Json;
 using namespace Logger;
-using namespace std::fmt;
+// using namespace std::fmt;
 
 // Переменные
 MainLogger logger(true,"logs/DeepForgeToolset.log");
