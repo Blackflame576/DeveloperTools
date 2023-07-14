@@ -185,7 +185,7 @@ namespace Linux {
             return new_sentence;
         }
         else {
-            new_sentence = format("{:<40} {:<15}\n",haveString,sentence);
+            new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
             haveString = "";
             return new_sentence;
         }
