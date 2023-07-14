@@ -1,4 +1,5 @@
-// #include "Logger.hpp"
+#define FMT_HEADER_ONLY
+#include "fmt/format.h"
 #include "AppInstaller_Windows.hpp"
 #include <iostream>
 

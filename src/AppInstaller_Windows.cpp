@@ -1,4 +1,5 @@
-// #include "Logger.hpp"
+#define FMT_HEADER_ONLY
+#include "fmt/format.h"
 #include "AppInstaller_Windows.hpp"
 #include <iostream>
 
@@ -185,7 +186,7 @@ namespace Windows {
             return new_sentence;
         }
         else {
-            new_sentence = format("{:<40} {:<15}\n",haveString,sentence);
+            new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
             haveString = "";
             return new_sentence;
         }

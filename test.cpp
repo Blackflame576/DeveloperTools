@@ -67,19 +67,20 @@
 //     system("pause");
 //     return 0;
 // }
+#define FMT_HEADER_ONLY
 #include <iostream>
 // #include "test.hpp"
 #include <map>
 #include <functional>
-#include "test_test.cpp"
-#include "src/Logger.cpp"
-#include <iomanip>
+// #include "test_test.cpp"
+// #include "src/Logger.cpp"
+// #include <iomanip>
 #include <stdio.h>
 // #include <fmt/format.h>
-#include <format>
+#include "fmt/format.h"
 
 using namespace std;
-using namespace Logger;
+// using namespace Logger;
 using funct_t = void (*)(void);
 
 void print() {
@@ -101,7 +102,7 @@ string new_string(string sentence) {
         return new_sentence;
     }
     else {
-        new_sentence = format("{:<40} {:<15}\n",haveString,sentence);
+        new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
         // new_sentence = haveString
         // cout << new_sentence << endl;
         haveString = "";
