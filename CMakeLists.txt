@@ -36,6 +36,12 @@ elseif(UNIX)
     message("✅ Copying folder of locale to build/Linux was successfully.")
 endif()
 include_directories(include)
+include(FetchContent)
+FetchContent_Declare(fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG master
+)
+FetchContent_MakeAvailable(fmt)
 set(CMAKE_CXX_STANDARD 20)
 # set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lfmt -lcurl  ${CMAKE_CXX_STANDARD_LIBRARIES}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
