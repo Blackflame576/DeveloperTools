@@ -344,7 +344,7 @@ class MainApp {
             if (NameDistribution == "Ubuntu" || NameDistribution == "Kali GNU/Linux") {
                 system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
                 system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
-                system("apt install snap snapd");
+                system("sudo apt install snap snapd");
             }
         }
 
