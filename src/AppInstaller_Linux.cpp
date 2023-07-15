@@ -14,17 +14,17 @@ namespace Linux {
             }
 
             int InstallVSCode() {
-                result = system("winget install -e --id Microsoft.VisualStudioCode");
+                result = system("sudo snap install code --classic");
                 return result;
             }
 
             int InstallWebStorm() {
-                result = system("winget install -e --id JetBrains.WebStorm");
+                result = system("sudo snap install webstorm --classic");
                 return result;
             }
 
             int InstallDocker() {
-                result = system("winget install -e --id Docker.DockerDesktop");
+                result = system("sudo snap install docker");
                 return result;
             }
 
