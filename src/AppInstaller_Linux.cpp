@@ -29,64 +29,64 @@ namespace Linux {
             }
 
             int InstallPostman() {
-                result = system("winget install -e --id Postman.Postman");
+                result = system("sudo snap install postman");
                 return result;
             }
 
             int InstallRubyMine() {
-                result = system("winget install -e --id JetBrains.RubyMine");
+                result = system("sudo snap install rubymine --classic");
                 return result;
             }
 
             int InstallCLion() {
-                result = system("winget install -e --id JetBrains.CLion");
+                result = system("sudo snap install clion --classic");
                 return result;
             }
 
             int InstallDataGrip() {
                 cout << translate["InstallDataGrip"].asString() << endl;
-                result = system("winget install -e --id JetBrains.DataGrip");
+                result = system("sudo snap install datagrip --classic");
                 return result;
             }
 
             int InstallDataSpell() {
-                result = system("winget install -e --id JetBrains.DataSpell");
+                result = system("sudo snap install dataspell --classic");
                 return result;
             }
 
             int InstallGoLand() {
-                result = system("winget install -e --id JetBrains.GoLand");
+                result = system("sudo snap install goland --classic");
                 return result;
                 
             }
 
             int InstallIntelliJIDEACommunity() {
-                result = system("winget install -e --id JetBrains.IntelliJIDEA.Community");
+                result = system("sudo snap install intellij-idea-community --classic");
                 return result;
             }
 
             int InstallIntelliJIDEAUltimate() {
-                result = system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
+                result = system("sudo snap install intellij-idea-ultimate --classic");
                 return result;
             }
 
             int InstallRider() {
-                result = system("winget install -e --id JetBrains.Rider");
+                result = system("sudo snap install rider --classic");
                 return result;
             }
 
             int InstallPhpStorm() {
-                result = system("winget install -e --id JetBrains.PHPStorm");
+                result = system("sudo snap install phpstorm --classic");
                 return result;
             }
 
             int InstallSpace() {
-                result = system("winget install -e --id JetBrains.Space");
+                result = system("sudo snap install space");
                 return result;
             }
 
             int InstallPostgresql() {
-                result = system("winget install -e --id PostgreSQL.PostgreSQL");
+                result = system("sudo snap install postgresql");
                 return result;
             }
             int InstallPgAdmin() {
@@ -95,77 +95,67 @@ namespace Linux {
             }
 
             int InstallNgrok() {
-                result = system("winget install -e --id Ngrok.Ngrok");
+                result = system("sudo snap install ngrok");
                 return result;
             }
 
             int InstallSublimeText() {
-                result = system("winget install -e --id SublimeHQ.SublimeText.4");
+                result = system("sudo snap install sublime-text --classic");
                 return result;
             }
 
             int InstallPyCharmCommunity() {
-                result = system("winget install -e --id JetBrains.PyCharm.Community");
+                result = system("sudo snap install pycharm-community --classic");
                 return result;
             }
 
             int InstallPyCharmProffessional() {
-                result = system("winget install -e --id JetBrains.PyCharm.Professional");
+                result = system("sudo snap install pycharm-professional --classic");
                 return result;
             }
 
             int InstallDiscord() {
-                result = system("winget install -e --id Discord.Discord");
+                result = system("sudo snap install discord");
                 return result;
             }
 
             int InstallTelegram() {
-                result = system("winget install -e --id Telegram.TelegramDesktop");
+                result = system("sudo snap install telegram-desktop");
                 return result;
             }
 
             int InstallNodeJS() {
-                result = system("winget install -e --id OpenJS.NodeJS");
+                result = system("sudo snap install node --classic");
                 return result;
             }
 
             int InstallGo() {
-                result = system("winget install -e --id GoLang.Go.1.18");
+                result = system("sudo snap install go --classic");
                 return result;
             }
 
             int InstallJDK_19() {
-                result = system("winget install -e --id Oracle.JDK.19");
+                result = system("sudo snap install openjdk@19");
                 return result;
             }
 
             int InstallJDK_18() {
-                result = system("winget install -e --id Oracle.JDK.18");
-                return result;
-            }
-
-            int InstallVisualStudioCE() {
-                result = system("winget install -e --id Microsoft.VisualStudio.2022.Community.Preview");
-                return result;
-            }
-
-            int InstallVisualStudioPE() {
-                result = system("winget install -e --id Microsoft.VisualStudio.2022.Professional.Preview");
+                result = system("sudo snap install openjdk@18");
                 return result;
             }
 
             int InstallRust() {
-                result = system("winget install -e --id Rustlang.Rust.MSVC");
+                result = system("sudo snap install rustup --classic");
                 return result;
             }
 
             int InstallRuby() {
-                result = system("winget install -e --id RubyInstallerTeam.Ruby.3.1");
+                result = system("sudo snap install ruby --classic");
                 return result;
             }
 
             int InstallNetFramework() {
-                result = system("winget install -e --id Microsoft.DotNet.Framework.DeveloperPack_4");
+                result = system("sudo snap install dotnet-sdk --classic");
                 return result;
             }
 
@@ -281,180 +271,170 @@ namespace Linux {
     using map_funct_t = void(*)(void);
 
     map<string,AppInstaller_funct_t> Packages = {
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JetBrains WebStorm",&AppInstaller::InstallWebStorm},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"JetBrains RubyMine",&AppInstaller::InstallRubyMine},{"JetBrains CLion",&AppInstaller::InstallCLion},
-        {"JetBrains DataGrip",&AppInstaller::InstallDataGrip},{"JetBrains DataSpell",&AppInstaller::InstallDataSpell},{"JetBrains GoLand",&AppInstaller::InstallGoLand},
-        {"JetBrains IntelliJ IDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},{"JetBrains IntelliJ IDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
-        {"JetBrains Rider",&AppInstaller::InstallRider},{"JetBrains PHPStorm",&AppInstaller::InstallPhpStorm},{"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Postgresql",&AppInstaller::InstallPostgresql},{"Ngrok",&AppInstaller::InstallNgrok},{"Sublime Text",&AppInstaller::InstallSublimeText},{"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
-        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmProffessional},{"Discord",&AppInstaller::InstallDiscord},{"Telegram",&AppInstaller::InstallTelegram},{"Rust",&AppInstaller::InstallRust},
-        {"Ruby",&AppInstaller::InstallRuby},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
+        {"JetBrains CLion",&AppInstaller::InstallCLion},
+        {"JetBrains DataGrip",&AppInstaller::InstallDataGrip},
+        {"JetBrains DataSpell",&AppInstaller::InstallDataSpell},
+        {"JetBrains GoLand",&AppInstaller::InstallGoLand},
+        {"JetBrains IntelliJ IDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+        {"JetBrains IntelliJ IDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+        {"JetBrains Rider",&AppInstaller::InstallRider},
+        {"JetBrains PHPStorm",&AppInstaller::InstallPhpStorm},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"Ngrok",&AppInstaller::InstallNgrok},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
+        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmProffessional},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Rust",&AppInstaller::InstallRust},
+        {"Ruby",&AppInstaller::InstallRuby},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Go",&AppInstaller::InstallGo}
     };
 
     map<string, AppInstaller_funct_t> PythonDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
-        {"JetBrains PyCharm Proffessional",&AppInstaller::InstallPyCharmProffessional},{"Sublime Text",&AppInstaller::InstallSublimeText},{"Docker",&AppInstaller::InstallDocker},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},
-        {"Postgresql",&AppInstaller::InstallPostgresql},{"Postman",&AppInstaller::InstallPostman},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Python 3.9", InstallPython3_9 }, { "Python 3.10", InstallPython3_10 }, { "Python 3.11", InstallPython3_11 },
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "PyCharm Community", InstallPyCharmCommunity },
-        // { "PyCharm Proffessional", InstallPyCharmProffessional }, { "Sublime Text", InstallSublimeText }, { "Docker", InstallDocker },
-        // { "Postman", InstallPostman }, { "Postgresql", InstallPostgresql }, { "MongoDB", InstallMongoDB },
-        // { "MongoDB Atlas", InstallMongoDBAtlas }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "Wget", InstallWget }, { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "GitHub Desktop", InstallGitHubDesktop },
-        // { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes }, { "JetBrains Fleet", InstallFleet }, { "Visual Studio Proffessional", InstallVisualStudioProffessional },
-        // { "Visual Studio Community", InstallVisualStudioCommunity }, { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Slack", InstallSlack },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
+        {"JetBrains PyCharm Proffessional",&AppInstaller::InstallPyCharmProffessional},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> JavaScriptDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Sublime Text",&AppInstaller::InstallSublimeText},{"Docker",&AppInstaller::InstallDocker},
-        {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},{"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "JetBrains WebStorm", InstallWebStorm },
-        // { "Docker", InstallDocker }, { "Postman", InstallPostman }, { "JetBrains Fleet", InstallFleet },
-        // { "Ngrok", InstallNgrok }, { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText },
-        // { "Discord", InstallDiscord }, { "Telegram", InstallTelegram }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer },
-        // { "MongoDB Compass", InstallMongoDBCompass }, { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "NodeJS", InstallNodeJS }, { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi },
-        // { "Kubernetes", InstallKubernetes }, { "Visual Studio Proffessional", InstallVisualStudioProffessional },
-        // { "Visual Studio Community", InstallVisualStudioCommunity }, { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox },
-        // { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
     };
 
     map<string, AppInstaller_funct_t> RustDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Sublime Text",&AppInstaller::InstallSublimeText},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker },
-        // { "Postman", InstallPostman }, { "JetBrains Fleet", InstallFleet }, { "Wget", InstallWget },
-        // { "Sublime Text", InstallSublimeText }, { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi },
-        // { "Kubernetes", InstallKubernetes }, { "Rust", InstallRust }, { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "NodeJS", InstallNodeJS }, { "MongoDB Compass", InstallMongoDBCompass }, { "Ngrok", InstallNgrok }, { "Kubernetes", InstallKubernetes },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Postgresql", InstallPostgresql },
-        // { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> RubyDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Sublime Text",&AppInstaller::InstallSublimeText},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Ruby", InstallRuby }, { "RubyMine", InstallRubyMine }, { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker },
-        // { "Postman", InstallPostman }, { "JetBrains Fleet", InstallFleet }, { "Wget", InstallWget },
-        // { "Sublime Text", InstallSublimeText }, { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi },
-        // { "Kubernetes", InstallKubernetes }, { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "NodeJS", InstallNodeJS }, { "MongoDB Compass", InstallMongoDBCompass }, { "Ngrok", InstallNgrok }, { "Kubernetes", InstallKubernetes },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Postgresql", InstallPostgresql },
-        // { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> CppDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "CLion", InstallCLion }, { "Visual Studio Proffessional", InstallVisualStudioProffessional }, { "Visual Studio Community", InstallVisualStudioCommunity },
-        // { "JetBrains Fleet", InstallFleet }, { "Sublime Text", InstallSublimeText }, { "Ngrok", InstallNgrok },
-        // { "Wget", InstallWget }, { "Docker", InstallDocker }, { "Discord", InstallDiscord },
-        // { "Telegram", InstallTelegram }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer },
-        // { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "JetBrains Space", InstallSpace },
-        // { "JetBrains ToolBox", InstallToolBox }, { "MSYS2", InstallMSYS2 }, { "Postman", InstallPostman }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas }, { "Postgresql", InstallPostgresql },
-        // { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> CSDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "JetBrains Rider", InstallRider }, { ".Net Framework", InstallNetFramework }, { "Git", InstallGit }, { "VSCode", InstallVSCode },
-        // { "Postman", InstallPostman }, { "Nuget", InstallNuget }, { "GitHub Desktop", InstallGitHubDesktop },
-        // { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes }, { "Visual Studio Proffessional", InstallVisualStudioProffessional },
-        // { "Visual Studio Community", InstallVisualStudioCommunity }, { "JetBrains Fleet", InstallFleet }, { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox },
-        // { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText }, { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "JetBrains dotUltimate", InstalldotUltimate }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas }, { "Postgresql", InstallPostgresql },
-        // { "Slack", InstallSlack }, { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome },
-        // {".NET SDK 7.0",InstallNetSDK_7},{".NET SDK 6.0",InstallNetSDK_6},{".NET Runtime 7.0",InstallNetRuntime_7}
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> CDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "MSYS2", InstallMSYS2 }, { "Nuget", InstallNuget },
-        // { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes },
-        // { "Visual Studio Proffessional", InstallVisualStudioProffessional }, { "Visual Studio Community", InstallVisualStudioCommunity },
-        // { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText }, { "JetBrains Fleet", InstallFleet },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Slack", InstallSlack },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> GoDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"Go",&AppInstaller::InstallGo},
-        {"GoLand",&AppInstaller::InstallGoLand},{"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "GoLang", InstallGoLang }, { "JetBrains Fleet", InstallFleet }, { "GoLand", InstallGoLand },
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker }, { "Postman", InstallPostman },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Postgresql", InstallPostgresql },
-        // { "Ngrok", InstallNgrok }, { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText },
-        // { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas }, { "GitHub Desktop", InstallGitHubDesktop },
-        // { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes }, { "Slack", InstallSlack },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"Go",&AppInstaller::InstallGo},
+        {"GoLand",&AppInstaller::InstallGoLand},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> JavaDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JDK 18",&AppInstaller::InstallJDK_18},
-        {"JDK 19",&AppInstaller::InstallJDK_19},{"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
-        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},{"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "JDK 18", InstallJDK_18 }, { "JDK 19", InstallJDK_19 },
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker }, { "Postman", InstallPostman },
-        // { "JetBrains Fleet", InstallFleet }, { "JetBrains IntelliJ Community", InstallIntelliJCommunity }, { "JetBrains IntelliJ Ultimate", InstallIntelliJUltimate },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Postgresql", InstallPostgresql },
-        // { "Ngrok", InstallNgrok }, { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText },
-        // { "Discord", InstallDiscord }, { "Telegram", InstallTelegram }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "Nuget", InstallNuget }, { "Slack", InstallSlack },
-        // { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }, { "Android Studio", InstallAndroidStudio },
-        // { "Eclipse", InstallEclipse }, { "Kotlin", InstallKotlin }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JDK 18",&AppInstaller::InstallJDK_18},
+        {"JDK 19",&AppInstaller::InstallJDK_19},
+        {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> PhpDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JetBrains PHP Storm",&AppInstaller::InstallPhpStorm},
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JetBrains PHP Storm",&AppInstaller::InstallPhpStorm},
         {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Sublime Text",&AppInstaller::InstallSublimeText},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker }, { "Postman", InstallPostman },
-        // { "JetBrains Fleet", InstallFleet }, { "JetBrains PhpStorm", InstallPhpStorm }, { "Postgresql", InstallPostgresql },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox },
-        // { "Ngrok", InstallNgrok }, { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText },
-        // { "Discord", InstallDiscord }, { "Telegram", InstallTelegram },
-        // { "MongoDB Compass", InstallMongoDBCompass }, { "Slack", InstallSlack },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes },
-        // { "Visual Studio Proffessional", InstallVisualStudioProffessional }, { "Visual Studio Community", InstallVisualStudioCommunity },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},{"VSCode",&AppInstaller::InstallVSCode},{"JDK 18",&AppInstaller::InstallJDK_18},
-        {"JDK 19",&AppInstaller::InstallJDK_19},{"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
-        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},{"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},{"JetBrains Space",&AppInstaller::InstallSpace},{"Telegram",&AppInstaller::InstallTelegram},{"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},{"Postgresql",&AppInstaller::InstallPostgresql},{"PgAdmin 4",&AppInstaller::InstallPgAdmin}
-        // { "Kotlin", InstallKotlin }, { "Git", InstallGit }, { "VSCode", InstallVSCode }, { "Docker", InstallDocker }, { "Postman", InstallPostman },
-        // { "JDK 18", InstallJDK_18 }, { "JDK 19", InstallJDK_19 }, { "JetBrains Fleet", InstallFleet }, { "JetBrains IntelliJ Community", InstallIntelliJCommunity }, { "JetBrains IntelliJ Ultimate", InstallIntelliJUltimate },
-        // { "JetBrains Space", InstallSpace }, { "JetBrains ToolBox", InstallToolBox }, { "Postgresql", InstallPostgresql },
-        // { "Ngrok", InstallNgrok }, { "Wget", InstallWget }, { "Sublime Text", InstallSublimeText },
-        // { "Discord", InstallDiscord }, { "Telegram", InstallTelegram }, { "VNC Server", InstallVNCServer }, { "VNC Viewer", InstallVNCViewer }, { "MongoDB Compass", InstallMongoDBCompass },
-        // { "MongoDB", InstallMongoDB }, { "MongoDB Atlas", InstallMongoDBAtlas },
-        // { "Nuget", InstallNuget }, { "Slack", InstallSlack },
-        // { "GitHub Desktop", InstallGitHubDesktop }, { "GitHub CLI", InstallGitHubCLi }, { "Kubernetes", InstallKubernetes },
-        // { "Vim", InstallVim }, { "NeoVim", InstallNeoVim }, { "Google Chrome", InstallGoogleChrome }, { "Android Studio", InstallAndroidStudio },
-        // { "Eclipse", InstallEclipse }
+        {"Git",&AppInstaller::InstallGit},
+        {"VSCode",&AppInstaller::InstallVSCode},
+        {"JDK 18",&AppInstaller::InstallJDK_18},
+        {"JDK 19",&AppInstaller::InstallJDK_19},
+        {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+        {"Sublime Text",&AppInstaller::InstallSublimeText},
+        {"Discord",&AppInstaller::InstallDiscord},
+        {"JetBrains Space",&AppInstaller::InstallSpace},
+        {"Telegram",&AppInstaller::InstallTelegram},
+        {"Docker",&AppInstaller::InstallDocker},
+        {"Postman",&AppInstaller::InstallPostman},
+        {"Postgresql",&AppInstaller::InstallPostgresql},
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
     };
 
     map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
@@ -483,6 +463,7 @@ namespace Linux {
                 }
                 if (i == DevelopmentPack.size()) {
                     cout << NamePackage << endl;
+                    haveString = "";
                 }
             }
             i++;
@@ -500,6 +481,7 @@ namespace Linux {
             output_func = (Installer.*(DevelopmentPack[name]))();
             if (output_func == 0) {
                 cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
+                cout << InstallDelimiter << endl;
                 string SuccessText = name + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }

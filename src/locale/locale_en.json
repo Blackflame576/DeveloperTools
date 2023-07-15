@@ -19,5 +19,6 @@
     "InstallWinGet":"nstalling WinGet ...",
     "Installing":"Installing",
     "Installed":"successfully installed",
-    "ErrorInstall":"Произошла ошибка при установке"
+    "ErrorInstall":"Произошла ошибка при установке",
+    "Line":"============================"
 }

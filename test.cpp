@@ -76,8 +76,8 @@
 // #include "src/Logger.cpp"
 // #include <iomanip>
 #include <stdio.h>
-// #include <fmt/format.h>
-#include "fmt/format.h"
+#include <format>
+// #include "fmt/format.h"
 
 using namespace std;
 // using namespace Logger;
@@ -95,14 +95,16 @@ class example {
 
 };
 string haveString = "";
+string new_sentence = "";
 string new_string(string sentence) {
-    string new_sentence = "";
     if (haveString == "") {
+        new_sentence = "";
         haveString = sentence;
         return new_sentence;
     }
     else {
-        new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
+        new_sentence = "";
+        new_sentence = format("{:<40} {:<15}\n",haveString,sentence);
         // new_sentence = haveString
         // cout << new_sentence << endl;
         haveString = "";
@@ -122,8 +124,6 @@ int main() {
         {1,"Git"},{2,"VSCode"},{3,"PyCharm"},{4,"Sublime Text"},
         {5,"IntelliJIDEA Community"},{6,"IntelliJIDEA Ultimate"}
     };
-    int isPrinted_1;
-    int isPrinted_2;
     for(int i = 1;const auto &element:programms) {
         string name = to_string(element.first) + ". " + element.second;
         string getString = new_string(name);
@@ -132,11 +132,6 @@ int main() {
                 cout << getString << endl;
             }
         }
-        // else (i == programms.size());{
-        //     if (getString != ""){
-        //         cout << getString <<endl;
-        //     }
-        // }
         else {
             if (getString != "") {
                 cout << getString << endl;
@@ -144,33 +139,28 @@ int main() {
             if (i == programms.size()) {
                 cout << name << endl;
             }
-            // if (i == programms.size()) {
-                
-            //     if (i ==) {
-            //         cout << name << endl;
-            //     }
-            // }
-            // cout << name << endl;
         }
-        // if ((i + 1) <= programms.size()) {
-        //     if (i != isPrinted_1 && i != isPrinted_2) {
-        //         cout << i << endl;
-        //         string name_1 = to_string(element.first);
-        //         string name_2 = to_string(i + 1);
-        //         table_rows += format("{:<10} {:<10}\n",to_string(element.first) + ". " + element.second,to_string(i + 1) + ". " + programms[i + 1]);
-        //         isPrinted_1 = i + 1;
-        //         isPrinted_2 = i;
-        //     }
-        //     else {
-        //         table_rows += format("{:<10}\n",to_string(i + 1) + ". " + programms[i + 1]);
-        //     }
-            
-        // }
-        // cout << setw(4) << left  << element.first + ". " << element.second << endl;
-        // table_rows += format("{:<10} | {:<15}\n",element.first,element.second);
         i++;
     }
-    // cout << programms.size() << endl;
+    cout << table_rows << endl;
+    for(int i = 1;const auto &element:programms) {
+        string name = to_string(element.first) + ". " + element.second;
+        string getString = new_string(name);
+        if (programms.size() % 2 == 0) {
+            if (getString != "") {
+                cout << getString << endl;
+            }
+        }
+        else {
+            if (getString != "") {
+                cout << getString << endl;
+            }
+            if (i == programms.size()) {
+                cout << name << endl;
+            }
+        }
+        i++;
+    }
     cout << table_rows << endl;
     // Ptr ptr;
     // system("chcp 65001");
