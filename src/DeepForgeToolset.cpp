@@ -345,8 +345,8 @@ class MainApp {
                 result = system("snap --version");
                 if (result != 0) {
                     cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
-                    system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
-                    system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
+                    // system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
+                    // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
                     system("sudo apt install snap snapd");
                 }
             }
