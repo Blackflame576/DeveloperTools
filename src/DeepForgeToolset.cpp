@@ -1,5 +1,21 @@
 /*  The MIT License (MIT)
+    ============================================================================
 
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗    
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝    
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗      
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝      
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗    
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝    
+                                                                                
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗                  
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝                  
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║                     
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║                     
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║                     
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   
+
+    ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
     Company: DeepForge Technology
@@ -9,6 +25,7 @@
     Created: 4 Juny 2023
     ============================================================================
 */
+
 #include "DeepForgeToolset.hpp"
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
@@ -356,7 +373,6 @@ class MainApp {
                 string Command = "powershell.exe " + WinGetScriptPath;
                 system(Command.c_str());
                 cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
-                cout << InstallDelimiter << endl;
             }
         }
 
@@ -364,7 +380,6 @@ class MainApp {
             cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
             system("bash ./Scripts/InstallBrew.sh");
             cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
-            cout << InstallDelimiter << endl;
         }
 
         void InstallSnap() {
@@ -379,23 +394,34 @@ class MainApp {
                     system("sudo systemctl enable snapd.service");
                     system("sudo systemctl start snapd.service");
                     cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
-                    cout << InstallDelimiter << endl;
                 }
             }
         }
 
+        void Help(int argc, char** argv) {
+            if(argc == 2 && strcmp(argv[1], "--help")==0) {
+                cout << "Help" << endl;
+            }
+        }
+
         MainApp () {
+            cout << "DeepForge Toolset " << __version__ << endl;
+            cout << "Author: Blackflame576" << endl;
+            cout << InstallDelimiter << endl;
             // Настройка локализации
             SetLanguage();
             if (OS_NAME == "Linux") {
                 NameDistribution =GetNameDistribution();
                 InstallSnap();
+                cout << InstallDelimiter << endl;
             }
             else if (OS_NAME == "Windows") {
                 InstallWinGet();
+                cout << InstallDelimiter << endl;
             }
             else if (OS_NAME == "MacOS") {
                 InstallBrew();
+                cout << InstallDelimiter << endl;
             }
         };
         // ~MainApp() {}
@@ -452,7 +478,7 @@ class MainApp {
 
 };
 
-int main() {
+int main(int argc, char** argv) {
     // Проверка операционной системы с последующей записью названия ОС в переменную
     #if defined(__linux__)
         OS_NAME = "Linux";
@@ -464,6 +490,7 @@ int main() {
         OS_NAME = "Windows";
         // Изменение кодировки в консоли Windows
         system("chcp 65001");
+        cout << InstallDelimiter << endl;
     #endif
     // Импорт главного класса
     MainApp app;
