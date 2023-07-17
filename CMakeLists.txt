@@ -17,6 +17,16 @@ if (WIN32)
     file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
     message("✅ Copying folder of locale to build/Windows was successfully.")
 elseif(APPLE)
+    set(CUR_TARGET DeepForgeToolset)
+    add_executable(${CUR_TARGET} MACOSX_BUNDLE ${CMAKE_BINARY_DIR}/src)            
+    set_target_properties(${CUR_TARGET} PROPERTIES
+        BUNDLE True
+        MACOSX_BUNDLE_GUI_IDENTIFIER toolset.deepforge.style.identifier.${CUR_TARGET}
+        MACOSX_BUNDLE_BUNDLE_NAME ${CUR_TARGET}
+        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/DeepForgeToolset.plist.in
+    )
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/MacOS)
     message("🔥 Copying folder of Scripts to build/MacOS ...")
     file(COPY ${CMAKE_BINARY_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/build/MacOS)
