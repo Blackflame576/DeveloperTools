@@ -17,6 +17,8 @@ if (WIN32)
     file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
     message("✅ Copying folder of locale to build/Windows was successfully.")
 elseif(APPLE)
+    find_package(JSONCPP)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem \"${JSONCPP_INCLUDE_DIR}\"")
     set(CUR_TARGET DeepForgeToolset)
     add_executable(${CUR_TARGET} MACOSX_BUNDLE ${CMAKE_BINARY_DIR}/src)            
     set_target_properties(${CUR_TARGET} PROPERTIES
