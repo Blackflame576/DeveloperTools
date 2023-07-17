@@ -20,6 +20,7 @@
 ## 👥 Authors(Авторы)
  - @Blackflame576
  - @DeepForge-Technology
+ - @SpeeDark
 
 
 ## 🤖 Support(Поддержка)
