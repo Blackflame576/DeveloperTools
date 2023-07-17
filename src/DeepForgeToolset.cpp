@@ -47,6 +47,7 @@ class MainApp {
             else {
                 SetLanguage();
             }
+            cout << InstallDelimiter << endl;
         }
         // Функция главного меню
         void CommandManager() {
@@ -79,6 +80,7 @@ class MainApp {
             cout << translate["CommandManager_5"].asString() << endl;
             cout << translate["CommandManager_ch_answ"].asString();
             getline(cin,InstallTools);
+            cout << InstallDelimiter << endl;
             int NumCommand = 0;
             try {
                 // Если пользователь ничего не вводит, то по умолчанию вызывается метод ручной установки приложений
@@ -121,10 +123,10 @@ class MainApp {
                 }
                 cout << translate["ChooseLanguage"].asString();
                 getline(cin,LangReadySet);
+                cout << InstallDelimiter << endl; 
                 for(int i = 1;i < DevelopmentPacks.size();i++){
                     if (LangReadySet == to_string(i)) {
                         InstallDevelopmentPack(DevelopmentPacks[i]);
-                        cout << i << endl;
                     }
                 }
             }
@@ -147,6 +149,7 @@ class MainApp {
                 cout << translate["InstallAllPackages"].asString();
                 getline(cin,Answer);
                 Install = CheckAnswer(Answer);
+                cout << InstallDelimiter << endl;
                 if (Install == true) {
                     for (const auto &element:Packages) {
                         string name = element.first;
@@ -155,7 +158,6 @@ class MainApp {
                         output_func = (Installer.*(element.second))();
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
-                            cout << InstallDelimiter << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
                         }
@@ -164,6 +166,7 @@ class MainApp {
                             string ErrorText = translate["ErrorInstall"].asString() + " " + name;
                             logger.Error(ErrorText.c_str());
                         }
+                        cout << InstallDelimiter << endl;
                     }
                 }
             }
@@ -171,6 +174,7 @@ class MainApp {
                 string ErrorText = error.what();
                 logger.Error(ErrorText.c_str());
             }
+            // cout << InstallDelimiter << endl;
             // Вызов главного меню
             CommandManager();
         }
@@ -227,6 +231,7 @@ class MainApp {
                     else {
                         if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
                             string NameSelectedPackage = EnumeratePackages[stoi(SelectPackages)];
+                            cout << InstallDelimiter << endl;
                             cout << translate["Installing"].asString() << " " << NameSelectedPackage << " ..." << endl;
                             output_func = (Installer.*(Packages[NameSelectedPackage]))();
                             if (output_func == 0) {
@@ -240,6 +245,7 @@ class MainApp {
                                 string ErrorText = translate["ErrorInstall"].asString() + " " + NameSelectedPackage;
                                 logger.Error(ErrorText.c_str());
                             }
+                            cout << InstallDelimiter << endl;
                         }
                         else {
                             cout << translate["NotFoundPackage"].asString() << endl;
@@ -257,6 +263,7 @@ class MainApp {
                 string ErrorText = error.what();
                 logger.Error(ErrorText.c_str());
             }
+            cout << InstallDelimiter << endl;
             // Вызов главного меню
             CommandManager();
         }
@@ -299,12 +306,12 @@ class MainApp {
                     while ((pos = SelectPackages.find(delimiter)) != string::npos) {
                         token = SelectPackages.substr(0, pos);
                         string name = EnumeratePackages[stoi(token)];
+                        cout << InstallDelimiter << endl;
                         cout << translate["Installing"].asString() << " " << name << " ..." << endl;
                         // Установка приложения
                         output_func = (Installer.*(Packages[name]))();
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
-                            cout << InstallDelimiter << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
                         }
@@ -316,12 +323,12 @@ class MainApp {
                         SelectPackages.erase(0, pos + delimiter.length());
                     }
                     string NamePackage = EnumeratePackages[stoi(SelectPackages)];
+                    cout << InstallDelimiter << endl;
                     cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
                     // Установка приложения с самым последним введённым номером
                     output_func = (Installer.*(Packages[NamePackage]))();
                     if (output_func == 0) {
                         cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
-                        cout << InstallDelimiter << endl;
                         string SuccessText = NamePackage + " " + translate["Installed"].asString();
                         logger.Success(SuccessText.c_str());
                     }
@@ -330,6 +337,7 @@ class MainApp {
                         string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                         logger.Error(ErrorText.c_str());
                     }
+                    cout << InstallDelimiter << endl;
                 }
             }
             catch (exception& error) {
@@ -341,6 +349,7 @@ class MainApp {
         }
 
         void InstallWinGet() {
+            cout << "WinGet ";
             result = system("winget -v");
             if (result != 0) {
                 cout << translate["Installing"].asString() << " " << "winget" << " ..." << endl;

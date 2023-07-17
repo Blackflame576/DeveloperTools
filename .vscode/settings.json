@@ -12,6 +12,8 @@
         "istream": "cpp",
         "stdexcept": "cpp",
         "tuple": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "chrono": "cpp",
+        "typeinfo": "cpp"
     }
 }

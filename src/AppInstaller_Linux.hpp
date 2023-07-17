@@ -21,7 +21,7 @@ using namespace std;
 using namespace Json;
 using namespace Logger;
 // using namespace std::fmt;
-
+ 
 // Переменные
 MainLogger logger(true,"logs/DeepForgeToolset.log");
 progressbar bar(100);

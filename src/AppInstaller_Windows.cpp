@@ -44,7 +44,6 @@ namespace Windows {
             }
 
             int InstallDataGrip() {
-                cout << translate["InstallDataGrip"].asString() << endl;
                 result = system("winget install -e --id JetBrains.DataGrip");
                 return result;
             }
@@ -169,6 +168,33 @@ namespace Windows {
                 return result;
             }
 
+            int InstallPython3_9() {
+                result = system("winget install -e --id Python.Python.3.9");
+                return result;
+            }
+            
+            int InstallPython3_10() {
+                result = system("winget install -e --id Python.Python.3.10");
+                return result;
+            }
+
+            int InstallPython3_11() {
+                result = system("winget install -e --id Python.Python.3.11");
+                return result;
+            }
+
+            int InstallVim() {
+                result = system("winget install -e --id vim.vim");
+                return result;
+            }
+
+            int InstallNeoVim() {
+                result = system("winget install -e --id Neovim.Neovim");
+                return result;
+            }
+
+            // int InstallPHP_
+
             AppInstaller() {
                 
             }
@@ -186,7 +212,7 @@ namespace Windows {
             return new_sentence;
         }
         else {
-            new_sentence = fmt::format("{:<20} {:<15}\n",haveString,sentence);
+            new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
             haveString = "";
             return new_sentence;
         }
@@ -308,7 +334,13 @@ namespace Windows {
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Go",&AppInstaller::InstallGo},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
+        {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
+        {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
+        {"NodeJS",&AppInstaller::InstallNodeJS},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> PythonDevelopmentTools{
@@ -325,7 +357,12 @@ namespace Windows {
         {"Postman",&AppInstaller::InstallPostman},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
+        {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
+        {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> JavaScriptDevelopmentTools{
@@ -341,7 +378,10 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"NodeJS",&AppInstaller::InstallNodeJS},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> RustDevelopmentTools{
@@ -356,7 +396,10 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Rust",&AppInstaller::InstallRust},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> RubyDevelopmentTools{
@@ -372,7 +415,10 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Ruby",&AppInstaller::InstallRuby},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CppDevelopmentTools{
@@ -380,7 +426,9 @@ namespace Windows {
         {"VSCode",&AppInstaller::InstallVSCode},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CSDevelopmentTools{
@@ -388,7 +436,9 @@ namespace Windows {
         {"VSCode",&AppInstaller::InstallVSCode},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CDevelopmentTools{
@@ -396,7 +446,9 @@ namespace Windows {
         {"VSCode",&AppInstaller::InstallVSCode},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> GoDevelopmentTools{
@@ -413,7 +465,9 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> JavaDevelopmentTools{
@@ -432,7 +486,9 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> PhpDevelopmentTools{
@@ -449,7 +505,9 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
@@ -468,7 +526,9 @@ namespace Windows {
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE}
+        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
      map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
@@ -482,9 +542,10 @@ namespace Windows {
 
     void InstallDevelopmentPack(auto DevelopmentPack) {
         map<int,string> EnumeratePackages;
+        string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {
             EnumeratePackages.insert(pair<int,string>(i,element.first));
-            string NamePackage = to_string(i) + ". " + element.first;
+            NamePackage = to_string(i) + ". " + element.first;
             string getNewString = NewString(NamePackage);
             if (DevelopmentPack.size() % 2 == 0) {
                 if (getNewString != "") {
@@ -504,28 +565,40 @@ namespace Windows {
         }
         cout << "" << endl;
         cout << translate["SelectingPackages"].asString();
-        getline(cin,SelectPackages);
+        getline(cin,SelectPackages); 
         string delimiter = ",";
         size_t pos = 0;
         string token;
         while ((pos = SelectPackages.find(delimiter)) != string::npos) {
             token = SelectPackages.substr(0, pos);
-            string name = EnumeratePackages[stoi(token)];
-            cout << translate["Installing"].asString() << " " << name << " ..." << endl;
-            output_func = (Installer.*(DevelopmentPack[name]))();
+            NamePackage = EnumeratePackages[stoi(token)];
+            cout << InstallDelimiter << endl;
+            cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+            output_func = (Installer.*(DevelopmentPack[NamePackage]))();
             if (output_func == 0) {
-                cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
-                cout << InstallDelimiter << endl;
-                string SuccessText = name + " " + translate["Installed"].asString();
+                cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                string SuccessText = NamePackage + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }
             else {
-                string ErrorText = translate["ErrorInstall"].asString() + " " + name;
+                string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                 logger.Error(ErrorText.c_str());
             }
             SelectPackages.erase(0, pos + delimiter.length());
         }
-        string NamePackage = EnumeratePackages[stoi(SelectPackages)];
-        (Installer.*(DevelopmentPack[NamePackage]))();
+        NamePackage = EnumeratePackages[stoi(SelectPackages)];
+        cout << InstallDelimiter << endl;
+        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+        output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
+        if (output_func == 0) {
+            cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+            string SuccessText = NamePackage + " " + translate["Installed"].asString();
+            logger.Success(SuccessText.c_str());
+        }
+        else {
+            string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
+            logger.Error(ErrorText.c_str());
+        }
+        cout << InstallDelimiter << endl;
     }
 }

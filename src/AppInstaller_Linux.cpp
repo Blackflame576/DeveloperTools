@@ -159,6 +159,16 @@ namespace Linux {
                 return result;
             }
 
+            int InstallVim() {
+                result = system("sudo snap install vim-editor --beta");
+                return result;
+            }
+
+            int InstallNeoVim() {
+                result = system("sudo snap install nvim --classic");
+                return result;
+            }
+
             AppInstaller() {
                 
             }
@@ -296,7 +306,9 @@ namespace Linux {
         {"Rust",&AppInstaller::InstallRust},
         {"Ruby",&AppInstaller::InstallRuby},
         {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Go",&AppInstaller::InstallGo}
+        {"Go",&AppInstaller::InstallGo},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> PythonDevelopmentTools{
@@ -311,7 +323,9 @@ namespace Linux {
         {"Telegram",&AppInstaller::InstallTelegram},
         {"Postgresql",&AppInstaller::InstallPostgresql},
         {"Postman",&AppInstaller::InstallPostman},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> JavaScriptDevelopmentTools{
@@ -325,7 +339,9 @@ namespace Linux {
         {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> RustDevelopmentTools{
@@ -338,7 +354,9 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> RubyDevelopmentTools{
@@ -352,25 +370,33 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CppDevelopmentTools{
         {"Git",&AppInstaller::InstallGit},
         {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CSDevelopmentTools{
         {"Git",&AppInstaller::InstallGit},
         {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> CDevelopmentTools{
         {"Git",&AppInstaller::InstallGit},
         {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> GoDevelopmentTools{
@@ -385,7 +411,9 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> JavaDevelopmentTools{
@@ -402,7 +430,9 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> PhpDevelopmentTools{
@@ -417,7 +447,9 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
@@ -434,7 +466,9 @@ namespace Linux {
         {"Docker",&AppInstaller::InstallDocker},
         {"Postman",&AppInstaller::InstallPostman},
         {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin}
+        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+        {"Vim",&AppInstaller::InstallVim},
+        {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
     map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
@@ -448,9 +482,10 @@ namespace Linux {
 
     void InstallDevelopmentPack(auto DevelopmentPack) {
         map<int,string> EnumeratePackages;
+        string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {
             EnumeratePackages.insert(pair<int,string>(i,element.first));
-            string NamePackage = to_string(i) + ". " + element.first;
+            NamePackage = to_string(i) + ". " + element.first;
             string getNewString = NewString(NamePackage);
             if (DevelopmentPack.size() % 2 == 0) {
                 if (getNewString != "") {
@@ -470,28 +505,40 @@ namespace Linux {
         }
         cout << "" << endl;
         cout << translate["SelectingPackages"].asString();
-        getline(cin,SelectPackages);
+        getline(cin,SelectPackages); 
         string delimiter = ",";
         size_t pos = 0;
         string token;
         while ((pos = SelectPackages.find(delimiter)) != string::npos) {
             token = SelectPackages.substr(0, pos);
-            string name = EnumeratePackages[stoi(token)];
-            cout << translate["Installing"].asString() << " " << name << " ..." << endl;
-            output_func = (Installer.*(DevelopmentPack[name]))();
+            NamePackage = EnumeratePackages[stoi(token)];
+            cout << InstallDelimiter << endl;
+            cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+            output_func = (Installer.*(DevelopmentPack[NamePackage]))();
             if (output_func == 0) {
-                cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
-                cout << InstallDelimiter << endl;
-                string SuccessText = name + " " + translate["Installed"].asString();
+                cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                string SuccessText = NamePackage + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }
             else {
-                string ErrorText = translate["ErrorInstall"].asString() + " " + name;
+                string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                 logger.Error(ErrorText.c_str());
             }
             SelectPackages.erase(0, pos + delimiter.length());
         }
-        string NamePackage = EnumeratePackages[stoi(SelectPackages)];
-        (Installer.*(DevelopmentPack[NamePackage]))();
+        NamePackage = EnumeratePackages[stoi(SelectPackages)];
+        cout << InstallDelimiter << endl;
+        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+        output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
+        if (output_func == 0) {
+            cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+            string SuccessText = NamePackage + " " + translate["Installed"].asString();
+            logger.Success(SuccessText.c_str());
+        }
+        else {
+            string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
+            logger.Error(ErrorText.c_str());
+        }
+        cout << InstallDelimiter << endl;
     }
 }

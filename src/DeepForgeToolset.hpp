@@ -30,4 +30,4 @@ bool Install;
 string __version__ = "0.1";
 string MODE = "DEV";
 string NameDistribution;
-string InstallDelimiter = "============================";
+string InstallDelimiter = "========================================================";
