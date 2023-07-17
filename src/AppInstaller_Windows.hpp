@@ -25,7 +25,8 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-
+// Импортирование библиотек
+// Importing Libraries
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -45,6 +46,7 @@
 
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
+// Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
     #include <jsoncpp/json/json.h>
 // cout << "Linux" << endl;
@@ -66,6 +68,7 @@ using namespace Json;
 using namespace Logger;
 
 // Переменные
+// Variables
 MainLogger logger(true,"logs/DeepForgeToolset.log");
 progressbar bar(100);
 int TempPercentage = 0;

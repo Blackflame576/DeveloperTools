@@ -25,7 +25,8 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-
+// Импортирование библиотек
+// Importing Libraries
 #define FMT_HEADER_ONLY
 #include "fmt/format.h"
 #include "AppInstaller_Windows.hpp"
