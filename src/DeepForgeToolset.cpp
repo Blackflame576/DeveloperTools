@@ -38,6 +38,8 @@
 #elif __FreeBSD__
     // cout << "FreeBSD" << endl;
 #elif __APPLE__
+    #include "AppInstaller_MacOS.cpp"
+    using namespace macOS;
     // cout << "macOS" << endl;
 #elif _WIN32
     #include "AppInstaller_Windows.cpp"
