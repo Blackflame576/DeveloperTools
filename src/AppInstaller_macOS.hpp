@@ -41,7 +41,7 @@
 #include "Progressbar.hpp"
 #include <cctype>
 #include <fstream>
-#include <json/json.h>
+#include "json/json.h"
 #include <functional>
 #include "Logger.cpp"
 
