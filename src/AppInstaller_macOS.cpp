@@ -542,7 +542,7 @@ namespace macOS {
         {"NeoVim",&AppInstaller::InstallNeoVim}
     };
 
-     map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
+    map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
         {1,macOS::PythonDevelopmentTools},{2,macOS::JavaScriptDevelopmentTools},
         {3,macOS::CppDevelopmentTools},{4,macOS::JavaDevelopmentTools},
         {5,macOS::GoDevelopmentTools},{6,macOS::RustDevelopmentTools},
@@ -551,7 +551,7 @@ namespace macOS {
         {11,macOS::KotlinDevelopmentTools}
     };
 
-    void InstallDevelopmentPack(auto DevelopmentPack) {
+    void InstallDevelopmentPack(map<int,map<string,AppInstaller_funct_t>> DevelopmentPack) {
         map<int,string> EnumeratePackages;
         string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {

@@ -41,8 +41,7 @@
 #include "Progressbar.hpp"
 #include <cctype>
 #include <fstream>
-#include <jsoncpp/json/json.h>
-#include <conio.h>
+#include <json/json.h>
 #include <functional>
 #include "Logger.cpp"
 
