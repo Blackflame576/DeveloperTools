@@ -585,7 +585,7 @@ namespace macOS {
             NamePackage = EnumeratePackages[stoi(token)];
             cout << InstallDelimiter << endl;
             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-            output_func = (Installer.*(DevelopmentPack[NamePackage]))();
+            output_func = DevelopmentPack[NamePackage]();
             if (output_func == 0) {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
@@ -600,7 +600,7 @@ namespace macOS {
         NamePackage = EnumeratePackages[stoi(SelectPackages)];
         cout << InstallDelimiter << endl;
         cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-        output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
+        output_func = DevelopmentPack[NamePackage](); 
         if (output_func == 0) {
             cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
             string SuccessText = NamePackage + " " + translate["Installed"].asString();
