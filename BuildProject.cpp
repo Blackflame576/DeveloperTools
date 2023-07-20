@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 string OS_NAME;
 
 void Build() {
