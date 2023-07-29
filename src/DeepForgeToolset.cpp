@@ -152,7 +152,7 @@ class MainApp {
                 cout << InstallDelimiter << endl; 
                 for(int i = 1;i < DevelopmentPacks.size();i++){
                     if (LangReadySet == to_string(i)) {
-                        InstallDevelopmentPack(DevelopmentPacks[i]);
+                        InstallDevelopmentPack(i);
                     }
                 }
             }
