@@ -84,7 +84,6 @@ map<int, string> Languages{
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
-string ProjectDir = std::filesystem::current_path().generic_string();
 string KotlinDir = ProjectDir + "/Programms/Kotlin";
 string PHPDir = ProjectDir + "/Programms/PHP";
 string WgetDir = ProjectDir + "/Programms/Wget";
