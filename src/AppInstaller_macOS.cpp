@@ -551,7 +551,7 @@ namespace macOS {
         {11,macOS::KotlinDevelopmentTools}
     };
 
-    void InstallDevelopmentPack(map<int,map<string,AppInstaller_funct_t>> DevelopmentPack) {
+    void InstallDevelopmentPack(auto DevelopmentPack) {
         map<int,string> EnumeratePackages;
         string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {
