@@ -8,7 +8,6 @@
 #include <ctime> 
 #include <exception>
 #include <filesystem>
-#include <concepts>
 
 // Переменные
 bool toFile = true;
