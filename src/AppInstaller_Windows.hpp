@@ -43,22 +43,18 @@
 #include <fstream>
 #include <functional>
 #include "Logger.cpp"
-
+#include "json/json.h"
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
-    #include <jsoncpp/json/json.h>
 // cout << "Linux" << endl;
 #elif __FreeBSD__
-    #include <jsoncpp/json/json.h>
 // cout << "FreeBSD" << endl;
 #elif __APPLE__
-    #include <jsoncpp/json/json.h>
 // cout << "macOS" << endl;
 #elif _WIN32
     // #include <format>
-    #include <json/json.h>
     #include <conio.h>
     #include <Windows.h>
 #endif
