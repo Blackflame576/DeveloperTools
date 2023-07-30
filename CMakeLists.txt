@@ -50,4 +50,4 @@ set(SOURCE_FILES ${CMAKE_BINARY_DIR}/src/DeepForgeToolset.cpp ${CMAKE_BINARY_DIR
 add_executable(DeepForgeToolset ${SOURCE_FILES})
 add_compile_options(-W)
 target_sources(DeepForgeToolset PRIVATE ${CMAKE_BINARY_DIR}/src/resource.rc)
-target_link_libraries(DeepForgeToolset  ${CMAKE_EXE_LINKER_FLAGS} $(JSONCPP_LIBRARIES))
+target_link_libraries(DeepForgeToolset  ${CMAKE_EXE_LINKER_FLAGS} ${JSONCPP_LIBRARIES})
