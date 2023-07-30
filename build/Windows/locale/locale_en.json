@@ -16,8 +16,8 @@
     "QueryNotFound": "⚠️ No packages found for your search.",
     "AnswerNotCorrect": "Your answer was entered incorrectly",
     "AllPackages":"All packages for install:",
-    "InstallWinGet":"nstalling WinGet ...",
-    "Installing":"Installing",
+    "InstallWinGet":"==> Installing WinGet ...",
+    "Installing":"==> Installing",
     "Installed":"successfully installed",
     "ErrorInstall":"Произошла ошибка при установке",
     "Line":"============================"
