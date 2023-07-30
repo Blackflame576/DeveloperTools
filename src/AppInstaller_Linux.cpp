@@ -509,7 +509,8 @@ namespace Linux {
         {11,Linux::KotlinDevelopmentTools}
     };
 
-    void InstallDevelopmentPack(auto DevelopmentPack) {
+    void InstallDevelopmentPack(int n) {
+        auto DevelopmentPack = DevelopmentPacks[n];
         map<int,string> EnumeratePackages;
         string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {
