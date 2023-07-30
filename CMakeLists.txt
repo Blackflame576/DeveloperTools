@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.00)
 project(DeepForgeToolset)
 include (GNUInstallDirs)
 find_package(CURL REQUIRED) 
-find_package(jsoncpp REQUIRED)
-include_directories(${JSONCPP_INCLUDE_DIRS})
 include_directories(${CURL_INCLUDE_DIR})
 if (WIN32)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/Windows) 
@@ -17,16 +15,7 @@ if (WIN32)
     file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
     message("✅ Copying folder of locale to build/Windows was successfully.")
 elseif(APPLE)
-    set(CUR_TARGET DeepForgeToolset)
-    add_executable(${CUR_TARGET} MACOSX_BUNDLE ${CMAKE_BINARY_DIR}/src)            
-    set_target_properties(${CUR_TARGET} PROPERTIES
-        BUNDLE True
-        MACOSX_BUNDLE_GUI_IDENTIFIER toolset.deepforge.style.identifier.${CUR_TARGET}
-        MACOSX_BUNDLE_BUNDLE_NAME ${CUR_TARGET}
-        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/DeepForgeToolset.plist.in
-    )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem \"${JSONCPP_INCLUDE_DIR}\"")           
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/MacOS)
     message("🔥 Copying folder of Scripts to build/MacOS ...")
     file(COPY ${CMAKE_BINARY_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/build/MacOS)
@@ -47,9 +36,9 @@ include_directories(${CMAKE_BINARY_DIR}/src/include)
 set(CMAKE_CXX_STANDARD 20)
 # set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lcurl  ${CMAKE_CXX_STANDARD_LIBRARIES}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -ljsoncpp -lcurl")
+set(CMAKE_EXE_LINKER_FLAGS "-lcurl -ljsoncpp")
 set(SOURCE_FILES ${CMAKE_BINARY_DIR}/src/DeepForgeToolset.cpp ${CMAKE_BINARY_DIR}/src/DeepForgeToolset.hpp)
 add_executable(DeepForgeToolset ${SOURCE_FILES})
 add_compile_options(-W)
 target_sources(DeepForgeToolset PRIVATE ${CMAKE_BINARY_DIR}/src/resource.rc)
-target_link_libraries(DeepForgeToolset  ${CMAKE_EXE_LINKER_FLAGS} ${JSONCPP_LIBRARIES} )
+target_link_libraries(DeepForgeToolset  ${CMAKE_EXE_LINKER_FLAGS})

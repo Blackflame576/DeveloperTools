@@ -38,6 +38,8 @@
 #elif __FreeBSD__
     // cout << "FreeBSD" << endl;
 #elif __APPLE__
+    #include "AppInstaller_macOS.cpp"
+    using namespace macOS;
     // cout << "macOS" << endl;
 #elif _WIN32
     #include "AppInstaller_Windows.cpp"
@@ -150,7 +152,7 @@ class MainApp {
                 cout << InstallDelimiter << endl; 
                 for(int i = 1;i < DevelopmentPacks.size();i++){
                     if (LangReadySet == to_string(i)) {
-                        InstallDevelopmentPack(DevelopmentPacks[i]);
+                        InstallDevelopmentPack(i);
                     }
                 }
             }
@@ -474,7 +476,7 @@ class MainApp {
             result = system("winget -v");
             if (result != 0) {
                 cout << translate["Installing"].asString() << " " << "winget" << " ..." << endl;
-                string Command = "powershell.exe " + WinGetScriptPath;
+                string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
                 system(Command.c_str());
                 cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
             }

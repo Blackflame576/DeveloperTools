@@ -80,17 +80,17 @@ namespace Logger {
                 }
             }
 
-            void PrintRED(auto sentence) {
-                cout << "\x1B[31m" << sentence << "\033[0m" << endl;
-            }
+            // void PrintRED(auto sentence) {
+            //     cout << "\x1B[31m" << sentence << "\033[0m" << endl;
+            // }
 
-            void PrintGREEN(auto sentence) {
-                cout << "\x1B[32m" << sentence << "\033[0m" << endl;
-            }
+            // void PrintGREEN(auto sentence) {
+            //     cout << "\x1B[32m" << sentence << "\033[0m" << endl;
+            // }
 
-            void PrintYELLOW(auto sentence) {
-                cout << "\x1B[33m" << sentence << "\033[0m" << endl;
-            }
+            // void PrintYELLOW(auto sentence) {
+            //     cout << "\x1B[33m" << sentence << "\033[0m" << endl;
+            // }
 
             MainLogger(bool log_to_file,string filename) {
                 toFile = log_to_file;

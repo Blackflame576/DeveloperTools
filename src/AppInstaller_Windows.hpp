@@ -43,22 +43,18 @@
 #include <fstream>
 #include <functional>
 #include "Logger.cpp"
-
+#include "json/json.h"
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
-    #include <jsoncpp/json/json.h>
 // cout << "Linux" << endl;
 #elif __FreeBSD__
-    #include <jsoncpp/json/json.h>
 // cout << "FreeBSD" << endl;
 #elif __APPLE__
-    #include <jsoncpp/json/json.h>
 // cout << "macOS" << endl;
 #elif _WIN32
     // #include <format>
-    #include <json/json.h>
     #include <conio.h>
     #include <Windows.h>
 #endif
@@ -84,7 +80,6 @@ map<int, string> Languages{
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
-string ProjectDir = std::filesystem::current_path().generic_string();
 string KotlinDir = ProjectDir + "/Programms/Kotlin";
 string PHPDir = ProjectDir + "/Programms/PHP";
 string WgetDir = ProjectDir + "/Programms/Wget";
