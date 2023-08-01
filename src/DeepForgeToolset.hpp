@@ -65,4 +65,4 @@ string MODE = "DEV";
 string NameDistribution;
 string InstallDelimiter = "========================================================";
 string LogoBanner;
-string ProjectDir = std::filesystem::current_path().generic_string();
+// string ProjectDir = std::filesystem::current_path().generic_string();

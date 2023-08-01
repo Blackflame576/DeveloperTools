@@ -54,7 +54,6 @@
 #elif __APPLE__
 // cout << "macOS" << endl;
 #elif _WIN32
-    // #include <format>
     #include <conio.h>
     #include <Windows.h>
 #endif
@@ -65,8 +64,10 @@ using namespace Logger;
 
 // Переменные
 // Variables
+string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true,"logs/DeepForgeToolset.log");
 progressbar bar(100);
+int Percentage;
 int TempPercentage = 0;
 const string TrueVarious[3] = { "yes", "y", "1"};
 string new_sentence;
@@ -80,15 +81,18 @@ map<int, string> Languages{
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
+const string EclipseUrl = "https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip";
 string KotlinDir = ProjectDir + "/Programms/Kotlin";
 string PHPDir = ProjectDir + "/Programms/PHP";
 string WgetDir = ProjectDir + "/Programms/Wget";
 string NewKotlinDir = "C:\\Kotlin";
 string NewPHPDir = "C:\\PHP";
 string NewWgetDir = "C:\\Wget";
+string NewEclipseDir = "C:\\";
 string AddKotlinPathScript = ProjectDir + "/Scripts/AddKotlinPath.ps1";
 string AddPHPPathScript = ProjectDir + "/Scripts/AddPHPPathScript.ps1";
 string AddWgetPathScript = ProjectDir + "/Scripts/AddWgetPath.ps1";
+string AddEclipsePathScript = ProjectDir + "/Scripts/AddEclipsePath.ps1";
 string WinGetScriptPath = ProjectDir + "/Scripts/InstallWinGet.ps1";
 int result;
 int output_func;

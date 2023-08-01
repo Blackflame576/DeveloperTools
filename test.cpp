@@ -77,6 +77,7 @@
 // #include <iomanip>
 #include <stdio.h>
 #include <format>
+#include <Windows.h>
 // #include "fmt/format.h"
 
 using namespace std;
@@ -162,6 +163,11 @@ int main() {
         i++;
     }
     cout << table_rows << endl;
+    string PATH = std::getenv("PATH");
+    string Command = "setx PATH '" + PATH + ";C:\\eclipse'";
+    // system(Command.c_str());
+    string NewPath = ";C:\\eclipse'";
+    SetEnvironmentVariableA("PATH",NewPath.c_str());
     // Ptr ptr;
     // system("chcp 65001");
     // using funct_t = void(example::*)(void);

@@ -34,6 +34,29 @@
 using namespace std;
 
 namespace Windows {
+    
+    int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
+    {
+
+        if (TotalToDownload <= 0.0) {
+            return 0;
+        }
+
+        Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
+        if (TempPercentage != Percentage && TempPercentage <= 100) {
+            bar.update();
+            TempPercentage = Percentage;
+        }
+        return 0;
+    
+    }
+
+    size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
+    {
+        size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
+        return WriteProcess;
+    }
+    
     class AppInstaller {
         public:
             int InstallGit() {
@@ -221,7 +244,38 @@ namespace Windows {
                 return result;
             }
 
-            // int InstallPHP_
+            int InstallEclipse() {
+                string ArchiveDir = ProjectDir + "/Downloads";
+                string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
+                if (std::filesystem::exists(ArchiveDir) == false) {
+                    std::filesystem::create_directory(ArchiveDir);
+                }
+                // if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+                result = Download(EclipseUrl,ArchiveDir);
+                string Command = "tar -xf" + ArchivePath + "--directory " + NewEclipseDir;
+                string PATH = std::getenv("Path");
+                string Command_AddPath = "setx path '" + PATH + "C:\\eclipse;'";
+                system(Command_AddPath.c_str());
+                switch (result) {
+                    case 200:
+                        // filesystem::create_directory(NewEclipseDir);
+                        // system(Command.c_str());
+                        system(Command_AddPath.c_str());
+                        std::filesystem::remove(ArchivePath);
+                        break;
+                    case 500:
+                        throw domain_error("Unable to connect");
+                }
+                // if (result == 200) {
+                //     // filesystem::create_directory(NewEclipseDir);
+                //     system(Command.c_str());
+                //     std::filesystem::remove(ArchivePath);
+                // }
+                // else {
+                //     throw domain_error("Unable to connect");
+                // }
+                return 0;
+            }
 
             AppInstaller() {
                 
@@ -231,6 +285,36 @@ namespace Windows {
                 
             }
         private:
+            int Download(string url, string dir)
+            {
+                try {
+                    string name = (url.substr(url.find_last_of("/")));
+                    string filename = dir + "/" + name.replace(name.find("/"), 1, "");
+                    CURL* curl = curl_easy_init();
+                    FILE* file = fopen(filename.c_str(), "wb");
+                    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+                    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+                    curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &progress_func);
+                    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+                    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+                    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
+                    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+                    CURLcode response = curl_easy_perform(curl);
+                    curl_easy_cleanup(curl);
+                    fclose(file);
+                    cout << "" << endl;
+                    return 200;
+                }
+                catch (exception& error) {
+                    string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
+                    string ErrorText_2 = error.what();
+                    logger.Error(ErrorText_1.c_str());
+                    logger.Error(ErrorText_2.c_str());
+                    return 502;
+                }
+            }
+            
     };
 
     string NewString(string sentence) {
@@ -271,54 +355,6 @@ namespace Windows {
             }
         }
         return status;
-    }
-    size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
-    {
-        size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
-        return WriteProcess;
-    }
-    int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
-    {
-
-        if (TotalToDownload <= 0.0) {
-            return 0;
-        }
-
-        int percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
-        if (TempPercentage != percentage && TempPercentage <= 100) {
-            bar.update();
-            TempPercentage = percentage;
-        }
-        return 0;
-    }
-    int Download(string url, string dir)
-    {
-        try {
-            string name = (url.substr(url.find_last_of("/")));
-            string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-            CURL* curl = curl_easy_init();
-            FILE* file = fopen(filename.c_str(), "wb");
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
-            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-            curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            CURLcode response = curl_easy_perform(curl);
-            curl_easy_cleanup(curl);
-            fclose(file);
-            cout << "" << endl;
-            return 200;
-        }
-        catch (exception& error) {
-            string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
-            string ErrorText_2 = error.what();
-            logger.Error(ErrorText_1.c_str());
-            logger.Error(ErrorText_2.c_str());
-            return 502;
-        }
     }
 
     // Импортирование класса с функциями для установки приложений
@@ -368,7 +404,8 @@ namespace Windows {
         {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
         {"NodeJS",&AppInstaller::InstallNodeJS},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> PythonDevelopmentTools{
@@ -409,7 +446,8 @@ namespace Windows {
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"NodeJS",&AppInstaller::InstallNodeJS},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> RustDevelopmentTools{
@@ -456,7 +494,8 @@ namespace Windows {
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> CSDevelopmentTools{
@@ -476,7 +515,8 @@ namespace Windows {
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> GoDevelopmentTools{
@@ -516,7 +556,8 @@ namespace Windows {
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> PhpDevelopmentTools{
@@ -535,7 +576,8 @@ namespace Windows {
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
     map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
@@ -556,7 +598,8 @@ namespace Windows {
         {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
         {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
         {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
+        {"NeoVim",&AppInstaller::InstallNeoVim},
+        {"Eclipse IDE",&AppInstaller::InstallEclipse}
     };
 
      map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
