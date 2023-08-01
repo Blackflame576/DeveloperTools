@@ -164,8 +164,8 @@ int main() {
     }
     cout << table_rows << endl;
     string PATH = std::getenv("PATH");
-    string Command = "setx PATH '" + PATH + ";C:\\eclipse'";
-    // system(Command.c_str());
+    string Command = "start powershell.exe -File .\\src\\Scripts\\AddEclipsePath.ps1";
+    system(Command.c_str());
     string NewPath = ";C:\\eclipse'";
     SetEnvironmentVariableA("PATH",NewPath.c_str());
     // Ptr ptr;
