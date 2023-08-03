@@ -20,5 +20,6 @@
     "Installing":"==> Installing",
     "Installed":"successfully installed",
     "ErrorInstall":"Произошла ошибка при установке",
-    "Line":"============================"
+    "Line":"============================",
+    "Located":"located in"
 }

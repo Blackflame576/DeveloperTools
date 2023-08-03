@@ -44,6 +44,8 @@
 #include <functional>
 #include "Logger.cpp"
 #include "json/json.h"
+#include <time.h>
+#include <stdint.h>
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
@@ -66,7 +68,7 @@ using namespace Logger;
 // Variables
 string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true,"logs/DeepForgeToolset.log");
-progressbar bar(100);
+ProgressBar bar;
 int Percentage;
 int TempPercentage = 0;
 const string TrueVarious[3] = { "yes", "y", "1"};
@@ -82,6 +84,7 @@ const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
 const string EclipseUrl = "https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip";
+// const string EclipseUrl = "https://fileinfo.com/img/ss/xl/url_181.png";
 string KotlinDir = ProjectDir + "/Programms/Kotlin";
 string PHPDir = ProjectDir + "/Programms/PHP";
 string WgetDir = ProjectDir + "/Programms/Wget";
@@ -97,3 +100,7 @@ string WinGetScriptPath = ProjectDir + "/Scripts/InstallWinGet.ps1";
 int result;
 int output_func;
 string haveString = "";
+double DownloadSpeed = 0.0;
+CURL* curl = curl_easy_init();
+CURLcode res;
+double EndTime;

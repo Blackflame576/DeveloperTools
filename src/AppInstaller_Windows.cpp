@@ -41,14 +41,26 @@ namespace Windows {
         if (TotalToDownload <= 0.0) {
             return 0;
         }
+        // if (NowDownloaded == TotalToDownload) {
+        //     // for (int i = 0;i < 50;i++) {
+        //     //     bar.update();
+        //     // }
+        //     bar.update();
+        // }
+        curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
+        curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &EndTime);
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
         if (TempPercentage != Percentage && TempPercentage <= 100) {
-            bar.update();
+            // if((CURLE_OK == res) && (DownloadSpeed > 0.0))
+                // printf("Average download speed: %lu kbyte/sec.\n",
+                //         (unsigned long)(DownloadSpeed / 1024));
+            int Speed = (int)(DownloadSpeed / 1024);
+            cout << EndTime << endl;
+            bar.Update(Speed);
             TempPercentage = Percentage;
         }
         return 0;
-    
     }
 
     size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
@@ -250,19 +262,17 @@ namespace Windows {
                 if (std::filesystem::exists(ArchiveDir) == false) {
                     std::filesystem::create_directory(ArchiveDir);
                 }
-                // if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+                if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
                 result = Download(EclipseUrl,ArchiveDir);
                 string Command = "tar -xf" + ArchivePath + "--directory " + NewEclipseDir;
-                string PATH = std::getenv("Path");
-                string Command_AddPath = "setx path '" + PATH + "C:\\eclipse;'";
-                system(Command_AddPath.c_str());
+                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
                 switch (result) {
                     case 200:
-                        // filesystem::create_directory(NewEclipseDir);
-                        // system(Command.c_str());
+                        system(Command.c_str());
                         system(Command_AddPath.c_str());
                         std::filesystem::remove(ArchivePath);
-                        break;
+                        cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
+                        return 0;
                     case 500:
                         throw domain_error("Unable to connect");
                 }
@@ -290,12 +300,12 @@ namespace Windows {
                 try {
                     string name = (url.substr(url.find_last_of("/")));
                     string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-                    CURL* curl = curl_easy_init();
                     FILE* file = fopen(filename.c_str(), "wb");
                     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
                     curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
                     curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &progress_func);
                     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+                    curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
                     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
                     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
                     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
@@ -405,7 +415,9 @@ namespace Windows {
         {"NodeJS",&AppInstaller::InstallNodeJS},
         {"Vim",&AppInstaller::InstallVim},
         {"NeoVim",&AppInstaller::InstallNeoVim},
-        {"Eclipse IDE",&AppInstaller::InstallEclipse}
+        {"Eclipse IDE",&AppInstaller::InstallEclipse},
+        {"JDK 18",&AppInstaller::InstallJDK_18},
+        {"JDK 19",&AppInstaller::InstallJDK_19},
     };
 
     map<string, AppInstaller_funct_t> PythonDevelopmentTools{

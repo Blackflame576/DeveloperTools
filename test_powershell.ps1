@@ -1,6 +1,6 @@
 #------------ Add path to system variable -------------------------------------
 
-$path2add = ';C:\Kotlin\kotlinc\bin'
+$path2add = ';C:\eclipse'
 $systemPath = [Environment]::GetEnvironmentVariable('Path');
 
 If (!$systemPath.contains($path2add)) {
@@ -25,13 +25,13 @@ If (!$systemPath.contains($path2add)) {
 
 # #------------ Clean system variable -------------------------------------------
 
-# $systemPath = [Environment]::GetEnvironmentVariable('Path');
+$systemPath = [Environment]::GetEnvironmentVariable('Path');
 
-# while ($systemPath.contains(';;')) {
-#     $systemPath = $systemPath.replace(';;', ';')
-# }
+while ($systemPath.contains(';;')) {
+    $systemPath = $systemPath.replace(';;', ';')
+}
 
-# [Environment]::SetEnvironmentVariable('Path', $systemPath);
+[Environment]::SetEnvironmentVariable('Path', $systemPath);
 
-# write-host "Cleaned path!"
-# write-host $systemPath
+write-host "Cleaned path!"
+write-host $systemPath
