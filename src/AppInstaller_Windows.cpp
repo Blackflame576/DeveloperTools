@@ -49,6 +49,10 @@ namespace Windows {
         // }
         curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
         curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &EndTime);
+        // time_t filetime;
+        // curl_easy_getinfo(curl, CURLINFO_FILETIME, &filetime);
+        // time_t file_time = (time_t)filetime;
+        // printf("filetime %s: %s", ctime(&file_time));
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
         if (TempPercentage != Percentage && TempPercentage <= 100) {
@@ -56,8 +60,8 @@ namespace Windows {
                 // printf("Average download speed: %lu kbyte/sec.\n",
                 //         (unsigned long)(DownloadSpeed / 1024));
             int Speed = (int)(DownloadSpeed / 1024);
-            cout << EndTime << endl;
-            bar.Update(Speed);
+            // cout << EndTime << endl;
+            bar.Update(Speed,EndTime);
             TempPercentage = Percentage;
         }
         return 0;
@@ -286,7 +290,23 @@ namespace Windows {
                 // }
                 return 0;
             }
+            using AppInstaller_funct_t = int(AppInstaller::*)(void);
+            using map_funct_t = void(*)(void);
 
+            map<string,AppInstaller_funct_t> PackagesFromSource {
+                {"Eclipse IDE",&AppInstaller::InstallEclipse}
+            };
+
+            int MainInstaller(string Name) {
+                string* Value = database.GetValueFromDB(Name,OS_NAME);
+                if (Value[0] != "Not Found") {
+                    result = system(Value[0].c_str());
+                }
+                else if (PackagesFromSource.find(Name) != PackagesFromSource.end()) {
+                    result = (this->*(PackagesFromSource[Name]))();
+                }
+                return result;
+            }
             AppInstaller() {
                 
             }
@@ -368,7 +388,7 @@ namespace Windows {
     }
 
     // Импортирование класса с функциями для установки приложений
-    AppInstaller Installer;
+    // AppInstaller Installer;
     // typedef void (AppInstaller::*funct_t)(void);
     // typedef std::map<std::string, funct_t> AppInstaller_func_map_t;
     // AppInstaller_func_map_t Packages = {
@@ -377,254 +397,254 @@ namespace Windows {
     // map<string, function<void()>> Packages = {
     //     {"Git",[&installer](){installer.InstallGit();}}
     // };
-    using AppInstaller_funct_t = int(AppInstaller::*)(void);
-    using map_funct_t = void(*)(void);
 
-    map<string,AppInstaller_funct_t> Packages = {
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
-        {"JetBrains CLion",&AppInstaller::InstallCLion},
-        {"JetBrains DataGrip",&AppInstaller::InstallDataGrip},
-        {"JetBrains DataSpell",&AppInstaller::InstallDataSpell},
-        {"JetBrains GoLand",&AppInstaller::InstallGoLand},
-        {"JetBrains IntelliJ IDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
-        {"JetBrains IntelliJ IDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
-        {"JetBrains Rider",&AppInstaller::InstallRider},
-        {"JetBrains PHPStorm",&AppInstaller::InstallPhpStorm},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"Ngrok",&AppInstaller::InstallNgrok},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
-        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmProffessional},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Rust",&AppInstaller::InstallRust},
-        {"Ruby",&AppInstaller::InstallRuby},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Go",&AppInstaller::InstallGo},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
-        {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
-        {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
-        {"NodeJS",&AppInstaller::InstallNodeJS},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        {"Eclipse IDE",&AppInstaller::InstallEclipse},
-        {"JDK 18",&AppInstaller::InstallJDK_18},
-        {"JDK 19",&AppInstaller::InstallJDK_19},
-    };
+    // map<string,AppInstaller_funct_t> Packages = {
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
+    //     {"JetBrains CLion",&AppInstaller::InstallCLion},
+    //     {"JetBrains DataGrip",&AppInstaller::InstallDataGrip},
+    //     {"JetBrains DataSpell",&AppInstaller::InstallDataSpell},
+    //     {"JetBrains GoLand",&AppInstaller::InstallGoLand},
+    //     {"JetBrains IntelliJ IDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+    //     {"JetBrains IntelliJ IDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+    //     {"JetBrains Rider",&AppInstaller::InstallRider},
+    //     {"JetBrains PHPStorm",&AppInstaller::InstallPhpStorm},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"Ngrok",&AppInstaller::InstallNgrok},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
+    //     {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmProffessional},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Rust",&AppInstaller::InstallRust},
+    //     {"Ruby",&AppInstaller::InstallRuby},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Go",&AppInstaller::InstallGo},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
+    //     {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
+    //     {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
+    //     {"NodeJS",&AppInstaller::InstallNodeJS},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     {"Eclipse IDE",&AppInstaller::InstallEclipse},
+    //     {"JDK 18",&AppInstaller::InstallJDK_18},
+    //     {"JDK 19",&AppInstaller::InstallJDK_19},
+    // };
 
-    map<string, AppInstaller_funct_t> PythonDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
-        {"JetBrains PyCharm Proffessional",&AppInstaller::InstallPyCharmProffessional},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
-        {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
-        {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
-    };
+    // map<string, AppInstaller_funct_t> PythonDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JetBrains PyCharm Community",&AppInstaller::InstallPyCharmCommunity},
+    //     {"JetBrains PyCharm Proffessional",&AppInstaller::InstallPyCharmProffessional},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"🐍 Python 3.9",&AppInstaller::InstallPython3_9},
+    //     {"🐍 Python 3.10",&AppInstaller::InstallPython3_10},
+    //     {"🐍 Python 3.11",&AppInstaller::InstallPython3_11},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim}
+    // };
 
-    map<string, AppInstaller_funct_t> JavaScriptDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"NodeJS",&AppInstaller::InstallNodeJS},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> JavaScriptDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"JetBrains WebStorm",&AppInstaller::InstallWebStorm},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"NodeJS",&AppInstaller::InstallNodeJS},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     // {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-    map<string, AppInstaller_funct_t> RustDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Rust",&AppInstaller::InstallRust},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
-    };
+    // map<string, AppInstaller_funct_t> RustDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Rust",&AppInstaller::InstallRust},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim}
+    // };
 
-    map<string, AppInstaller_funct_t> RubyDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Ruby",&AppInstaller::InstallRuby},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
-    };
+    // map<string, AppInstaller_funct_t> RubyDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JetBrains RubyMine",&AppInstaller::InstallRubyMine},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Ruby",&AppInstaller::InstallRuby},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim}
+    // };
 
-    map<string, AppInstaller_funct_t> CppDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> CppDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     // {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-    map<string, AppInstaller_funct_t> CSDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
-    };
+    // map<string, AppInstaller_funct_t> CSDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim}
+    // };
 
-    map<string, AppInstaller_funct_t> CDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> CDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     // {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-    map<string, AppInstaller_funct_t> GoDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"Go",&AppInstaller::InstallGo},
-        {"GoLand",&AppInstaller::InstallGoLand},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim}
-    };
+    // map<string, AppInstaller_funct_t> GoDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"Go",&AppInstaller::InstallGo},
+    //     {"GoLand",&AppInstaller::InstallGoLand},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim}
+    // };
 
-    map<string, AppInstaller_funct_t> JavaDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JDK 18",&AppInstaller::InstallJDK_18},
-        {"JDK 19",&AppInstaller::InstallJDK_19},
-        {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
-        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> JavaDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JDK 18",&AppInstaller::InstallJDK_18},
+    //     {"JDK 19",&AppInstaller::InstallJDK_19},
+    //     {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+    //     {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-    map<string, AppInstaller_funct_t> PhpDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JetBrains PHP Storm",&AppInstaller::InstallPhpStorm},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        // {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> PhpDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JetBrains PHP Storm",&AppInstaller::InstallPhpStorm},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     // {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-    map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
-        {"Git",&AppInstaller::InstallGit},
-        {"VSCode",&AppInstaller::InstallVSCode},
-        {"JDK 18",&AppInstaller::InstallJDK_18},
-        {"JDK 19",&AppInstaller::InstallJDK_19},
-        {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
-        {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
-        {"Sublime Text",&AppInstaller::InstallSublimeText},
-        {"Discord",&AppInstaller::InstallDiscord},
-        {"JetBrains Space",&AppInstaller::InstallSpace},
-        {"Telegram",&AppInstaller::InstallTelegram},
-        {"Docker",&AppInstaller::InstallDocker},
-        {"Postman",&AppInstaller::InstallPostman},
-        {"Postgresql",&AppInstaller::InstallPostgresql},
-        {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
-        {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
-        {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
-        {"Vim",&AppInstaller::InstallVim},
-        {"NeoVim",&AppInstaller::InstallNeoVim},
-        {"Eclipse IDE",&AppInstaller::InstallEclipse}
-    };
+    // map<string, AppInstaller_funct_t> KotlinDevelopmentTools{
+    //     {"Git",&AppInstaller::InstallGit},
+    //     {"VSCode",&AppInstaller::InstallVSCode},
+    //     {"JDK 18",&AppInstaller::InstallJDK_18},
+    //     {"JDK 19",&AppInstaller::InstallJDK_19},
+    //     {"JetBrains IntelliJIDEA Community",&AppInstaller::InstallIntelliJIDEACommunity},
+    //     {"JetBrains IntelliJIDEA Ultimate",&AppInstaller::InstallIntelliJIDEAUltimate},
+    //     {"Sublime Text",&AppInstaller::InstallSublimeText},
+    //     {"Discord",&AppInstaller::InstallDiscord},
+    //     {"JetBrains Space",&AppInstaller::InstallSpace},
+    //     {"Telegram",&AppInstaller::InstallTelegram},
+    //     {"Docker",&AppInstaller::InstallDocker},
+    //     {"Postman",&AppInstaller::InstallPostman},
+    //     {"Postgresql",&AppInstaller::InstallPostgresql},
+    //     {"PgAdmin 4",&AppInstaller::InstallPgAdmin},
+    //     {"Visual Studio Community",&AppInstaller::InstallVisualStudioCE},
+    //     {"Visual Studio Proffessional",&AppInstaller::InstallVisualStudioPE},
+    //     {"Vim",&AppInstaller::InstallVim},
+    //     {"NeoVim",&AppInstaller::InstallNeoVim},
+    //     {"Eclipse IDE",&AppInstaller::InstallEclipse}
+    // };
 
-     map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
-        {1,Windows::PythonDevelopmentTools},{2,Windows::JavaScriptDevelopmentTools},
-        {3,Windows::CppDevelopmentTools},{4,Windows::JavaDevelopmentTools},
-        {5,Windows::GoDevelopmentTools},{6,Windows::RustDevelopmentTools},
-        {7,Windows::RubyDevelopmentTools},{8,Windows::CDevelopmentTools},
-        {9,Windows::CSDevelopmentTools},{10,Windows::PhpDevelopmentTools},
-        {11,Windows::KotlinDevelopmentTools}
-    };
-
-    void InstallDevelopmentPack(int n) {
-        auto DevelopmentPack = DevelopmentPacks[n];
+    // map<int,map<string,AppInstaller_funct_t>> DevelopmentPacks{
+    //     {1,Windows::PythonDevelopmentTools},{2,Windows::JavaScriptDevelopmentTools},
+    //     {3,Windows::CppDevelopmentTools},{4,Windows::JavaDevelopmentTools},
+    //     {5,Windows::GoDevelopmentTools},{6,Windows::RustDevelopmentTools},
+    //     {7,Windows::RubyDevelopmentTools},{8,Windows::CDevelopmentTools},
+    //     {9,Windows::CSDevelopmentTools},{10,Windows::PhpDevelopmentTools},
+    //     {11,Windows::KotlinDevelopmentTools}
+    // };
+    AppInstaller Installer;
+    map<string,string> Packages = database.GetAllValuesFromDB("Applications","Windows");
+    map<string,string> DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks","Language");
+    void InstallDevelopmentPack(string n) {
+        auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n],"Windows");
         map<int,string> EnumeratePackages;
         string NamePackage;
         for (int i = 1;const auto &element:DevelopmentPack) {
@@ -658,7 +678,8 @@ namespace Windows {
             NamePackage = EnumeratePackages[stoi(token)];
             cout << InstallDelimiter << endl;
             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-            output_func = (Installer.*(DevelopmentPack[NamePackage]))();
+            output_func = Installer.MainInstaller(NamePackage);
+            // output_func = (Installer.*(DevelopmentPack[NamePackage]))();
             if (output_func == 0) {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
@@ -673,7 +694,8 @@ namespace Windows {
         NamePackage = EnumeratePackages[stoi(SelectPackages)];
         cout << InstallDelimiter << endl;
         cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-        output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
+        output_func = Installer.MainInstaller(NamePackage);
+        // output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
         if (output_func == 0) {
             cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
             string SuccessText = NamePackage + " " + translate["Installed"].asString();

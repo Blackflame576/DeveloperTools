@@ -46,6 +46,8 @@
 #include "json/json.h"
 #include <time.h>
 #include <stdint.h>
+#include <chrono>
+#include "DatabaseConnect.cpp"
 
 // Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
@@ -63,6 +65,7 @@
 using namespace std;
 using namespace Json;
 using namespace Logger;
+using namespace DB;
 
 // Переменные
 // Variables
@@ -76,9 +79,10 @@ string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-    {1,"Python"},{2,"JavaScript"},{3,"C++"},{4,"Java"},
-    {5,"Go"},{6,"Rust"},{7,"Ruby"},{8,"C"},
-    {9,"C#"},{10,"PHP"},{11,"Kotlin"}
+    {1,"Python"},
+    // {2,"JavaScript"},{3,"C++"},{4,"Java"},
+    // {5,"Go"},{6,"Rust"},{7,"Ruby"},{8,"C"},
+    // {9,"C#"},{10,"PHP"},{11,"Kotlin"}
 };
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
@@ -104,3 +108,7 @@ double DownloadSpeed = 0.0;
 CURL* curl = curl_easy_init();
 CURLcode res;
 double EndTime;
+Database database;
+// map<string,string> Packages;
+// map<int,string> DevelopmentPacks;
+// map<int,string> LanguagePack;

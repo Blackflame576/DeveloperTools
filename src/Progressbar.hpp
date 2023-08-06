@@ -20,7 +20,7 @@ string OutputStr;
 class ProgressBar {
     
     public:
-        void Update(int NetworkSpeed = 0) {
+        void Update(int NetworkSpeed = 0,double Time = 0.0) {
             Process += 1;
             Output = startSymbol;
             for (int i = 0; i < n_done; i++) {
@@ -46,9 +46,17 @@ class ProgressBar {
                 string Speed = AutoConvert(NetworkSpeed);
                 OutputStr = Output + " " + to_string(Process) + "% " + Speed;
             }
+            // else if (Time != 0.0) {
+            //     OutputStr = Output + " " + to_string(Process) + "% " + to_string(Time);
+            // }
+            // else if (Time != 0.0 && NetworkSpeed != 0) {
+            //     string Speed = AutoConvert(NetworkSpeed);
+            //     OutputStr = Output + " " + to_string(Process) + "% " + Speed + " " + to_string(Time);
+            // }
             else {
                 OutputStr = Output + " " + to_string(Process) + "% ";
             }
+            // cout << Time << endl;
             cout << "\r" << OutputStr << flush;
             LastSizeStr = OutputStr.size();
         }
@@ -60,7 +68,7 @@ class ProgressBar {
                 ConvertedSpeed = to_string(static_cast<int>(convert_to_MB(static_cast<float>(NetworkSpeed))))  + " MB/s";
             }
             else if (NetworkSpeed < 1) {
-                ConvertedSpeed = to_string(convert_to_KBit(static_cast<float>(NetworkSpeed))) + " KBit/s";
+                ConvertedSpeed = to_string(static_cast<int>(convert_to_KBit(static_cast<float>(NetworkSpeed)))) + " KBit/s";
             }
             else {
                 ConvertedSpeed = to_string(NetworkSpeed) + " KB/s";

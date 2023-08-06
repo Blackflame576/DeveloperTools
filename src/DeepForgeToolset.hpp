@@ -66,3 +66,12 @@ string NameDistribution;
 string InstallDelimiter = "========================================================";
 string LogoBanner;
 // string ProjectDir = std::filesystem::current_path().generic_string();
+// namespace DeepForgeToolset {
+//     class MainApp {
+//         public:
+//             MainApp() {
+//                 AppInstaller Installer;
+//                 Packages
+//             }
+//     }
+// }

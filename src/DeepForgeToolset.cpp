@@ -75,26 +75,12 @@ class MainApp {
         void CommandManager() {
             using funct_t = void(MainApp::*)(void);
             map<int,funct_t> Commands= {
-                {1,&MainApp::ReadySet},{2,&MainApp::ManualSelection},
+                {1,&MainApp::ReadySet},
+                {2,&MainApp::ManualSelection},
                 {3,&MainApp::InstallAllPackages},
-                {4,&MainApp::SearchPackages},{5,&MainApp::ExitApp}
+                {4,&MainApp::SearchPackages},
+                {5,&MainApp::ExitApp}
             };
-            // using funct_t = void(this->::*)(void);
-            // map<int,funct_t> Commands= {
-            //     {1,this->ReadySet},{2,this->ManualSelection},
-            //     {3,this->InstallAllPackages},
-            //     {4,this->SearchPackages},{5,this->ExitApp}
-            // };
-            // typedef void (MainApp::*funct_t)(void);
-            // typedef std::map<std::int, funct_t> Commands_func_map_t;
-            // Commands_func_map_t Commands = {
-            //     {1,&MainApp::ReadySet},{2,&MainApp::ManualSelection},
-            //     {3,&MainApp::InstallAllPackages},
-            //     {4,&MainApp::SearchPackages},{5,&MainApp::ExitApp}
-            // };
-            // map<int, function<void()>> Commands = {
-            //     {1,[this](){this->ReadySet();}}
-            // };
             cout << translate["CommandManager_1"].asString() << endl;
             cout << translate["CommandManager_2"].asString() << endl;
             cout << translate["CommandManager_3"].asString() << endl;
@@ -150,11 +136,17 @@ class MainApp {
                 cout << translate["ChooseLanguage"].asString();
                 getline(cin,LangReadySet);
                 cout << InstallDelimiter << endl; 
-                for(int i = 1;i < DevelopmentPacks.size();i++){
-                    if (LangReadySet == to_string(i)) {
-                        InstallDevelopmentPack(i);
+                for (const auto &element:DevelopmentPacks) {
+                    if (LangReadySet == element.first) {
+                        InstallDevelopmentPack(element.first);
                     }
                 }
+                // for(int i = 1;i < DevelopmentPacks.size();i++){
+                //     if (LangReadySet == to_string(i)) {
+                //         // string NameColumn = DevelopmentPacks[to_string(i)];
+                //         InstallDevelopmentPack(to_string(i));
+                //     }
+                // }
             }
             catch (exception& error) {
                 string ErrorText = error.what();
@@ -184,7 +176,8 @@ class MainApp {
                         cout << translate["Installing"].asString() << " " << name << " ..." << endl;
                         // Установка приложения
                         // Application installation
-                        output_func = (Installer.*(element.second))();
+                        output_func = Installer.MainInstaller(name);
+                        // output_func = (Installer.*(element.second))();
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
@@ -267,7 +260,8 @@ class MainApp {
                             string NameSelectedPackage = EnumeratePackages[stoi(SelectPackages)];
                             cout << InstallDelimiter << endl;
                             cout << translate["Installing"].asString() << " " << NameSelectedPackage << " ..." << endl;
-                            output_func = (Installer.*(Packages[NameSelectedPackage]))();
+                            output_func = Installer.MainInstaller(NameSelectedPackage);
+                            // output_func = (Installer.*(Packages[NameSelectedPackage]))();
                             if (output_func == 0) {
                                 cout << "✅ " << NameSelectedPackage << " " << translate["Installed"].asString() << endl;
                                 cout << InstallDelimiter << endl;
@@ -344,7 +338,8 @@ class MainApp {
                         cout << translate["Installing"].asString() << " " << name << " ..." << endl;
                         // Установка приложения
                         // Application installation
-                        output_func = (Installer.*(Packages[name]))();
+                        output_func = Installer.MainInstaller(name);
+                        // output_func = (Installer.*(Packages[name]))();
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
@@ -362,7 +357,8 @@ class MainApp {
                     cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
                     // Установка приложения с самым последним введённым номером
                     // Installing the application with the most recently entered number
-                    output_func = (Installer.*(Packages[NamePackage]))();
+                    output_func = Installer.MainInstaller(NamePackage);
+                    // output_func = (Installer.*(Packages[NamePackage]))();
                     if (output_func == 0) {
                         cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                         string SuccessText = NamePackage + " " + translate["Installed"].asString();
