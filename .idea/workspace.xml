@@ -3,24 +3,49 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="CMakePresetLoader"><![CDATA[{
-  "useNewFormat": true
-}]]></component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
   <component name="CMakeReloadState">
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="DeepForgeToolset" targetName="DeepForgeToolset" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Default-MinGW" ENABLED="true" GENERATION_DIR="build/Windows" TOOLCHAIN_NAME="MinGW" GENERATION_OPTIONS="-G &quot;Ninja&quot;" />
+      <configuration PROFILE_NAME="Default-MinGW" ENABLED="true" GENERATION_DIR="build/Windows" TOOLCHAIN_NAME="MinGW" GENERATION_OPTIONS="-G &quot;Ninja&quot; -DCMAKE_TOOLCHAIN_FILE=C:\Users\Blackflame576\.clion-vcpkg\vcpkg\scripts\buildsystems\vcpkg.cmake" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/CMake.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DB/Backup/AppInstaller.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/include/sqlite3/sqlite3.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/include/sqlite3/sqlite3.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Linux.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Linux.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProgressBar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Windows/DeepForgeToolset.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/filename" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Windows.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Windows.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.db-journal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeepForgeToolset.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeepForgeToolset.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeepForgeToolset.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeepForgeToolset.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logger.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logger.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Progressbar.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Progressbar.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/deepForgeToolset.exe" beforeDir="false" afterPath="$PROJECT_DIR$/src/deepForgeToolset.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logs/DeepForgeToolset.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/logs/DeepForgeToolset.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.exe" beforeDir="false" afterPath="$PROJECT_DIR$/test.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,33 +70,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/Blackflame576/Documents/Blackflame576/DeepForge/DeepForgeToolset/build/Windows",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Blackflame576/Documents/Blackflame576/DeepForge/DeepForgeToolset/src/DeepForgeToolset.cpp&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="CMake Application.DeepForgeToolset">
     <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="DeepForgeToolset.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DeepForgeToolset" TARGET_NAME="DeepForgeToolset.cpp" CONFIG_NAME="DeepForgeToolset.cpp">
+      <option name="sourceFile" value="C:\Users\Blackflame576\Documents\Blackflame576\DeepForge\DeepForgeToolset\src\DeepForgeToolset.cpp" />
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="rebuild_cache/fast" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="rebuild_cache/fast" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="C/C++ File.DeepForgeToolset.cpp" />
+      <item itemvalue="CMake Application.CMake" />
+      <item itemvalue="CMake Application.DeepForgeToolset" />
+      <item itemvalue="Makefile Target.rebuild_cache/fast" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Makefile Target.rebuild_cache/fast" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -84,6 +128,16 @@
       <workItem from="1688902808984" duration="453000" />
       <workItem from="1689260333254" duration="927000" />
       <workItem from="1689264332124" duration="3956000" />
+      <workItem from="1691068399165" duration="167000" />
+      <workItem from="1691068619861" duration="389000" />
+      <workItem from="1691395455707" duration="2541000" />
+      <workItem from="1691401745211" duration="1107000" />
+      <workItem from="1691408188024" duration="8009000" />
+      <workItem from="1691434143061" duration="2513000" />
+      <workItem from="1691473305606" duration="1726000" />
+      <workItem from="1691475056768" duration="2000" />
+      <workItem from="1691479936015" duration="595000" />
+      <workItem from="1691481310109" duration="6000" />
     </task>
     <servers />
   </component>

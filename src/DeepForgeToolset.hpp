@@ -25,7 +25,6 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-// Импортирование библиотек
 // Importing Libraries
 #include <iostream>
 #include <map>
@@ -39,7 +38,6 @@
 #include <regex>
 #include <filesystem>
 
-// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
 // cout << "Linux" << endl;
@@ -52,7 +50,6 @@
     #include <Windows.h>
 #endif
 
-// Переменные
 // Variables
 string OS_NAME;
 string Language;

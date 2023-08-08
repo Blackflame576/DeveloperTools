@@ -1,7 +1,7 @@
 #ifndef PROGRESSBAR_H
 #define PROGRESSBAR_H
 #include <iostream>
-
+#include <math.h>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ string OutputStr;
 class ProgressBar {
     
     public:
-        void Update(int NetworkSpeed = 0,double Time = 0.0) {
+        void Update(float NetworkSpeed = 0,double Time = 0.0) {
             Process += 1;
             Output = startSymbol;
             for (int i = 0; i < n_done; i++) {
@@ -46,13 +46,6 @@ class ProgressBar {
                 string Speed = AutoConvert(NetworkSpeed);
                 OutputStr = Output + " " + to_string(Process) + "% " + Speed;
             }
-            // else if (Time != 0.0) {
-            //     OutputStr = Output + " " + to_string(Process) + "% " + to_string(Time);
-            // }
-            // else if (Time != 0.0 && NetworkSpeed != 0) {
-            //     string Speed = AutoConvert(NetworkSpeed);
-            //     OutputStr = Output + " " + to_string(Process) + "% " + Speed + " " + to_string(Time);
-            // }
             else {
                 OutputStr = Output + " " + to_string(Process) + "% ";
             }
@@ -62,13 +55,13 @@ class ProgressBar {
         }
 
     private:
-        string AutoConvert(int NetworkSpeed) {
+        string AutoConvert(float NetworkSpeed) {
             string ConvertedSpeed;
             if (NetworkSpeed >= 1024) {
-                ConvertedSpeed = to_string(static_cast<int>(convert_to_MB(static_cast<float>(NetworkSpeed))))  + " MB/s";
+                ConvertedSpeed = to_string(convert_to_MB(NetworkSpeed))  + " MB/s";
             }
             else if (NetworkSpeed < 1) {
-                ConvertedSpeed = to_string(static_cast<int>(convert_to_KBit(static_cast<float>(NetworkSpeed)))) + " KBit/s";
+                ConvertedSpeed = to_string(convert_to_KBit(NetworkSpeed)) + " KBit/s";
             }
             else {
                 ConvertedSpeed = to_string(NetworkSpeed) + " KB/s";
@@ -78,16 +71,19 @@ class ProgressBar {
 
         float convert_to_MB(float Value) {
             float NewValue = Value / 1024;
+            NewValue = floor(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_MBit(float Value) {
             float NewValue = Value * 0.008;
+            NewValue = floor(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_KBit(float Value) {
             float NewValue = Value * 8;
+            NewValue = floor(NewValue * 100) / 100;
             return NewValue;
         }
 };

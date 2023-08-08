@@ -27,6 +27,8 @@
 */
 // Импортирование библиотек
 // Importing Libraries
+#ifndef APPINSTALLER_WINDOWS_H_
+#define APPINSTALLER_WINDOWS_H_
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -69,29 +71,28 @@ using namespace DB;
 
 // Переменные
 // Variables
+int Percentage;
+int TempPercentage;
 string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true,"logs/DeepForgeToolset.log");
 ProgressBar bar;
-int Percentage;
-int TempPercentage = 0;
 const string TrueVarious[3] = { "yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-    {1,"Python"},
-    // {2,"JavaScript"},{3,"C++"},{4,"Java"},
-    // {5,"Go"},{6,"Rust"},{7,"Ruby"},{8,"C"},
-    // {9,"C#"},{10,"PHP"},{11,"Kotlin"}
+    {1,"Python"},{2,"JavaScript"},
+    {3,"C++"},{4,"Java"},
+    {5,"Go"},{6,"Rust"},
+    {7,"Ruby"},{8,"C"},
+    {9,"C#"},{10,"PHP"},
+    {11,"Kotlin"}
 };
 const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
 const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x64.zip";
 const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
 const string EclipseUrl = "https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip";
 // const string EclipseUrl = "https://fileinfo.com/img/ss/xl/url_181.png";
-string KotlinDir = ProjectDir + "/Programms/Kotlin";
-string PHPDir = ProjectDir + "/Programms/PHP";
-string WgetDir = ProjectDir + "/Programms/Wget";
 string NewKotlinDir = "C:\\Kotlin";
 string NewPHPDir = "C:\\PHP";
 string NewWgetDir = "C:\\Wget";
@@ -107,8 +108,12 @@ string haveString = "";
 double DownloadSpeed = 0.0;
 CURL* curl = curl_easy_init();
 CURLcode res;
-double EndTime;
 Database database;
-// map<string,string> Packages;
-// map<int,string> DevelopmentPacks;
-// map<int,string> LanguagePack;
+map<string,string> Packages;
+map<string,string> DevelopmentPacks;
+
+void UpdateData() {
+    Packages = database.GetAllValuesFromDB("Applications", "Windows");
+    DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+}
+#endif

@@ -1,3 +1,31 @@
+/*  The MIT License (MIT)
+    ============================================================================
+
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗    
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝    
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗      
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝      
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗    
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝    
+                                                                                
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗                  
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝                  
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║                     
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║                     
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║                     
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   
+
+    ============================================================================
+    Copyright (c) 2023 DeepForge Technology
+    ============================================================================
+    Company: DeepForge Technology
+    ============================================================================
+    Author: Blackflame576
+    ============================================================================
+    Created: 4 Juny 2023
+    ============================================================================
+*/
+// Importing a Header File
 #include "DatabaseConnect.hpp"
 
 using namespace std;
@@ -27,30 +55,7 @@ string* Database::GetValueFromDB(string NameApp,string NameColumn) {
     sqlite3_finalize(statement);
     return AnswerDB;
 }
-// string* Database::GetAllValuesFromDB(string NameTable,string NameColumn) {
-//     ArraySize = GetArraySize(NameTable,NameColumn);
-//     string* AnswerDB = new string[ArraySize];
-//     // Create SQL statement 
-//     SQL_COMMAND = "SELECT " + NameColumn +  " from " + NameTable;
-//     // Execute SQL statement 
-//     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
-//     // if result of execute sql statement != SQLITE_OK, that send error
-//     if (RESULT_SQL != SQLITE_OK) {
-//         throw runtime_error("Not Found");
-//     }
-//     int i = 0;
-//     // Loop through the results, a row at a time.
-//     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW) {
-//         // printf("%s\n", sqlite3_column_text(statement, 0));
-//         AnswerDB[i] = (string(reinterpret_cast<const char*>(
-//             sqlite3_column_text(statement, 0)
-//         )));
-//         i++;
-//     }
-//     // Free the statement when done.
-//     sqlite3_finalize(statement);
-//     return AnswerDB;
-// }
+
 map<string,string> Database::GetAllValuesFromDB(string NameTable,string NameColumn) {
     map<string,string> WriteMap;
     
@@ -60,7 +65,7 @@ map<string,string> Database::GetAllValuesFromDB(string NameTable,string NameColu
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
     if (RESULT_SQL != SQLITE_OK) {
-        // throw runtime_error("Not Found");
+         throw runtime_error("Not Found");
     }
     int i = 0;
     // Loop through the results, a row at a time.
@@ -73,6 +78,7 @@ map<string,string> Database::GetAllValuesFromDB(string NameTable,string NameColu
     // return Names,Commands;
     return WriteMap;
 }
+
 map<string,string> Database::GetDevPackFromDB(string NameTable,string NameColumn) {
     map<string,string> WriteMap;
     
@@ -83,7 +89,7 @@ map<string,string> Database::GetDevPackFromDB(string NameTable,string NameColumn
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
     if (RESULT_SQL != SQLITE_OK) {
-        // throw runtime_error("Not Found");
+         throw runtime_error("Not Found");
     }
     int i = 0;
     // Loop through the results, a row at a time.
@@ -99,6 +105,7 @@ map<string,string> Database::GetDevPackFromDB(string NameTable,string NameColumn
     // return Names,Commands;
     return WriteMap;
 }
+
 int Database::GetArraySize(string NameTable,string NameColumn) {
     // Create SQL statement 
     SQL_COMMAND = "SELECT count(" + NameColumn + ") " +  " FROM " + NameTable;
@@ -107,7 +114,7 @@ int Database::GetArraySize(string NameTable,string NameColumn) {
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
     if (RESULT_SQL != SQLITE_OK) {
-        // throw runtime_error("Not Found");
+         throw runtime_error("Not Found");
     }
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW) {
@@ -118,30 +125,3 @@ int Database::GetArraySize(string NameTable,string NameColumn) {
     sqlite3_finalize(statement);
     return ArraySize;
 }
-
-// int main(int argc, char* argv[]) {
-//     Database database;
-//     string* value;
-//     // Names = database.GetAllValuesFromDB("Applications","Windows");
-//     // for (int i = 0;i < value->size();i++) {
-//     //     cout << value[i] << endl;
-//     // }
-//     // delete[] AnswerDB;
-//     // value_1,value_2 = database.GetValuesFromTable("Applications","Windows");
-//     // for (int i = 0;i < value_1->size();i++) {
-//     //     cout << value_1[i] << endl;
-//     // }
-//     Packages = database.GetAllValuesFromDB("DevelopmentPacks","Language");
-//     for (const auto &element:Packages) {
-//         cout << element.first << ". " << element.second << endl;
-//     }
-//     // delete[] AnswerDB;
-//     // value = database.GetAllValuesFromDB("Applications","Windows");
-//     // for (int i = 0;i < value->size();i++) {
-//     //     cout << value[i] << endl;
-//     // }
-//     // delete[] AnswerDB;
-//     // printf(value->c_str());
-    
-//     return 0;
-// }

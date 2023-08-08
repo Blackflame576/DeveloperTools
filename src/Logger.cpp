@@ -99,8 +99,8 @@ namespace Logger {
             
             ~MainLogger() {}
         
-        private:
-            // Функция записи логов в файл
+    private:
+            // Function for write logs to file
             void WriteFile(string filename,string sentence) {
                 try {
                     if (filesystem::exists("logs") == false) {
