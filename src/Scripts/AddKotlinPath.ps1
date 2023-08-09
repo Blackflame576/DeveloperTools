@@ -9,9 +9,9 @@ If (!$systemPath.contains($path2add)) {
 }
 
 # Clean system variable
-# $systemPath = [Environment]::GetEnvironmentVariable('Path');
-# while ($systemPath.contains(';;')) {
-#     $systemPath = $systemPath.replace(';;', ';')
-# }
-# [Environment]::SetEnvironmentVariable('Path', $systemPath);
-# SETX PATH $systemPath
+$systemPath = [Environment]::GetEnvironmentVariable('Path');
+while ($systemPath.contains(';;')) {
+    $systemPath = $systemPath.replace(';;', ';')
+}
+[Environment]::SetEnvironmentVariable('Path', $systemPath);
+SETX PATH $systemPath

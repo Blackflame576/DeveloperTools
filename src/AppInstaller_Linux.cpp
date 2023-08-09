@@ -35,6 +35,28 @@
 using namespace std;
 
 namespace Linux {
+
+    size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
+    {
+        size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
+        return WriteProcess;
+    }
+    
+    int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
+    {
+
+        if (TotalToDownload <= 0.0) {
+            return 0;
+        }
+
+        int percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
+        if (TempPercentage != percentage && TempPercentage <= 100) {
+            bar.update();
+            TempPercentage = percentage;
+        }
+        return 0;
+    }
+
     class AppInstaller {
         public:
             int InstallGit() {
@@ -198,6 +220,11 @@ namespace Linux {
                 return result;
             }
 
+            int InstallEclipse() {
+                result = system("sudo snap install eclipse --classic");
+                return result;
+            }
+
             AppInstaller() {
                 
             }
@@ -206,6 +233,35 @@ namespace Linux {
                 
             }
         private:
+            int Download(string url, string dir)
+            {
+                try {
+                    string name = (url.substr(url.find_last_of("/")));
+                    string filename = dir + "/" + name.replace(name.find("/"), 1, "");
+                    CURL* curl = curl_easy_init();
+                    FILE* file = fopen(filename.c_str(), "wb");
+                    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+                    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+                    curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
+                    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+                    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+                    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
+                    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+                    CURLcode response = curl_easy_perform(curl);
+                    curl_easy_cleanup(curl);
+                    fclose(file);
+                    cout << "" << endl;
+                    return 200;
+                }
+                catch (exception& error) {
+                    string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
+                    string ErrorText_2 = error.what();
+                    logger.Error(ErrorText_1.c_str());
+                    logger.Error(ErrorText_2.c_str());
+                    return 502;
+                }
+            }
     };
 
     string NewString(string sentence) {
@@ -246,54 +302,6 @@ namespace Linux {
             }
         }
         return status;
-    }
-    size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
-    {
-        size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
-        return WriteProcess;
-    }
-    int progress_func(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
-    {
-
-        if (TotalToDownload <= 0.0) {
-            return 0;
-        }
-
-        int percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
-        if (TempPercentage != percentage && TempPercentage <= 100) {
-            bar.update();
-            TempPercentage = percentage;
-        }
-        return 0;
-    }
-    int Download(string url, string dir)
-    {
-        try {
-            string name = (url.substr(url.find_last_of("/")));
-            string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-            CURL* curl = curl_easy_init();
-            FILE* file = fopen(filename.c_str(), "wb");
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, progress_func);
-            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-            curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            CURLcode response = curl_easy_perform(curl);
-            curl_easy_cleanup(curl);
-            fclose(file);
-            cout << "" << endl;
-            return 200;
-        }
-        catch (exception& error) {
-            string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
-            string ErrorText_2 = error.what();
-            logger.Error(ErrorText_1.c_str());
-            logger.Error(ErrorText_2.c_str());
-            return 502;
-        }
     }
 
     // Импортирование класса с функциями для установки приложений

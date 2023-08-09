@@ -25,11 +25,8 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-// Импортирование заголовочного файла
 // Importing a Header File
 #include "DeepForgeToolset.hpp"
-
-// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
     #include "AppInstaller_Linux.cpp"
@@ -64,7 +61,6 @@ class MainApp {
                 Language = "English";
                 ReadJSON("English");
             }
-            // Если пользователь вводит не цифру, то метод вызывается повторно
             // If the user enters a non-digit, then the method is called again
             else {
                 SetLanguage();
@@ -75,26 +71,12 @@ class MainApp {
         void CommandManager() {
             using funct_t = void(MainApp::*)(void);
             map<int,funct_t> Commands= {
-                {1,&MainApp::ReadySet},{2,&MainApp::ManualSelection},
+                {1,&MainApp::ReadySet},
+                {2,&MainApp::ManualSelection},
                 {3,&MainApp::InstallAllPackages},
-                {4,&MainApp::SearchPackages},{5,&MainApp::ExitApp}
+                {4,&MainApp::SearchPackages},
+                {5,&MainApp::ExitApp}
             };
-            // using funct_t = void(this->::*)(void);
-            // map<int,funct_t> Commands= {
-            //     {1,this->ReadySet},{2,this->ManualSelection},
-            //     {3,this->InstallAllPackages},
-            //     {4,this->SearchPackages},{5,this->ExitApp}
-            // };
-            // typedef void (MainApp::*funct_t)(void);
-            // typedef std::map<std::int, funct_t> Commands_func_map_t;
-            // Commands_func_map_t Commands = {
-            //     {1,&MainApp::ReadySet},{2,&MainApp::ManualSelection},
-            //     {3,&MainApp::InstallAllPackages},
-            //     {4,&MainApp::SearchPackages},{5,&MainApp::ExitApp}
-            // };
-            // map<int, function<void()>> Commands = {
-            //     {1,[this](){this->ReadySet();}}
-            // };
             cout << translate["CommandManager_1"].asString() << endl;
             cout << translate["CommandManager_2"].asString() << endl;
             cout << translate["CommandManager_3"].asString() << endl;
@@ -105,12 +87,10 @@ class MainApp {
             cout << InstallDelimiter << endl;
             int NumCommand = 0;
             try {
-                // Если пользователь ничего не вводит, то по умолчанию вызывается метод ручной установки приложений
                 // If the user does not enter anything, then the manual application installation method is called by default.
                 if (InstallTools.empty()) {
                     (this->*(Commands[2]))();
                 }
-                // Если пользователь ввёл цифру, то вызывается соответствующий метод установки
                 // If the user has entered a number, then the corresponding set method is called.
                 else {
                     int TempInstallTools = stoi(InstallTools);
@@ -125,7 +105,6 @@ class MainApp {
                 if (Commands.find(NumCommand) != Commands.end()) {
                     (this->*(Commands[NumCommand]))();
                 }
-                // Если введённой цифры нет среди предложенного списка цифр, то вызывается главное меню
                 // If the entered digit is not among the proposed list of digits, then the main menu is called
                 else {
                     CommandManager();
@@ -140,7 +119,6 @@ class MainApp {
                 CommandManager();
             }
         }
-        // Готовый toolset для конретного языка программирования
         // Ready-made toolset for a specific programming language
         void ReadySet() {
             try {
@@ -150,9 +128,9 @@ class MainApp {
                 cout << translate["ChooseLanguage"].asString();
                 getline(cin,LangReadySet);
                 cout << InstallDelimiter << endl; 
-                for(int i = 1;i < DevelopmentPacks.size();i++){
-                    if (LangReadySet == to_string(i)) {
-                        InstallDevelopmentPack(i);
+                for (const auto &element:DevelopmentPacks) {
+                    if (LangReadySet == element.first) {
+                        InstallDevelopmentPack(element.first);
                     }
                 }
             }
@@ -162,35 +140,33 @@ class MainApp {
             }
             CommandManager();
         }
-        // Функция установки всех пакетов
         // Function to install all packages
         void InstallAllPackages() {
+            // Update information about packages
+            UpdateData();
             cout << translate["AllPackages"].asString() << endl;
             try {
-                // Вывод названия всех приложений
                 // Displaying the name of all applications
-                for (const auto &element:Packages) {
+                for (const auto &element: Packages) {
                     string name = element.first;
                     cout << name << ";";
                 }
                 cout << "" << endl;
                 cout << translate["InstallAllPackages"].asString();
-                getline(cin,Answer);
+                getline(cin, Answer);
                 Install = CheckAnswer(Answer);
                 cout << InstallDelimiter << endl;
                 if (Install == true) {
-                    for (const auto &element:Packages) {
+                    for (const auto &element: Packages) {
                         string name = element.first;
                         cout << translate["Installing"].asString() << " " << name << " ..." << endl;
-                        // Установка приложения
                         // Application installation
-                        output_func = (Installer.*(element.second))();
+                        output_func = Installer.MainInstaller(name);
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
-                        }
-                        else {
+                        } else {
                             // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
                             string ErrorText = translate["ErrorInstall"].asString() + " " + name;
                             logger.Error(ErrorText.c_str());
@@ -199,30 +175,26 @@ class MainApp {
                     }
                 }
             }
-            catch (exception& error) {
+            catch (exception &error) {
                 string ErrorText = error.what();
                 logger.Error(ErrorText.c_str());
             }
-            // Вызов главного меню
             // Calling up the main menu
             CommandManager();
         }
-
-        // Функция поиска приложений
         // Application search function
         void SearchPackages() {
-            // Объявление необходимых для поиска переменных и словарей
+            // Update information about packages
+            UpdateData();
             // Declaring variables and dictionaries necessary for searching
             string SearchingPackage;
             bool isSearched = false;
             map<int,string> EnumeratePackages;
             cout << translate["PackageName"].asString();
-            // Ввод названия приложения
             // Entering the name of the application
             getline(cin,SearchingPackage);
             try {
                 SearchingPackage = to_lower(SearchingPackage);
-                // Нумерация всех приложений
                 // Numbering of all applications
                 for (int i = 1;const auto &element:Packages) {
                     string name = to_lower(element.first);
@@ -233,7 +205,6 @@ class MainApp {
                         i++;
                     }
                 }
-                // Если  в процессе поиска найдено хоть одно приложение,то пользователь выбирает одно приложение из найденных
                 // If at least one application is found during the search, then the user selects one application from those found
                 if (isSearched == true) {
                     cout << translate["Result"].asString() << endl;
@@ -267,7 +238,7 @@ class MainApp {
                             string NameSelectedPackage = EnumeratePackages[stoi(SelectPackages)];
                             cout << InstallDelimiter << endl;
                             cout << translate["Installing"].asString() << " " << NameSelectedPackage << " ..." << endl;
-                            output_func = (Installer.*(Packages[NameSelectedPackage]))();
+                            output_func = Installer.MainInstaller(NameSelectedPackage);
                             if (output_func == 0) {
                                 cout << "✅ " << NameSelectedPackage << " " << translate["Installed"].asString() << endl;
                                 cout << InstallDelimiter << endl;
@@ -286,7 +257,6 @@ class MainApp {
                         }
                     }
                 }
-                // Если в процессе поиска не найдено ни одного приложения,то выводится сообщение о том,что по данному запросу ничего не найдено
                 // If no applications are found during the search, a message is displayed stating that nothing was found for this request.
                 else {
                     cout << translate["QueryNotFound"].asString() << endl;
@@ -299,12 +269,13 @@ class MainApp {
                 logger.Error(ErrorText.c_str());
             }
             cout << InstallDelimiter << endl;
-            // Вызов главного меню
             // Calling up the main menu
             CommandManager();
         }
 
         void ManualSelection() {
+            // Update information about packages
+            UpdateData();
             map<int,string> EnumeratePackages;
             try {
                 for (int i = 1;const auto &element:Packages) {
@@ -328,23 +299,20 @@ class MainApp {
                     i++;
                 }
                 cout << translate["SelectingPackages"].asString();
-                // Ввод номеров приложений
                 // Entering Application Numbers
                 getline(cin,SelectPackages);
                 string delimiter = ",";
                 size_t pos = 0;
                 string token;
                 if (SelectPackages.empty() == false) {
-                    // Получение номеров приложений
                     // Getting Application Numbers
                     while ((pos = SelectPackages.find(delimiter)) != string::npos) {
                         token = SelectPackages.substr(0, pos);
                         string name = EnumeratePackages[stoi(token)];
                         cout << InstallDelimiter << endl;
                         cout << translate["Installing"].asString() << " " << name << " ..." << endl;
-                        // Установка приложения
                         // Application installation
-                        output_func = (Installer.*(Packages[name]))();
+                        output_func = Installer.MainInstaller(name);
                         if (output_func == 0) {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
@@ -360,9 +328,9 @@ class MainApp {
                     string NamePackage = EnumeratePackages[stoi(SelectPackages)];
                     cout << InstallDelimiter << endl;
                     cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-                    // Установка приложения с самым последним введённым номером
                     // Installing the application with the most recently entered number
-                    output_func = (Installer.*(Packages[NamePackage]))();
+                    output_func = Installer.MainInstaller(NamePackage);
+                    // output_func = (Installer.*(Packages[NamePackage]))();
                     if (output_func == 0) {
                         cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                         string SuccessText = NamePackage + " " + translate["Installed"].asString();
@@ -380,22 +348,14 @@ class MainApp {
                 string ErrorText = error.what();
                 logger.Error(ErrorText.c_str());
             }
-            // Вызов главного меню
             // Calling up the main menu
             CommandManager();
-        }
-
-        void Help(int argc, char** argv) {
-            if(argc == 2 && strcmp(argv[1], "--help")==0) {
-                cout << "Help" << endl;
-            }
         }
 
         MainApp () {
             cout << "DeepForge Toolset v" << __version__ << endl;
             cout << "Author: Blackflame576" << endl;
             cout << InstallDelimiter << endl;
-            // Настройка локализации
             // Localization settings
             SetLanguage();
             if (OS_NAME == "Linux") {
@@ -412,19 +372,16 @@ class MainApp {
                 cout << InstallDelimiter << endl;
             }
         };
-        // ~MainApp() {}
+        ~MainApp() {};
 
     private:
-        // Функция чтения JSON-файла с локализацией интерфейса
         // JSON file reading function with interface localization
         void ReadJSON(string lang) {
             try {
                 if (lang == "Russian") {
                     ifstream f("./locale/locale_ru.json");
-                    // Проверка на открытие файла
                     // File open check
                     if (f.is_open()) {
-                        // Запись словаря с переводом
                         // Dictionary entry with translation
                         f >> translate;
                         f.close();
@@ -432,10 +389,8 @@ class MainApp {
                 }
                 else if(lang == "English") {
                     ifstream f("./locale/locale_en.json");
-                    // Проверка на открытие файла
                     // File open check
                     if (f.is_open()) {
-                        // Запись словаря с переводом
                         // Dictionary entry with translation
                         f >> translate;
                         f.close();
@@ -443,13 +398,11 @@ class MainApp {
                 }
             }
             catch (exception& error) {
-                // Вывод ошибки
                 // Error output
                 cout << error.what() << endl;
             }
         }
 
-        // Функция выхода из приложения
         // Application exit function
         void ExitApp() {
             exit(0);
@@ -507,7 +460,6 @@ class MainApp {
 };
 
 int main(int argc, char** argv) {
-    // Проверка операционной системы с последующей записью названия ОС в переменную
     // Checking the operating system and then writing the OS name to a variable
     #if defined(__linux__)
         OS_NAME = "Linux";
@@ -517,15 +469,12 @@ int main(int argc, char** argv) {
         OS_NAME = "macOS";
     #elif _WIN32
         OS_NAME = "Windows";
-        // Изменение кодировки в консоли Windows
         // Changing the encoding in the Windows console
         system("chcp 65001");
         cout << InstallDelimiter << endl;
     #endif
-    // Импорт главного класса
     // Main class import
     MainApp app;
-    // Вызов главного меню
     // Calling up the main menu
     app.CommandManager();
     system("pause");

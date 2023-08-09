@@ -2347,7 +2347,7 @@ namespace AppInstaller {
                         string Command = "tar -xf" + ProjectDir + "/kotlin-compiler-1.8.22.zip " + "--directory " + NewKotlinDir;
                         system(Command.c_str());
                         string AddPathCommand = "start powershell.exe -file " + AddKotlinPathScript;
-                        system("powershell.exe  C?\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
+                        system("powershell.exe  C:\\Users\\Blackflame576\\Documents\\Blackflame576\\DigitalBit\\DeveloperTools\\Scripts\\AddKotlinPath.ps1");
                         system(AddPathCommand.c_str());
                         cout << AddKotlinPathScript << endl;
                         switch (response) {
