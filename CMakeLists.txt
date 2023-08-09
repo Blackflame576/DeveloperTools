@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.00)
 project(DeepForgeToolset)
 include (GNUInstallDirs)
-set(CMAKE_CXX_COMPILER "g++")
 find_package(CURL REQUIRED) 
 include_directories(${CURL_INCLUDE_DIR})
 find_package (SQLite3 REQUIRED)

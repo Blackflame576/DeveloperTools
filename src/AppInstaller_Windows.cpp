@@ -53,200 +53,53 @@ namespace Windows {
         }
         return 0;
     }
-
+    // Function for write data from curl
     size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
     {
         size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
         return WriteProcess;
     }
     
-    class AppInstaller {
+    class AppInstaller
+    {
         public:
-            int InstallGit() {
-                result = system("winget install --id Git.Git -e --source winget");
-                return result;
+            int InstallVCpkg() {
+                string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
+                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
+                string Command_Install = NewVCpkgDir + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
+                result = system(Command.c_str());
+                switch (result) {
+                    case 0:
+                        system(Command_Install.c_str());
+                        system(Command_AddPath.c_str());
+                        cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                        break;
+                }
+                return 0;
             }
 
-            int InstallVSCode() {
-                result = system("winget install -e --id Microsoft.VisualStudioCode");
-                return result;
+            int InstallPHP() {
+                string ArchiveDir = ProjectDir + "/Downloads";
+                string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
+                if (std::filesystem::exists(ArchiveDir) == false) {
+                    std::filesystem::create_directory(ArchiveDir);
+                }
+                if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+                result = Download(KotlinUrl,ArchiveDir);
+                string Command = "tar -xf" + ArchivePath + "--directory " + NewKotlinDir;
+                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
+                switch (result) {
+                    case 200:
+                        system(Command.c_str());
+                        system(Command_AddPath.c_str());
+                        std::filesystem::remove(ArchivePath);
+                        cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
+                        break;
+                    case 500:
+                        throw domain_error("Unable to connect");
+                }
+                return 0;
             }
-
-            int InstallWebStorm() {
-                result = system("winget install -e --id JetBrains.WebStorm");
-                return result;
-            }
-
-            int InstallDocker() {
-                result = system("winget install -e --id Docker.DockerDesktop");
-                return result;
-            }
-
-            int InstallPostman() {
-                result = system("winget install -e --id Postman.Postman");
-                return result;
-            }
-
-            int InstallRubyMine() {
-                result = system("winget install -e --id JetBrains.RubyMine");
-                return result;
-            }
-
-            int InstallCLion() {
-                result = system("winget install -e --id JetBrains.CLion");
-                return result;
-            }
-
-            int InstallDataGrip() {
-                result = system("winget install -e --id JetBrains.DataGrip");
-                return result;
-            }
-
-            int InstallDataSpell() {
-                result = system("winget install -e --id JetBrains.DataSpell");
-                return result;
-            }
-
-            int InstallGoLand() {
-                result = system("winget install -e --id JetBrains.GoLand");
-                return result;
-                
-            }
-
-            int InstallIntelliJIDEACommunity() {
-                result = system("winget install -e --id JetBrains.IntelliJIDEA.Community");
-                return result;
-            }
-
-            int InstallIntelliJIDEAUltimate() {
-                result = system("winget install -e --id JetBrains.IntelliJIDEA.Ultimate");
-                return result;
-            }
-
-            int InstallRider() {
-                result = system("winget install -e --id JetBrains.Rider");
-                return result;
-            }
-
-            int InstallPhpStorm() {
-                result = system("winget install -e --id JetBrains.PHPStorm");
-                return result;
-            }
-
-            int InstallSpace() {
-                result = system("winget install -e --id JetBrains.Space");
-                return result;
-            }
-
-            int InstallPostgresql() {
-                result = system("winget install -e --id PostgreSQL.PostgreSQL");
-                return result;
-            }
-            int InstallPgAdmin() {
-                result = system("winget install -e --id PostgreSQL.pgAdmin");
-                return result;
-            }
-
-            int InstallNgrok() {
-                result = system("winget install -e --id Ngrok.Ngrok");
-                return result;
-            }
-
-            int InstallSublimeText() {
-                result = system("winget install -e --id SublimeHQ.SublimeText.4");
-                return result;
-            }
-
-            int InstallPyCharmCommunity() {
-                result = system("winget install -e --id JetBrains.PyCharm.Community");
-                return result;
-            }
-
-            int InstallPyCharmProffessional() {
-                result = system("winget install -e --id JetBrains.PyCharm.Professional");
-                return result;
-            }
-
-            int InstallDiscord() {
-                result = system("winget install -e --id Discord.Discord");
-                return result;
-            }
-
-            int InstallTelegram() {
-                result = system("winget install -e --id Telegram.TelegramDesktop");
-                return result;
-            }
-
-            int InstallNodeJS() {
-                result = system("winget install -e --id OpenJS.NodeJS");
-                return result;
-            }
-
-            int InstallGo() {
-                result = system("winget install -e --id GoLang.Go.1.18");
-                return result;
-            }
-
-            int InstallJDK_19() {
-                result = system("winget install -e --id Oracle.JDK.19");
-                return result;
-            }
-
-            int InstallJDK_18() {
-                result = system("winget install -e --id Oracle.JDK.18");
-                return result;
-            }
-
-            int InstallVisualStudioCE() {
-                result = system("winget install -e --id Microsoft.VisualStudio.2022.Community.Preview");
-                return result;
-            }
-
-            int InstallVisualStudioPE() {
-                result = system("winget install -e --id Microsoft.VisualStudio.2022.Professional.Preview");
-                return result;
-            }
-
-            int InstallRust() {
-                result = system("winget install -e --id Rustlang.Rust.MSVC");
-                return result;
-            }
-
-            int InstallRuby() {
-                result = system("winget install -e --id RubyInstallerTeam.Ruby.3.1");
-                return result;
-            }
-
-            int InstallNetFramework() {
-                result = system("winget install -e --id Microsoft.DotNet.Framework.DeveloperPack_4");
-                return result;
-            }
-
-            int InstallPython3_9() {
-                result = system("winget install -e --id Python.Python.3.9");
-                return result;
-            }
-            
-            int InstallPython3_10() {
-                result = system("winget install -e --id Python.Python.3.10");
-                return result;
-            }
-
-            int InstallPython3_11() {
-                result = system("winget install -e --id Python.Python.3.11");
-                return result;
-            }
-
-            int InstallVim() {
-                result = system("winget install -e --id vim.vim");
-                return result;
-            }
-
-            int InstallNeoVim() {
-                result = system("winget install -e --id Neovim.Neovim");
-                return result;
-            }
-
             int InstallEclipse() {
                 string ArchiveDir = ProjectDir + "/Downloads";
                 string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
@@ -297,12 +150,14 @@ namespace Windows {
             using map_funct_t = void(*)(void);
 
             map<string,AppInstaller_funct_t> PackagesFromSource {
-                {"Eclipse IDE",&AppInstaller::InstallEclipse}
+                {"Eclipse IDE",&AppInstaller::InstallEclipse},
+                {"Kotlin",&AppInstaller::InstallKotlin},
+                {"vcpkg",&AppInstaller::InstallVCpkg}
             };
 
             int MainInstaller(string Name) {
                 string* Value = database.GetValueFromDB(Name,OS_NAME);
-                if (Value[0] != "Not Found") {
+                if (Value[0] != "ManualInstallation") {
                     result = system(Value[0].c_str());
                 }
                 else if (PackagesFromSource.find(Name) != PackagesFromSource.end()) {
@@ -347,7 +202,6 @@ namespace Windows {
                     return 502;
                 }
             }
-            
     };
 
     string NewString(string sentence) {
@@ -391,7 +245,6 @@ namespace Windows {
         return status;
     }
 
-    // Импортирование класса с функциями для установки приложений
     // AppInstaller Installer;
     // typedef void (AppInstaller::*funct_t)(void);
     // typedef std::map<std::string, funct_t> AppInstaller_func_map_t;
@@ -402,7 +255,7 @@ namespace Windows {
     //     {"Git",[&installer](){installer.InstallGit();}}
     // };
     AppInstaller Installer;
-
+    // Function for install of DevelopmentPack(ready pack for certain programming language
     void InstallDevelopmentPack(string n) {
         UpdateData();
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n],"Windows");
@@ -437,10 +290,12 @@ namespace Windows {
         while ((pos = SelectPackages.find(delimiter)) != string::npos) {
             token = SelectPackages.substr(0, pos);
             NamePackage = EnumeratePackages[stoi(token)];
+            // =============================
             cout << InstallDelimiter << endl;
             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+            // Install application
             output_func = Installer.MainInstaller(NamePackage);
-            // output_func = (Installer.*(DevelopmentPack[NamePackage]))();
+            // Loggin and print messages
             if (output_func == 0) {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
@@ -453,10 +308,12 @@ namespace Windows {
             SelectPackages.erase(0, pos + delimiter.length());
         }
         NamePackage = EnumeratePackages[stoi(SelectPackages)];
+        // =============================
         cout << InstallDelimiter << endl;
         cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+        // Install application
         output_func = Installer.MainInstaller(NamePackage);
-        // output_func = (Installer.*(DevelopmentPack[NamePackage]))(); 
+        // Logging and print messages
         if (output_func == 0) {
             cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
             string SuccessText = NamePackage + " " + translate["Installed"].asString();

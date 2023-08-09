@@ -68,6 +68,15 @@
 			"typeindex": "cpp",
 			"typeinfo": "cpp",
 			"variant": "cpp"
-		}
+		},
+		"sqltools.connections": [
+			{
+				"previewLimit": 50,
+				"driver": "SQLite",
+				"database": "${workspaceFolder:DeepForge}/DeepForgeToolset/src/DB/AppInstaller.db",
+				"name": "AppInstaller"
+			}
+		],
+		"sqltools.useNodeRuntime": true
 	}
 }

@@ -70,7 +70,11 @@ map<string,string> Database::GetAllValuesFromDB(string NameTable,string NameColu
     int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW) {
-        WriteMap.insert(pair<string,string>(string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0))),string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)))));
+        string Key = string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+        string Value = string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)));
+        if (Value != "Not Found") {
+            WriteMap.insert(pair<string, string>(Key, Value));
+        }
         i++;
     }
     // Free the statement when done.
@@ -94,10 +98,11 @@ map<string,string> Database::GetDevPackFromDB(string NameTable,string NameColumn
     int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW) {
-        WriteMap.insert(
-            pair<string,string>(
-                string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0))),
-                string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)))));
+        string Key = string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0)));
+        string Value = string(reinterpret_cast<const char*>(sqlite3_column_text(statement, 1)));
+        if (Value != "Not Found") {
+            WriteMap.insert(pair<string, string>(Key, Value));
+        }
         i++;
     }
     // Free the statement when done.

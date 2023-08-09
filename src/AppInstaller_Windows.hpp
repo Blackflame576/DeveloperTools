@@ -25,7 +25,6 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-// Импортирование библиотек
 // Importing Libraries
 #ifndef APPINSTALLER_WINDOWS_H_
 #define APPINSTALLER_WINDOWS_H_
@@ -51,7 +50,6 @@
 #include <chrono>
 #include "DatabaseConnect.cpp"
 
-// Проверка названия операционной системы и импортрование нужных библиотек для этой системы
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
 // cout << "Linux" << endl;
@@ -69,7 +67,6 @@ using namespace Json;
 using namespace Logger;
 using namespace DB;
 
-// Переменные
 // Variables
 int Percentage;
 int TempPercentage;
@@ -97,6 +94,7 @@ string NewKotlinDir = "C:\\Kotlin";
 string NewPHPDir = "C:\\PHP";
 string NewWgetDir = "C:\\Wget";
 string NewEclipseDir = "C:\\";
+string NewVCpkgDir = "C:\\";
 string AddKotlinPathScript = ProjectDir + "/Scripts/AddKotlinPath.ps1";
 string AddPHPPathScript = ProjectDir + "/Scripts/AddPHPPathScript.ps1";
 string AddWgetPathScript = ProjectDir + "/Scripts/AddWgetPath.ps1";
@@ -111,6 +109,7 @@ CURLcode res;
 Database database;
 map<string,string> Packages;
 map<string,string> DevelopmentPacks;
+string VCpkgRepository = "https://github.com/microsoft/vcpkg";
 
 void UpdateData() {
     Packages = database.GetAllValuesFromDB("Applications", "Windows");
