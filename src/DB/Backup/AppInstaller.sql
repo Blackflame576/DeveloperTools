@@ -75,6 +75,12 @@ CREATE TABLE IF NOT EXISTS "JavaDevelopmentTools" (
 	"Linux"	TEXT,
 	"macOS"	TEXT
 );
+CREATE TABLE IF NOT EXISTS "Test" (
+	"Name"	TEXT NOT NULL,
+	"Windows"	TEXT,
+	"macOS"	TEXT,
+	"Linux"	TEXT
+);
 INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','brew install --cask visual-studio-code','sudo snap install code --classic'),
  ('Docker','winget install -e --id Docker.DockerDesktop','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','brew install --cask git','ManualInstallation'),
@@ -112,11 +118,14 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','
  ('Python 3.9','winget install -e --id Python.Python.3.9','brew install python@3.9','ManualInstallation'),
  ('Python 3.10','winget install -e --id Python.Python.3.10','brew install python@3.10','ManualInstallation'),
  ('Python 3.11','winget install -e --id Python.Python.3.11','brew install python@3.11','ManualInstallation'),
- ('Vim','winget install -e --id vim.vim','winget install -e --id vim.vim','sudo snap install vim-editor --beta'),
+ ('Vim','winget install -e --id vim.vim','brew install vim','sudo snap install vim-editor --beta'),
  ('NeoVim','winget install -e --id Neovim.Neovim','brew install neovim','sudo snap install nvim --classic'),
  ('vcpkg','ManualInstallation','brew install vcpkg','ManualInstallation'),
  ('Kotlin','ManualInstallation','brew install kotlin','sudo snap install kotlin --classic'),
- ('PHP','ManualInstallation','brew install php','ManualInstallation');
+ ('PHP','ManualInstallation','brew install php','ManualInstallation'),
+ ('CMake','winget install -e --id Kitware.CMake','brew install cmake','sudo snap install cmake --classic'),
+ ('Make','ManualInstallation','brew install make','ManualInstallation'),
+ ('Conan Package Manager','winget install -e --id JFrog.Conan','brew install conan','ManualInstallation');
 INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -134,7 +143,11 @@ INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCo
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('CMake','winget install -e --id Kitware.CMake','sudo snap install cmake --classic','brew install cmake'),
+ ('Make','ManualInstallation','ManualInstallation','brew install make'),
+ ('Conan Package Manager','winget install -e --id JFrog.Conan','ManualInstallation','brew install conan'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -157,7 +170,8 @@ INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES (
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "DevelopmentPacks" ("Number","Language") VALUES ('1','PythonDevelopmentTools'),
  ('2','JavaScriptDevelopmentTools'),
  ('3','CppDevelopmentTools'),
@@ -185,7 +199,8 @@ INSERT INTO "RustDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('Vim','winget install -e --id vim.vim','sudo snap install vim-editor --beta','winget install -e --id vim.vim'),
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
- ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio');
+ ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -205,7 +220,8 @@ INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux","macOS") VALU
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -225,7 +241,11 @@ INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VS
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('CMake','winget install -e --id Kitware.CMake','sudo snap install cmake --classic','brew install cmake'),
+ ('Make','ManualInstallation','ManualInstallation','brew install make'),
+ ('Conan Package Manager','winget install -e --id JFrog.Conan','ManualInstallation','brew install conan'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "GoDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -245,7 +265,8 @@ INSERT INTO "GoDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSC
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "RubyDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -263,7 +284,8 @@ INSERT INTO "RubyDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('Vim','winget install -e --id vim.vim','sudo snap install vim-editor --beta','winget install -e --id vim.vim'),
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
- ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio');
+ ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "CSDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -281,7 +303,8 @@ INSERT INTO "CSDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSC
  ('Vim','winget install -e --id vim.vim','sudo snap install vim-editor --beta','winget install -e --id vim.vim'),
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
- ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio');
+ ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "PHPDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -299,7 +322,8 @@ INSERT INTO "PHPDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VS
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
- ('PHP','ManualInstallation','ManualInstallation','brew install php');
+ ('PHP','ManualInstallation','ManualInstallation','brew install php'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "KotlinDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -315,7 +339,8 @@ INSERT INTO "KotlinDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES (
  ('PgAdmin','winget install -e --id PostgreSQL.pgAdmin','winget install -e --id PostgreSQL.pgAdmin','brew install --cask pgadmin4'),
  ('Vim','winget install -e --id vim.vim','sudo snap install vim-editor --beta','winget install -e --id vim.vim'),
  ('NeoVim','winget install -e --id Neovim.Neovim','sudo snap install nvim --classic','brew install neovim'),
- ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio');
+ ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 INSERT INTO "JavaDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -336,5 +361,6 @@ INSERT INTO "JavaDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('Ngrok','winget install -e --id Ngrok.Ngrok','sudo snap install ngrok','brew install --cask ngrok'),
  ('Visual Studio','Not Found','Not Found','brew install --cask visual-studio'),
  ('JetBrains DataGrip','winget install -e --id JetBrains.DataGrip','sudo snap install datagrip --classic','brew install --cask datagrip'),
- ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell');
+ ('JetBrains DataSpell','winget install -e --id JetBrains.DataSpell','sudo snap install dataspell --classic','brew install --cask dataspell'),
+ ('Wget','ManualInstallation','ManualInstallation','brew install wget');
 COMMIT;

@@ -40,14 +40,14 @@ namespace Windows {
             return 0;
         }
 
-        int Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
+        Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
         if (TempPercentage != Percentage && TempPercentage <= 100) {
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
             if ((CURLE_OK == res) && (DownloadSpeed > 0.0)) {
                 // printf("Average download speed: %lu kbyte/sec.\n",
                 //         (unsigned long)(DownloadSpeed / 1024));
                 float Speed = (float) (DownloadSpeed / 1024);
-                bar.Update(Speed);
+                progressbar.Update(Speed);
                 TempPercentage = Percentage;
             }
         }
@@ -63,6 +63,27 @@ namespace Windows {
     class AppInstaller
     {
         public:
+            int InstallMake() {
+                string ArchivePath = ProjectDir + "/utils/Make_3.81.zip ";
+                string Command = "tar -xf" + ArchivePath  + "--directory " + NewMakeDir;
+                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewMakeDir;
+                if (std::filesystem::exists(ArchivePath)) {
+                    if (std::filesystem::exists(NewMakeDir) == false) {
+                        std::filesystem::create_directory(NewMakeDir);
+                    }
+                    result = system(Command.c_str());
+                    switch (result) {
+                        case 0:
+                            system(Command_AddPath.c_str());
+                            cout << "Make " << translate["Located"].asString() << " " << NewMakeDir << endl;
+                            return 0;
+                    }
+                }
+                else {
+                    throw logic_error("Zip archive not found");
+                }
+            }
+
             int InstallVCpkg() {
                 string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
@@ -73,32 +94,31 @@ namespace Windows {
                         system(Command_Install.c_str());
                         system(Command_AddPath.c_str());
                         cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
-                        break;
+                        return 0;
                 }
-                return 0;
             }
 
             int InstallPHP() {
-                string ArchiveDir = ProjectDir + "/Downloads";
-                string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
-                if (std::filesystem::exists(ArchiveDir) == false) {
-                    std::filesystem::create_directory(ArchiveDir);
+                string ArchivePath = ProjectDir + "/utils/php-8.2.9.zip ";
+                string Command = "tar -xf" + ArchivePath  + "--directory " + NewPHPDir;
+                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewPHPDir;
+                if (std::filesystem::exists(ArchivePath)) {
+                    if (std::filesystem::exists(NewPHPDir) == false) {
+                        std::filesystem::create_directory(NewPHPDir);
+                    }
+                    result = system(Command.c_str());
+                    switch (result) {
+                        case 0:
+                            cout << "" << endl;
+                            system(Command_AddPath.c_str());
+
+                            cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << endl;
+                            return 0;
+                    }
                 }
-                if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
-                result = Download(KotlinUrl,ArchiveDir);
-                string Command = "tar -xf" + ArchivePath + "--directory " + NewKotlinDir;
-                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
-                switch (result) {
-                    case 200:
-                        system(Command.c_str());
-                        system(Command_AddPath.c_str());
-                        std::filesystem::remove(ArchivePath);
-                        cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
-                        break;
-                    case 500:
-                        throw domain_error("Unable to connect");
+                else {
+                    throw logic_error("Zip archive not found");
                 }
-                return 0;
             }
             int InstallEclipse() {
                 string ArchiveDir = ProjectDir + "/Downloads";
@@ -116,11 +136,10 @@ namespace Windows {
                         system(Command_AddPath.c_str());
                         std::filesystem::remove(ArchivePath);
                         cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
-                        break;
+                        return 0;
                     case 500:
                         throw domain_error("Unable to connect");
                 }
-                return 0;
             }
 
             int InstallKotlin() {
@@ -139,11 +158,10 @@ namespace Windows {
                         system(Command_AddPath.c_str());
                         std::filesystem::remove(ArchivePath);
                         cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
-                        break;
+                        return 0;
                     case 500:
                         throw domain_error("Unable to connect");
                 }
-                return 0;
             }
 
             using AppInstaller_funct_t = int(AppInstaller::*)(void);
@@ -152,7 +170,9 @@ namespace Windows {
             map<string,AppInstaller_funct_t> PackagesFromSource {
                 {"Eclipse IDE",&AppInstaller::InstallEclipse},
                 {"Kotlin",&AppInstaller::InstallKotlin},
-                {"vcpkg",&AppInstaller::InstallVCpkg}
+                {"vcpkg",&AppInstaller::InstallVCpkg},
+                {"PHP",&AppInstaller::InstallPHP},
+                {"Make",&AppInstaller::InstallMake}
             };
 
             int MainInstaller(string Name) {
@@ -203,15 +223,18 @@ namespace Windows {
                 }
             }
     };
-
+    // Function to create a string with two application names
     string NewString(string sentence) {
         string new_sentence = "";
+        // If the string is empty, then the first application name is added.
         if (haveString == "") {
             haveString = sentence;
             return new_sentence;
         }
         else {
             // Formatting string with two columns
+            /* If the string already contains the name of the application,
+            then the second name of the application is added and the formatted string is returned */
             new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
             haveString = "";
             return new_sentence;
@@ -254,6 +277,7 @@ namespace Windows {
     // map<string, function<void()>> Packages = {
     //     {"Git",[&installer](){installer.InstallGit();}}
     // };
+    // Initialization class
     AppInstaller Installer;
     // Function for install of DevelopmentPack(ready pack for certain programming language
     void InstallDevelopmentPack(string n) {

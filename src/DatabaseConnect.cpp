@@ -130,3 +130,12 @@ int Database::GetArraySize(string NameTable,string NameColumn) {
     sqlite3_finalize(statement);
     return ArraySize;
 }
+
+int Database::InsertValuesToTable(string NameTable,string NameApp,string WindowsCommand,string macOSCommand,string LinuxCommand) {
+    SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Name', 'Windows', 'macOS', 'Linux') VALUES ('" + NameApp + "', '" + WindowsCommand + "', '" + macOSCommand + "', '" + LinuxCommand + "');";
+    int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
+    if (RESULT_SQL != SQLITE_OK) {
+        throw runtime_error("Error in INSERT command");
+    }
+    return 0;
+}

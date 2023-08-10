@@ -43,7 +43,7 @@ using namespace std;
      int RESULT_SQL;
      string SQL_COMMAND;
      string* AnswerDB;
-     string DatabesePath = std::filesystem::current_path().generic_string() + "/DB/AppInstaller.db";
+     string DatabesePath = std::filesystem::current_path().generic_string() + "/src/DB/AppInstaller.db";
 
      class Database {
      public:
@@ -61,8 +61,21 @@ using namespace std;
          string* GetValueFromDB(string Name,string OS_NAME);
          map<string,string> GetAllValuesFromDB(string NameTable,string OS_NAME);
          map<string,string> GetDevPackFromDB(string NameTable,string OS_NAME);
+         int InsertValuesToTable(string NameTable,string NameApp,string WindowsCommand,string macOSCommand,string LinuxCommand);
      private:
          int GetArraySize(string NameTable,string NameColumn);
+         static int callback(void* data, int argc, char** argv, char** azColName)
+         {
+             int i;
+             fprintf(stderr, "%s: ", (const char*)data);
+
+             for (i = 0; i < argc; i++) {
+                 printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+             }
+
+             printf("\n");
+             return 0;
+         }
      };
  }
 

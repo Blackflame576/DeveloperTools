@@ -1,6 +1,7 @@
 #ifndef PROGRESSBAR_H
 #define PROGRESSBAR_H
 #include <iostream>
+#include <cmath>
 #include <math.h>
 
 using namespace std;
@@ -44,7 +45,7 @@ class ProgressBar {
             // cout << EndTime << endl;
             if (NetworkSpeed != 0) {
                 string Speed = AutoConvert(NetworkSpeed);
-                OutputStr = Output + " " + to_string(Process) + "% " + Speed;
+                OutputStr = Output + " " + to_string(Process) + "% " +  Speed;
             }
             else {
                 OutputStr = Output + " " + to_string(Process) + "% ";
@@ -52,6 +53,14 @@ class ProgressBar {
             // cout << Time << endl;
             cout << "\r" << OutputStr << flush;
             LastSizeStr = OutputStr.size();
+        }
+        void ResetAll() {
+            Process = 0;
+            LastSizeStr = 0;
+            OutputStr = "";
+            EmptyStr = "";
+            Output = "";
+            n_done = 0;
         }
 
     private:
@@ -71,19 +80,19 @@ class ProgressBar {
 
         float convert_to_MB(float Value) {
             float NewValue = Value / 1024;
-            NewValue = floor(NewValue * 100) / 100;
+//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_MBit(float Value) {
             float NewValue = Value * 0.008;
-            NewValue = floor(NewValue * 100) / 100;
+//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_KBit(float Value) {
             float NewValue = Value * 8;
-            NewValue = floor(NewValue * 100) / 100;
+//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 };
