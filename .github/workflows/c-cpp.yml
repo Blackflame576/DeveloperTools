@@ -14,8 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install libraries
-      run: sudo apt update && sudo apt upgrade && sudo apt install curl && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev
-    - name: Init cmake
-      run: cmake .
-    - name: Build
-      run: cmake --build .
+      run: sudo add-apt-repository universe && sudo apt update && sudo apt upgrade && sudo apt install curl && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev 
+    - name: Build project
+      run: ./BuildProject.sh
