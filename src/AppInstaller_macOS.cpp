@@ -32,7 +32,7 @@
 
 using namespace std;
 
-namespace Linux {
+namespace macOS {
 
     int CallbackProgress(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
     {
