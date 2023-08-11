@@ -8,7 +8,7 @@ esac
 # Building
 mkdir build
 cd build
-mkdir Linux
+mkdir $os
 cd ..
 g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/  -lcurl -Wreturn-type -ljsoncpp -lsqlite3 -std=c++20
 echo "==> Copying folder of DB to build/$os ..."
