@@ -12,7 +12,7 @@ then
   cd build
   mkdir Linux
   cd ..
-  g++ -o ./build/Linux/DeepForgeToolset.exe ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/  -lcurl -Wreturn-type -ljsoncpp -lsqlite3 -std=c++20
+  g++ -o ./build/Linux/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/  -lcurl -Wreturn-type -ljsoncpp -lsqlite3 -std=c++20
 	echo "==> Copying folder of DB to build/Linux ..."
   cp --recursive ./src/DB ./build/Linux/DB
   echo "==> Copying folder of DB to build/Windows was successfully."

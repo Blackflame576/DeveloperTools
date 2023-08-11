@@ -19,13 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="Refactoring">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BuildProject.sh" beforeDir="false" afterPath="$PROJECT_DIR$/BuildProject.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Linux/DeepForgeToolset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Linux/Scripts/AddKotlinPath.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/build/Linux/Scripts/AddKotlinPath.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Linux/locale/locale_en.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/Linux/locale/locale_en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Linux/locale/locale_ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/Linux/locale/locale_ru.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +136,7 @@
       <workItem from="1691644809123" duration="9589000" />
       <workItem from="1691693230382" duration="6272000" />
       <workItem from="1691743073368" duration="3033000" />
-      <workItem from="1691750269834" duration="7084000" />
+      <workItem from="1691750269834" duration="8310000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring">
       <option name="closed" value="true" />
