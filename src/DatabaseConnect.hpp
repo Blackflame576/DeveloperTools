@@ -43,13 +43,14 @@ using namespace std;
      int RESULT_SQL;
      string SQL_COMMAND;
      string* AnswerDB;
-     string DatabesePath = std::filesystem::current_path().generic_string() + "/src/DB/AppInstaller.db";
+     string DefaultDatabesePath = std::filesystem::current_path().generic_string() + "/DB/AppInstaller.db";
 
      class Database {
      public:
-         Database() {
-             /* Open database */
-             RESULT_SQL = sqlite3_open(DatabesePath.c_str(), &db);
+         Database(string* DB_Path = nullptr)
+         {
+             RESULT_SQL = sqlite3_open(DB_Path != nullptr ? DB_Path->c_str() : DefaultDatabesePath.c_str(), &db);
+
              // if result of open database != SQLITE_OK, that send error
              if (RESULT_SQL != SQLITE_OK) {
                  throw runtime_error("Failed to connect to database");
@@ -62,6 +63,7 @@ using namespace std;
          map<string,string> GetAllValuesFromDB(string NameTable,string OS_NAME);
          map<string,string> GetDevPackFromDB(string NameTable,string OS_NAME);
          int InsertValuesToTable(string NameTable,string NameApp,string WindowsCommand,string macOSCommand,string LinuxCommand);
+         int AddValues(string Table[]);
      private:
          int GetArraySize(string NameTable,string NameColumn);
          static int callback(void* data, int argc, char** argv, char** azColName)

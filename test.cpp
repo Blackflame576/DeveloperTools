@@ -83,13 +83,7 @@ int main() {
                        "PHPDevelopmentTools"
     };
     Database database;
-    string NameApp = "Wget";
-    string Windows_Command = "ManualInstallation";
-    string macOS_Command = "brew install wget";
-    string Linux_Command = "ManualInstallation";
-    for(int i = 0;i < 11;i++) {
-        database.InsertValuesToTable(Tables[i],NameApp,Windows_Command,macOS_Command,Linux_Command);
-    }
+    database.AddValues(Tables);
 //    map<string,string> DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks","Language");
 //    for (const auto &element:DevelopmentPacks) {
 //        cout << element.first << " " << element.second << endl;

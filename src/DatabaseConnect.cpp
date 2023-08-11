@@ -134,8 +134,34 @@ int Database::GetArraySize(string NameTable,string NameColumn) {
 int Database::InsertValuesToTable(string NameTable,string NameApp,string WindowsCommand,string macOSCommand,string LinuxCommand) {
     SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Name', 'Windows', 'macOS', 'Linux') VALUES ('" + NameApp + "', '" + WindowsCommand + "', '" + macOSCommand + "', '" + LinuxCommand + "');";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
-    if (RESULT_SQL != SQLITE_OK) {
-        throw runtime_error("Error in INSERT command");
-    }
+    if (RESULT_SQL != SQLITE_OK) throw runtime_error("Error in INSERT command");
     return 0;
+}
+
+int Database::AddValues(string Tables[]) {
+    string NameApp;
+    string Windows_Command;
+    string macOS_Command;
+    string Linux_Command;
+    int RESULT_COMMAND;
+
+    if (Tables->size() >= 1) {
+        cout << "Name:";
+        getline(cin,NameApp);
+        cout << "Windows";
+        getline(cin,Windows_Command);
+        cout << "macOS:";
+        getline(cin,macOS_Command);
+        cout << "Linux:";
+        getline(cin,Linux_Command);
+        for(int i = 0;i < Tables->size();i++) {
+            RESULT_COMMAND = InsertValuesToTable(Tables[i],NameApp,Windows_Command,macOS_Command,Linux_Command);
+            if (RESULT_COMMAND == 0) {
+                cout << NameApp << "successfully added to " << Tables[i] << endl;
+            }
+        }
+    }
+    else {
+        throw logic_error("Array is empty");
+    }
 }
