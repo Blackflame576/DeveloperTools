@@ -25,8 +25,9 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-// Импортирование библиотек
 // Importing Libraries
+#ifndef APPINSTALLER_LINUX_H_
+#define APPINSTALLER_LINUX_H_
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -41,30 +42,51 @@
 #include "Progressbar.hpp"
 #include <cctype>
 #include <fstream>
-#include "json/json.h"
-#include <conio.h>
 #include <functional>
 #include "Logger.cpp"
+#include "json/json.h"
+#include <time.h>
+#include <stdint.h>
+#include <chrono>
+#include "DatabaseConnect.cpp"
 
 using namespace std;
 using namespace Json;
 using namespace Logger;
-// using namespace std::fmt;
- 
-// Переменные
+using namespace DB;
+
 // Variables
+int Percentage;
+int TempPercentage;
+string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true,"logs/DeepForgeToolset.log");
-progressbar bar(100);
-int TempPercentage = 0;
+ProgressBar progressbar;
 const string TrueVarious[3] = { "yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-    {1,"Python"},{2,"JavaScript"},{3,"C++"},{4,"Java"},
-    {5,"Go"},{6,"Rust"},{7,"Ruby"},{8,"C"},
-    {9,"C#"},{10,"PHP"},{11,"Kotlin"}
+        {1,"Python"},{2,"JavaScript"},
+        {3,"C++"},{4,"Java"},
+        {5,"Go"},{6,"Rust"},
+        {7,"Ruby"},{8,"C"},
+        {9,"C#"},{10,"PHP"},
+        {11,"Kotlin"}
 };
+string NewVCpkgDir = "C:\\";
 int result;
 int output_func;
 string haveString = "";
+double DownloadSpeed = 0.0;
+CURL* curl = curl_easy_init();
+CURLcode res;
+Database database;
+map<string,string> Packages;
+map<string,string> DevelopmentPacks;
+string VCpkgRepository = "https://github.com/microsoft/vcpkg";
+
+void UpdateData() {
+    Packages = database.GetAllValuesFromDB("Applications", "Linux");
+    DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+}
+#endif

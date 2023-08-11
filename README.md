@@ -1,4 +1,4 @@
-<p align="center"><img src="Logo/MainLogo.png"></p>
+<p align="center"><img src="src/Logo/MainLogo.png"></p>
 
 <h3 align="center">DeepForge Toolset - installer of necessary tools for programming.</h3>
 
