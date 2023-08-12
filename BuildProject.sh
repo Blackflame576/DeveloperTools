@@ -31,5 +31,5 @@ cp -R ./src/Logo ./build/$os/Icon
 echo "==> Copying folder of Logo to build/$os was successfully."
 cd build
 cd $os
-bash ./DeepForgeToolset
+./DeepForgeToolset
 #echo "=================================="
