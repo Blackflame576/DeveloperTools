@@ -29,4 +29,7 @@ echo "==> Copying folder of locale to build/$os was successfully."
 echo "==> Copying folder of Logo to build/$os"
 cp -R ./src/Logo ./build/$os/Icon
 echo "==> Copying folder of Logo to build/$os was successfully."
+cd build
+cd $os
+bash ./DeepForgeToolset
 #echo "=================================="
