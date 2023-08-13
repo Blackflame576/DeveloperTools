@@ -31,4 +31,4 @@
 - https://boosty.to/deepforge/donate
 
 ## ℹ️ License(Лицензия)
-[MIT LICENSE]:(LICENSE)
+[MIT LICENSE](LICENSE)
