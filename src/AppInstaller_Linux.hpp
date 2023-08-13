@@ -73,7 +73,7 @@ map<int, string> Languages{
         {9,"C#"},{10,"PHP"},
         {11,"Kotlin"}
 };
-string NewVCpkgDir = "C:\\";
+string NewVCpkgDir = "/usr/bin/";
 int result;
 int output_func;
 string haveString = "";

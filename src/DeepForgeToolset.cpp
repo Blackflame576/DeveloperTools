@@ -230,30 +230,52 @@ class MainApp {
                     }
                     cout << translate["SelectNumber"].asString();
                     getline(cin,SelectPackages);
+                    string delimiter = ",";
+                    size_t pos = 0;
+                    string token;
                     if (SelectPackages.empty() || SelectPackages == "\n") {
                         CommandManager();
                     }
                     else {
-                        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
-                            string NameSelectedPackage = EnumeratePackages[stoi(SelectPackages)];
-                            cout << InstallDelimiter << endl;
-                            cout << translate["Installing"].asString() << " " << NameSelectedPackage << " ..." << endl;
-                            output_func = Installer.MainInstaller(NameSelectedPackage);
-                            if (output_func == 0) {
-                                cout << "✅ " << NameSelectedPackage << " " << translate["Installed"].asString() << endl;
+                        // Getting Application Numbers
+                        while ((pos = SelectPackages.find(delimiter)) != string::npos) {
+                            token = SelectPackages.substr(0, pos);
+                            if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end()) {
+                                string name = EnumeratePackages[stoi(token)];
                                 cout << InstallDelimiter << endl;
-                                string SuccessText = NameSelectedPackage + " " + translate["Installed"].asString();
+                                cout << translate["Installing"].asString() << " " << name << " ..." << endl;
+                                // Application installation
+                                output_func = Installer.MainInstaller(name);
+                                if (output_func == 0) {
+                                    cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
+                                    string SuccessText = name + " " + translate["Installed"].asString();
+                                    logger.Success(SuccessText.c_str());
+                                }
+                                else  {
+                                    // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
+                                    string ErrorText = translate["ErrorInstall"].asString() + " " + name;
+                                    logger.Error(ErrorText.c_str());
+                                }
+                                SelectPackages.erase(0, pos + delimiter.length());
+                            }
+                        }
+                        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
+                            string NamePackage = EnumeratePackages[stoi(SelectPackages)];
+                            cout << InstallDelimiter << endl;
+                            cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                            // Installing the application with the most recently entered number
+                            output_func = Installer.MainInstaller(NamePackage);
+                            // output_func = (Installer.*(Packages[NamePackage]))();
+                            if (output_func == 0) {
+                                cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                                string SuccessText = NamePackage + " " + translate["Installed"].asString();
                                 logger.Success(SuccessText.c_str());
                             }
                             else {
-                                // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NameSelectedPackage << endl;
-                                string ErrorText = translate["ErrorInstall"].asString() + " " + NameSelectedPackage;
+                                // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                                string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                                 logger.Error(ErrorText.c_str());
                             }
-                            cout << InstallDelimiter << endl;
-                        }
-                        else {
-                            cout << translate["NotFoundPackage"].asString() << endl;
                         }
                     }
                 }
@@ -308,46 +330,50 @@ class MainApp {
                     // Getting Application Numbers
                     while ((pos = SelectPackages.find(delimiter)) != string::npos) {
                         token = SelectPackages.substr(0, pos);
-                        string name = EnumeratePackages[stoi(token)];
+                        if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end()) {
+                            string name = EnumeratePackages[stoi(token)];
+                            cout << InstallDelimiter << endl;
+                            cout << translate["Installing"].asString() << " " << name << " ..." << endl;
+                            // Application installation
+                            output_func = Installer.MainInstaller(name);
+                            if (output_func == 0) {
+                                cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
+                                string SuccessText = name + " " + translate["Installed"].asString();
+                                logger.Success(SuccessText.c_str());
+                            }
+                            else  {
+                                // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
+                                string ErrorText = translate["ErrorInstall"].asString() + " " + name;
+                                logger.Error(ErrorText.c_str());
+                            }
+                            SelectPackages.erase(0, pos + delimiter.length());
+                        }
+                    }
+                    if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
+                        string NamePackage = EnumeratePackages[stoi(SelectPackages)];
                         cout << InstallDelimiter << endl;
-                        cout << translate["Installing"].asString() << " " << name << " ..." << endl;
-                        // Application installation
-                        output_func = Installer.MainInstaller(name);
+                        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                        // Installing the application with the most recently entered number
+                        output_func = Installer.MainInstaller(NamePackage);
+                        // output_func = (Installer.*(Packages[NamePackage]))();
                         if (output_func == 0) {
-                            cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
-                            string SuccessText = name + " " + translate["Installed"].asString();
+                            cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                            string SuccessText = NamePackage + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
                         }
-                        else  {
-                            // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
-                            string ErrorText = translate["ErrorInstall"].asString() + " " + name;
+                        else {
+                            // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                            string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                             logger.Error(ErrorText.c_str());
                         }
-                        SelectPackages.erase(0, pos + delimiter.length());
                     }
-                    string NamePackage = EnumeratePackages[stoi(SelectPackages)];
-                    cout << InstallDelimiter << endl;
-                    cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-                    // Installing the application with the most recently entered number
-                    output_func = Installer.MainInstaller(NamePackage);
-                    // output_func = (Installer.*(Packages[NamePackage]))();
-                    if (output_func == 0) {
-                        cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
-                        string SuccessText = NamePackage + " " + translate["Installed"].asString();
-                        logger.Success(SuccessText.c_str());
-                    }
-                    else {
-                        // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
-                        string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
-                        logger.Error(ErrorText.c_str());
-                    }
-                    cout << InstallDelimiter << endl;
                 }
             }
             catch (exception& error) {
                 string ErrorText = error.what();
                 logger.Error(ErrorText.c_str());
             }
+            cout << InstallDelimiter << endl;
             // Calling up the main menu
             CommandManager();
         }
@@ -448,8 +474,9 @@ class MainApp {
                 if (result != 0) {
                     cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
                     system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
-                    system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
+                    // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
                     system("sudo apt install snap snapd");
+                    system("sudo ln -s /var/lib/snapd/snap /snap");
                     system("sudo systemctl enable snapd.service");
                     system("sudo systemctl start snapd.service");
                     cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
