@@ -64,24 +64,33 @@ namespace Linux {
     {
     public:
         int InstallVCpkg() {
-            string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
-            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
-            string Command_Install = NewVCpkgDir + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
-            result = system(Command.c_str());
+            string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
+            string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
+            // string Command_AddPath = "bash -c 'source ./Scripts/AddPath.sh'";
+            string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
+            // result = system(Command.c_str());
+            result = system("ls");
             switch (result) {
                 case 0:
-                    system(Command_Install.c_str());
-                    system(Command_AddPath.c_str());
-                    cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                    // result = system(Command_Install.c_str());
+                    if (result == 0) {
+                        system(Command_AddPath.c_str());
+                        cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                    }
                     return 0;
             }
+        }
+
+        int InstallPython_3_9() {
+
         }
 
         using AppInstaller_funct_t = int(AppInstaller::*)(void);
         using map_funct_t = void(*)(void);
 
         map<string,AppInstaller_funct_t> PackagesFromSource {
-                {"vcpkg",&AppInstaller::InstallVCpkg},
+            {"vcpkg",&AppInstaller::InstallVCpkg},
+            {"Python 3.9",&AppInstaller::InstallPython_3_9}
         };
 
         int MainInstaller(string Name) {

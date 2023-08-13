@@ -6,6 +6,7 @@ case "${unameOut}" in
 	Linux*)		os="Linux";;
 esac
 # Building
+sudo rm -rf ./build/Linux
 mkdir build
 cd build
 mkdir $os
@@ -31,5 +32,5 @@ cp -R ./src/Logo ./build/$os/Icon
 echo "==> Copying folder of Logo to build/$os was successfully."
 cd build
 cd $os
-./DeepForgeToolset
+sudo ./DeepForgeToolset
 #echo "=================================="
