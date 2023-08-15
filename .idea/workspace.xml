@@ -19,17 +19,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="Refactoring">
+      <change afterPath="$PROJECT_DIR$/BuildTests.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/AddEclipse.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/AddEclipsePath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/AddKotlinPath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/AddPHPPath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/AddWgetPath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/InstallWinGet.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveEclipsePath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveKotlinPath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/RemovePHPPath.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveWgetPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildProject.bat" beforeDir="false" afterPath="$PROJECT_DIR$/BuildProject.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DeepForgeToolset.code-workspace" beforeDir="false" afterPath="$PROJECT_DIR$/DeepForgeToolset.code-workspace" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Progressbar.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Progressbar.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/MainTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/MainTest.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/MainTest.exe" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/MainTest.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.exe" beforeDir="false" afterPath="$PROJECT_DIR$/test.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +150,7 @@
       <workItem from="1691743073368" duration="3033000" />
       <workItem from="1691750269834" duration="9969000" />
       <workItem from="1691780795984" duration="741000" />
+      <workItem from="1692130863512" duration="1216000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring">
       <option name="closed" value="true" />

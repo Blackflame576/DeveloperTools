@@ -67,7 +67,8 @@ namespace DB
         map<string, string> GetAllValuesFromDB(string NameTable, string NameColumn);
         map<string, string> GetDevPackFromDB(string NameTable, string NameColumn);
         int InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
-        int AddValues(string Table[]);
+        int RemoveValuesFromTable(string NameTable,string NameApp);
+        int AddValues(string Tables[]);
 
     private:
         int GetArraySize(string NameTable, string NameColumn);

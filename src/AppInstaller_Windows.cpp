@@ -43,17 +43,15 @@ namespace Windows
         }
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
+        // cout << Percentage << endl;
         if (TempPercentage != Percentage && TempPercentage <= 100)
         {
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
-            if ((CURLE_OK == res) && (DownloadSpeed > 0.0))
-            {
-                // printf("Average download speed: %lu kbyte/sec.\n",
-                //         (unsigned long)(DownloadSpeed / 1024));
-                float Speed = (float)(DownloadSpeed / 1024);
-                progressbar.Update(Speed);
-                TempPercentage = Percentage;
-            }
+            // printf("Average download speed: %lu kbyte/sec.\n",
+            //         (unsigned long)(DownloadSpeed / 1024));
+            float Speed = (float)(DownloadSpeed / 1024);
+            progressbar.Update(Speed);
+            TempPercentage = Percentage;
         }
         return 0;
     }
@@ -73,6 +71,11 @@ namespace Windows
             string ArchivePath = ProjectDir + "/utils/Make_3.81.zip ";
             string Command = "tar -xf" + ArchivePath + "--directory " + NewMakeDir;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewMakeDir;
+            if (std::filesystem::exists(NewMakeDir))
+            {
+                cout << "✅ Make " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewMakeDir << endl;
+                return 1;
+            }
             if (std::filesystem::exists(ArchivePath))
             {
                 if (std::filesystem::exists(NewMakeDir) == false)
@@ -129,26 +132,24 @@ namespace Windows
                 cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPDir << endl;
                 return 1;
             }
+
+            if (std::filesystem::exists(ArchivePath))
+            {
+                std::filesystem::create_directory(NewPHPDir);
+                result = system(Command.c_str());
+                switch (result)
+                {
+                case 0:
+                    cout << "" << endl;
+                    system(Command_AddPath.c_str());
+
+                    cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << endl;
+                    return 0;
+                }
+            }
             else
             {
-                if (std::filesystem::exists(ArchivePath))
-                {
-                    std::filesystem::create_directory(NewPHPDir);
-                    result = system(Command.c_str());
-                    switch (result)
-                    {
-                    case 0:
-                        cout << "" << endl;
-                        system(Command_AddPath.c_str());
-
-                        cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << endl;
-                        return 0;
-                    }
-                }
-                else
-                {
-                    throw logic_error("Zip archive not found");
-                }
+                throw logic_error("Zip archive not found");
             }
         }
         int InstallEclipse()
@@ -162,28 +163,25 @@ namespace Windows
                 cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseDir << "eclipse" << endl;
                 return 1;
             }
-            else
+            if (std::filesystem::exists(ArchiveDir) == false)
             {
-                if (std::filesystem::exists(ArchiveDir) == false)
-                {
-                    std::filesystem::create_directory(ArchiveDir);
-                }
-                if (std::filesystem::exists(ArchivePath))
-                    std::filesystem::remove(ArchivePath);
-                result = Download(EclipseUrl, ArchiveDir);
-                string Command = "tar -xf" + ArchivePath + "--directory " + NewEclipseDir;
-                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
-                switch (result)
-                {
-                case 200:
-                    system(Command.c_str());
-                    system(Command_AddPath.c_str());
-                    std::filesystem::remove(ArchivePath);
-                    cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
-                    return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
-                }
+                std::filesystem::create_directory(ArchiveDir);
+            }
+            if (std::filesystem::exists(ArchivePath))
+                std::filesystem::remove(ArchivePath);
+            result = Download(EclipseUrl, ArchiveDir);
+            string Command = "tar -xf" + ArchivePath + "--directory " + NewEclipseDir;
+            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
+            switch (result)
+            {
+            case 200:
+                system(Command.c_str());
+                system(Command_AddPath.c_str());
+                std::filesystem::remove(ArchivePath);
+                cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
+                return 0;
+            case 500:
+                throw domain_error("Unable to connect");
             }
         }
 
@@ -198,28 +196,25 @@ namespace Windows
                 cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinDir << "kotlinc" << endl;
                 return 1;
             }
-            else
+            if (std::filesystem::exists(ArchiveDir) == false)
             {
-                if (std::filesystem::exists(ArchiveDir) == false)
-                {
-                    std::filesystem::create_directory(ArchiveDir);
-                }
-                if (std::filesystem::exists(ArchivePath))
-                    std::filesystem::remove(ArchivePath);
-                result = Download(KotlinUrl, ArchiveDir);
-                string Command = "tar -xf" + ArchivePath + "--directory " + NewKotlinDir;
-                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
-                switch (result)
-                {
-                case 200:
-                    system(Command.c_str());
-                    system(Command_AddPath.c_str());
-                    std::filesystem::remove(ArchivePath);
-                    cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
-                    return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
-                }
+                std::filesystem::create_directory(ArchiveDir);
+            }
+            if (std::filesystem::exists(ArchivePath))
+                std::filesystem::remove(ArchivePath);
+            result = Download(KotlinUrl, ArchiveDir);
+            string Command = "tar -xf" + ArchivePath + "--directory " + NewKotlinDir;
+            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
+            switch (result)
+            {
+            case 200:
+                system(Command.c_str());
+                system(Command_AddPath.c_str());
+                std::filesystem::remove(ArchivePath);
+                cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
+                return 0;
+            case 500:
+                throw domain_error("Unable to connect");
             }
         }
 
@@ -233,23 +228,48 @@ namespace Windows
                 cout << "✅ Wget " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewWgetDir << endl;
                 return 1;
             }
-            else
+            if (std::filesystem::exists(NewWgetDir) == false)
             {
-                if (std::filesystem::exists(NewWgetDir) == false)
-                {
-                    std::filesystem::create_directory(NewWgetDir);
-                }
-                result = Download(WgetUrl, NewWgetDir);
-                string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewWgetDir;
+                std::filesystem::create_directory(NewWgetDir);
+            }
+            result = Download(WgetUrl, NewWgetDir);
+            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewWgetDir;
+            switch (result)
+            {
+            case 200:
+                system(Command_AddPath.c_str());
+                cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << endl;
+                return 0;
+            case 500:
+                throw domain_error("Unable to connect");
+            }
+        }
+
+        int InstallNginx()
+        {
+            string NewNginxDir = database.GetValueFromDB("PackagesFromSource", "Nginx", "WindowsDir");
+            string ArchivePath = ProjectDir + "/utils/Nginx-1.25.1.zip ";
+            string Command = "tar -xf" + ArchivePath + "--directory " + NewNginxDir;
+            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
+            if (std::filesystem::exists("C:\\Nginx-1.25.1"))
+            {
+                cout << "✅ Nginx " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << endl;
+                return 1;
+            }
+            if (std::filesystem::exists(ArchivePath))
+            {
+                result = system(Command.c_str());
                 switch (result)
                 {
-                case 200:
+                case 0:
                     system(Command_AddPath.c_str());
-                    cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << endl;
+                    cout << "Nginx " << translate["Located"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << endl;
                     return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
                 }
+            }
+            else
+            {
+                throw logic_error("Zip archive not found");
             }
         }
 
@@ -262,7 +282,8 @@ namespace Windows
             {"vcpkg", &AppInstaller::InstallVCpkg},
             {"PHP", &AppInstaller::InstallPHP},
             {"Make", &AppInstaller::InstallMake},
-            {"Wget", &AppInstaller::InstallWget}};
+            {"Wget", &AppInstaller::InstallWget},
+            {"Nginx", &AppInstaller::InstallNginx}};
 
         int MainInstaller(string Name)
         {

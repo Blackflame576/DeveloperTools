@@ -76,7 +76,8 @@
 			"semaphore": "cpp",
 			"stdfloat": "cpp",
 			"stop_token": "cpp",
-			"thread": "cpp"
+			"thread": "cpp",
+			"any": "cpp"
 		},
 		"sqltools.connections": [
 			{
