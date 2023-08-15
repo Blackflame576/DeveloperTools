@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -31,25 +31,25 @@
 using namespace std;
 using namespace DB;
 
-string* Database::GetValueFromDB(string NameApp,string NameColumn) {
-    ArraySize = GetArraySize("Applications",NameColumn);
-    string* AnswerDB = new string[ArraySize];
+string Database::GetValueFromDB(string NameTable,string NameApp,string NameColumn) {
+    // ArraySize = GetArraySize("Applications",NameColumn);
+    // string* AnswerDB = new string[ArraySize];
+    string AnswerDB;
     // Create SQL statement 
-    SQL_COMMAND = "SELECT " + NameColumn +  " from Applications WHERE Name='" + NameApp + "'";
+    SQL_COMMAND = "SELECT " + NameColumn +  " from " + NameTable + " WHERE Name='" + NameApp + "'";
     // Execute SQL statement 
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
     if (RESULT_SQL != SQLITE_OK) {
         throw runtime_error("Not Found");
     }
-    int i = 0;
+    // int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW) {
         // printf("%s\n", sqlite3_column_text(statement, 0));
-        AnswerDB[i] = (string(reinterpret_cast<const char*>(
+        AnswerDB = (string(reinterpret_cast<const char*>(
             sqlite3_column_text(statement, 0)
         )));
-        i++;
     }
     // Free the statement when done.
     sqlite3_finalize(statement);

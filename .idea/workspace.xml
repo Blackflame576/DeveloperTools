@@ -18,7 +18,19 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="Refactoring" />
+    <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="Refactoring">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/AddEclipse.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/AddEclipsePath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/AddKotlinPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/AddPHPPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/AddWgetPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/InstallWinGet.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveEclipsePath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveKotlinPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/RemovePHPPath.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scripts/RemoveWgetPath.ps1" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -134,6 +146,7 @@
       <workItem from="1691693230382" duration="6272000" />
       <workItem from="1691743073368" duration="3033000" />
       <workItem from="1691750269834" duration="9969000" />
+      <workItem from="1691780795984" duration="741000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring">
       <option name="closed" value="true" />

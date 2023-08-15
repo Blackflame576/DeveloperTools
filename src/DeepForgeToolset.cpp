@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -379,6 +379,7 @@ class MainApp {
         }
 
         MainApp () {
+            GetArchitectureOS();
             cout << "DeepForge Toolset v" << __version__ << endl;
             cout << "Author: Blackflame576" << endl;
             cout << InstallDelimiter << endl;
@@ -447,7 +448,14 @@ class MainApp {
                 }
             }
             return name;
-            
+        }
+
+        void GetArchitectureOS() {
+            #if defined(__x86_64__)
+                Architecture = "x86";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
         }
 
         void InstallWinGet() {

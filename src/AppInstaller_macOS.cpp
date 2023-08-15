@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -70,9 +70,9 @@ namespace macOS {
         };
 
         int MainInstaller(string Name) {
-            string* Value = database.GetValueFromDB(Name,OS_NAME);
-            if (Value[0] != "ManualInstallation") {
-                result = system(Value[0].c_str());
+            string Value = database.GetValueFromDB("Applications",Name,"macOS");
+            if (Value != "ManualInstallation") {
+                result = system(Value.c_str());
             }
             else if (PackagesFromSource.find(Name) != PackagesFromSource.end()) {
                 result = (this->*(PackagesFromSource[Name]))();

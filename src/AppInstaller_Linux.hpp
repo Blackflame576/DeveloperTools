@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -73,7 +73,6 @@ map<int, string> Languages{
         {9,"C#"},{10,"PHP"},
         {11,"Kotlin"}
 };
-string NewVCpkgDir = "/usr/bin/";
 int result;
 int output_func;
 string haveString = "";
@@ -83,7 +82,7 @@ CURLcode res;
 Database database;
 map<string,string> Packages;
 map<string,string> DevelopmentPacks;
-string VCpkgRepository = "https://github.com/microsoft/vcpkg";
+// string VCpkgRepository = "https://github.com/microsoft/vcpkg";
 
 void UpdateData() {
     Packages = database.GetAllValuesFromDB("Applications", "Linux");

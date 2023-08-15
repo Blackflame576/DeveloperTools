@@ -8,6 +8,7 @@
 #include <cctype>
 #include <fstream>
 #include "src/DatabaseConnect.cpp"
+
 using namespace std;
 using namespace DB;
 string DoneChar = "#";
@@ -78,12 +79,13 @@ int Download(string url, string dir)
 
 
 int main() {
-    string Tables[11] = {"CDevelopmentTools","CppDevelopmentTools","CSDevelopmentTools","PythonDevelopmentTools","JavaDevelopmentTools",
-                       "JavaScriptDevelopmentTools","KotlinDevelopmentTools","RubyDevelopmentTools","RustDevelopmentTools","GoDevelopmentTools",
-                       "PHPDevelopmentTools"
-    };
-    Database database;
-    database.AddValues(Tables);
+
+    // string Tables[11] = {"CDevelopmentTools","CppDevelopmentTools","CSDevelopmentTools","PythonDevelopmentTools","JavaDevelopmentTools",
+    //                    "JavaScriptDevelopmentTools","KotlinDevelopmentTools","RubyDevelopmentTools","RustDevelopmentTools","GoDevelopmentTools",
+    //                    "PHPDevelopmentTools"
+    // };
+    // Database database;
+    // database.AddValues(Tables);
 //    map<string,string> DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks","Language");
 //    for (const auto &element:DevelopmentPacks) {
 //        cout << element.first << " " << element.second << endl;

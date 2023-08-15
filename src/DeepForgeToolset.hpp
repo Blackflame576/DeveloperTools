@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -52,6 +52,7 @@
 
 // Variables
 string OS_NAME;
+string Architecture;
 string Language;
 string SelectPackages;
 string Answer;
