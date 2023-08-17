@@ -35,7 +35,6 @@
 #include "Progressbar.hpp"
 #include <cctype>
 #include <exception>
-#include <regex>
 #include <filesystem>
 
 // Checking the name of the operating system and importing the necessary libraries for this system
@@ -60,7 +59,6 @@ string InstallTools;
 bool Install;
 string __version__ = "0.1";
 string MODE = "DEV";
-string NameDistribution;
 string InstallDelimiter = "========================================================";
 string LogoBanner;
 // string ProjectDir = std::filesystem::current_path().generic_string();

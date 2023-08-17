@@ -88,127 +88,167 @@ namespace Linux {
             }
         }
 
+        // int InstallPython_3_9() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url_arm64");
+        //     }
+        //     string NewPython_3_9_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.9","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.9.6_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.9.6_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_9_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_9_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_9_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_9_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.9 " << translate["Located"].asString() << " " << NewPython_3_9_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
+
+        // int InstallPython_3_10() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url_arm64");
+        //     }
+        //     string NewPython_3_10_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.10","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.10.12_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.10.12_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_10_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_10_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_10_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_10_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.10 " << translate["Located"].asString() << " " << NewPython_3_10_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
+
+        // int InstallPython_3_11() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url_arm64");
+        //     }
+        //     string NewPython_3_11_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.11","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.11.4_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.11.4_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_11_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_11_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_11_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_11_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.11 " << translate["Located"].asString() << " " << NewPython_3_11_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
         int InstallPython_3_9() {
-            if (Architecture == "x86") {
-                string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url");
-            }
-            else if (Architecture == "arm64"){
-                string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url_arm64");
-            }
-            string NewPython_3_9_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.9","LinuxDir");
-            string ArchiveDir = ProjectDir + "/Downloads";
-            string ArchivePath;
-            if (Architecture == "x86") { 
-                ArchivePath = ArchiveDir + "/Python3.9.6_linux_amd64.zip ";
-            }
-            else if (Architecture == "arm64") {
-                ArchivePath = ArchiveDir + "/Python3.9.6_linux_arm64.zip ";
-            }
-            string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_9_Dir;
-            string Command_AddPath;
-            if (Architecture == "x86") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_9_Dir;
-            }
-            else if (Architecture == "arm64") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_9_Dir;
-            }
-            if (std::filesystem::exists(ArchiveDir) == false) {
-                std::filesystem::create_directory(ArchiveDir);
-            }
-            if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
-            result = Download(NewPython_3_9_Dir,ArchiveDir);
-            switch (result) {
-                case 200:
-                    system(Command.c_str());
-                    system(Command_AddPath.c_str());
-                    std::filesystem::remove(ArchivePath);
-                    cout << "Python 3.9 " << translate["Located"].asString() << " " << NewPython_3_9_Dir << endl;
-                    return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
-            }
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.9",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+            // else {
+            //     if (PackageManager == "zypper") {
+
+            //     }
+            // }
         }
 
         int InstallPython_3_10() {
-            if (Architecture == "x86") {
-                string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url");
-            }
-            else if (Architecture == "arm64"){
-                string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url_arm64");
-            }
-            string NewPython_3_10_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.10","LinuxDir");
-            string ArchiveDir = ProjectDir + "/Downloads";
-            string ArchivePath;
-            if (Architecture == "x86") { 
-                ArchivePath = ArchiveDir + "/Python3.10.12_linux_amd64.zip ";
-            }
-            else if (Architecture == "arm64") {
-                ArchivePath = ArchiveDir + "/Python3.10.12_linux_arm64.zip ";
-            }
-            string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_10_Dir;
-            string Command_AddPath;
-            if (Architecture == "x86") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_10_Dir;
-            }
-            else if (Architecture == "arm64") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_10_Dir;
-            }
-            if (std::filesystem::exists(ArchiveDir) == false) {
-                std::filesystem::create_directory(ArchiveDir);
-            }
-            if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
-            result = Download(NewPython_3_10_Dir,ArchiveDir);
-            switch (result) {
-                case 200:
-                    system(Command.c_str());
-                    system(Command_AddPath.c_str());
-                    std::filesystem::remove(ArchivePath);
-                    cout << "Python 3.10 " << translate["Located"].asString() << " " << NewPython_3_10_Dir << endl;
-                    return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
-            }
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.10",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
         }
 
         int InstallPython_3_11() {
-            if (Architecture == "x86") {
-                string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url");
-            }
-            else if (Architecture == "arm64"){
-                string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url_arm64");
-            }
-            string NewPython_3_11_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.11","LinuxDir");
-            string ArchiveDir = ProjectDir + "/Downloads";
-            string ArchivePath;
-            if (Architecture == "x86") { 
-                ArchivePath = ArchiveDir + "/Python3.11.4_linux_amd64.zip ";
-            }
-            else if (Architecture == "arm64") {
-                ArchivePath = ArchiveDir + "/Python3.11.4_linux_arm64.zip ";
-            }
-            string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_11_Dir;
-            string Command_AddPath;
-            if (Architecture == "x86") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_11_Dir;
-            }
-            else if (Architecture == "arm64") {
-                Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_11_Dir;
-            }
-            if (std::filesystem::exists(ArchiveDir) == false) {
-                std::filesystem::create_directory(ArchiveDir);
-            }
-            if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
-            result = Download(NewPython_3_11_Dir,ArchiveDir);
-            switch (result) {
-                case 200:
-                    system(Command.c_str());
-                    system(Command_AddPath.c_str());
-                    std::filesystem::remove(ArchivePath);
-                    cout << "Python 3.11 " << translate["Located"].asString() << " " << NewPython_3_11_Dir << endl;
-                    return 0;
-                case 500:
-                    throw domain_error("Unable to connect");
-            }
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.11",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+
+        }
+
+        int InstallPHP() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","PHP",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallMake() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Make",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallWget() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Wget",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallNginx() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Nginx",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
         }
 
         using AppInstaller_funct_t = int(AppInstaller::*)(void);
@@ -218,7 +258,11 @@ namespace Linux {
             {"vcpkg",&AppInstaller::InstallVCpkg},
             {"Python 3.9",&AppInstaller::InstallPython_3_9},
             {"Python 3.10",&AppInstaller::InstallPython_3_10},
-            {"Python 3.11",&AppInstaller::InstallPython_3_11}
+            {"Python 3.11",&AppInstaller::InstallPython_3_11},
+            {"Wget",&AppInstaller::InstallWget},
+            {"Make",&AppInstaller::InstallMake},
+            {"PHP",&AppInstaller::InstallPHP},
+            {"Nginx",&AppInstaller::InstallNginx}
         };
 
         int MainInstaller(string Name) {

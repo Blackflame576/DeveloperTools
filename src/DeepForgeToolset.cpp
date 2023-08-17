@@ -386,7 +386,6 @@ class MainApp {
             // Localization settings
             SetLanguage();
             if (OS_NAME == "Linux") {
-                NameDistribution =GetNameDistribution();
                 InstallSnap();
                 cout << InstallDelimiter << endl;
             }
@@ -435,21 +434,6 @@ class MainApp {
             exit(0);
         }
 
-        string GetNameDistribution() {
-            ifstream stream("/etc/os-release");
-            string line;
-            regex nameRegex("^NAME=\"(.*?)\"$");
-            smatch match;
-            string name;
-            while (getline(stream,line)) {
-                if (regex_search(line,match,nameRegex)) {
-                    name = match[1].str();
-                    break;
-                }
-            }
-            return name;
-        }
-
         void GetArchitectureOS() {
             #if defined(__x86_64__)
                 Architecture = "x86";
@@ -476,8 +460,9 @@ class MainApp {
         }
 
         void InstallSnap() {
+            UpdateData();
             cout << NameDistribution << endl;
-            if (NameDistribution == "Ubuntu" || NameDistribution == "Kali GNU/Linux") {
+            if (PackageManager == "apt") {
                 result = system("snap --version");
                 if (result != 0) {
                     cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
@@ -489,6 +474,9 @@ class MainApp {
                     system("sudo systemctl start snapd.service");
                     cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
                 }
+                system("sudo ln -s /var/lib/snapd/snap /snap");
+                system("sudo systemctl enable snapd.service");
+                system("sudo systemctl start snapd.service");
             }
         }
 
