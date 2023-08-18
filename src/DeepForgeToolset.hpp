@@ -59,8 +59,7 @@ string InstallTools;
 bool Install;
 string __version__ = "0.1";
 string MODE = "DEV";
-string InstallDelimiter = "========================================================";
-string LogoBanner;
+// string LogoBanner;
 // string ProjectDir = std::filesystem::current_path().generic_string();
 // namespace DeepForgeToolset {
 //     class MainApp {

@@ -79,6 +79,7 @@ string NameDistribution;
 map<string, string> Packages;
 map<string, string> DevelopmentPacks;
 string PackageManager;
+string InstallDelimiter = "========================================================";
 
 string GetNameDistribution()
 {

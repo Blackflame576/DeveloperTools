@@ -94,6 +94,7 @@ CURLcode res;
 Database database;
 map<string,string> Packages;
 map<string,string> DevelopmentPacks;
+string InstallDelimiter = "========================================================";
 
 void UpdateData() {
     Packages = database.GetAllValuesFromDB("Applications", "Windows");

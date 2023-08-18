@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const char *ch = "/DB/AppInstaller.db";
+const char *ch = "/src/DB/AppInstaller.db";
 std::filesystem::path current_path = std::filesystem::current_path().generic_string();
 string DB_PATH = current_path.parent_path().string() + ch;
 Database database(&DB_PATH);
@@ -54,7 +54,7 @@ TEST(DB,GetDevPack) {
 }
 
 int main(int argc, char **argv)
-{
+{   
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();

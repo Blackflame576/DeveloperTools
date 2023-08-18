@@ -81,12 +81,20 @@ namespace macOS {
         }
         AppInstaller() {
             UpdateData();
+            InstallBrew();
+            cout << InstallDelimiter << endl;
         }
 
         ~AppInstaller() {
 
         }
     private:
+        void InstallBrew() {
+            cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
+            system("bash ./Scripts/InstallBrew.sh");
+            cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
+        }
+        
         int Download(string url, string dir)
         {
             try {

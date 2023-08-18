@@ -301,6 +301,8 @@ namespace Windows
         AppInstaller()
         {
             UpdateData();
+            InstallWinGet();
+            cout << InstallDelimiter << endl;
         }
 
         ~AppInstaller()
@@ -308,6 +310,17 @@ namespace Windows
         }
 
     private:
+        void InstallWinGet() {
+            cout << "WinGet ";
+            result = system("winget -v");
+            if (result != 0) {
+                cout << translate["Installing"].asString() << " " << "winget" << " ..." << endl;
+                string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
+                system(Command.c_str());
+                cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
+            }
+        }
+
         int Download(string url, string dir)
         {
             try

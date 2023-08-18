@@ -380,23 +380,11 @@ class MainApp {
 
         MainApp () {
             GetArchitectureOS();
-            cout << "DeepForge Toolset v" << __version__ << endl;
-            cout << "Author: Blackflame576" << endl;
+            cout << "DeepForge Toolset v" << __version__ << " " << Architecture << endl;
+            cout << "Organization: DeepForge" << endl;
             cout << InstallDelimiter << endl;
             // Localization settings
             SetLanguage();
-            if (OS_NAME == "Linux") {
-                InstallSnap();
-                cout << InstallDelimiter << endl;
-            }
-            else if (OS_NAME == "Windows") {
-                InstallWinGet();
-                cout << InstallDelimiter << endl;
-            }
-            else if (OS_NAME == "MacOS") {
-                InstallBrew();
-                cout << InstallDelimiter << endl;
-            }
         };
         ~MainApp() {};
 
@@ -441,45 +429,6 @@ class MainApp {
                 Architecture = "arm64";
             #endif
         }
-
-        void InstallWinGet() {
-            cout << "WinGet ";
-            result = system("winget -v");
-            if (result != 0) {
-                cout << translate["Installing"].asString() << " " << "winget" << " ..." << endl;
-                string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
-                system(Command.c_str());
-                cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
-            }
-        }
-
-        void InstallBrew() {
-            cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
-            system("bash ./Scripts/InstallBrew.sh");
-            cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
-        }
-
-        void InstallSnap() {
-            UpdateData();
-            cout << NameDistribution << endl;
-            if (PackageManager == "apt") {
-                result = system("snap --version");
-                if (result != 0) {
-                    cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
-                    system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
-                    // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
-                    system("sudo apt install snap snapd");
-                    system("sudo ln -s /var/lib/snapd/snap /snap");
-                    system("sudo systemctl enable snapd.service");
-                    system("sudo systemctl start snapd.service");
-                    cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
-                }
-                system("sudo ln -s /var/lib/snapd/snap /snap");
-                system("sudo systemctl enable snapd.service");
-                system("sudo systemctl start snapd.service");
-            }
-        }
-
 };
 
 int main(int argc, char** argv) {
