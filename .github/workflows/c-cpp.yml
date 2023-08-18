@@ -20,6 +20,6 @@ jobs:
     - name: Make directory tests
       run: mkdir tests
     - name: Building tests
-      run: g++ .\src\tests\MainTest.cpp -o .\tests\MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a
+      run: g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a
     - name: Run tests
-      run: sudo .\tests\MainTest
+      run: sudo ./tests/MainTest
