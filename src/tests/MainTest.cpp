@@ -1,51 +1,60 @@
 #include <string>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include "../DatabaseConnect.cpp"
+#include <filesystem>
+#include <map>
 
-class MylibInterface {
-public:
-    virtual ~MylibInterface() = default;
-    virtual void setVoltage(int) = 0;
-};
+using namespace std;
 
-class MylibMock : public MylibInterface {
-public:
-    ~MylibMock() override = default;
-    MOCK_METHOD1(setVoltage, void(int));
-};
+const char *ch = "/src/DB/AppInstaller.db";
+std::filesystem::path current_path = std::filesystem::current_path().generic_string();
+string DB_PATH = current_path.parent_path().string() + ch;
+Database database(&DB_PATH);
+string NameApp = "TestApp";
+string Windows_Command = "Test_Windows_Command";
+string macOS_Command = "Test_macOS_Command";
+string Linux_Command = "Test_Linux_Command";
+string Table = "Test";
 
-class Mylib : public MylibInterface {
-public:
-    void setVoltage(int v) {
-        // complex logic
-    }
-};
-
-class Myapp {
-    MylibInterface *mylib_;
-
-public:
-    explicit Myapp(MylibInterface *mylib) : mylib_(mylib){};
-
-    void run(const std::string& cmd) {
-        if (cmd == "ON") {
-            mylib_->setVoltage(220);
-        } else if (cmd == "OFF") {
-            mylib_->setVoltage(0);
-        }
-    }
-};
-
-TEST(MylibTestSuite, mock_mylib_setVoltage) {
-MylibMock mylib_mock;
-Myapp myapp_mock(&mylib_mock);
-
-EXPECT_CALL(mylib_mock, setVoltage(220)).Times(1);
-
-myapp_mock.run("ON");
+TEST(DB, CreateValue)
+{
+    int RESULT = database.InsertValuesToTable(Table, NameApp, Windows_Command, macOS_Command, Linux_Command);
+    EXPECT_EQ(RESULT, 0);
+    // print();
 }
 
-int main(int argc, char **argv) {
+TEST(DB, GetValue)
+{
+    string RESULT;
+    RESULT = database.GetValueFromDB(Table,NameApp,"Windows");
+    delete[] AnswerDB;
+    EXPECT_STREQ(Windows_Command.c_str(),RESULT.c_str());
+    RESULT = database.GetValueFromDB(Table,NameApp,"Linux");
+    delete[] AnswerDB;
+    EXPECT_STREQ(Linux_Command.c_str(),RESULT.c_str());
+    RESULT = database.GetValueFromDB(Table,NameApp,"macOS");
+    delete[] AnswerDB;
+    EXPECT_STREQ(macOS_Command.c_str(),RESULT.c_str());
+}
+
+TEST(DB,DeleteValue) {
+    int RESULT = database.RemoveValuesFromTable(Table,NameApp);
+    EXPECT_EQ(0,RESULT);
+}
+
+TEST(DB,GetAllValues) {
+    map<string,string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
+    EXPECT_LE(1,Packages.size());
+}
+
+TEST(DB,GetDevPack) {
+    map<string,string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    EXPECT_LE(1,DevelopmetPacks.size());
+}
+
+int main(int argc, char **argv)
+{   
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();

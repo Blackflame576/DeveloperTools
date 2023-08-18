@@ -67,7 +67,18 @@
 			"cinttypes": "cpp",
 			"typeindex": "cpp",
 			"typeinfo": "cpp",
-			"variant": "cpp"
+			"variant": "cpp",
+			"condition_variable": "cpp",
+			"list": "cpp",
+			"set": "cpp",
+			"future": "cpp",
+			"mutex": "cpp",
+			"semaphore": "cpp",
+			"stdfloat": "cpp",
+			"stop_token": "cpp",
+			"thread": "cpp",
+			"any": "cpp",
+			"filesystem": "cpp"
 		},
 		"sqltools.connections": [
 			{

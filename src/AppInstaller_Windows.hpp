@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -85,17 +85,6 @@ map<int, string> Languages{
     {9,"C#"},{10,"PHP"},
     {11,"Kotlin"}
 };
-const string KotlinUrl = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
-const string PHPUrl = "https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip";
-const string WgetUrl = "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe";
-const string EclipseUrl = "https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip";
-// const string EclipseUrl = "https://fileinfo.com/img/ss/xl/url_181.png";
-string NewKotlinDir = "C:\\";
-string NewPHPDir = "C:\\PHP";
-string NewWgetDir = "C:\\Wget";
-string NewEclipseDir = "C:\\";
-string NewVCpkgDir = "C:\\";
-string NewMakeDir = "C:\\Make";
 int result;
 int output_func;
 string haveString = "";
@@ -105,10 +94,11 @@ CURLcode res;
 Database database;
 map<string,string> Packages;
 map<string,string> DevelopmentPacks;
-string VCpkgRepository = "https://github.com/microsoft/vcpkg";
+string InstallDelimiter = "========================================================";
 
 void UpdateData() {
     Packages = database.GetAllValuesFromDB("Applications", "Windows");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    delete[] AnswerDB;
 }
 #endif

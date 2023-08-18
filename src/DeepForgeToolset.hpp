@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -35,7 +35,6 @@
 #include "Progressbar.hpp"
 #include <cctype>
 #include <exception>
-#include <regex>
 #include <filesystem>
 
 // Checking the name of the operating system and importing the necessary libraries for this system
@@ -52,6 +51,7 @@
 
 // Variables
 string OS_NAME;
+string Architecture;
 string Language;
 string SelectPackages;
 string Answer;
@@ -59,9 +59,7 @@ string InstallTools;
 bool Install;
 string __version__ = "0.1";
 string MODE = "DEV";
-string NameDistribution;
-string InstallDelimiter = "========================================================";
-string LogoBanner;
+// string LogoBanner;
 // string ProjectDir = std::filesystem::current_path().generic_string();
 // namespace DeepForgeToolset {
 //     class MainApp {

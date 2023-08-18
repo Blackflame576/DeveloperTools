@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -64,12 +64,19 @@ namespace Linux {
     {
     public:
         int InstallVCpkg() {
+            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource","vcpkg","LinuxDir");
+            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource","vcpkg","Url");
+            string PathRepository = NewVCpkgDir + "vcpkg";
+            if (std::filesystem::exists(PathRepository)) {
+                cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
+                return 1;
+            }
             string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
             string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
             // string Command_AddPath = "bash -c 'source ./Scripts/AddPath.sh'";
             string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
-            // result = system(Command.c_str());
-            result = system("ls");
+            result = system(Command.c_str());
+            // result = system("ls");
             switch (result) {
                 case 0:
                     // result = system(Command_Install.c_str());
@@ -81,8 +88,167 @@ namespace Linux {
             }
         }
 
-        int InstallPython_3_9() {
+        // int InstallPython_3_9() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_9_Url = database.GetValueFromDB("PackagesFromSource","Python3.9","Url_arm64");
+        //     }
+        //     string NewPython_3_9_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.9","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.9.6_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.9.6_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_9_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_9_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_9_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_9_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.9 " << translate["Located"].asString() << " " << NewPython_3_9_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
 
+        // int InstallPython_3_10() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_10_Url = database.GetValueFromDB("PackagesFromSource","Python3.10","Url_arm64");
+        //     }
+        //     string NewPython_3_10_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.10","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.10.12_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.10.12_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_10_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_10_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_10_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_10_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.10 " << translate["Located"].asString() << " " << NewPython_3_10_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
+
+        // int InstallPython_3_11() {
+        //     if (Architecture == "x86") {
+        //         string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url");
+        //     }
+        //     else if (Architecture == "arm64"){
+        //         string Python_3_11_Url = database.GetValueFromDB("PackagesFromSource","Python3.11","Url_arm64");
+        //     }
+        //     string NewPython_3_11_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.11","LinuxDir");
+        //     string ArchiveDir = ProjectDir + "/Downloads";
+        //     string ArchivePath;
+        //     if (Architecture == "x86") { 
+        //         ArchivePath = ArchiveDir + "/Python3.11.4_linux_amd64.zip ";
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         ArchivePath = ArchiveDir + "/Python3.11.4_linux_arm64.zip ";
+        //     }
+        //     string Command = "tar -xf " + ArchivePath + "--directory " + NewPython_3_11_Dir;
+        //     string Command_AddPath;
+        //     if (Architecture == "x86") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-amd64" + NewPython_3_11_Dir;
+        //     }
+        //     else if (Architecture == "arm64") {
+        //         Command_AddPath = "sudo " + ProjectDir + "/utils/pathman-linux-armv8" + NewPython_3_11_Dir;
+        //     }
+        //     if (std::filesystem::exists(ArchiveDir) == false) {
+        //         std::filesystem::create_directory(ArchiveDir);
+        //     }
+        //     if (std::filesystem::exists(ArchivePath)) std::filesystem::remove(ArchivePath);
+        //     result = Download(NewPython_3_11_Dir,ArchiveDir);
+        //     switch (result) {
+        //         case 200:
+        //             system(Command.c_str());
+        //             system(Command_AddPath.c_str());
+        //             std::filesystem::remove(ArchivePath);
+        //             cout << "Python 3.11 " << translate["Located"].asString() << " " << NewPython_3_11_Dir << endl;
+        //             return 0;
+        //         case 500:
+        //             throw domain_error("Unable to connect");
+        //     }
+        // }
+        int InstallPython_3_9() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.9",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+            // else {
+            //     if (PackageManager == "zypper") {
+
+            //     }
+            // }
+        }
+
+        int InstallPython_3_10() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.10",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallPython_3_11() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.11",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+
+        }
+
+        int InstallPHP() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","PHP",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallMake() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Make",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallWget() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Wget",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        }
+
+        int InstallNginx() {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Nginx",PackageManager);
+            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
         }
 
         using AppInstaller_funct_t = int(AppInstaller::*)(void);
@@ -90,13 +256,19 @@ namespace Linux {
 
         map<string,AppInstaller_funct_t> PackagesFromSource {
             {"vcpkg",&AppInstaller::InstallVCpkg},
-            {"Python 3.9",&AppInstaller::InstallPython_3_9}
+            {"Python 3.9",&AppInstaller::InstallPython_3_9},
+            {"Python 3.10",&AppInstaller::InstallPython_3_10},
+            {"Python 3.11",&AppInstaller::InstallPython_3_11},
+            {"Wget",&AppInstaller::InstallWget},
+            {"Make",&AppInstaller::InstallMake},
+            {"PHP",&AppInstaller::InstallPHP},
+            {"Nginx",&AppInstaller::InstallNginx}
         };
 
         int MainInstaller(string Name) {
-            string* Value = database.GetValueFromDB(Name,OS_NAME);
-            if (Value[0] != "ManualInstallation") {
-                result = system(Value[0].c_str());
+            string Value = database.GetValueFromDB("Applications",Name,"Linux");
+            if (Value != "ManualInstallation") {
+                result = system(Value.c_str());
             }
             else if (PackagesFromSource.find(Name) != PackagesFromSource.end()) {
                 result = (this->*(PackagesFromSource[Name]))();
@@ -105,12 +277,35 @@ namespace Linux {
         }
         AppInstaller() {
             UpdateData();
+            InstallSnap();
+            cout << InstallDelimiter << endl;
         }
 
         ~AppInstaller() {
 
         }
     private:
+        void InstallSnap() {
+            UpdateData();
+            cout << NameDistribution << endl;
+            if (PackageManager == "apt") {
+                result = system("snap --version");
+                if (result != 0) {
+                    cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
+                    system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
+                    // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
+                    system("sudo apt install snap snapd");
+                    system("sudo ln -s /var/lib/snapd/snap /snap");
+                    system("sudo systemctl enable snapd.service");
+                    system("sudo systemctl start snapd.service");
+                    cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
+                }
+                system("sudo ln -s /var/lib/snapd/snap /snap");
+                system("sudo systemctl enable snapd.service");
+                system("sudo systemctl start snapd.service");
+            }
+        }
+
         int Download(string url, string dir)
         {
             try {

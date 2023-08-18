@@ -21,7 +21,7 @@ string OutputStr;
 class ProgressBar {
     
     public:
-        void Update(float NetworkSpeed = 0,double Time = 0.0) {
+        void Update(float NetworkSpeed = 0) {
             Process += 1;
             Output = startSymbol;
             for (int i = 0; i < n_done; i++) {
@@ -73,25 +73,25 @@ class ProgressBar {
                 ConvertedSpeed = to_string(convert_to_KBit(NetworkSpeed)) + " KBit/s";
             }
             else {
-                ConvertedSpeed = to_string(NetworkSpeed) + " KB/s";
+                ConvertedSpeed = to_string(static_cast<int>(NetworkSpeed)) + " KB/s";
             }
             return ConvertedSpeed;
         }
 
-        float convert_to_MB(float Value) {
-            float NewValue = Value / 1024;
+        int convert_to_MB(float Value) {
+            int NewValue = (int)(Value / 1024);
 //            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
-        float convert_to_MBit(float Value) {
-            float NewValue = Value * 0.008;
+        int convert_to_MBit(float Value) {
+            int NewValue = (int)(Value * 0.008);
 //            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_KBit(float Value) {
-            float NewValue = Value * 8;
+            int NewValue = (int)(Value * 8);
 //            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }

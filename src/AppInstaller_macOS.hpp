@@ -18,7 +18,7 @@
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -82,6 +82,7 @@ CURLcode res;
 Database database;
 map<string,string> Packages;
 map<string,string> DevelopmentPacks;
+string InstallDelimiter = "========================================================";
 
 void UpdateData() {
     Packages = database.GetAllValuesFromDB("Applications", "macOS");

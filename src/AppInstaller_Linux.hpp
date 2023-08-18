@@ -1,24 +1,24 @@
 /*  The MIT License (MIT)
     ============================================================================
 
-    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗    
-    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝    
-    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗      
-    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝      
-    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗    
-    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝    
-                                                                                
-    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗                  
-    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝                  
-       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║                     
-       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║                     
-       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║                     
-       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝
 
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
     ============================================================================
-    Company: DeepForge Technology
+    Organization: DeepForge Technology
     ============================================================================
     Author: Blackflame576
     ============================================================================
@@ -48,6 +48,7 @@
 #include <time.h>
 #include <stdint.h>
 #include <chrono>
+#include <regex>
 #include "DatabaseConnect.cpp"
 
 using namespace std;
@@ -59,34 +60,50 @@ using namespace DB;
 int Percentage;
 int TempPercentage;
 string ProjectDir = std::filesystem::current_path().generic_string();
-MainLogger logger(true,"logs/DeepForgeToolset.log");
+MainLogger logger(true, "logs/DeepForgeToolset.log");
 ProgressBar progressbar;
-const string TrueVarious[3] = { "yes", "y", "1"};
+const string TrueVarious[3] = {"yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-        {1,"Python"},{2,"JavaScript"},
-        {3,"C++"},{4,"Java"},
-        {5,"Go"},{6,"Rust"},
-        {7,"Ruby"},{8,"C"},
-        {9,"C#"},{10,"PHP"},
-        {11,"Kotlin"}
-};
-string NewVCpkgDir = "/usr/bin/";
+    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
 int result;
 int output_func;
 string haveString = "";
 double DownloadSpeed = 0.0;
-CURL* curl = curl_easy_init();
+CURL *curl = curl_easy_init();
 CURLcode res;
 Database database;
-map<string,string> Packages;
-map<string,string> DevelopmentPacks;
-string VCpkgRepository = "https://github.com/microsoft/vcpkg";
+string NameDistribution;
+map<string, string> Packages;
+map<string, string> DevelopmentPacks;
+string PackageManager;
+string InstallDelimiter = "========================================================";
 
-void UpdateData() {
+string GetNameDistribution()
+{
+    ifstream stream("/etc/os-release");
+    string line;
+    regex nameRegex("^NAME=\"(.*?)\"$");
+    smatch match;
+    string name;
+    while (getline(stream, line))
+    {
+        if (regex_search(line, match, nameRegex))
+        {
+            name = match[1].str();
+            break;
+        }
+    }
+    return name;
+}
+
+void UpdateData()
+{
+    NameDistribution = GetNameDistribution();
     Packages = database.GetAllValuesFromDB("Applications", "Linux");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    PackageManager = database.GetValueFromDB("SupportedOS",NameDistribution,"PackageManager");
 }
 #endif
