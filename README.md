@@ -30,11 +30,114 @@
 
 <summary>MacOS</summary>
 
-<a href="https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/tag/v0.1_macos_amd64">Download for amd64</a>
+<a href="https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/tag/v0.1_macos_amd64">Download for amd64(Intel)</a>
 
 </details>
 
-  
+## 🔥 Build from source
+<details>
+<summary>Windows</summary>
+
+1. Run script
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+.\BuildProject.bat
+```
+
+</center>
+
+2. Go to build folder
+3. Go to Windows folder
+4. Create a shortcut to the DeepForgeToolset.exe application and move it to the desktop
+
+</details>
+
+<details>
+<summary>Linux</summary>
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+bash ./BuildProject.sh
+```
+
+</center>
+
+</details>
+
+<details>
+<summary>macOS</summary>
+
+1. Run script
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+bash ./BuildProject.sh
+```
+
+</center>
+
+2. Go to build folder
+3. Go to macOS folder
+4. Create a shortcut to the DeepForgeToolset application and move it to Applications folder
+
+</details>
+
+## ✅ Build and run tests
+
+<details>
+<summary>Windows</summary>
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+.\BuildTests.bat
+```
+
+</center>
+
+</details>
+
+<details>
+<summary>Linux</summary>
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+bash ./BuildTests.sh
+```
+
+</center>
+
+</details>
+
+<details>
+<summary>macOS</summary>
+
+<center> 
+
+```
+git clone https://github.com/DeepForge-Technology/DeepForge-Toolset.git
+cd DeepForge-Toolset
+bash ./BuildTests.sh
+```
+
+</center>
+
+</details>
 
 ## 👥 Authors
 1. @Blackflame576

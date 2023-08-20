@@ -198,7 +198,7 @@ class MainApp {
                 // Numbering of all applications
                 for (int i = 1;const auto &element:Packages) {
                     string name = to_lower(element.first);
-                    // Проверка совпадения названия приложения из словаря Packages с введённым названием приложения
+                    // Checking if the application name from the Packages dictionary matches the entered application name
                     if (SearchingPackage == name || name.rfind(SearchingPackage,0) == 0) {
                         isSearched = true;
                         EnumeratePackages.insert(pair<int,string>(i,element.first));
@@ -265,7 +265,6 @@ class MainApp {
                             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
                             // Installing the application with the most recently entered number
                             output_func = Installer.MainInstaller(NamePackage);
-                            // output_func = (Installer.*(Packages[NamePackage]))();
                             if (output_func == 0) {
                                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
@@ -355,7 +354,6 @@ class MainApp {
                         cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
                         // Installing the application with the most recently entered number
                         output_func = Installer.MainInstaller(NamePackage);
-                        // output_func = (Installer.*(Packages[NamePackage]))();
                         if (output_func == 0) {
                             cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                             string SuccessText = NamePackage + " " + translate["Installed"].asString();
