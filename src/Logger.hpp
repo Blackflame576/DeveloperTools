@@ -1,3 +1,5 @@
+#ifndef LOGGER_HPP_
+#define LOGGER_HPP_
 // Импортирование библиотек
 #include <cstdlib>
 #include <stdio.h>
@@ -21,3 +23,4 @@ const string InfoStr = "🆗[INFO]";
 const string WarningStr = "⚠️[WARNING]";
 const string SuccessStr = "✅[SUCCESS]";
 // string LoggerDir = std::filesystem::current_path();
+#endif

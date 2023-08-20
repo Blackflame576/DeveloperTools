@@ -25,8 +25,8 @@
     Created: 4 Juny 2023
     ============================================================================
 */
-#ifndef DATABASECONNECT_H_
-#define DATABASECONNECT_H_
+#ifndef DATABASECONNECT_HPP_
+#define DATABASECONNECT_HPP_
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,6 +69,7 @@ namespace DB
         int InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
         int RemoveValuesFromTable(string NameTable,string NameApp);
         int AddValues(string Tables[]);
+        int RemoveValues(string Tables[]);
 
     private:
         int GetArraySize(string NameTable, string NameColumn);

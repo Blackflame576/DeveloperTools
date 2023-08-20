@@ -92,27 +92,6 @@ int main()
     std::filesystem::path current_path = std::filesystem::current_path().generic_string();
     string DB_PATH = current_path.string() + "/src/" + ch;
     Database database(&DB_PATH);
-    string NameApp;
-    string Windows_Command;
-    string macOS_Command;
-    string Linux_Command;
-    cout << "Name:";
-    getline(cin, NameApp);
-    cout << "Windows:";
-    getline(cin, Windows_Command);
-    cout << "macOS:";
-    getline(cin, macOS_Command);
-    cout << "Linux:";
-    getline(cin, Linux_Command);
-    // database.AddValues(Tables);
-    //    map<string,string> DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks","Language");
-    //    for (const auto &element:DevelopmentPacks) {
-    //        cout << element.first << " " << element.second << endl;
-    //    }
-    // colours.insert(std::pair<int,string(*)[3]>(1,&red));
-    // colours.insert(std::pair<int,int(*)[3]>(GLUT_MIDDLE_BUTTON,&blue));
-    // colours.insert(std::pair<int,int(*)[3]>(GLUT_RIGHT_BUTTON,&green));
-    //    Download("http://212.183.159.230/100MB.zip",".\\");
-    // std::cout << "\rDone            " << std::endl;
+    database.AddValues(Tables);
     return 0;
 }

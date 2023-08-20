@@ -47,3 +47,5 @@ InstallerDeepForge_Toolset/CMakeFiles/.ninja_deps
 InstallerDeepForge_Toolset/CMakeFiles/ninja_log
 *.ninja
 /tests/
+.vscode
+.idea

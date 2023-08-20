@@ -25,6 +25,8 @@
     Created: 4 Juny 2023
     ============================================================================
 */
+#ifndef DEEPFORGETOOLSET_HPP_
+#define DEEPFORGETOOLSET_HPP_
 // Importing Libraries
 #include <iostream>
 #include <map>
@@ -70,3 +72,4 @@ string MODE = "DEV";
 //             }
 //     }
 // }
+#endif

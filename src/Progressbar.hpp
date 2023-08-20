@@ -21,7 +21,7 @@ string OutputStr;
 class ProgressBar {
     
     public:
-        void Update(float NetworkSpeed = 0) {
+        void Update(float NetworkSpeed = 0,float TotalDownloaded = 0.0) {
             Process += 1;
             Output = startSymbol;
             for (int i = 0; i < n_done; i++) {
@@ -42,15 +42,18 @@ class ProgressBar {
                 EmptyStr += todoSymbol;
             }
             cout << "\r" << EmptyStr << flush;
-            // cout << EndTime << endl;
-            if (NetworkSpeed != 0) {
+            OutputStr = Output + " " + to_string(Process) + "%  ";
+            if (TotalDownloaded != 0.0 && NetworkSpeed != 0) {
                 string Speed = AutoConvert(NetworkSpeed);
-                OutputStr = Output + " " + to_string(Process) + "% " +  Speed;
+                OutputStr = OutputStr + to_string(TotalDownloaded) + " | " + Speed;
             }
-            else {
-                OutputStr = Output + " " + to_string(Process) + "% ";
+            else if (NetworkSpeed != 0) {
+                string Speed = AutoConvert(NetworkSpeed);
+                OutputStr += Speed;
             }
-            // cout << Time << endl;
+            else if (TotalDownloaded != 0.0) {
+                OutputStr += to_string(TotalDownloaded);
+            }
             cout << "\r" << OutputStr << flush;
             LastSizeStr = OutputStr.size();
         }
@@ -80,19 +83,16 @@ class ProgressBar {
 
         int convert_to_MB(float Value) {
             int NewValue = (int)(Value / 1024);
-//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
         int convert_to_MBit(float Value) {
             int NewValue = (int)(Value * 0.008);
-//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 
         float convert_to_KBit(float Value) {
             int NewValue = (int)(Value * 8);
-//            NewValue = round(NewValue * 100) / 100;
             return NewValue;
         }
 };

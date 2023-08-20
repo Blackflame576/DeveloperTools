@@ -381,7 +381,7 @@ class MainApp {
         MainApp () {
             GetArchitectureOS();
             cout << "DeepForge Toolset v" << __version__ << " " << Architecture << endl;
-            cout << "Organization: DeepForge" << endl;
+            cout << "Organization: DeepForge Technology" << endl;
             cout << InstallDelimiter << endl;
             // Localization settings
             SetLanguage();

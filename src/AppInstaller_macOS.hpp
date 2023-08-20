@@ -1,19 +1,19 @@
 /*  The MIT License (MIT)
     ============================================================================
 
-    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗    
-    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝    
-    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗      
-    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝      
-    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗    
-    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝    
-                                                                                
-    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗                  
-    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝                  
-       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║                     
-       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║                     
-       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║                     
-       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝
 
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
@@ -26,8 +26,8 @@
     ============================================================================
 */
 // Importing Libraries
-#ifndef APPINSTALLER_MACOS_H_
-#define APPINSTALLER_MACOS_H_
+#ifndef APPINSTALLER_MACOS_HPP_
+#define APPINSTALLER_MACOS_HPP_
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -59,32 +59,27 @@ using namespace DB;
 int Percentage;
 int TempPercentage;
 string ProjectDir = std::filesystem::current_path().generic_string();
-MainLogger logger(true,"logs/DeepForgeToolset.log");
+MainLogger logger(true, "logs/DeepForgeToolset.log");
 ProgressBar progressbar;
-const string TrueVarious[3] = { "yes", "y", "1"};
+const string TrueVarious[3] = {"yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-        {1,"Python"},{2,"JavaScript"},
-        {3,"C++"},{4,"Java"},
-        {5,"Go"},{6,"Rust"},
-        {7,"Ruby"},{8,"C"},
-        {9,"C#"},{10,"PHP"},
-        {11,"Kotlin"}
-};
+    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
 int result;
 int output_func;
 string haveString = "";
 double DownloadSpeed = 0.0;
-CURL* curl = curl_easy_init();
+CURL *curl = curl_easy_init();
 CURLcode res;
 Database database;
-map<string,string> Packages;
-map<string,string> DevelopmentPacks;
+map<string, string> Packages;
+map<string, string> DevelopmentPacks;
 string InstallDelimiter = "========================================================";
 
-void UpdateData() {
+void UpdateData()
+{
     Packages = database.GetAllValuesFromDB("Applications", "macOS");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
 }
