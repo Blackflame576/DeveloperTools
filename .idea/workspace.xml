@@ -19,20 +19,92 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1ecb73-8b83-4de6-b031-0f39ec55a662" name="Default Changelist" comment="Refactoring">
-      <change afterPath="$PROJECT_DIR$/BuildTests.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/CI_dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/CI_master.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildTests.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/InstallerDeepForge_Toolset.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/InstallerDeepForge_Toolset.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/BuildProject" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/Installer.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/InstallerDeveloperTools" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/InstallerDeveloperTools.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/Progressbar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/resource.rc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Linux/resource.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/BuildProject" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/Installer.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/InstallerDeveloperTools.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/Progressbar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/resource.rc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/MacOS/resource.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Windows/BuildProject" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Windows/InstallerDeveloperTools.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/Windows/Progressbar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/include/Installer_Linux.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/include/Installer_Windows.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/include/Installer_macOS.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/include/Progressbar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/resource.rc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Installer/resource.res" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/c-cpp.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildProject.bat" beforeDir="false" afterPath="$PROJECT_DIR$/BuildProject.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DeepForgeToolset.code-workspace" beforeDir="false" afterPath="$PROJECT_DIR$/DeepForgeToolset.code-workspace" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Linux.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Linux.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Linux.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Linux.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Windows.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_Windows.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_Windows.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_macOS.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_macOS.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppInstaller_macOS.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppInstaller_macOS.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/AppInstaller.sqbpro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DB/Backup/AppInstaller.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB/Backup/AppInstaller.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DatabaseConnect.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DatabaseConnect.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeepForgeToolset.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeepForgeToolset.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DeepForgeToolset.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/DeepForgeToolset.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/build/Linux/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/build/Linux/InstallerDeveloperTools" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/build/MacOS/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/build/Windows/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/build/Windows/InstallerDeveloperTools.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/BuildProject" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/InstallerDeveloperTools" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/InstallerDeveloperTools.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/InstallerDeveloperTools.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/Progressbar.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/resource.rc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Linux/resource.res" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/BuildProject" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/InstallerDeveloperTools.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/InstallerDeveloperTools.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/Progressbar.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/resource.rc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/MacOS/resource.res" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/BuildProject" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/Installer.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/InstallerDeveloperTools.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/InstallerDeveloperTools.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/InstallerDeveloperTools.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/Progressbar.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/resource.rc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Installer/src/Windows/resource.res" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logger.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logger.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Progressbar.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Progressbar.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tests/MainTest.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/MainTest.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/MainTest.exe" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/MainTest.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.exe" beforeDir="false" afterPath="$PROJECT_DIR$/test.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_DeepForgeToolset.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_DeepForgeToolset.hpp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +223,7 @@
       <workItem from="1691750269834" duration="9969000" />
       <workItem from="1691780795984" duration="741000" />
       <workItem from="1692130863512" duration="1216000" />
+      <workItem from="1692470897704" duration="1652000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring">
       <option name="closed" value="true" />

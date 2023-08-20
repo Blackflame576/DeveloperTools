@@ -26,8 +26,8 @@
     ============================================================================
 */
 // Importing Libraries
-#ifndef APPINSTALLER_LINUX_H_
-#define APPINSTALLER_LINUX_H_
+#ifndef APPINSTALLER_LINUX_HPP_
+#define APPINSTALLER_LINUX_HPP_
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -104,6 +104,6 @@ void UpdateData()
     NameDistribution = GetNameDistribution();
     Packages = database.GetAllValuesFromDB("Applications", "Linux");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
-    PackageManager = database.GetValueFromDB("SupportedOS",NameDistribution,"PackageManager");
+    PackageManager = database.GetValueFromDB("SupportedOS", NameDistribution, "PackageManager");
 }
 #endif

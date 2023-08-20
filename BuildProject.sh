@@ -12,11 +12,11 @@ cd build
 mkdir $os
 cd ..
 echo "==> Building project"
-g++ -o ./build/$os/DeepForgeToolset ./src/resource.res ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/  -lcurl -Wreturn-type -ljsoncpp -lsqlite3 -std=c++2a
+g++ -o ./build/$os/DeepForgeToolset ./src/resource.res ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/  -lcurl -w -ljsoncpp -lsqlite3 -std=c++2a
 echo "==> Build of project finished"
 mkdir tests
 echo "==> Building tests"
-g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a
+g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a -w
 echo "==> Build of tests finished"
 echo "==> Running tests"
 sudo ./tests/MainTest

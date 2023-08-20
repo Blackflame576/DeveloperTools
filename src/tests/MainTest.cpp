@@ -27,34 +27,37 @@ TEST(DB, CreateValue)
 TEST(DB, GetValue)
 {
     string RESULT;
-    RESULT = database.GetValueFromDB(Table,NameApp,"Windows");
+    RESULT = database.GetValueFromDB(Table, NameApp, "Windows");
     delete[] AnswerDB;
-    EXPECT_STREQ(Windows_Command.c_str(),RESULT.c_str());
-    RESULT = database.GetValueFromDB(Table,NameApp,"Linux");
+    EXPECT_STREQ(Windows_Command.c_str(), RESULT.c_str());
+    RESULT = database.GetValueFromDB(Table, NameApp, "Linux");
     delete[] AnswerDB;
-    EXPECT_STREQ(Linux_Command.c_str(),RESULT.c_str());
-    RESULT = database.GetValueFromDB(Table,NameApp,"macOS");
+    EXPECT_STREQ(Linux_Command.c_str(), RESULT.c_str());
+    RESULT = database.GetValueFromDB(Table, NameApp, "macOS");
     delete[] AnswerDB;
-    EXPECT_STREQ(macOS_Command.c_str(),RESULT.c_str());
+    EXPECT_STREQ(macOS_Command.c_str(), RESULT.c_str());
 }
 
-TEST(DB,DeleteValue) {
-    int RESULT = database.RemoveValuesFromTable(Table,NameApp);
-    EXPECT_EQ(0,RESULT);
+TEST(DB, DeleteValue)
+{
+    int RESULT = database.RemoveValuesFromTable(Table, NameApp);
+    EXPECT_EQ(0, RESULT);
 }
 
-TEST(DB,GetAllValues) {
-    map<string,string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
-    EXPECT_LE(1,Packages.size());
+TEST(DB, GetAllValues)
+{
+    map<string, string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
+    EXPECT_LE(1, Packages.size());
 }
 
-TEST(DB,GetDevPack) {
-    map<string,string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
-    EXPECT_LE(1,DevelopmetPacks.size());
+TEST(DB, GetDevPack)
+{
+    map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    EXPECT_LE(1, DevelopmetPacks.size());
 }
 
 int main(int argc, char **argv)
-{   
+{
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();

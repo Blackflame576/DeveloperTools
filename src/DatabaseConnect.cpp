@@ -148,14 +148,17 @@ int Database::InsertValuesToTable(string NameTable, string NameApp, string Windo
 {
     SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Name', 'Windows', 'macOS', 'Linux') VALUES ('" + NameApp + "', '" + WindowsCommand + "', '" + macOSCommand + "', '" + LinuxCommand + "');";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
-    if (RESULT_SQL != SQLITE_OK) throw runtime_error("Error in INSERT command");
+    if (RESULT_SQL != SQLITE_OK)
+        throw runtime_error("Error in INSERT command");
     return 0;
 }
 
-int Database::RemoveValuesFromTable(string NameTable,string NameApp) {
+int Database::RemoveValuesFromTable(string NameTable, string NameApp)
+{
     SQL_COMMAND = "DELETE FROM " + NameTable + " WHERE Name='" + NameApp + "'";
-    int RESULT_SQL = sqlite3_exec(db,SQL_COMMAND.c_str(),callback,NULL,NULL);
-    if (RESULT_SQL != SQLITE_OK) throw runtime_error("Error in DELETE command");
+    int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
+    if (RESULT_SQL != SQLITE_OK)
+        throw runtime_error("Error in DELETE command");
     return 0;
 }
 
@@ -182,7 +185,7 @@ int Database::AddValues(string Tables[])
             RESULT_COMMAND = InsertValuesToTable(Tables[i], NameApp, Windows_Command, macOS_Command, Linux_Command);
             if (RESULT_COMMAND == 0)
             {
-                cout << NameApp << "successfully added to " << Tables[i] << endl;
+                cout << NameApp << " successfully added to " << Tables[i] << endl;
             }
         }
     }
@@ -190,4 +193,36 @@ int Database::AddValues(string Tables[])
     {
         throw logic_error("Array is empty");
     }
+    return 0;
+}
+
+int Database::RemoveValues(string Tables[])
+{
+    string NameApp;
+    string Windows_Command;
+    string macOS_Command;
+    string Linux_Command;
+    int RESULT_COMMAND;
+
+    if (Tables->size() >= 1)
+    {
+        cout << "Name:";
+        getline(cin, NameApp);
+        cout << "Windows:";
+        getline(cin, Windows_Command);
+        cout << "macOS:";
+        getline(cin, macOS_Command);
+        cout << "Linux:";
+        getline(cin, Linux_Command);
+
+        for (int i = 0; i < Tables->size(); i++)
+        {
+            RESULT_COMMAND = RemoveValuesFromTable(Tables[i], NameApp);
+            if (RESULT_COMMAND == 0)
+            {
+                cout << NameApp << " successfully added to " << Tables[i] << endl;
+            }
+        }
+    }
+    return 0;
 }

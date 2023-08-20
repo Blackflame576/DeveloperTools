@@ -81,12 +81,23 @@ CREATE TABLE IF NOT EXISTS "Test" (
 	"macOS"	TEXT,
 	"Linux"	TEXT
 );
+CREATE TABLE IF NOT EXISTS "SupportedOS" (
+	"Name"	TEXT NOT NULL,
+	"PackageManager"	TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS "PackagesFromSource" (
 	"Name"	TEXT NOT NULL,
-	"Url"	TEXT NOT NULL,
+	"Url"	TEXT,
 	"WindowsDir"	TEXT NOT NULL,
 	"LinuxDir"	TEXT NOT NULL,
-	"macOSDir"	TEXT NOT NULL
+	"macOSDir"	TEXT NOT NULL,
+	"Url_arm64"	TEXT,
+	"apt"	TEXT,
+	"yum"	TEXT,
+	"dnf"	TEXT,
+	"apk"	TEXT,
+	"pacman"	TEXT,
+	"zypper"	TEXT
 );
 INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','brew install --cask visual-studio-code','sudo snap install code --classic'),
  ('Docker','winget install -e --id Docker.DockerDesktop','brew install --cask docker','sudo snap install docker'),
@@ -105,7 +116,7 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','
  ('JetBrains PhpStorm','winget install -e --id JetBrains.PHPStorm','brew install --cask phpstorm','sudo snap install phpstorm --classic'),
  ('JetBrains Space','winget install -e --id JetBrains.Space','brew install --cask jetbrains-space','sudo snap install space'),
  ('Postgresql','winget install -e --id PostgreSQL.PostgreSQL','brew install postgresql@14','sudo snap install postgresql10'),
- ('PgAdmin','winget install -e --id PostgreSQL.pgAdmin','brew install --cask pgadmin4','winget install -e --id PostgreSQL.pgAdmin'),
+ ('PgAdmin','winget install -e --id PostgreSQL.pgAdmin','brew install --cask pgadmin4','ManualInstallation'),
  ('Ngrok','winget install -e --id Ngrok.Ngrok','brew install --cask ngrok','sudo snap install ngrok'),
  ('Sublime Text','winget install -e --id SublimeHQ.SublimeText.4','brew install --cask sublime-text','sudo snap install sublime-text --classic'),
  ('JetBrains PyCharm Community','winget install -e --id JetBrains.PyCharm.Community','brew install --cask pycharm-ce','sudo snap install pycharm-community --classic'),
@@ -139,7 +150,16 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','brew install --cask db-browser-for-sqlite','sudo snap install sqlitebrowser'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','brew install emacs','sudo snap install emacs --classic'),
  ('Nginx','ManualInstallation','brew install nginx','ManualInstallation'),
- ('Wget','ManualInstallation','brew install wget','ManualInstallation');
+ ('Wget','ManualInstallation','brew install wget','ManualInstallation'),
+ ('MSYS2','winget install -e --id MSYS2.MSYS2','ManualInstallation','ManualInstallation'),
+ ('Cygwin','winget install -e --id Cygwin.Cygwin','ManualInstallation','ManualInstallation'),
+ ('g++','Not Found','brew install gcc','ManualInstallation'),
+ ('gcc','Not Found','brew install gcc','ManualInstallation'),
+ ('Nuget','winget install -e --id Microsoft.NuGet','brew install nuget','Not Found'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','brew install --cask github','sudo snap install github-gui'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','brew install gh','sudo snap install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','brew install kubernetes-cli','sudo snap install kubectl --classic'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','brew install --cask slack','sudo snap install slack');
 INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -165,7 +185,15 @@ INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCo
  ('MySQL','winget install -e --id Oracle.MySQL','sudo snap install mysql --beta','brew install mysql'),
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
- ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs');
+ ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
+ ('MSYS2','winget install -e --id MSYS2.MSYS2','ManualInstallation','ManualInstallation'),
+ ('Cygwin','winget install -e --id Cygwin.Cygwin','ManualInstallation','ManualInstallation'),
+ ('g++','Not Found','ManualInstallation','brew install gcc'),
+ ('gcc','Not Found','ManualInstallation','brew install gcc'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -194,7 +222,11 @@ INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES (
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "DevelopmentPacks" ("Number","Language") VALUES ('1','PythonDevelopmentTools'),
  ('2','JavaScriptDevelopmentTools'),
  ('3','CppDevelopmentTools'),
@@ -228,7 +260,11 @@ INSERT INTO "RustDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -254,7 +290,11 @@ INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux","macOS") VALU
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -283,7 +323,15 @@ INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VS
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('MSYS2','winget install -e --id MSYS2.MSYS2','ManualInstallation','ManualInstallation'),
+ ('Cygwin','winget install -e --id Cygwin.Cygwin','ManualInstallation','ManualInstallation'),
+ ('g++','Not Found','ManualInstallation','brew install gcc'),
+ ('gcc','Not Found','ManualInstallation','brew install gcc'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "GoDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -309,7 +357,11 @@ INSERT INTO "GoDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSC
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "RubyDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -333,7 +385,11 @@ INSERT INTO "RubyDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "CSDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -357,7 +413,12 @@ INSERT INTO "CSDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSC
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('Nuget','winget install -e --id Microsoft.NuGet','Not Found','brew install nuget'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "PHPDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -380,7 +441,11 @@ INSERT INTO "PHPDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VS
  ('MySQL','winget install -e --id Oracle.MySQL','sudo snap install mysql --beta','brew install mysql'),
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
- ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs');
+ ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "KotlinDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -402,7 +467,11 @@ INSERT INTO "KotlinDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES (
  ('MySQL','winget install -e --id Oracle.MySQL','sudo snap install mysql --beta','brew install mysql'),
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
- ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs');
+ ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
 INSERT INTO "JavaDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -430,11 +499,24 @@ INSERT INTO "JavaDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('V
  ('SQLite','winget install -e --id SQLite.SQLite','ManualInstallation','brew install sqlite'),
  ('SQLiteBrowser','winget install -e --id DBBrowserForSQLite.DBBrowserForSQLite','sudo snap install sqlitebrowser','brew install --cask db-browser-for-sqlite'),
  ('GNU Emacs','winget install -e --id GNU.Emacs','sudo snap install emacs --classic','brew install emacs'),
- ('Nginx','ManualInstallation','ManualInstallation','brew install nginx');
-INSERT INTO "PackagesFromSource" ("Name","Url","WindowsDir","LinuxDir","macOSDir") VALUES ('vcpkg','https://github.com/microsoft/vcpkg','C:\','/usr/bin/','Empty'),
- ('Make','Empty','C:\Make','Empty','Empty'),
- ('PHP','https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip','C:\PHP','Empty','Empty'),
- ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip','C:\','Empty','Empty'),
- ('Kotlin','https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip','C:\','Empty','Empty'),
- ('Wget','https://eternallybored.org/misc/wget/1.21.4/64/wget.exe','C:\Wget','Empty','Empty');
+ ('Nginx','ManualInstallation','ManualInstallation','brew install nginx'),
+ ('GitHub Desktop','winget install -e --id GitHub.GitHubDesktop','sudo snap install github-gui','brew install --cask github'),
+ ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
+ ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
+ ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack');
+INSERT INTO "SupportedOS" ("Name","PackageManager") VALUES ('Ubuntu','apt'),
+ ('Debian GNU/Linux','apt'),
+ ('Kali GNU/Linux','apt'),
+ ('CentOS Linux','yum'),
+ ('Alpine Linux','apk');
+INSERT INTO "PackagesFromSource" ("Name","Url","WindowsDir","LinuxDir","macOSDir","Url_arm64","apt","yum","dnf","apk","pacman","zypper") VALUES ('vcpkg','https://github.com/microsoft/vcpkg','C:\','/usr/bin/','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Make','Empty','C:\Make','Empty','Empty','Empty','sudo apt update -y && sudo apt install make -y','sudo yum update -y && sudo yum install make -y','sudo dnf -y update && sudo dnf -y install make',NULL,NULL,NULL),
+ ('PHP','https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip','C:\PHP','Empty','Empty','Empty','sudo apt update -y && sudo apt install php -y && sudo apt install libapache2-mod-php -y','sudo yum update -y &&  sudo  yum install epel-release yum-utils -y && sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y &&  sudo yum-config-manager --enable remi-php74 && sudo yum update -y && sudo yum install php -y && sudo yum install php-fpm php-curl php-cli php-json php-mysql php-opcache php-dom php-exif php-fileinfo php-zip php-mbstring php-hash php-imagick php-openssl php-pcre php-xml php-bcmath php-filter php-pear php-gd php-mcrypt php-intl php-iconv php-zlib php-xmlreader -y','sudo dnf -y update && sudo dnf -y install dnf-plugins-core && sudo dnf config-manager --set-enabled remi && sudo dnf module reset php -y && sudo dnf module -y install php:remi-8.0 && sudo dnf -y install php-cli php-fpm php-mysqlnd php-zip php-devel php-gd php-mcrypt php-mbstring php-curl php-xml php-pear php-bcmath php-json && sudo systemctl enable --now php-fpm',NULL,NULL,NULL),
+ ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip','C:\','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Kotlin','https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip','C:\','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Wget','https://eternallybored.org/misc/wget/1.21.4/64/wget.exe','C:\Wget','Empty','Empty','Empty','sudo apt update -y && sudo apt install wget -y','sudo yum install wget','sudo dnf -y update && sudo dnf install wget',NULL,NULL,NULL),
+ ('Python 3.9','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.9.6_linux_amd64/Python3.9.6_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y  && sudo apt install software-properties-common -y  &&  sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update -y && sudo apt install python3.9 -y','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && tar -xvf Python-3.9.6.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz -O &&  tar -xvf Python-3.9.6.tgz && cd Python-3.9.6 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,NULL,NULL),
+ ('Python 3.10','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.10.12_linux_amd64/Python_3.10.12_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y  && sudo apt install software-properties-common -y  &&  sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update -y  && sudo apt install python3.10 -y','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && tar -xvf Python-3.10.12.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz -O &&  tar -xvf Python-3.10.12.tgz && cd Python-3.10.12 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,NULL,NULL),
+ ('Python 3.11','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.11.4_linux_amd64/Python_3.11.4_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y  && sudo apt install software-properties-common  -y  &&  sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update -y && sudo apt install python3.11 -y','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar -xvf Python-3.11.4.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz -O &&  tar -xvf Python-3.11.4.tgz && cd Python-3.11.4 &&  sudo ./configure --enable-optimizations && sudo make install && ',NULL,NULL,NULL),
+ ('Nginx','http://nginx.org/download/nginx-1.25.1.zip','C:\','Empty','Empty','Empty','sudo apt update -y && sudo apt install nginx -y','sudo yum install epel-release -y && sudo yum update -y && sudo yum install nginx','sudo dnf -y update && sudo dnf install nginx && sudo systemctl enable nginx && sudo systemctl start nginx',NULL,NULL,NULL);
 COMMIT;

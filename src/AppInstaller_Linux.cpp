@@ -1,19 +1,19 @@
 /*  The MIT License (MIT)
     ============================================================================
 
-    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗    
-    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝    
-    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗      
-    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝      
-    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗    
-    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝    
-                                                                                
-    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗                  
-    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝                  
-       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║                     
-       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║                     
-       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║                     
-       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝
 
     ============================================================================
     Copyright (c) 2023 DeepForge Technology
@@ -32,21 +32,25 @@
 
 using namespace std;
 
-namespace Linux {
+namespace Linux
+{
 
-    int CallbackProgress(void* ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
+    int CallbackProgress(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
     {
-        if (TotalToDownload <= 0.0) {
+        if (TotalToDownload <= 0.0)
+        {
             return 0;
         }
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
-        if (TempPercentage != Percentage && TempPercentage <= 100) {
+        if (TempPercentage != Percentage && TempPercentage <= 100)
+        {
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
-            if ((CURLE_OK == res) && (DownloadSpeed > 0.0)) {
+            if ((CURLE_OK == res) && (DownloadSpeed > 0.0))
+            {
                 // printf("Average download speed: %lu kbyte/sec.\n",
                 //         (unsigned long)(DownloadSpeed / 1024));
-                float Speed = (float) (DownloadSpeed / 1024);
+                float Speed = (float)(DownloadSpeed / 1024);
                 progressbar.Update(Speed);
                 TempPercentage = Percentage;
             }
@@ -54,7 +58,7 @@ namespace Linux {
         return 0;
     }
     // Function for write data from curl
-    size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
+    size_t WriteData(void *ptr, size_t size, size_t nmemb, FILE *stream)
     {
         size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
         return WriteProcess;
@@ -63,11 +67,13 @@ namespace Linux {
     class AppInstaller
     {
     public:
-        int InstallVCpkg() {
-            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource","vcpkg","LinuxDir");
-            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource","vcpkg","Url");
+        int InstallVCpkg()
+        {
+            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource", "vcpkg", "LinuxDir");
+            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource", "vcpkg", "Url");
             string PathRepository = NewVCpkgDir + "vcpkg";
-            if (std::filesystem::exists(PathRepository)) {
+            if (std::filesystem::exists(PathRepository))
+            {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
                 return 1;
             }
@@ -77,14 +83,16 @@ namespace Linux {
             string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
             result = system(Command.c_str());
             // result = system("ls");
-            switch (result) {
-                case 0:
-                    // result = system(Command_Install.c_str());
-                    if (result == 0) {
-                        system(Command_AddPath.c_str());
-                        cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
-                    }
-                    return 0;
+            switch (result)
+            {
+            case 0:
+                // result = system(Command_Install.c_str());
+                if (result == 0)
+                {
+                    system(Command_AddPath.c_str());
+                    cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                }
+                return 0;
             }
         }
 
@@ -98,7 +106,7 @@ namespace Linux {
         //     string NewPython_3_9_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.9","LinuxDir");
         //     string ArchiveDir = ProjectDir + "/Downloads";
         //     string ArchivePath;
-        //     if (Architecture == "x86") { 
+        //     if (Architecture == "x86") {
         //         ArchivePath = ArchiveDir + "/Python3.9.6_linux_amd64.zip ";
         //     }
         //     else if (Architecture == "arm64") {
@@ -139,7 +147,7 @@ namespace Linux {
         //     string NewPython_3_10_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.10","LinuxDir");
         //     string ArchiveDir = ProjectDir + "/Downloads";
         //     string ArchivePath;
-        //     if (Architecture == "x86") { 
+        //     if (Architecture == "x86") {
         //         ArchivePath = ArchiveDir + "/Python3.10.12_linux_amd64.zip ";
         //     }
         //     else if (Architecture == "arm64") {
@@ -180,7 +188,7 @@ namespace Linux {
         //     string NewPython_3_11_Dir = database.GetValueFromDB("PackagesFromSource","Python 3.11","LinuxDir");
         //     string ArchiveDir = ProjectDir + "/Downloads";
         //     string ArchivePath;
-        //     if (Architecture == "x86") { 
+        //     if (Architecture == "x86") {
         //         ArchivePath = ArchiveDir + "/Python3.11.4_linux_amd64.zip ";
         //     }
         //     else if (Architecture == "arm64") {
@@ -210,9 +218,11 @@ namespace Linux {
         //             throw domain_error("Unable to connect");
         //     }
         // }
-        int InstallPython_3_9() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.9",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallPython_3_9()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.9", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
             // else {
             //     if (PackageManager == "zypper") {
 
@@ -220,98 +230,120 @@ namespace Linux {
             // }
         }
 
-        int InstallPython_3_10() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.10",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallPython_3_10()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.10", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        int InstallPython_3_11() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Python 3.11",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
-
+        int InstallPython_3_11()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.11", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        int InstallPHP() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","PHP",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallPHP()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "PHP", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        int InstallMake() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Make",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallMake()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Make", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        int InstallWget() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Wget",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallWget()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Wget", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        int InstallNginx() {
-            string InstallCommand = database.GetValueFromDB("PackagesFromSource","Nginx",PackageManager);
-            if (InstallCommand != "Empty") result = system(InstallCommand.c_str());
+        int InstallNginx()
+        {
+            string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Nginx", PackageManager);
+            if (InstallCommand != "Empty")
+                result = system(InstallCommand.c_str());
         }
 
-        using AppInstaller_funct_t = int(AppInstaller::*)(void);
-        using map_funct_t = void(*)(void);
+        using AppInstaller_funct_t = int (AppInstaller::*)(void);
+        using map_funct_t = void (*)(void);
 
-        map<string,AppInstaller_funct_t> PackagesFromSource {
-            {"vcpkg",&AppInstaller::InstallVCpkg},
-            {"Python 3.9",&AppInstaller::InstallPython_3_9},
-            {"Python 3.10",&AppInstaller::InstallPython_3_10},
-            {"Python 3.11",&AppInstaller::InstallPython_3_11},
-            {"Wget",&AppInstaller::InstallWget},
-            {"Make",&AppInstaller::InstallMake},
-            {"PHP",&AppInstaller::InstallPHP},
-            {"Nginx",&AppInstaller::InstallNginx}
-        };
+        map<string, AppInstaller_funct_t> PackagesFromSource{
+            {"vcpkg", &AppInstaller::InstallVCpkg},
+            {"Python 3.9", &AppInstaller::InstallPython_3_9},
+            {"Python 3.10", &AppInstaller::InstallPython_3_10},
+            {"Python 3.11", &AppInstaller::InstallPython_3_11},
+            {"Wget", &AppInstaller::InstallWget},
+            {"Make", &AppInstaller::InstallMake},
+            {"PHP", &AppInstaller::InstallPHP},
+            {"Nginx", &AppInstaller::InstallNginx}};
 
-        int MainInstaller(string Name) {
-            string Value = database.GetValueFromDB("Applications",Name,"Linux");
-            if (Value != "ManualInstallation") {
+        int MainInstaller(string Name)
+        {
+            string Value = database.GetValueFromDB("Applications", Name, "Linux");
+            if (Value != "ManualInstallation")
+            {
                 result = system(Value.c_str());
             }
-            else if (PackagesFromSource.find(Name) != PackagesFromSource.end()) {
+            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+            {
                 result = (this->*(PackagesFromSource[Name]))();
             }
             return result;
         }
-        AppInstaller() {
+        AppInstaller()
+        {
             UpdateData();
             InstallSnap();
             cout << InstallDelimiter << endl;
         }
 
-        ~AppInstaller() {
-
+        ~AppInstaller()
+        {
         }
+
     private:
-        void InstallSnap() {
+        void InstallSnap()
+        {
             UpdateData();
             cout << NameDistribution << endl;
-            if (PackageManager == "apt") {
+            if (PackageManager == "apt")
+            {
                 result = system("snap --version");
-                if (result != 0) {
-                    cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
+                if (result != 0)
+                {
+                    cout << translate["Installing"].asString() << " "
+                         << "snap"
+                         << " ..." << endl;
                     system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
                     // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
                     system("sudo apt install snap snapd");
                     system("sudo ln -s /var/lib/snapd/snap /snap");
                     system("sudo systemctl enable snapd.service");
                     system("sudo systemctl start snapd.service");
-                    cout << "✅ " << "snap" << " " << translate["Installed"].asString() << endl;
+                    cout << "✅ "
+                         << "snap"
+                         << " " << translate["Installed"].asString() << endl;
                 }
                 system("sudo ln -s /var/lib/snapd/snap /snap");
-                system("sudo systemctl enable snapd.service");
-                system("sudo systemctl start snapd.service");
+                system("sudo systemctl restart snapd.service");
             }
         }
 
         int Download(string url, string dir)
         {
-            try {
+            try
+            {
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-                FILE* file = fopen(filename.c_str(), "wb");
+                FILE *file = fopen(filename.c_str(), "wb");
                 curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
                 curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
                 curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
@@ -327,7 +359,8 @@ namespace Linux {
                 cout << "" << endl;
                 return 200;
             }
-            catch (exception& error) {
+            catch (exception &error)
+            {
                 string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
                 string ErrorText_2 = error.what();
                 logger.Error(ErrorText_1.c_str());
@@ -337,18 +370,21 @@ namespace Linux {
         }
     };
     // Function to create a string with two application names
-    string NewString(string sentence) {
+    string NewString(string sentence)
+    {
         string new_sentence = "";
         // If the string is empty, then the first application name is added.
-        if (haveString == "") {
+        if (haveString == "")
+        {
             haveString = sentence;
             return new_sentence;
         }
-        else {
+        else
+        {
             // Formatting string with two columns
             /* If the string already contains the name of the application,
             then the second name of the application is added and the formatted string is returned */
-            new_sentence = fmt::format("{:<40} {:<15}\n",haveString,sentence);
+            new_sentence = fmt::format("{:<40} {:<15}\n", haveString, sentence);
             haveString = "";
             return new_sentence;
         }
@@ -357,7 +393,8 @@ namespace Linux {
     string to_lower(string sentence)
     {
         string new_sentence = "";
-        for(int i = 0;i < sentence.length();i++) {
+        for (int i = 0; i < sentence.length(); i++)
+        {
             char ch = sentence[i];
             // cout << ch << endl;
             ch = tolower(ch);
@@ -372,8 +409,10 @@ namespace Linux {
         // string Answer = to_lower(answer);
 
         string Answer = answer;
-        for (int i = 0; i < TrueVarious->size(); i++) {
-            if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да") {
+        for (int i = 0; i < TrueVarious->size(); i++)
+        {
+            if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
+            {
                 status = true;
                 break;
             }
@@ -393,25 +432,32 @@ namespace Linux {
     // Initialization class
     AppInstaller Installer;
     // Function for install of DevelopmentPack(ready pack for certain programming language
-    void InstallDevelopmentPack(string n) {
+    void InstallDevelopmentPack(string n)
+    {
         UpdateData();
-        auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n],"Linux");
-        map<int,string> EnumeratePackages;
+        auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux");
+        map<int, string> EnumeratePackages;
         string NamePackage;
-        for (int i = 1;const auto &element:DevelopmentPack) {
-            EnumeratePackages.insert(pair<int,string>(i,element.first));
+        for (int i = 1; const auto &element : DevelopmentPack)
+        {
+            EnumeratePackages.insert(pair<int, string>(i, element.first));
             NamePackage = to_string(i) + ". " + element.first;
             string getNewString = NewString(NamePackage);
-            if (DevelopmentPack.size() % 2 == 0) {
-                if (getNewString != "") {
+            if (DevelopmentPack.size() % 2 == 0)
+            {
+                if (getNewString != "")
+                {
                     cout << getNewString << endl;
                 }
             }
-            else {
-                if (getNewString != "") {
+            else
+            {
+                if (getNewString != "")
+                {
                     cout << getNewString << endl;
                 }
-                if (i == DevelopmentPack.size()) {
+                if (i == DevelopmentPack.size())
+                {
                     cout << NamePackage << endl;
                     haveString = "";
                 }
@@ -420,11 +466,12 @@ namespace Linux {
         }
         cout << "" << endl;
         cout << translate["SelectingPackages"].asString();
-        getline(cin,SelectPackages);
+        getline(cin, SelectPackages);
         string delimiter = ",";
         size_t pos = 0;
         string token;
-        while ((pos = SelectPackages.find(delimiter)) != string::npos) {
+        while ((pos = SelectPackages.find(delimiter)) != string::npos)
+        {
             token = SelectPackages.substr(0, pos);
             NamePackage = EnumeratePackages[stoi(token)];
             // =============================
@@ -433,12 +480,14 @@ namespace Linux {
             // Install application
             output_func = Installer.MainInstaller(NamePackage);
             // Loggin and print messages
-            if (output_func == 0) {
+            if (output_func == 0)
+            {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }
-            else {
+            else
+            {
                 string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                 logger.Error(ErrorText.c_str());
             }
@@ -451,12 +500,14 @@ namespace Linux {
         // Install application
         output_func = Installer.MainInstaller(NamePackage);
         // Logging and print messages
-        if (output_func == 0) {
+        if (output_func == 0)
+        {
             cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
             string SuccessText = NamePackage + " " + translate["Installed"].asString();
             logger.Success(SuccessText.c_str());
         }
-        else {
+        else
+        {
             string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
             logger.Error(ErrorText.c_str());
         }
