@@ -1,18 +1,21 @@
 #!/bin/bash
-echo "==> Building"
+Linux="Linux"
+macOS="macOS"
+YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel"
+DEB_PACKAGE_NAME="python2.7 python-dev python-pip libssl-dev"
 unameOut=$(uname -a)
 case "${unameOut}" in
 	Darwin*) 	os="macOS";;
 	Linux*)		os="Linux";;
 esac
+echo "==> Installing libraries"
 # Installing libraries
-if ["$os"=="macOS"]
+if [$os -eq $macOS]
 then
    echo ""
-elif ["$os"=="Linux"]
+elif [$os -eq $Linux]
 then
-   YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel"
-   DEB_PACKAGE_NAME="python2.7 python-dev python-pip libssl-dev"
+   
 
    if cat /etc/*release | grep ^NAME | grep CentOS; then
       echo "==============================================="
@@ -57,8 +60,12 @@ then
       echo "OS NOT DETECTED, couldn't install package $PACKAGE"
       exit 1;
    fi
+else 
+   echo "Not found package manager"
 fi
+echo "==> Libraries successfully installed"
 # Building
+echo "==> Building"
 sudo rm -rf ./build/Linux
 mkdir build
 cd build
