@@ -8,8 +8,8 @@ esac
 # Installing libraries
 if $os=="macOS"
 then
+   echo ""
 elif $os=="Linux"
-then
 
    YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel"
    DEB_PACKAGE_NAME="python2.7 python-dev python-pip libssl-dev"
