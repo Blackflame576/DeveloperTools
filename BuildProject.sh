@@ -6,10 +6,10 @@ case "${unameOut}" in
 	Linux*)		os="Linux";;
 esac
 # Installing libraries
-if $os=="macOS"
+if [$os=="macOS"]
 then
    echo ""
-elif $os=="Linux"
+elif [$os=="Linux"]
 
    YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel"
    DEB_PACKAGE_NAME="python2.7 python-dev python-pip libssl-dev"
