@@ -7,7 +7,6 @@ case "${unameOut}" in
 esac
 # Installing libraries
 if [$os=="macOS"]
-then
    echo ""
 elif [$os=="Linux"]
 
