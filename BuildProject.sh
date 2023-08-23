@@ -10,12 +10,9 @@ case "${unameOut}" in
 esac
 echo "==> Installing libraries"
 # Installing libraries
-if [$os -eq $macOS]
-then
+if [$os -eq $macOS];then
    echo ""
-elif [$os -eq $Linux]
-then
-   
+elif [$os -eq $Linux];then
 
    if cat /etc/*release | grep ^NAME | grep CentOS; then
       echo "==============================================="
