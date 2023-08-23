@@ -49,8 +49,7 @@ namespace Windows
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
             // printf("Average download speed: %lu kbyte/sec.\n",
             //         (unsigned long)(DownloadSpeed / 1024));
-            float Speed = (float)(DownloadSpeed / 1024);
-            progressbar.Update(Speed);
+            progressbar.Update((float)(DownloadSpeed),(float)(NowDownloaded),(float)(TotalToDownload));
             TempPercentage = Percentage;
         }
         return 0;
@@ -74,7 +73,7 @@ namespace Windows
             if (std::filesystem::exists(NewMakeDir))
             {
                 cout << "✅ Make " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewMakeDir << endl;
-                return 1;
+                return 403;
             }
             if (std::filesystem::exists(ArchivePath))
             {
@@ -85,10 +84,10 @@ namespace Windows
                 result = system(Command.c_str());
                 switch (result)
                 {
-                case 0:
-                    system(Command_AddPath.c_str());
-                    cout << "Make " << translate["Located"].asString() << " " << NewMakeDir << endl;
-                    return 0;
+                    case 0:
+                        system(Command_AddPath.c_str());
+                        cout << "Make " << translate["Located"].asString() << " " << NewMakeDir << endl;
+                        return 0;
                 }
             }
             else
@@ -105,7 +104,7 @@ namespace Windows
             if (std::filesystem::exists(PathRepository))
             {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << PathRepository << endl;
-                return 1;
+                return 403;
             }
             string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
@@ -113,11 +112,11 @@ namespace Windows
             result = system(Command.c_str());
             switch (result)
             {
-            case 0:
-                system(Command_Install.c_str());
-                system(Command_AddPath.c_str());
-                cout << "vcpkg " << translate["Located"].asString() << " " << PathRepository << endl;
-                return 0;
+                case 0:
+                    system(Command_Install.c_str());
+                    system(Command_AddPath.c_str());
+                    cout << "vcpkg " << translate["Located"].asString() << " " << PathRepository << endl;
+                    return 0;
             }
         }
 
@@ -130,7 +129,7 @@ namespace Windows
             if (std::filesystem::exists(NewPHPDir))
             {
                 cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPDir << endl;
-                return 1;
+                return 403;
             }
 
             if (std::filesystem::exists(ArchivePath))
@@ -139,12 +138,11 @@ namespace Windows
                 result = system(Command.c_str());
                 switch (result)
                 {
-                case 0:
-                    cout << "" << endl;
-                    system(Command_AddPath.c_str());
-
-                    cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << endl;
-                    return 0;
+                    case 0:
+                        cout << "" << endl;
+                        system(Command_AddPath.c_str());
+                        cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << endl;
+                        return 0;
                 }
             }
             else
@@ -161,7 +159,7 @@ namespace Windows
             if (std::filesystem::exists("C:\\eclipse"))
             {
                 cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseDir << "eclipse" << endl;
-                return 1;
+                return 403;
             }
             if (std::filesystem::exists(ArchiveDir) == false)
             {
@@ -174,14 +172,14 @@ namespace Windows
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
             switch (result)
             {
-            case 200:
-                system(Command.c_str());
-                system(Command_AddPath.c_str());
-                std::filesystem::remove(ArchivePath);
-                cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
-                return 0;
-            case 500:
-                throw domain_error("Unable to connect");
+                case 200:
+                    system(Command.c_str());
+                    system(Command_AddPath.c_str());
+                    std::filesystem::remove(ArchivePath);
+                    cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
+                    return 0;
+                case 500:
+                    throw domain_error("Unable to connect");
             }
         }
 
@@ -194,7 +192,7 @@ namespace Windows
             if (std::filesystem::exists("C:\\kotlinc"))
             {
                 cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinDir << "kotlinc" << endl;
-                return 1;
+                return 403;
             }
             if (std::filesystem::exists(ArchiveDir) == false)
             {
@@ -207,14 +205,14 @@ namespace Windows
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
             switch (result)
             {
-            case 200:
-                system(Command.c_str());
-                system(Command_AddPath.c_str());
-                std::filesystem::remove(ArchivePath);
-                cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
-                return 0;
-            case 500:
-                throw domain_error("Unable to connect");
+                case 200:
+                    system(Command.c_str());
+                    system(Command_AddPath.c_str());
+                    std::filesystem::remove(ArchivePath);
+                    cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
+                    return 0;
+                case 500:
+                    throw domain_error("Unable to connect");
             }
         }
 
@@ -226,7 +224,7 @@ namespace Windows
             if (std::filesystem::exists(NewWgetDir))
             {
                 cout << "✅ Wget " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewWgetDir << endl;
-                return 1;
+                return 403;
             }
             if (std::filesystem::exists(NewWgetDir) == false)
             {
@@ -236,12 +234,12 @@ namespace Windows
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewWgetDir;
             switch (result)
             {
-            case 200:
-                system(Command_AddPath.c_str());
-                cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << endl;
-                return 0;
-            case 500:
-                throw domain_error("Unable to connect");
+                case 200:
+                    system(Command_AddPath.c_str());
+                    cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << endl;
+                    return 0;
+                case 500:
+                    throw domain_error("Unable to connect");
             }
         }
 
@@ -254,7 +252,7 @@ namespace Windows
             if (std::filesystem::exists("C:\\Nginx-1.25.1"))
             {
                 cout << "✅ Nginx " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << endl;
-                return 1;
+                return 403;
             }
             if (std::filesystem::exists(ArchivePath))
             {
@@ -316,14 +314,11 @@ namespace Windows
             result = system("winget -v");
             if (result != 0)
             {
-                cout << translate["Installing"].asString() << " "
-                     << "winget"
+                cout << translate["Installing"].asString() << " " << "winget"
                      << " ..." << endl;
                 string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
                 system(Command.c_str());
-                cout << "✅ "
-                     << "winget"
-                     << " " << translate["Installed"].asString() << endl;
+                cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
             }
         }
 
@@ -463,43 +458,49 @@ namespace Windows
         while ((pos = SelectPackages.find(delimiter)) != string::npos)
         {
             token = SelectPackages.substr(0, pos);
-            NamePackage = EnumeratePackages[stoi(token)];
+            if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end()) {
+                NamePackage = EnumeratePackages[stoi(token)];
+                // =============================
+                cout << InstallDelimiter << endl;
+                cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                // Install application
+                output_func = Installer.MainInstaller(NamePackage);
+                // Loggin and print messages
+                if (output_func == 0)
+                {
+                    cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                    string SuccessText = NamePackage + " " + translate["Installed"].asString();
+                    logger.Success(SuccessText.c_str());
+                }
+                else if (output_func != 403)
+                {
+                    cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                    string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
+                    logger.Error(ErrorText.c_str());
+                }
+                SelectPackages.erase(0, pos + delimiter.length());
+            }
+        }
+        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
+            NamePackage = EnumeratePackages[stoi(SelectPackages)];
             // =============================
             cout << InstallDelimiter << endl;
             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
             // Install application
             output_func = Installer.MainInstaller(NamePackage);
-            // Loggin and print messages
+            // Logging and print messages
             if (output_func == 0)
             {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }
-            else
+            else if (output_func != 403)
             {
+                cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
                 string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                 logger.Error(ErrorText.c_str());
             }
-            SelectPackages.erase(0, pos + delimiter.length());
-        }
-        NamePackage = EnumeratePackages[stoi(SelectPackages)];
-        // =============================
-        cout << InstallDelimiter << endl;
-        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-        // Install application
-        output_func = Installer.MainInstaller(NamePackage);
-        // Logging and print messages
-        if (output_func == 0)
-        {
-            cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
-            string SuccessText = NamePackage + " " + translate["Installed"].asString();
-            logger.Success(SuccessText.c_str());
-        }
-        else
-        {
-            string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
-            logger.Error(ErrorText.c_str());
         }
         cout << InstallDelimiter << endl;
     }

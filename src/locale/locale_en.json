@@ -23,5 +23,6 @@
     "Line":"============================",
     "Located":"located in",
     "AlreadyInstalled": "already installed",
-    "in":"in"
+    "in":"in",
+    "RebootSystem":"Do you want to reboot the system?"
 }

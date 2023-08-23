@@ -2,13 +2,13 @@
 set arg_1 = %1
 echo -- Building project
 if exist .\build\Windows (
-    g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\  -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
+    g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++   -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
 ) else (
    mkdir build
    cd build
    mkdir Windows
    cd ..
-   g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\  -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
+   g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++  -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
 )
 if ERRORLEVEL 0 (
     echo -- Build of project was successfully.
@@ -17,7 +17,7 @@ if ERRORLEVEL 0 (
 )
 mkdir tests
 echo -- Building tests
-g++ .\src\tests\MainTest.cpp -o .\tests\MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++20 -w
+g++ .\src\tests\MainTest.cpp -o .\tests\MainTest -static-libgcc -static-libstdc++  -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++20 -w
 if ERRORLEVEL 0 (
    echo -- Build of tests was successfully.
    echo -- Running ".\tests\MainTest.exe"

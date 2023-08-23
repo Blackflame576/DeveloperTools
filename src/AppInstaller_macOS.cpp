@@ -43,17 +43,14 @@ namespace macOS
         }
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
+        // cout << Percentage << endl;
         if (TempPercentage != Percentage && TempPercentage <= 100)
         {
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
-            if ((CURLE_OK == res) && (DownloadSpeed > 0.0))
-            {
-                // printf("Average download speed: %lu kbyte/sec.\n",
-                //         (unsigned long)(DownloadSpeed / 1024));
-                float Speed = (float)(DownloadSpeed / 1024);
-                progressbar.Update(Speed);
-                TempPercentage = Percentage;
-            }
+            // printf("Average download speed: %lu kbyte/sec.\n",
+            //         (unsigned long)(DownloadSpeed / 1024));
+            progressbar.Update((float)(DownloadSpeed),(float)(NowDownloaded),(float)(TotalToDownload));
+            TempPercentage = Percentage;
         }
         return 0;
     }
@@ -99,13 +96,9 @@ namespace macOS
     private:
         void InstallBrew()
         {
-            cout << translate["Installing"].asString() << " "
-                 << "brew"
-                 << " ..." << endl;
+            cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
             system("bash ./Scripts/InstallBrew.sh");
-            cout << "✅ "
-                 << "brew"
-                 << " " << translate["Installed"].asString() << endl;
+            cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
         }
 
         int Download(string url, string dir)
@@ -244,43 +237,49 @@ namespace macOS
         while ((pos = SelectPackages.find(delimiter)) != string::npos)
         {
             token = SelectPackages.substr(0, pos);
-            NamePackage = EnumeratePackages[stoi(token)];
+            if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end()) {
+                NamePackage = EnumeratePackages[stoi(token)];
+                // =============================
+                cout << InstallDelimiter << endl;
+                cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                // Install application
+                output_func = Installer.MainInstaller(NamePackage);
+                // Loggin and print messages
+                if (output_func == 0)
+                {
+                    cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
+                    string SuccessText = NamePackage + " " + translate["Installed"].asString();
+                    logger.Success(SuccessText.c_str());
+                }
+                else if (output_func != 403)
+                {
+                    cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                    string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
+                    logger.Error(ErrorText.c_str());
+                }
+                SelectPackages.erase(0, pos + delimiter.length());
+            }
+        }
+        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
+            NamePackage = EnumeratePackages[stoi(SelectPackages)];
             // =============================
             cout << InstallDelimiter << endl;
             cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
             // Install application
             output_func = Installer.MainInstaller(NamePackage);
-            // Loggin and print messages
+            // Logging and print messages
             if (output_func == 0)
             {
                 cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
                 logger.Success(SuccessText.c_str());
             }
-            else
+            else if (output_func != 403)
             {
+                cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
                 string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                 logger.Error(ErrorText.c_str());
             }
-            SelectPackages.erase(0, pos + delimiter.length());
-        }
-        NamePackage = EnumeratePackages[stoi(SelectPackages)];
-        // =============================
-        cout << InstallDelimiter << endl;
-        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-        // Install application
-        output_func = Installer.MainInstaller(NamePackage);
-        // Logging and print messages
-        if (output_func == 0)
-        {
-            cout << "✅ " << NamePackage << " " << translate["Installed"].asString() << endl;
-            string SuccessText = NamePackage + " " + translate["Installed"].asString();
-            logger.Success(SuccessText.c_str());
-        }
-        else
-        {
-            string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
-            logger.Error(ErrorText.c_str());
         }
         cout << InstallDelimiter << endl;
     }

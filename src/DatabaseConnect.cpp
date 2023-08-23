@@ -219,9 +219,7 @@ int Database::RemoveValues(string Tables[])
         {
             RESULT_COMMAND = RemoveValuesFromTable(Tables[i], NameApp);
             if (RESULT_COMMAND == 0)
-            {
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
-            }
         }
     }
     return 0;

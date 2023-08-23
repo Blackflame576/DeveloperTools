@@ -166,8 +166,10 @@ class MainApp {
                             cout << "✅ " << name << " " << translate["Installed"].asString() << endl;
                             string SuccessText = name + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
-                        } else {
-                            // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
+                        } 
+                        else if (output_func != 403)
+                        {
+                            cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
                             string ErrorText = translate["ErrorInstall"].asString() + " " + name;
                             logger.Error(ErrorText.c_str());
                         }
@@ -251,8 +253,9 @@ class MainApp {
                                     string SuccessText = name + " " + translate["Installed"].asString();
                                     logger.Success(SuccessText.c_str());
                                 }
-                                else  {
-                                    // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
+                                else if (output_func != 403) 
+                                {
+                                    cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
                                     string ErrorText = translate["ErrorInstall"].asString() + " " + name;
                                     logger.Error(ErrorText.c_str());
                                 }
@@ -270,8 +273,9 @@ class MainApp {
                                 string SuccessText = NamePackage + " " + translate["Installed"].asString();
                                 logger.Success(SuccessText.c_str());
                             }
-                            else {
-                                // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                            else if (output_func != 403) 
+                            {
+                                cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
                                 string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                                 logger.Error(ErrorText.c_str());
                             }
@@ -340,8 +344,9 @@ class MainApp {
                                 string SuccessText = name + " " + translate["Installed"].asString();
                                 logger.Success(SuccessText.c_str());
                             }
-                            else  {
-                                // cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
+                            else if (output_func != 403) 
+                            {
+                                cout << "❌ " << translate["ErrorInstall"].asString() << " " << name << endl;
                                 string ErrorText = translate["ErrorInstall"].asString() + " " + name;
                                 logger.Error(ErrorText.c_str());
                             }
@@ -359,8 +364,9 @@ class MainApp {
                             string SuccessText = NamePackage + " " + translate["Installed"].asString();
                             logger.Success(SuccessText.c_str());
                         }
-                        else {
-                            // cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
+                        else if (output_func != 403) 
+                        {
+                            cout << "❌ " << translate["ErrorInstall"].asString() << " " << NamePackage << endl;
                             string ErrorText = translate["ErrorInstall"].asString() + " " + NamePackage;
                             logger.Error(ErrorText.c_str());
                         }
@@ -378,7 +384,7 @@ class MainApp {
 
         MainApp () {
             GetArchitectureOS();
-            cout << "DeepForge Toolset v" << __version__ << " " << Architecture << endl;
+            cout << "DeepForge Toolset v" << __version__  << endl;
             cout << "Organization: DeepForge Technology" << endl;
             cout << InstallDelimiter << endl;
             // Localization settings
@@ -417,6 +423,11 @@ class MainApp {
 
         // Application exit function
         void ExitApp() {
+            cout << translate["RebootSystem"].asString();
+            getline(cin,Answer);
+            bool Reboot = CheckAnswer(Answer);
+            string RebootCommand = database.GetValueFromDB("OS_Commands","Reboot",OS_NAME);
+            if (Reboot == true || Answer.empty()) system(RebootCommand != "Not Found" ? RebootCommand.c_str(): "");
             exit(0);
         }
 
