@@ -39,7 +39,7 @@ CMakeCache.txt
 /.ninja_log
 /.ninja_deps
 /build.ninja
-/build/
+build/
 InstallerDeepForge_Toolset/CMakeFiles/
 InstallerDeepForge_Toolset/CMakeFiles/CMakeCache.txt
 InstallerDeepForge_Toolset/CMakeFiles/Makefile
@@ -47,5 +47,5 @@ InstallerDeepForge_Toolset/CMakeFiles/.ninja_deps
 InstallerDeepForge_Toolset/CMakeFiles/ninja_log
 *.ninja
 /tests/
-.vscode
-.idea
+.vscode/
+.idea/
