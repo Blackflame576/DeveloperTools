@@ -66,6 +66,8 @@ class MainApp {
                 SetLanguage();
             }
             cout << InstallDelimiter << endl;
+            if (isStarting == false) CommandManager();
+            else isStarting = false;
         }
         // Main menu function
         void CommandManager() {
@@ -75,13 +77,13 @@ class MainApp {
                 {2,&MainApp::ManualSelection},
                 {3,&MainApp::InstallAllPackages},
                 {4,&MainApp::SearchPackages},
-                {5,&MainApp::ExitApp}
+                {5,&MainApp::SetLanguage},
+                {6,&MainApp::ExitApp}
             };
-            cout << translate["CommandManager_1"].asString() << endl;
-            cout << translate["CommandManager_2"].asString() << endl;
-            cout << translate["CommandManager_3"].asString() << endl;
-            cout << translate["CommandManager_4"].asString() << endl;
-            cout << translate["CommandManager_5"].asString() << endl;
+            for (int i = 1;i < numCommands + 1;i++) {
+                string index = "CommandManager_" + to_string(i);
+                cout << translate[index].asString() << endl;
+            }
             cout << translate["CommandManager_ch_answ"].asString();
             getline(cin,InstallTools);
             cout << InstallDelimiter << endl;
@@ -388,6 +390,7 @@ class MainApp {
             cout << "Organization: DeepForge Technology" << endl;
             cout << InstallDelimiter << endl;
             // Localization settings
+            isStarting = true;
             SetLanguage();
         };
         ~MainApp() {};
@@ -423,11 +426,14 @@ class MainApp {
 
         // Application exit function
         void ExitApp() {
-            cout << translate["RebootSystem"].asString();
-            getline(cin,Answer);
-            bool Reboot = CheckAnswer(Answer);
-            string RebootCommand = database.GetValueFromDB("OS_Commands","Reboot",OS_NAME);
-            if (Reboot == true || Answer.empty()) system(RebootCommand != "Not Found" ? RebootCommand.c_str(): "");
+            👇
+            if (MODE != "DEV") {
+                cout << translate["RebootSystem"].asString();
+                getline(cin,Answer);
+                bool Reboot = CheckAnswer(Answer);
+                string RebootCommand = database.GetValueFromDB("OS_Commands","Reboot",OS_NAME);
+                if (Reboot == true || Answer.empty()) system(RebootCommand != "Not Found" ? RebootCommand.c_str(): "");
+            }
             exit(0);
         }
 

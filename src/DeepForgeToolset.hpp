@@ -59,17 +59,8 @@ string SelectPackages;
 string Answer;
 string InstallTools;
 bool Install;
+bool isStarting;
+int numCommands = 6;
 string __version__ = "0.1";
 string MODE = "DEV";
-// string LogoBanner;
-// string ProjectDir = std::filesystem::current_path().generic_string();
-// namespace DeepForgeToolset {
-//     class MainApp {
-//         public:
-//             MainApp() {
-//                 AppInstaller Installer;
-//                 Packages
-//             }
-//     }
-// }
 #endif

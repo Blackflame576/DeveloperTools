@@ -1,62 +1,64 @@
 #!/bin/bash
 echo "==> Installing libraries"
 # Installing libraries
-YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel"
-DEB_PACKAGE_NAME="python2.7 python-dev python-pip libssl-dev"
-unameOut=$(uname -a)
-case "${unameOut}" in
-	Darwin*) 	os="macOS";;
-	Linux*)		os="Linux";;
-esac
+YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc"
+DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev"
+PACMAN_PACKAGE_NAME=""
+ZYPPER_PACKAGE_NAME=""
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    if cat /etc/*release | grep ^NAME | grep CentOS; then
       echo "==============================================="
       echo "Installing packages $YUM_PACKAGE_NAME on CentOS"
       echo "==============================================="
-      yum install -y $YUM_PACKAGE_NAME
+      sudo yum update -y
+      sudo yum install -y $YUM_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Red; then
       echo "==============================================="
       echo "Installing packages $YUM_PACKAGE_NAME on RedHat"
       echo "==============================================="
-      yum install -y $YUM_PACKAGE_NAME
+      sudo yum update -y
+      sudo yum install -y $YUM_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Fedora; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
+      sudo yum update -y
       sudo yum install -y $YUM_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Ubuntu; then
       echo "==============================================="
       echo "Installing packages $DEB_PACKAGE_NAME on Ubuntu"
       echo "==============================================="
-      apt-get update
-      apt-get install -y $DEB_PACKAGE_NAME
+      sudo add-apt-repository universe
+      sudo apt-get update
+      sudo apt-get install -y $DEB_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Debian ; then
       echo "==============================================="
       echo "Installing packages $DEB_PACKAGE_NAME on Debian"
       echo "==============================================="
-      apt-get update
-      apt-get install -y $DEB_PACKAGE_NAME
+      sudo add-apt-repository universe
+      sudo apt-get update
+      sudo apt-get install -y $DEB_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Mint ; then
       echo "============================================="
       echo "Installing packages $DEB_PACKAGE_NAME on Mint"
       echo "============================================="
-      apt-get update
+      sudo add-apt-repository universe
+      sudo apt-get update
       apt-get install -y $DEB_PACKAGE_NAME
    elif cat /etc/*release | grep ^NAME | grep Knoppix ; then
       echo "================================================="
       echo "Installing packages $DEB_PACKAGE_NAME on Kanoppix"
       echo "================================================="
-      apt-get update
-      apt-get install -y $DEB_PACKAGE_NAME
+      sudo add-apt-repository universe
+      sudo apt-get update
+      sudo apt-get install -y $DEB_PACKAGE_NAME
    else
-      echo "OS NOT DETECTED, couldn't install package $PACKAGE"
+      echo "Not found package manager"
       exit 1;
    fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
-else
-   echo "Not found package manager"
-   exit 1;
+   echo "macOS"
 fi
 echo "==> Libraries successfully installed"
 # Building
