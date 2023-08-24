@@ -426,7 +426,7 @@ class MainApp {
 
         // Application exit function
         void ExitApp() {
-            👇
+            // 👇
             if (MODE != "DEV") {
                 cout << translate["RebootSystem"].asString();
                 getline(cin,Answer);
