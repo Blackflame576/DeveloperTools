@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "==> Installing libraries"
 # Installing libraries
-YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc"
+YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc gtest-devel gtest gmock-devel gmock curl libcurl-devel libcurl"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev"
 PACMAN_PACKAGE_NAME=""
 ZYPPER_PACKAGE_NAME=""
