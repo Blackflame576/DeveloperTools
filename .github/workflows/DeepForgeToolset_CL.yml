@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install libraries
-      run: sudo add-apt-repository universe && sudo apt update && sudo apt upgrade && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev
+      run: sudo add-apt-repository universe && sudo apt update && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev
     - name: Make directories
       run: make build && cd build && mkdir Linux && cd ..
     - name: Building project
@@ -26,7 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install libraries
-      run: sudo add-apt-repository universe && sudo apt update && sudo apt upgrade && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev
+      run: sudo add-apt-repository universe && sudo apt update && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev
     - name: Make directory tests
       run: mkdir tests
     - name: Building tests
