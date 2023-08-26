@@ -61,6 +61,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    echo "macOS"
 fi
 echo "==> Libraries successfully installed"
+unameOut=$(uname -a)
+case "${unameOut}" in
+	Darwin*) 	os="macOS";;
+	Linux*)		os="Linux";;
+esac
 # Building
 echo "==> Building"
 sudo rm -rf ./build/Linux
