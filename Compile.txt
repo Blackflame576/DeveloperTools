@@ -1,1 +1,0 @@
-g++ -o DeveloperTools DeveloperTools.cpp -DCURL_STATICLIB -I ..\..\include -L ..\..\lib\ -static -static-libgcc -static-libstdc++ -lcurl  -lws2_32 -lwinmm -std=c++20
