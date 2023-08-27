@@ -14,9 +14,17 @@
 
 using namespace std;
 
+void Installer::InstallLatestStableVersion() 
+{
+    MakeDirectory(NewTempFolder);
+}
+
+
 void Installer::InstallStableVersion()
 {
-    filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
+    MakeDirectory(NewTempFolder);
+    result = Download(DB_URL,NewTempFolder);
+    // filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
     // result = Download(UrlStableVersion,NewApplicationFolder);
     // switch (result) {
     //     case 200:
@@ -24,9 +32,15 @@ void Installer::InstallStableVersion()
     // }
 }
 
+void Installer::InstallLatestBetaVersion()
+{
+    MakeDirectory(NewTempFolder);
+}
+
 void Installer::InstallBetaVersion()
 {
-    filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
+    MakeDirectory(NewTempFolder);
+    // filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
     // result = Download(UrlStableVersion,NewApplicationFolder);
     // switch (result) {
     //     case 200:
@@ -37,14 +51,23 @@ void Installer::InstallBetaVersion()
 int main()
 {
     Installer installer;
-    cout << "1. Stable Version" << endl;
-    cout << "2. Beta Version" << endl;
+    cout << "1. Latest Stable Version" << endl;
+    cout << "2. Stable Version" << endl;
+    cout << "3. Latest Beta Version" << endl;
+    cout << "4. Beta Version" << endl;
     cout << "Выберите версию DeepForge Toolset:";
     getline(cin, Answer);
     switch (stoi(Answer)) {
         case 1:
-            installer.InstallStableVersion();
+            installer.InstallLatestStableVersion();
+            break;
         case 2:
+            installer.InstallStableVersion();
+            break;
+        case 3:
+            installer.InstallLatestBetaVersion();
+            break;
+        case 4:
             installer.InstallBetaVersion();
     }
     return 0;
