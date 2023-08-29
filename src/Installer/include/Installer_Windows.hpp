@@ -9,25 +9,29 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "../DatabaseConnect.cpp"
+#include <map>
 
 using namespace std;
+using namespace DB;
 
 namespace Windows
 {
     int result;
     int Percentage;
     int TempPercentage = 0;
-    string ProjectDir = std::filesystem::current_path().generic_string();
-    const string UrlStableVersion;
-    const string UrlBetaVersion;
+    string Architecture;
     // const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
     // const string InstallPath = "kotlin-compiler-1.8.22.zip";
     string Answer;
-    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge Toolset";
-    const string NewTempFolder = "C:\\ProgramData\\DeepForge\\DeepForge Toolset\\Temp";
+    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge_Toolset";
+    const string NewTempFolder = NewApplicationFolder + "\\Temp";
     ProgressBar progressbar;
-    const string DB_URL = "";
-
+    const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/versions.db/Versions.db";
+    std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
+    string DB_PATH = NewTempFolder + "\\Versions.db";
+    string NameVersionTable = "WindowsVersions";
+    
     class WriteData : public IBindStatusCallback
     {
     public:
@@ -78,7 +82,7 @@ namespace Windows
             Percentage = static_cast<float>(ulProgress) / static_cast<float>(ulProgressMax) * 100;
             if (TempPercentage != Percentage && TempPercentage <= 98)
             {
-                progressbar.Update();
+                progressbar.Update(0.0,(float)(ulProgress),(float)(ulProgressMax));
                 TempPercentage = Percentage;
             }
             return S_OK;
@@ -92,20 +96,40 @@ namespace Windows
         {
             // Changing the encoding in the Windows console
             system("chcp 65001");
+            GetArchitectureOS();
         }
-        void InstallStableVersion();
-        void InstallBetaVersion();
-        void InstallLatestStableVersion();
-        void InstallLatestBetaVersion();
-
+        void InstallDeepForgeToolset(string channel);
     private:
         int Download(string url, string dir)
         {
-            WriteData writer;
-            string name = (url.substr(url.find_last_of("/")));
-            string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-            HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
-            cout << "" << endl;
+            try
+            {
+                WriteData writer;
+                string name = (url.substr(url.find_last_of("/")));
+                string filename = dir + "/" + name.replace(name.find("/"), 1, "");
+                HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
+                cout << "" << endl;
+                return 200;
+            }
+            catch (exception error)
+            {
+                return 502;
+            }
+        }
+
+        // string GetUserFolder()
+        // {
+            
+        //     return to_string(*user);
+        // }
+
+        void CreateSymlink(string nameSymlink,string filePath)
+        {
+            // char *user = getenv("USER");
+            string symlinkPath = "C:\\Users\\blackflame576\\Desktop\\" + nameSymlink;
+            cout << symlinkPath << endl;
+            // filesystem::create_symlink(filePath,symlinkPath);
+            CreateSymbolicLinkA(symlinkPath.c_str(),filePath.c_str(),NULL);
         }
 
         void MakeDirectory(string dir)
@@ -136,6 +160,14 @@ namespace Windows
             {
                 filesystem::create_directory(fullPath);
             }
+        }
+
+        void GetArchitectureOS() {
+            #if defined(__x86_64__)
+                Architecture = "amd64";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
         }
     };
 }

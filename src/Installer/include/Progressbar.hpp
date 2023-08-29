@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cmath>
 #include <math.h>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -11,7 +13,7 @@ string todoSymbol = " ";
 string startSymbol = "[";
 string endSymbol = "]";
 string Output;
-int maxSymbols = 50;
+int maxSymbols = 25;
 int Process;
 int n_done = 0;
 string EmptyStr;
@@ -21,13 +23,13 @@ string OutputStr;
 class ProgressBar {
     
     public:
-        void Update(float NetworkSpeed = 0,float TotalDownloaded = 0.0) {
+        void Update(float NetworkSpeed = 0,float DownloadedSize = 0.0,float TotalSize = 0.0) {
             Process += 1;
             Output = startSymbol;
             for (int i = 0; i < n_done; i++) {
                 Output += doneSymbol;
             }
-            if (Process % 2 == 0) {
+            if (Process % 4 == 0) {
                 Output += doneSymbol;
                 n_done += 1;
             }
@@ -43,16 +45,16 @@ class ProgressBar {
             }
             cout << "\r" << EmptyStr << flush;
             OutputStr = Output + " " + to_string(Process) + "%  ";
-            if (TotalDownloaded != 0.0 && NetworkSpeed != 0) {
-                string Speed = AutoConvert(NetworkSpeed);
-                OutputStr = OutputStr + to_string(TotalDownloaded) + " | " + Speed;
+            if (DownloadedSize != 0.0 && NetworkSpeed != 0 && TotalSize != 0.0) {
+                string Speed = AutoConvertSpeed(NetworkSpeed);
+                OutputStr = OutputStr + AutoConvertSize(DownloadedSize) + " / " + AutoConvertSize(TotalSize) + " | " + Speed;
             }
             else if (NetworkSpeed != 0) {
-                string Speed = AutoConvert(NetworkSpeed);
+                string Speed = AutoConvertSpeed(NetworkSpeed);
                 OutputStr += Speed;
             }
-            else if (TotalDownloaded != 0.0) {
-                OutputStr += to_string(TotalDownloaded);
+            else if (DownloadedSize != 0.0 && TotalSize != 0.0) {
+                OutputStr += AutoConvertSize(DownloadedSize);
             }
             cout << "\r" << OutputStr << flush;
             LastSizeStr = OutputStr.size();
@@ -67,32 +69,77 @@ class ProgressBar {
         }
 
     private:
-        string AutoConvert(float NetworkSpeed) {
-            string ConvertedSpeed;
-            if (NetworkSpeed >= 1024) {
-                ConvertedSpeed = to_string(convert_to_MB(NetworkSpeed))  + " MB/s";
+        string round(float value) {
+            // Print value to a string
+            std::stringstream ss;
+            ss << std::fixed << std::setprecision(2) << value;
+            std::string str = ss.str();
+            // Ensure that there is a decimal point somewhere (there should be)
+            if(str.find('.') != std::string::npos)
+            {
+                // Remove trailing zeroes
+                str = str.substr(0, str.find_last_not_of('0')+1);
+                // If the decimal point is now the last character, remove that as well
+                if(str.find('.') == str.size()-1)
+                {
+                    str = str.substr(0, str.size()-1);
+                }
             }
-            else if (NetworkSpeed < 1) {
-                ConvertedSpeed = to_string(convert_to_KBit(NetworkSpeed)) + " KBit/s";
+            return str;
+        }
+
+        string AutoConvertSpeed(float NetworkSpeed) {
+            string ConvertedSpeed;
+            NetworkSpeed = convert_to_KB(NetworkSpeed);
+            if (NetworkSpeed >= 1024) {
+                ConvertedSpeed = round(convert_to_MB(NetworkSpeed))  + " MB/s";
+            }
+            else if (convert_to_KB(NetworkSpeed) < 1) {
+                ConvertedSpeed = round(convert_to_KBit(NetworkSpeed)) + " KBit/s";
             }
             else {
-                ConvertedSpeed = to_string(static_cast<int>(NetworkSpeed)) + " KB/s";
+                ConvertedSpeed = round(NetworkSpeed) + " KB/s";
             }
             return ConvertedSpeed;
         }
 
-        int convert_to_MB(float Value) {
-            int NewValue = (int)(Value / 1024);
+        string AutoConvertSize(float Size) {
+            string ConvertedSize;
+            Size = convert_to_KB(Size);
+            if (Size >= 1024) {
+                ConvertedSize = round(convert_to_MB(Size))  + " MB";
+            }
+            else if(convert_to_MB(Size) >= 1024) {
+                ConvertedSize = round(convert_to_GB(Size)) + " GB";
+            }
+            else {
+                ConvertedSize = round(Size) + " KB";
+            }
+            return ConvertedSize;
+        }
+
+        float convert_to_MB(float Value) {
+            float NewValue = Value / 1024;
             return NewValue;
         }
 
-        int convert_to_MBit(float Value) {
-            int NewValue = (int)(Value * 0.008);
+        float convert_to_KB(float Value) {
+            float NewValue = Value / 1024;
+            return NewValue;
+        }
+
+        float convert_to_GB(float Value) {
+            float NewValue = Value / 1024;
+            return NewValue;
+        }
+
+        float convert_to_MBit(float Value) {
+            float NewValue = Value * 0.008;
             return NewValue;
         }
 
         float convert_to_KBit(float Value) {
-            int NewValue = (int)(Value * 8);
+            float NewValue = Value * 8;
             return NewValue;
         }
 };

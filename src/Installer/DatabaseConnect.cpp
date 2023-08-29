@@ -37,7 +37,7 @@ string Database::GetValueFromDB(string NameTable, string NameApp, string NameCol
     // string* AnswerDB = new string[ArraySize];
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " from " + NameTable + " WHERE Name='" + NameApp + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Name='" + NameApp + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -45,7 +45,6 @@ string Database::GetValueFromDB(string NameTable, string NameApp, string NameCol
     {
         throw runtime_error("Not Found");
     }
-    // int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
     {
@@ -58,12 +57,60 @@ string Database::GetValueFromDB(string NameTable, string NameApp, string NameCol
     return AnswerDB;
 }
 
+string Database::GetVersionFromDB(string NameTable,string Status,string NameColumn,string Architecture) 
+{
+    string AnswerDB;
+    // Create SQL statement
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "'";
+    // Execute SQL statement
+    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
+    // if result of execute sql statement != SQLITE_OK, that send error
+    if (RESULT_SQL != SQLITE_OK)
+    {
+        throw runtime_error("Not Found");
+    }
+    // Loop through the results, a row at a time.
+    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        // printf("%s\n", sqlite3_column_text(statement, 0));
+        AnswerDB = (string(reinterpret_cast<const char*>(
+            sqlite3_column_text(statement, 0))));
+    }
+    // Free the statement when done.
+    sqlite3_finalize(statement);
+    return AnswerDB;
+}
+
+string Database::GetApplicationURL(string NameTable,string Status,string NameColumn,string Architecture,string Version)
+{
+    string AnswerDB;
+    // Create SQL statement
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
+    // Execute SQL statement
+    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
+    // if result of execute sql statement != SQLITE_OK, that send error
+    if (RESULT_SQL != SQLITE_OK)
+    {
+        throw runtime_error("Not Found");
+    }
+    // Loop through the results, a row at a time.
+    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        // printf("%s\n", sqlite3_column_text(statement, 0));
+        AnswerDB = (string(reinterpret_cast<const char*>(
+            sqlite3_column_text(statement, 0))));
+    }
+    // Free the statement when done.
+    sqlite3_finalize(statement);
+    return AnswerDB;
+}
+
 map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameColumn)
 {
     map<string, string> WriteMap;
 
     // Create SQL statement
-    SQL_COMMAND = "SELECT Name," + NameColumn + " from " + NameTable;
+    SQL_COMMAND = "SELECT Name," + NameColumn + " FROM " + NameTable;
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -94,7 +141,7 @@ map<string, string> Database::GetDevPackFromDB(string NameTable, string NameColu
     map<string, string> WriteMap;
 
     // Create SQL statement
-    SQL_COMMAND = "SELECT Number," + NameColumn + " from " + NameTable;
+    SQL_COMMAND = "SELECT Number," + NameColumn + " FROM " + NameTable;
     // SQL_COMMAND = "SELECT Number,Language FROM DevelopmentPacks";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);

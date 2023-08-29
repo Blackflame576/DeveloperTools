@@ -14,61 +14,67 @@
 
 using namespace std;
 
-void Installer::InstallLatestStableVersion() 
-{
-    MakeDirectory(NewTempFolder);
-}
 
+Installer installer;
+map<string,string> Channels = {
+    {"1","stable\\latest"},
+    {"2","stable"},
+    {"3","beta\\latest"},
+    {"4","beta"}
+};
+string LabelChannels[4] = {
+    "1. Latest Stable Version",
+    "2. Stable Version",
+    "3. Latest Beta Version",
+    "4. Beta Version"
+};
 
-void Installer::InstallStableVersion()
+void Installer::InstallDeepForgeToolset(string channel)
 {
+    string version;
+    string ApplicationURL;
+    string name;
+    string filename;
+    string ArchivePath;
+    string Command;
+    string file_path;
+
     MakeDirectory(NewTempFolder);
     result = Download(DB_URL,NewTempFolder);
-    // filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
-    // result = Download(UrlStableVersion,NewApplicationFolder);
-    // switch (result) {
-    //     case 200:
-    //         return 0;
-    // }
-}
-
-void Installer::InstallLatestBetaVersion()
-{
-    MakeDirectory(NewTempFolder);
-}
-
-void Installer::InstallBetaVersion()
-{
-    MakeDirectory(NewTempFolder);
-    // filesystem::exists(NewApplicationFolder) == false ; filesystem::create_directory(NewApplicationFolder);
-    // result = Download(UrlStableVersion,NewApplicationFolder);
-    // switch (result) {
-    //     case 200:
-    //         return 0;
-    // }
+    Database database(&DB_PATH);
+    switch (result) {
+        case 200:
+            version = database.GetVersionFromDB(NameVersionTable,channel,"Version",Architecture);
+            ApplicationURL = database.GetApplicationURL(NameVersionTable,channel,"Url",Architecture,version);
+            // result = Download(ApplicationURL,NewTempFolder);
+            result = 200;
+            if (result == 200) 
+            {
+                name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
+                ArchivePath = NewTempFolder + "\\" + name.replace(name.find("/"), 1, "");
+                Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
+                system(Command.c_str());
+                file_path = NewApplicationFolder + "\\DeepForgeToolset.exe";
+                CreateSymlink("DeepForgeToolset",file_path);
+            }
+            break;
+        case 502:
+            throw domain_error("Error downloading archive - 502"); 
+    }
 }
 
 int main()
 {
-    Installer installer;
-    cout << "1. Latest Stable Version" << endl;
-    cout << "2. Stable Version" << endl;
-    cout << "3. Latest Beta Version" << endl;
-    cout << "4. Beta Version" << endl;
+    for (int i = 0;i < (sizeof(LabelChannels)/sizeof(LabelChannels[0]));i++) 
+    {
+        cout << LabelChannels[i] << endl;
+    }
     cout << "Выберите версию DeepForge Toolset:";
     getline(cin, Answer);
-    switch (stoi(Answer)) {
-        case 1:
-            installer.InstallLatestStableVersion();
-            break;
-        case 2:
-            installer.InstallStableVersion();
-            break;
-        case 3:
-            installer.InstallLatestBetaVersion();
-            break;
-        case 4:
-            installer.InstallBetaVersion();
+    // with for loop
+    if (Channels.find(Answer) != Channels.end())
+    {
+        installer.InstallDeepForgeToolset(Channels[Answer]);
     }
     return 0;
 }
