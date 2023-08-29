@@ -60,7 +60,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
    # echo "macOS"
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   brew install brew install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
+   brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
