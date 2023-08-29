@@ -60,7 +60,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
    # echo "macOS"
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   brew install brew install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
+   sudo brew install brew install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
@@ -76,11 +76,11 @@ cd build
 mkdir $os
 cd ..
 echo "==> Building project"
-g++ -o ./build/$os/DeepForgeToolset ./src/resource.res ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -static-libgcc -static-libstdc++  -lcurl -w -ljsoncpp -lsqlite3 -std=c++2a
+g++ -o ./build/$os/DeepForgeToolset ./src/resource.res ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -w -ljsoncpp -lsqlite3 -std=c++2a
 echo "==> Build of project finished"
 mkdir tests
 echo "==> Building tests"
-g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -static-libgcc -static-libstdc++ -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a -w
+g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a -w
 echo "==> Build of tests finished"
 echo "==> Running tests"
 sudo ./tests/MainTest
