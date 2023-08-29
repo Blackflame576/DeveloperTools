@@ -60,7 +60,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
    # echo "macOS"
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   sudo brew install brew install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
+   brew install brew install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
@@ -85,22 +85,22 @@ echo "==> Build of tests finished"
 echo "==> Running tests"
 sudo ./tests/MainTest
 echo "==> Copying folder of DB to build/$os ..."
-cp -R ./src/DB ./build/$os/DB
+sudo cp -R ./src/DB ./build/$os/DB
 echo "==> Copying folder of DB to build/$os was successfully."
 echo "==> Copying folder of include to build/$os"
-cp -R ./src/include ./build/$os/include
+sudo cp -R ./src/include ./build/$os/include
 echo "==> Copying folder of include to build/$os was successfully."
 echo "==> Copying folder of Scripts to build/$os"
-cp -R ./src/Scripts ./build/$os/Scripts
+sudo cp -R ./src/Scripts ./build/$os/Scripts
 echo "==> Copying folder of Scripts to build/$os was successfully."
 echo "==> Copying folder of utils to build/$os"
-cp -R ./src/utils ./build/$os/utils
+sudo cp -R ./src/utils ./build/$os/utils
 echo "==> Copying folder of utils to build/$os was successfully."
 echo "==> Copying folder of locale to build/$os"
-cp -R ./src/locale ./build/$os/locale
+sudo cp -R ./src/locale ./build/$os/locale
 echo "==> Copying folder of locale to build/$os was successfully."
 echo "==> Copying folder of Logo to build/$os"
-cp -R ./src/Logo ./build/$os/Icon
+sudo cp -R ./src/Logo ./build/$os/Icon
 echo "==> Copying folder of Logo to build/$os was successfully."
 cd build
 cd $os
