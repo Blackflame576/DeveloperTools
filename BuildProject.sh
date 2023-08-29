@@ -83,7 +83,8 @@ echo "==> Building tests"
 sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a -w
 echo "==> Build of tests finished"
 echo "==> Running tests"
-sudo ./tests/MainTest
+cd tests
+sudo ./MainTest
 echo "==> Copying folder of DB to build/$os ..."
 sudo cp -R ./src/DB ./build/$os/DB
 echo "==> Copying folder of DB to build/$os was successfully."
