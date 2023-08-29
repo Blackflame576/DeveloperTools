@@ -386,7 +386,7 @@ class MainApp {
 
         MainApp () {
             GetArchitectureOS();
-            cout << "DeepForge Toolset v" << __version__  << endl;
+            cout << "DeepForge Toolset v" << __version__  << " " << Architecture << endl;
             cout << "Organization: DeepForge Technology" << endl;
             cout << InstallDelimiter << endl;
             // Localization settings
@@ -439,7 +439,7 @@ class MainApp {
 
         void GetArchitectureOS() {
             #if defined(__x86_64__)
-                Architecture = "x86";
+                Architecture = "amd64";
             #elif __arm__
                 Architecture = "arm64";
             #endif
