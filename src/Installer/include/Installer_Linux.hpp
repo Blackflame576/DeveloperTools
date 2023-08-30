@@ -9,6 +9,7 @@
 #include <curl/curl.h>
 
 using namespace std;
+using namespace Bar;
 
 namespace Linux
 {
@@ -18,11 +19,9 @@ namespace Linux
     string ProjectDir = std::filesystem::current_path().generic_string();
     const string UrlStableVersion;
     const string UrlBetaVersion;
-    // const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
-    // const string InstallPath = "kotlin-compiler-1.8.22.zip";
     string Answer;
     const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge Toolset";
-    ProgressBar progressbar;
+    ProgressBar_v1 progressbar;
     CURL *curl = curl_easy_init();
     CURLcode res;
 

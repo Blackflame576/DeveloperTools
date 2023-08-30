@@ -70,19 +70,25 @@ using namespace std;
 using namespace Json;
 using namespace Logger;
 using namespace DB;
+using namespace Bar;
 
 // Variables
 int Percentage;
 int TempPercentage;
 string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true, "logs/DeepForgeToolset.log");
-ProgressBar progressbar;
+ProgressBar_v1 progressbar;
 const string TrueVarious[3] = {"yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
 map<int, string> Languages{
-    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
+    {1, "Python"}, {2, "JavaScript"}, 
+    {3, "C++"}, {4, "Java"}, 
+    {5, "Go"}, {6, "Rust"}, 
+    {7, "Ruby"}, {8, "C"}, 
+    {9, "C#"}, {10, "PHP"}, 
+    {11, "Kotlin"}};
 int result;
 int output_func;
 string haveString = "";
@@ -103,7 +109,7 @@ string replaceAll(string str, const string& from, const string& to) {
     }
     return str;
 }
-
+// Get user folder(example - C:\Users\NameUser)
 char *UserFolder = getenv("USERPROFILE");
 string DesktopPath = string(UserFolder) + "\\Desktop";
 string InstallDelimiter = "========================================================";
@@ -111,10 +117,12 @@ string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
 string DatabasePath = replaceAll(ProjectDir,"/","\\") == DesktopPath ? ApplicationDir + "\\DB\\AppInstaller.db" : ProjectDir + "\\DB\\AppInstaller.db";
 Database database(&DatabasePath);
 
+// Function for update information from database about packages and development packs
 void UpdateData()
 {
     Packages = database.GetAllValuesFromDB("Applications", "Windows");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    // Delete dynamic array
     delete[] AnswerDB;
 }
 

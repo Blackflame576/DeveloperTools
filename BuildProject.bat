@@ -57,10 +57,9 @@ Xcopy .\DLL  .\build\Windows /E /H /C /I /Y
 echo -- Copying folder of DLL to build/Windows was successfully.
 echo ==================================
 
-cd
-if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (
-   echo -- Running ".\build\Windows\DeeepForgeToolset.exe"
-   cd build
-   cd Windows
-   .\DeepForgeToolset.exe
-)
+@REM if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (
+@REM    echo -- Running ".\build\Windows\DeeepForgeToolset.exe"
+@REM    cd build
+@REM    cd Windows
+@REM    .\DeepForgeToolset.exe
+@REM )

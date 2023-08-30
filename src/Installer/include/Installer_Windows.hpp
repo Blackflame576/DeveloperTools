@@ -14,6 +14,7 @@
 
 using namespace std;
 using namespace DB;
+using namespace Bar;
 
 namespace Windows
 {
@@ -28,7 +29,7 @@ namespace Windows
     string Answer;
     const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     const string NewTempFolder = NewApplicationFolder + "\\Temp";
-    ProgressBar progressbar;
+    ProgressBar_v1 progressbar;
     const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/versions.db/Versions.db";
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = NewTempFolder + "\\Versions.db";

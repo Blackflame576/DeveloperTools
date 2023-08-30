@@ -55,19 +55,26 @@ using namespace std;
 using namespace Json;
 using namespace Logger;
 using namespace DB;
+using namespace Bar;
 
 // Variables
 int Percentage;
 int TempPercentage;
 string ProjectDir = std::filesystem::current_path().generic_string();
 MainLogger logger(true, "logs/DeepForgeToolset.log");
-ProgressBar progressbar;
+ProgressBar_v1 progressbar;
 const string TrueVarious[3] = {"yes", "y", "1"};
 string new_sentence;
 Value translate;
 string LangReadySet;
-map<int, string> Languages{
-    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
+map<int, string> Languages = {
+    {1, "Python"}, {2, "JavaScript"}, 
+    {3, "C++"}, {4, "Java"}, 
+    {5, "Go"}, {6, "Rust"}, 
+    {7, "Ruby"}, {8, "C"}, 
+    {9, "C#"}, {10, "PHP"}, 
+    {11, "Kotlin"}
+};
 int result;
 int output_func;
 string haveString = "";
