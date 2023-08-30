@@ -53,9 +53,9 @@ void Installer::InstallDeepForgeToolset(string channel)
                 name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
                 ArchivePath = NewTempFolder + "\\" + name.replace(name.find("/"), 1, "");
                 Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
-                system(Command.c_str());
+                // system(Command.c_str());
                 file_path = NewApplicationFolder + "\\DeepForgeToolset.exe";
-                CreateSymlink("DeepForgeToolset",file_path);
+                CreateSymlink("DeepForgeToolset.exe",file_path);
             }
             break;
         case 502:
@@ -69,7 +69,7 @@ int main()
     {
         cout << LabelChannels[i] << endl;
     }
-    cout << "Выберите версию DeepForge Toolset:";
+    cout << "Change version of DeepForge Toolset:";
     getline(cin, Answer);
     // with for loop
     if (Channels.find(Answer) != Channels.end())

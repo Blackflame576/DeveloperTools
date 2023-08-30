@@ -50,6 +50,9 @@ namespace Windows
             // printf("Average download speed: %lu kbyte/sec.\n",
             //         (unsigned long)(DownloadSpeed / 1024));
             progressbar.Update((float)(DownloadSpeed),(float)(NowDownloaded),(float)(TotalToDownload));
+            LastDownloadSpeed = (float)(DownloadSpeed);
+            LastSize = (float)(NowDownloaded);
+            LastTotalSize = (float)(TotalToDownload);
             TempPercentage = Percentage;
         }
         return 0;
@@ -341,6 +344,13 @@ namespace Windows
                 CURLcode response = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
                 fclose(file);
+                if (Process < 100)
+                {
+                    for (int i = (Process - 1);i < 99;i++)
+                    {
+                        progressbar.Update(0.0,LastSize,LastTotalSize);
+                    }
+                }
                 cout << "" << endl;
                 return 200;
             }

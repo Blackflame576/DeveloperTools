@@ -85,6 +85,7 @@ echo "==> Build of tests finished"
 echo "==> Running tests"
 cd tests
 sudo ./MainTest
+cd ..
 echo "==> Copying folder of DB to build/$os ..."
 sudo cp -R ./src/DB ./build/$os/DB
 echo "==> Copying folder of DB to build/$os was successfully."

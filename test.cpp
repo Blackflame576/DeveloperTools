@@ -7,7 +7,15 @@
 #include "src/Progressbar.hpp"
 #include <cctype>
 #include <fstream>
+#include <Windows.h>
 #include "src/DatabaseConnect.cpp"
+#include <tchar.h>
+
+#include <shlwapi.h>
+
+#pragma comment(lib,"shlwapi.lib")
+
+#include "shlobj.h"
 
 using namespace std;
 using namespace DB;
@@ -25,6 +33,7 @@ CURL *curl = curl_easy_init();
 CURLcode res;
 // int n_done = 0;
 ProgressBar bar;
+TCHAR szPath[MAX_PATH];
 
 int CallbackProgress(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
 {
@@ -92,6 +101,9 @@ int main()
     std::filesystem::path current_path = std::filesystem::current_path().generic_string();
     string DB_PATH = current_path.string() + "/src/" + ch;
     Database database(&DB_PATH);
-    database.AddValues(Tables);
+    // database.AddValues(Tables);
+    char *user = getenv("USERPROFILE");
+    SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, szPath);
+    cout << user << endl;
     return 0;
 }

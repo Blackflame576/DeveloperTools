@@ -21,10 +21,12 @@ namespace Windows
     int Percentage;
     int TempPercentage = 0;
     string Architecture;
+    float LastSize;
+    float LastTotalSize;
     // const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
     // const string InstallPath = "kotlin-compiler-1.8.22.zip";
     string Answer;
-    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge_Toolset";
+    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     const string NewTempFolder = NewApplicationFolder + "\\Temp";
     ProgressBar progressbar;
     const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/versions.db/Versions.db";
@@ -83,6 +85,8 @@ namespace Windows
             if (TempPercentage != Percentage && TempPercentage <= 98)
             {
                 progressbar.Update(0.0,(float)(ulProgress),(float)(ulProgressMax));
+                LastSize = (float)(ulProgress);
+                LastTotalSize = (float)(ulProgressMax);
                 TempPercentage = Percentage;
             }
             return S_OK;
@@ -108,6 +112,13 @@ namespace Windows
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
+                if (Process < 100)
+                {
+                    for (int i = (Process - 1);i < 99;i++)
+                    {
+                        progressbar.Update(0.0,LastSize,LastTotalSize);
+                    }
+                }
                 cout << "" << endl;
                 return 200;
             }
@@ -128,8 +139,7 @@ namespace Windows
             // char *user = getenv("USER");
             string symlinkPath = "C:\\Users\\blackflame576\\Desktop\\" + nameSymlink;
             cout << symlinkPath << endl;
-            // filesystem::create_symlink(filePath,symlinkPath);
-            CreateSymbolicLinkA(symlinkPath.c_str(),filePath.c_str(),NULL);
+            CreateHardLinkA(symlinkPath.c_str(),filePath.c_str(),NULL);
         }
 
         void MakeDirectory(string dir)
@@ -161,7 +171,7 @@ namespace Windows
                 filesystem::create_directory(fullPath);
             }
         }
-
+        // Method for getting architecture of OS
         void GetArchitectureOS() {
             #if defined(__x86_64__)
                 Architecture = "amd64";

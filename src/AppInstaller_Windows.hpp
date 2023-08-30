@@ -60,6 +60,10 @@
 #elif _WIN32
 #include <conio.h>
 #include <Windows.h>
+#include <tchar.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#include "shlobj.h"
 #endif
 
 using namespace std;
@@ -85,10 +89,27 @@ string haveString = "";
 double DownloadSpeed = 0.0;
 CURL *curl = curl_easy_init();
 CURLcode res;
-Database database;
 map<string, string> Packages;
 map<string, string> DevelopmentPacks;
+float LastDownloadSpeed;
+float LastSize;
+float LastTotalSize;
+
+string replaceAll(string str, const string& from, const string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+    return str;
+}
+
+char *UserFolder = getenv("USERPROFILE");
+string DesktopPath = string(UserFolder) + "\\Desktop";
 string InstallDelimiter = "========================================================";
+string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
+string DatabasePath = replaceAll(ProjectDir,"/","\\") == DesktopPath ? ApplicationDir + "\\DB\\AppInstaller.db" : ProjectDir + "\\DB\\AppInstaller.db";
+Database database(&DatabasePath);
 
 void UpdateData()
 {
@@ -96,4 +117,5 @@ void UpdateData()
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
     delete[] AnswerDB;
 }
+
 #endif
