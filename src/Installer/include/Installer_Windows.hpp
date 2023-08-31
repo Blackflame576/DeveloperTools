@@ -1,3 +1,30 @@
+/*  The MIT License (MIT)
+    ============================================================================
+
+    ██████╗ ███████╗███████╗██████╗ ███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+    ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+    ██║  ██║█████╗  █████╗  ██████╔╝█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
+    ██║  ██║██╔══╝  ██╔══╝  ██╔═══╝ ██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
+    ██████╔╝███████╗███████╗██║     ██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+    ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+
+    ████████╗ ██████╗  ██████╗ ██╗     ███████╗███████╗████████╗
+    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝██╔════╝╚══██╔══╝
+       ██║   ██║   ██║██║   ██║██║     ███████╗█████╗     ██║
+       ██║   ██║   ██║██║   ██║██║     ╚════██║██╔══╝     ██║
+       ██║   ╚██████╔╝╚██████╔╝███████╗███████║███████╗   ██║
+       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝
+
+    ============================================================================
+    Copyright (c) 2023 DeepForge Technology
+    ============================================================================
+    Organization: DeepForge Technology
+    ============================================================================
+    Author: Blackflame576
+    ============================================================================
+    Created: 4 Juny 2023
+    ============================================================================
+*/
 #include <filesystem>
 #include <iostream>
 #include <conio.h>
@@ -30,11 +57,13 @@ namespace Windows
     const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     const string NewTempFolder = NewApplicationFolder + "\\Temp";
     ProgressBar_v1 progressbar;
-    const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/versions.db/Versions.db";
+    const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/Versions.db";
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = NewTempFolder + "\\Versions.db";
     string NameVersionTable = "WindowsVersions";
-    
+    const string TrueVarious[3] = {"yes", "y", "1"};
+    string InstallDelimiter = "========================================================";
+
     class WriteData : public IBindStatusCallback
     {
     public:
@@ -85,7 +114,7 @@ namespace Windows
             Percentage = static_cast<float>(ulProgress) / static_cast<float>(ulProgressMax) * 100;
             if (TempPercentage != Percentage && TempPercentage <= 98)
             {
-                progressbar.Update(0.0,(float)(ulProgress),(float)(ulProgressMax));
+                progressbar.Update(0.0, (float)(ulProgress), (float)(ulProgressMax));
                 LastSize = (float)(ulProgress);
                 LastTotalSize = (float)(ulProgressMax);
                 TempPercentage = Percentage;
@@ -103,7 +132,9 @@ namespace Windows
             system("chcp 65001");
             GetArchitectureOS();
         }
+        void CommandManager();
         void InstallDeepForgeToolset(string channel);
+
     private:
         int Download(string url, string dir)
         {
@@ -115,9 +146,9 @@ namespace Windows
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
                 if (Process < 100)
                 {
-                    for (int i = (Process - 1);i < 99;i++)
+                    for (int i = (Process - 1); i < 99; i++)
                     {
-                        progressbar.Update(0.0,LastSize,LastTotalSize);
+                        progressbar.Update(0.0, LastSize, LastTotalSize);
                     }
                 }
                 cout << "" << endl;
@@ -129,18 +160,12 @@ namespace Windows
             }
         }
 
-        // string GetUserFolder()
-        // {
-            
-        //     return to_string(*user);
-        // }
-
-        void CreateSymlink(string nameSymlink,string filePath)
+        void CreateSymlink(string nameSymlink, string filePath)
         {
             // char *user = getenv("USER");
             string symlinkPath = "C:\\Users\\blackflame576\\Desktop\\" + nameSymlink;
             cout << symlinkPath << endl;
-            CreateHardLinkA(symlinkPath.c_str(),filePath.c_str(),NULL);
+            CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
         void MakeDirectory(string dir)
@@ -172,13 +197,35 @@ namespace Windows
                 filesystem::create_directory(fullPath);
             }
         }
+        void RebootSystem()
+        {
+            system("shutdown -r -t 0");
+        }
+        // Function for check of answer
+        bool CheckAnswer(string answer)
+        {
+            bool status;
+            // string Answer = to_lower(answer);
+
+            string Answer = answer;
+            for (int i = 0; i < TrueVarious->size(); i++)
+            {
+                if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
+                {
+                    status = true;
+                    break;
+                }
+            }
+            return status;
+        }
         // Method for getting architecture of OS
-        void GetArchitectureOS() {
-            #if defined(__x86_64__)
-                Architecture = "amd64";
-            #elif __arm__
-                Architecture = "arm64";
-            #endif
+        void GetArchitectureOS()
+        {
+#if defined(__x86_64__)
+            Architecture = "amd64";
+#elif __arm__
+            Architecture = "arm64";
+#endif
         }
     };
 }
