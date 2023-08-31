@@ -77,11 +77,11 @@ void Installer::InstallDeepForgeToolset(string channel)
             if (result == 200) 
             {
                 name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
-                ArchivePath = NewTempFolder + "\\" + name.replace(name.find("/"), 1, "");
+                ArchivePath = NewTempFolder + "/" + name.replace(name.find("/"), 1, "");
                 Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
                 system(Command.c_str());
                 file_path = NewApplicationFolder + "\\DeepForgeToolset.exe";
-                CreateSymlink("DeepForgeToolset.exe",file_path);
+                CreateSymlink("DeepForgeToolset",file_path);
                 filesystem::remove(ArchivePath);
                 cout << "✅ DeepForge Toolset " << version << " successfully installed" << endl;
                 cout << InstallDelimiter << endl;
@@ -90,7 +90,7 @@ void Installer::InstallDeepForgeToolset(string channel)
         case 502:
             throw domain_error("Error downloading archive - 502"); 
     }
-    CommandManager();
+    // CommandManager(); 
 }
 
 void Installer::CommandManager()
@@ -99,21 +99,21 @@ void Installer::CommandManager()
     {
         cout << LabelChannels[i] << endl;
     }
-    cout << "5. Exit from app" << endl;
+    // cout << "5. Exit from app" << endl;
     cout << "Change version of DeepForge Toolset:";
     getline(cin, Answer);
     if (Channels.find(Answer) != Channels.end())
     {
         installer.InstallDeepForgeToolset(Channels[Answer]);
     }
-    else if (Answer == "5")
-    {
-        cout << InstallDelimiter << endl;
-        cout << "Do you want to reboot the system (default - yes)?";
-        getline(cin,Answer);
-        if (CheckAnswer(Answer) == true) RebootSystem();
-        exit(0);
-    }
+    // else if (Answer == "5")
+    // {
+    //     cout << InstallDelimiter << endl;
+    //     cout << "Do you want to reboot the system (default - yes)?";
+    //     getline(cin,Answer);
+    //     if (CheckAnswer(Answer) == true) RebootSystem();
+    //     exit(0);
+    // }
     else
     {
         CommandManager();

@@ -162,9 +162,10 @@ namespace Windows
 
         void CreateSymlink(string nameSymlink, string filePath)
         {
-            // char *user = getenv("USER");
-            string symlinkPath = "C:\\Users\\blackflame576\\Desktop\\" + nameSymlink;
-            cout << symlinkPath << endl;
+            nameSymlink += ".exe";
+            char *UserFolder = getenv("USERPROFILE");
+            string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
+            // cout << symlinkPath << endl;
             CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
@@ -221,11 +222,11 @@ namespace Windows
         // Method for getting architecture of OS
         void GetArchitectureOS()
         {
-#if defined(__x86_64__)
-            Architecture = "amd64";
-#elif __arm__
-            Architecture = "arm64";
-#endif
+            #if defined(__x86_64__)
+                        Architecture = "amd64";
+            #elif __arm__
+                        Architecture = "arm64";
+            #endif
         }
     };
 }
