@@ -56,6 +56,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "================================================="
       echo "Installing packages $PACMAN_PACKAGE_NAME on Manjaro Linux"
       echo "================================================="
+      sudo pacman -Sy $PACMAN_PACKAGE_NAME
    else
       echo "Not found package manager"
       exit 1;
