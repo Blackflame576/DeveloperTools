@@ -34,8 +34,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curl/curl.h>
+#include "../DatabaseConnect.cpp"
+#include <map>
 
 using namespace std;
+using namespace DB;
 using namespace Bar;
 
 namespace macOS
@@ -43,14 +46,19 @@ namespace macOS
     int result;
     int Percentage;
     int TempPercentage = 0;
-    string ProjectDir = std::filesystem::current_path().generic_string();
-    const string UrlStableVersion;
-    const string UrlBetaVersion;
-    // const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
-    // const string InstallPath = "kotlin-compiler-1.8.22.zip";
+    string Architecture;
+    float LastSize;
+    float LastTotalSize;
     string Answer;
-    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge Toolset";
+    const string NewApplicationFolder = "/usr/bin/DeepForge/DeepForge-Toolset";
+    const string NewTempFolder = NewApplicationFolder + "\\Temp";
     ProgressBar_v1 progressbar;
+    const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/Versions.db";
+    std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
+    string DB_PATH = NewTempFolder + "/Versions.db";
+    string NameVersionTable = "macOSVersions";
+    const string TrueVarious[3] = {"yes", "y", "1"};
+    string InstallDelimiter = "========================================================";
     CURL *curl = curl_easy_init();
     CURLcode res;
 
@@ -88,12 +96,71 @@ namespace macOS
     class Installer
     {
     public:
-        void InstallStableVersion();
-        void InstallBetaVersion();
-
-        Installer();
+        Installer()
+        {
+            GetArchitectureOS();
+        }
+        void CommandManager();
+        void InstallDeepForgeToolset(string channel);
 
     private:
+        void CreateSymlink(string nameSymlink, string filePath)
+        {
+            char *UserFolder = getenv("USER");
+            string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
+            string Command = "sudo ln -s " + filePath + " " + nameSymlink;
+            system(Command.c_str());
+            // cout << symlinkPath << endl;
+            // CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
+        }
+        void MakeDirectory(string dir)
+        {
+            string currentDir;
+            string fullPath = "";
+            string delimiter = "/";
+            size_t pos = 0;
+            while ((pos = dir.find(delimiter)) != string::npos)
+            {
+                currentDir = dir.substr(0, pos);
+                if (fullPath != "")
+                {
+                    fullPath = fullPath + "/" + currentDir;
+                    if (filesystem::exists(fullPath) == false)
+                    {
+                        filesystem::create_directory(fullPath);
+                    }
+                }
+                else
+                {
+                    fullPath = "/" + currentDir + "/";
+                }
+                dir.erase(0, pos + delimiter.length());
+            }
+            fullPath = fullPath + "/" + dir;
+            if (filesystem::exists(fullPath) == false)
+            {
+                filesystem::create_directory(fullPath);
+            }
+        }
+        void RebootSystem()
+        {
+            system("sudo shutdown -r now");
+        }
+        // Function for check of answer
+        bool CheckAnswer(string answer)
+        {
+            bool status;
+            string Answer = answer;
+            for (int i = 0; i < TrueVarious->size(); i++)
+            {
+                if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
+                {
+                    status = true;
+                    break;
+                }
+            }
+            return status;
+        }
         int Download(string url,string dir)
         {
             try
@@ -113,6 +180,13 @@ namespace macOS
                 CURLcode response = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
                 fclose(file);
+                if (Process < 100)
+                {
+                    for (int i = (Process - 1); i < 99; i++)
+                    {
+                        progressbar.Update(0.0, LastSize, LastTotalSize);
+                    }
+                }
                 cout << "" << endl;
                 return 200;
             }
@@ -120,6 +194,15 @@ namespace macOS
             {
                 return 502;
             }
+        }
+        // Method for getting architecture of OS
+        void GetArchitectureOS()
+        {
+            #if defined(__x86_64__)
+                Architecture = "amd64";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
         }
     };
 }

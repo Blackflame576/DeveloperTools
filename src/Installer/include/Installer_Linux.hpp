@@ -50,12 +50,12 @@ namespace Linux
     float LastSize;
     float LastTotalSize;
     string Answer;
-    const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
+    const string NewApplicationFolder = "/usr/bin/DeepForge\\DeepForge-Toolset";
     const string NewTempFolder = NewApplicationFolder + "\\Temp";
     ProgressBar_v1 progressbar;
     const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/Versions.db";
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
-    string DB_PATH = NewTempFolder + "\\Versions.db";
+    string DB_PATH = NewTempFolder + "/Versions.db";
     string NameVersionTable = "LinuxVersions";
     const string TrueVarious[3] = {"yes", "y", "1"};
     string InstallDelimiter = "========================================================";
@@ -108,6 +108,8 @@ namespace Linux
         {
             char *UserFolder = getenv("USER");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
+            string Command = "sudo ln -s " + filePath + " " + nameSymlink;
+            system(Command.c_str());
             // cout << symlinkPath << endl;
             // CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
@@ -148,8 +150,6 @@ namespace Linux
         bool CheckAnswer(string answer)
         {
             bool status;
-            // string Answer = to_lower(answer);
-
             string Answer = answer;
             for (int i = 0; i < TrueVarious->size(); i++)
             {
