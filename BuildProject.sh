@@ -3,7 +3,7 @@ echo "==> Installing libraries"
 # Installing libraries
 YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc gtest-devel gtest gmock-devel gmock curl libcurl-devel libcurl sqlite-devel sqlite-tcl libstdc++.x86_64 libstdc++-devel.x86_64 libstdc++-static.x86_64"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev"
-PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel development cmake  clang gtest libcurl libcurl-devel curl fmt libsqlite-devel sqlite "
+PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel development cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl"
 ZYPPER_PACKAGE_NAME=""
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    if cat /etc/*release | grep ^NAME | grep CentOS; then
