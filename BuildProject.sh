@@ -52,7 +52,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Manjaro Linux ; then
+   elif cat /etc/*release | grep ^NAME | grep "Manjaro Linux" ; then
       echo "================================================="
       echo "Installing packages $PACMAN_PACKAGE_NAME on Manjaro Linux"
       echo "================================================="
