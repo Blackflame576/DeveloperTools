@@ -430,9 +430,8 @@ class MainApp {
             // if (MODE != "DEV") {
             cout << translate["RebootSystem"].asString();
             getline(cin,Answer);
-            bool Reboot = CheckAnswer(Answer);
             string RebootCommand = database.GetValueFromDB("OS_Commands","Reboot",OS_NAME);
-            if (Reboot == true || Answer.empty()) system(RebootCommand != "Not Found" ? RebootCommand.c_str(): "");
+            if (CheckAnswer(Answer) == true) system(RebootCommand != "Not Found" ? RebootCommand.c_str(): "");
             // }
             exit(0);
         }

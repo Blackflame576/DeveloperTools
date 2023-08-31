@@ -55,6 +55,9 @@ echo -- Copying folder of Logo to build/Windows was successfully.
 echo -- Copying folder of DLL to build/Windows
 Xcopy .\DLL  .\build\Windows /E /H /C /I /Y
 echo -- Copying folder of DLL to build/Windows was successfully.
+echo -- Copying folder of UpdateManager to build/Windows
+Xcopy .\src\UpdateManager  .\build\Windows /E /H /C /I /Y
+echo -- Copying folder of UpdateManager to build/Windows was successfully.
 echo ==================================
 
 @REM if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (

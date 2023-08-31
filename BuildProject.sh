@@ -3,7 +3,7 @@ echo "==> Installing libraries"
 # Installing libraries
 YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc gtest-devel gtest gmock-devel gmock curl libcurl-devel libcurl sqlite-devel sqlite-tcl libstdc++.x86_64 libstdc++-devel.x86_64 libstdc++-static.x86_64"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev"
-PACMAN_PACKAGE_NAME=""
+PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel development cmake  clang gtest libcurl libcurl-devel curl fmt libsqlite-devel sqlite "
 ZYPPER_PACKAGE_NAME=""
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    if cat /etc/*release | grep ^NAME | grep CentOS; then
@@ -52,6 +52,10 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
+   elif cat /etc/*release | grep ^NAME | grep Manjaro Linux ; then
+      echo "================================================="
+      echo "Installing packages $PACMAN_PACKAGE_NAME on Manjaro Linux"
+      echo "================================================="
    else
       echo "Not found package manager"
       exit 1;
@@ -102,8 +106,11 @@ echo "==> Copying folder of locale to build/$os"
 sudo cp -R ./src/locale ./build/$os/locale
 echo "==> Copying folder of locale to build/$os was successfully."
 echo "==> Copying folder of Logo to build/$os"
-sudo cp -R ./src/Logo ./build/$os/Icon
+sudo cp -R ./src/Logo ./build/$os/Logo
 echo "==> Copying folder of Logo to build/$os was successfully."
+echo "==> Copying folder of UpdateManager to build/$os"
+sudo cp -R ./src/UpdateManager ./build/$os/UpdateManager
+echo "==> Copying folder of UpdateManager to build/$os was successfully."
 cd build
 cd $os
 sudo ./DeepForgeToolset
