@@ -3,7 +3,7 @@ echo "==> Installing libraries"
 # Installing libraries
 YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc gtest-devel gtest gmock-devel gmock curl libcurl-devel libcurl sqlite-devel sqlite-tcl libstdc++.x86_64 libstdc++-devel.x86_64 libstdc++-static.x86_64"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev"
-PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel development cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl"
+PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl"
 ZYPPER_PACKAGE_NAME=""
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    if cat /etc/*release | grep ^NAME | grep CentOS; then
@@ -56,7 +56,19 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "================================================="
       echo "Installing packages $PACMAN_PACKAGE_NAME on Manjaro Linux"
       echo "================================================="
-      sudo pacman -Sy $PACMAN_PACKAGE_NAME
+      sudo pacman -Sy jsoncpp
+      sudo pacman -Sy gcc 
+      sudo pacman -Sy base-devel
+      sudo pacman -Sy cmake
+      sudo pacman -Sy clang
+      sudo pacman -Sy gtest
+      sudo pacman -Sy lib32-curl
+      sudo pacman -Sy libcurl-compat
+      sudo pacman -Sy libcurl-gnutls
+      sudo pacman -Sy curl
+      sudo pacman -Sy fmt
+      sudo pacman -Sy lib32-sqlite
+      sudo pacman -Sy sqlite-tcl
    else
       echo "Not found package manager"
       exit 1;

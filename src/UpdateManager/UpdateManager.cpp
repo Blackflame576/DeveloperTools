@@ -37,3 +37,10 @@
     using namespace Windows;
 #endif
 
+Updater updater;
+
+int main()
+{
+    
+    return 0;
+}
