@@ -59,17 +59,17 @@ void Update::InstallLatestRelease()
         result = Download(NewApplication_Url, TempFolder);
         if (result == 200)
         {
+            // Scan ApplicationFolder and directorins in this folder,if name of dir not == "Temp"
+            // for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
+            // {
+            //     if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
+            // }
+            name = (NewApplication_Url.substr(NewApplication_Url.find_last_of("/")));
             ArchivePath = TempFolder + "/" + name.replace(name.find("/"), 1, "");
-            Command = "tar -xf " + ArchivePath + " --directory" + ApplicationFolder;
+            Command = "tar -xf " + ArchivePath + " --directory " + ApplicationFolder;
             system(Command.c_str());
             file_path = ApplicationFolder + "\\DeepForgeToolset";
             CreateSymlink("DeepForgeToolset", file_path);
-            filesystem::remove(ArchivePath);
-            // Scan ApplicationFolder and directorins in this folder,if name of dir not == "Temp"
-            for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
-            {
-                if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
-            }
         }
         break;
     case 502:
@@ -87,6 +87,6 @@ void test()
 
 int main()
 {
-    test();
+    App.InstallLatestRelease();
     return 0;
 }

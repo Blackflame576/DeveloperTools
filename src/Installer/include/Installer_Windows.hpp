@@ -61,6 +61,7 @@ namespace Windows
     string NameVersionTable = "WindowsVersions";
     const string TrueVarious[3] = {"yes", "y", "1"};
     string InstallDelimiter = "========================================================";
+    string OS_NAME = "Windows";
 
     class WriteData : public IBindStatusCallback
     {
@@ -160,8 +161,8 @@ namespace Windows
 
         void CreateSymlink(string nameSymlink, string filePath)
         {
-            nameSymlink += ".exe";
-            filePath += ".exe";
+            nameSymlink =  nameSymlink + ".exe";
+            filePath = filePath + ".exe";
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
             CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);

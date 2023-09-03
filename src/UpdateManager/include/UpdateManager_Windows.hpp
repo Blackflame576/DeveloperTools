@@ -157,11 +157,11 @@ namespace Windows
 
         void CreateSymlink(string nameSymlink, string filePath)
         {
-            nameSymlink += ".exe";
-            filePath += ".exe";
+            nameSymlink = nameSymlink + ".exe";
+            filePath = filePath +  ".exe";
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
-            if (filesystem::exists(symlinkPath)) CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
+            if (filesystem::exists(symlinkPath) == false) CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
         void MakeDirectory(string dir)
