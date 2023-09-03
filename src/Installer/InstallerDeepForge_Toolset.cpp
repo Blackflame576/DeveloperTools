@@ -77,7 +77,7 @@ void Installer::InstallDeepForgeToolset(string channel)
                 ArchivePath = NewTempFolder + "/" + name.replace(name.find("/"), 1, "");
                 Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
                 system(Command.c_str());
-                file_path = NewApplicationFolder + "\\DeepForgeToolset.exe";
+                file_path = NewApplicationFolder + "\\DeepForgeToolset";
                 CreateSymlink("DeepForgeToolset",file_path);
                 filesystem::remove(ArchivePath);
                 cout << "✅ DeepForge Toolset " << version << " successfully installed" << endl;

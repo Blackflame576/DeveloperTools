@@ -27,13 +27,66 @@
 */
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
-    #include "include/UpdateManager_Linux.hpp"
-    using namespace Linux;
+#include "include/UpdateManager_Linux.hpp"
+using namespace Linux;
 #elif __APPLE__
-    #include "include/UpdateManager_macOS.hpp"
-    using namespace macOS;
+#include "include/UpdateManager_macOS.hpp"
+using namespace macOS;
 #elif _WIN32
-    #include "include/UpdateManager_Windows.hpp"
-    using namespace Windows;
+#include "include/UpdateManager_Windows.hpp"
+using namespace Windows;
 #endif
+#include <filesystem>
+Update App;
 
+void Update::InstallLatestRelease()
+{
+    string new_version;
+    string NewApplication_Url;
+    string name;
+    string filename;
+    string ArchivePath;
+    string Command;
+    string file_path;
+    MakeDirectory(TempFolder);
+    result = Download(DB_URL, TempFolder);
+    Database database(&DB_PATH);
+    switch (result)
+    {
+    case 200:
+        new_version = database.GetVersionFromDB(NameVersionTable, "stable\\latest", "Version", Architecture);
+        NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest", "Url", Architecture, new_version);
+        result = Download(NewApplication_Url, TempFolder);
+        if (result == 200)
+        {
+            ArchivePath = TempFolder + "/" + name.replace(name.find("/"), 1, "");
+            Command = "tar -xf " + ArchivePath + " --directory" + ApplicationFolder;
+            system(Command.c_str());
+            file_path = ApplicationFolder + "\\DeepForgeToolset";
+            CreateSymlink("DeepForgeToolset", file_path);
+            filesystem::remove(ArchivePath);
+            // Scan ApplicationFolder and directorins in this folder,if name of dir not == "Temp"
+            for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
+            {
+                if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
+            }
+        }
+        break;
+    case 502:
+        throw domain_error("Error downloading archive - 502");
+    }
+}
+
+void test()
+{
+    for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
+    {
+        if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
+    }
+}
+
+int main()
+{
+    test();
+    return 0;
+}

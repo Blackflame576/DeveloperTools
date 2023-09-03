@@ -51,8 +51,6 @@ namespace Windows
     string Architecture;
     float LastSize;
     float LastTotalSize;
-    // const string DownloadURL = "https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip";
-    // const string InstallPath = "kotlin-compiler-1.8.22.zip";
     string Answer;
     const string NewApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     const string NewTempFolder = NewApplicationFolder + "\\Temp";
@@ -163,9 +161,9 @@ namespace Windows
         void CreateSymlink(string nameSymlink, string filePath)
         {
             nameSymlink += ".exe";
+            filePath += ".exe";
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
-            // cout << symlinkPath << endl;
             CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
