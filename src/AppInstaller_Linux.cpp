@@ -311,6 +311,7 @@ namespace Linux
         {
             UpdateData();
             cout << NameDistribution << endl;
+            system("bash ./Scripts/CheckWSL.sh");
             result = system("snap --version");
             if (result != 0) {
                 string InstallCommand = database.GetValueFromDB("PackagesFromSource", "snap", PackageManager);
