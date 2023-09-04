@@ -60,10 +60,10 @@ void Update::InstallLatestRelease()
         if (result == 200)
         {
             // Scan ApplicationFolder and directorins in this folder,if name of dir not == "Temp"
-            // for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
-            // {
-            //     if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
-            // }
+            for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
+            {
+                if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
+            }
             name = (NewApplication_Url.substr(NewApplication_Url.find_last_of("/")));
             ArchivePath = TempFolder + "/" + name.replace(name.find("/"), 1, "");
             Command = "tar -xf " + ArchivePath + " --directory " + ApplicationFolder;
@@ -74,14 +74,6 @@ void Update::InstallLatestRelease()
         break;
     case 502:
         throw domain_error("Error downloading archive - 502");
-    }
-}
-
-void test()
-{
-    for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
-    {
-        if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
     }
 }
 
