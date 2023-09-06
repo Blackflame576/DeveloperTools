@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include "../DatabaseConnect.cpp"
 #include <map>
+#include <algorithm>
 
 using namespace std;
 using namespace DB;
@@ -143,14 +144,14 @@ namespace Windows
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
-                if (Process < 100)
+                if (Process < 100 && Download == S_OK && LastSize != LastTotalSize)
                 {
                     for (int i = (Process - 1); i < 99; i++)
                     {
                         progressbar.Update(0.0, LastSize, LastTotalSize);
                     }
                 }
-                cout << "" << endl;
+                progressbar.ResetAll();
                 return 200;
             }
             catch (exception error)

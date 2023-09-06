@@ -61,7 +61,7 @@ string Database::GetVersionFromDB(string NameTable,string Status,string NameColu
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Status + "' AND Architecture='" + Architecture + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -85,7 +85,7 @@ string Database::GetApplicationURL(string NameTable,string Status,string NameCol
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -118,7 +118,6 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
     {
         throw runtime_error("Not Found");
     }
-    int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
     {
@@ -128,7 +127,34 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
         {
             WriteMap.insert(pair<string, string>(Key, Value));
         }
-        i++;
+    }
+    // Free the statement when done.
+    sqlite3_finalize(statement);
+    // return Names,Commands;
+    return WriteMap;
+}
+
+map<string,string> Database::GetAllVersionsFromDB(string NameTable,string NameColumn,string Architecture)
+{
+    map<string, string> WriteMap;
+    // Create SQL statement
+    SQL_COMMAND = "SELECT Channel,Version FROM " + NameTable + " WHERE Architecture='" + Architecture + "'";
+    // Execute SQL statement
+    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
+    // if result of execute sql statement != SQLITE_OK, that send error
+    if (RESULT_SQL != SQLITE_OK)
+    {
+        throw runtime_error("Not Found");
+    }
+    // Loop through the results, a row at a time.
+    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        string Key = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 0)));
+        string Value = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 1)));
+        if (Value != "Empty")
+        {
+            WriteMap.insert(pair<string, string>(Key, Value));
+        }
     }
     // Free the statement when done.
     sqlite3_finalize(statement);

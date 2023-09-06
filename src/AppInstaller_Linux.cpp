@@ -93,55 +93,6 @@ namespace Linux
             }
         }
 
-        // int InstallPython_3_9()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.9", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallPython_3_10()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.10", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallPython_3_11()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Python 3.11", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallPHP()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "PHP", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallMake()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Make", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallWget()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Wget", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
-        // int InstallNginx()
-        // {
-        //     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "Nginx", PackageManager);
-        //     if (InstallCommand != "Empty")
-        //         result = system(InstallCommand.c_str());
-        // }
-
         using AppInstaller_funct_t = int (AppInstaller::*)(void);
         using map_funct_t = void (*)(void);
 
@@ -155,7 +106,7 @@ namespace Linux
             // {"PHP", &AppInstaller::InstallPHP},
             // {"Nginx", &AppInstaller::InstallNginx};
         };
-        
+
         int MainInstaller(string Name)
         {
             string Value = database.GetValueFromDB("Applications", Name, "Linux");
