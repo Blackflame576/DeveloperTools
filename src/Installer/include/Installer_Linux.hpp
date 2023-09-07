@@ -61,6 +61,7 @@ namespace Linux
     string InstallDelimiter = "========================================================";
     CURL *curl = curl_easy_init();
     CURLcode res;
+    float DownloadSpeed;
 
     // Function for calc percentage of download progresss
     int CallbackProgress(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)

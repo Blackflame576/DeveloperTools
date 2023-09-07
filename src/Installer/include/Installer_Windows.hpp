@@ -140,10 +140,14 @@ namespace Windows
         {
             try
             {
+                // Class for write data on windows
                 WriteData writer;
+                // Get name of file from url
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
+                // Call method for download file
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
+                // If the progress bar is not completely filled in, then paint over manually
                 if (Process < 100 && Download == S_OK && LastSize != LastTotalSize)
                 {
                     for (int i = (Process - 1); i < 99; i++)
@@ -151,6 +155,7 @@ namespace Windows
                         progressbar.Update(0.0, LastSize, LastTotalSize);
                     }
                 }
+                // Reset all variables and preferences
                 progressbar.ResetAll();
                 return 200;
             }
@@ -159,7 +164,7 @@ namespace Windows
                 return 502;
             }
         }
-
+        // Method for create symlink on desktop
         void CreateSymlink(string nameSymlink, string filePath)
         {
             nameSymlink =  nameSymlink + ".exe";
@@ -168,7 +173,20 @@ namespace Windows
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
             CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
-
+        // Method of make string to lower
+        string to_lower(string sentence)
+        {
+            string new_sentence = "";
+            for (int i = 0; i < sentence.length(); i++)
+            {
+                char ch = sentence[i];
+                // cout << ch << endl;
+                ch = tolower(ch);
+                new_sentence += ch;
+            }
+            return new_sentence;
+        }
+        // Method to iterate through creating folders
         void MakeDirectory(string dir)
         {
             string currentDir;
@@ -198,6 +216,7 @@ namespace Windows
                 filesystem::create_directory(fullPath);
             }
         }
+
         void RebootSystem()
         {
             system("shutdown -r -t 0");
@@ -206,9 +225,8 @@ namespace Windows
         bool CheckAnswer(string answer)
         {
             bool status;
-            // string Answer = to_lower(answer);
-
-            string Answer = answer;
+            string Answer = to_lower(answer);
+            // string Answer = answer;
             for (int i = 0; i < TrueVarious->size(); i++)
             {
                 if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
@@ -223,9 +241,9 @@ namespace Windows
         void GetArchitectureOS()
         {
             #if defined(__x86_64__)
-                        Architecture = "amd64";
+                Architecture = "amd64";
             #elif __arm__
-                        Architecture = "arm64";
+                Architecture = "arm64";
             #endif
         }
     };

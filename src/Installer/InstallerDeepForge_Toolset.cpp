@@ -40,11 +40,6 @@ using namespace Windows;
 Installer installer;
 
 string AllChannels[4] = {"stable\\latest", "stable", "beta", "beta\\latest"};
-// string LabelChannels[4] = {
-//     "Latest Stable Version",
-//     "Stable Version",
-//     "3. Latest Beta Version",
-//     "4. Beta Version"};
 
 void Installer::InstallDeepForgeToolset(string channel)
 {
@@ -88,27 +83,34 @@ void Installer::InstallDeepForgeToolset(string channel)
 
 void Installer::CommandManager()
 {
-    Database database(&DB_PATH);
-    map<int,string> EnumerateChannels;
-    map<string,string> Channels = database.GetAllVersionsFromDB(NameVersionTable, "Channel", Architecture);
-    int size = (sizeof(AllChannels)/sizeof(AllChannels[0]));
-    int n = 1;
-    for (int i = 0; i < size; i++)
+    try 
     {
-
-        if (Channels.find(AllChannels[i]) != Channels.end())
+        Database database(&DB_PATH);
+        map<int,string> EnumerateChannels;
+        map<string,string> Channels = database.GetAllVersionsFromDB(NameVersionTable, "Channel", Architecture);
+        int size = (sizeof(AllChannels)/sizeof(AllChannels[0]));
+        int n = 1;
+        for (int i = 0; i < size; i++)
         {
-            cout << n << ". " << AllChannels[i] << endl;
-            EnumerateChannels.insert(pair<int,string>(n,AllChannels[i]));
-            n++;
+
+            if (Channels.find(AllChannels[i]) != Channels.end())
+            {
+                cout << n << ". " << AllChannels[i] << endl;
+                EnumerateChannels.insert(pair<int,string>(n,AllChannels[i]));
+                n++;
+            }
+        }
+        cout << "Change version of DeepForge Toolset:";
+        getline(cin, Answer);
+        int TempAnswer = stoi(Answer);
+        if (EnumerateChannels.find(TempAnswer) != EnumerateChannels.end())
+        {
+            installer.InstallDeepForgeToolset(EnumerateChannels[TempAnswer]);
         }
     }
-    cout << "Change version of DeepForge Toolset:";
-    getline(cin, Answer);
-    int TempAnswer = stoi(Answer);
-    if (EnumerateChannels.find(TempAnswer) != EnumerateChannels.end())
+    catch (exception &error)
     {
-        installer.InstallDeepForgeToolset(EnumerateChannels[TempAnswer]);
+        CommandManager();
     }
 }
 

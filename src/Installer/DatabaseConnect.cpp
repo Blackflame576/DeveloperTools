@@ -217,7 +217,7 @@ int Database::GetArraySize(string NameTable, string NameColumn)
     return ArraySize;
 }
 
-int Database::InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand)
+int Database::InsertApplicationsToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand)
 {
     SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Name', 'Windows', 'macOS', 'Linux') VALUES ('" + NameApp + "', '" + WindowsCommand + "', '" + macOSCommand + "', '" + LinuxCommand + "');";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
@@ -226,7 +226,7 @@ int Database::InsertValuesToTable(string NameTable, string NameApp, string Windo
     return 0;
 }
 
-int Database::RemoveValuesFromTable(string NameTable, string NameApp)
+int Database::RemoveApplicationsFromTable(string NameTable, string NameApp)
 {
     SQL_COMMAND = "DELETE FROM " + NameTable + " WHERE Name='" + NameApp + "'";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
@@ -235,7 +235,7 @@ int Database::RemoveValuesFromTable(string NameTable, string NameApp)
     return 0;
 }
 
-int Database::AddValues(string Tables[])
+int Database::AddApplications(string Tables[])
 {
     string NameApp;
     string Windows_Command;
@@ -255,7 +255,7 @@ int Database::AddValues(string Tables[])
         getline(cin, Linux_Command);
         for (int i = 0; i < Tables->size(); i++)
         {
-            RESULT_COMMAND = InsertValuesToTable(Tables[i], NameApp, Windows_Command, macOS_Command, Linux_Command);
+            RESULT_COMMAND = InsertApplicationsToTable(Tables[i], NameApp, Windows_Command, macOS_Command, Linux_Command);
             if (RESULT_COMMAND == 0)
             {
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
@@ -269,7 +269,7 @@ int Database::AddValues(string Tables[])
     return 0;
 }
 
-int Database::RemoveValues(string Tables[])
+int Database::RemoveApplications(string Tables[])
 {
     string NameApp;
     string Windows_Command;
@@ -290,7 +290,7 @@ int Database::RemoveValues(string Tables[])
 
         for (int i = 0; i < Tables->size(); i++)
         {
-            RESULT_COMMAND = RemoveValuesFromTable(Tables[i], NameApp);
+            RESULT_COMMAND = RemoveApplicationsFromTable(Tables[i], NameApp);
             if (RESULT_COMMAND == 0)
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
         }

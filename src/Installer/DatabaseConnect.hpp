@@ -69,10 +69,10 @@ namespace DB
         string GetApplicationURL(string NameTable,string Status,string NameColumn,string Architecture,string Version);
         map<string, string> GetAllValuesFromDB(string NameTable, string NameColumn);
         map<string, string> GetDevPackFromDB(string NameTable, string NameColumn);
-        int InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
-        int RemoveValuesFromTable(string NameTable,string NameApp);
-        int AddValues(string Tables[]);
-        int RemoveValues(string Tables[]);
+        int InsertApplicationsToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
+        int RemoveApplicationsFromTable(string NameTable,string NameApp);
+        int AddApplications(string Tables[]);
+        int RemoveApplications(string Tables[]);
 
     private:
         int GetArraySize(string NameTable, string NameColumn);
