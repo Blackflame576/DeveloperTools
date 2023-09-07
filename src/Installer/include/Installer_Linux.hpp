@@ -59,6 +59,7 @@ namespace Linux
     string NameVersionTable = "LinuxVersions";
     const string TrueVarious[3] = {"yes", "y", "1"};
     string InstallDelimiter = "========================================================";
+    string OS_NAME = "Linux";
     CURL *curl = curl_easy_init();
     CURLcode res;
     float DownloadSpeed;
