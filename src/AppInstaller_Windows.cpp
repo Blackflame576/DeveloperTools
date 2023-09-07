@@ -384,7 +384,7 @@ namespace Windows
             return new_sentence;
         }
     }
-    // Function of make string to lower
+    // Method of make string to lower
     string to_lower(string sentence)
     {
         string new_sentence = "";

@@ -43,7 +43,7 @@ namespace DB
     sqlite3_stmt *statement;
     int RESULT_SQL;
     string SQL_COMMAND;
-    string* AnswerDB;
+    string AnswerDB;
     string DefaultDatabesePath = std::filesystem::current_path().generic_string() + "/DB/AppInstaller.db";
 
     class Database
@@ -65,13 +65,14 @@ namespace DB
         }
         string GetValueFromDB(string NameTable, string NameApp, string NameColumn);
         string GetVersionFromDB(string NameTable,string Status,string NameColumn,string Architecture);
+        map<string,string>  GetAllVersionsFromDB(string NameTable,string NameColumn,string Architecture);
         string GetApplicationURL(string NameTable,string Status,string NameColumn,string Architecture,string Version);
         map<string, string> GetAllValuesFromDB(string NameTable, string NameColumn);
         map<string, string> GetDevPackFromDB(string NameTable, string NameColumn);
-        int InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
-        int RemoveValuesFromTable(string NameTable,string NameApp);
-        int AddValues(string Tables[]);
-        int RemoveValues(string Tables[]);
+        int InsertApplicationsToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
+        int RemoveApplicationsFromTable(string NameTable,string NameApp);
+        int AddApplications(string Tables[]);
+        int RemoveApplications(string Tables[]);
 
     private:
         int GetArraySize(string NameTable, string NameColumn);

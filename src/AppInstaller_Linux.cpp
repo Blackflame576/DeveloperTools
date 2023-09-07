@@ -98,13 +98,6 @@ namespace Linux
 
         map<string, AppInstaller_funct_t> PackagesFromSource{
             {"vcpkg", &AppInstaller::InstallVCpkg},
-            // {"Python 3.9", &AppInstaller::InstallPython_3_9},
-            // {"Python 3.10", &AppInstaller::InstallPython_3_10},
-            // {"Python 3.11", &AppInstaller::InstallPython_3_11},
-            // {"Wget", &AppInstaller::InstallWget},
-            // {"Make", &AppInstaller::InstallMake},
-            // {"PHP", &AppInstaller::InstallPHP},
-            // {"Nginx", &AppInstaller::InstallNginx};
         };
 
         int MainInstaller(string Name)
