@@ -70,6 +70,13 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo pacman -Sy lib32-sqlite
       sudo pacman -Sy sqlite
       sudo pacman -Sy sqlite-tcl
+   elif cat /etc/*release | grep ^NAME | grep "Kali GNU/Linux" ; then
+      echo "================================================"
+      echo "Installing libraries"
+      echo "================================================"
+      sudo add-apt-repository universe
+      sudo apt-get update
+      sudo apt-get install -y $DEB_PACKAGE_NAME
    else
       echo "Not found package manager"
       exit 1;

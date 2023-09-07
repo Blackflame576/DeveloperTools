@@ -64,6 +64,11 @@ namespace Windows
     string InstallDelimiter = "========================================================";
     string OS_NAME = "Windows";
 
+    void InitDatabase()
+    {
+        Database database(&DB_PATH);
+    }
+
     class WriteData : public IBindStatusCallback
     {
     public:
@@ -131,6 +136,7 @@ namespace Windows
             // Changing the encoding in the Windows console
             system("chcp 65001");
             GetArchitectureOS();
+            InitDatabase();
         }
         void CommandManager();
         void InstallDeepForgeToolset(string channel);

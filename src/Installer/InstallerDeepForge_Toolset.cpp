@@ -27,14 +27,14 @@
 */
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
-#include "include/Installer_Linux.hpp"
-using namespace Linux;
+    #include "include/Installer_Linux.hpp"
+    using namespace Linux;
 #elif __APPLE__
-#include "include/Installer_macOS.hpp"
-using namespace macOS;
+    #include "include/Installer_macOS.hpp"
+    using namespace macOS;
 #elif _WIN32
-#include "include/Installer_Windows.hpp"
-using namespace Windows;
+    #include "include/Installer_Windows.hpp"
+    using namespace Windows;
 #endif
 
 Installer installer;
@@ -52,40 +52,29 @@ void Installer::InstallDeepForgeToolset(string channel)
     string file_path;
     cout << InstallDelimiter << endl;
     cout << "Installing DeepForge Toolset..." << endl;
-    MakeDirectory(NewTempFolder);
-    result = Download(DB_URL, NewTempFolder);
-    Database database(&DB_PATH);
-    switch (result)
+    version = database.GetVersionFromDB(NameVersionTable, channel, "Version", Architecture);
+    ApplicationURL = database.GetApplicationURL(NameVersionTable, channel, "Url", Architecture, version);
+    result = Download(ApplicationURL, NewTempFolder);
+    // result = 200;
+    if (result == 200)
     {
-    case 200:
-        version = database.GetVersionFromDB(NameVersionTable, channel, "Version", Architecture);
-        ApplicationURL = database.GetApplicationURL(NameVersionTable, channel, "Url", Architecture, version);
-        result = Download(ApplicationURL, NewTempFolder);
-        // result = 200;
-        if (result == 200)
-        {
-            name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
+        name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
             ArchivePath = NewTempFolder + "/" + name.replace(name.find("/"), 1, "");
-            Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
-            system(Command.c_str());
-            file_path = NewApplicationFolder + "\\DeepForgeToolset";
-            CreateSymlink("DeepForgeToolset", file_path);
-            filesystem::remove(ArchivePath);
-            cout << "✅ DeepForge Toolset " << version << " successfully installed" << endl;
-            cout << InstallDelimiter << endl;
-        }
-        break;
-    case 502:
-        throw domain_error("Error downloading archive - 502");
+        Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
+        system(Command.c_str());
+        file_path = NewApplicationFolder + "/DeepForgeToolset";
+        CreateSymlink("DeepForgeToolset", file_path);
+        filesystem::remove(ArchivePath);
+        cout << "✅ DeepForge Toolset " << version << " successfully installed" << endl;
+        cout << InstallDelimiter << endl;
     }
     // CommandManager();
 }
 
 void Installer::CommandManager()
 {
-    try 
-    {
-        Database database(&DB_PATH);
+    // try 
+    // {
         map<int,string> EnumerateChannels;
         map<string,string> Channels = database.GetAllVersionsFromDB(NameVersionTable, "Channel", Architecture);
         int size = (sizeof(AllChannels)/sizeof(AllChannels[0]));
@@ -107,11 +96,11 @@ void Installer::CommandManager()
         {
             installer.InstallDeepForgeToolset(EnumerateChannels[TempAnswer]);
         }
-    }
-    catch (exception &error)
-    {
-        CommandManager();
-    }
+    // }
+    // catch (exception &error)
+    // {
+    //     CommandManager();
+    // }
 }
 
 int main()

@@ -63,6 +63,7 @@ namespace Linux
     CURL *curl = curl_easy_init();
     CURLcode res;
     float DownloadSpeed;
+    Database database;
 
     // Function for calc percentage of download progresss
     int CallbackProgress(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
@@ -101,6 +102,15 @@ namespace Linux
         Installer()
         {
             GetArchitectureOS();
+            // Create temp folder
+            // MakeDirectory(NewTempFolder);
+            // system("mkdir /usr/bin/DeepForge");
+            // system("mkdir /usr/bin/DeepForge/DeepForge-Toolset");
+            // string Command = "mkdir /" + NewTempFolder;
+            // system(Command.c_str());
+            // Download database Versions.db
+            // Download(DB_URL, NewTempFolder);
+            database.open(&DB_PATH);
         }
         void CommandManager();
         void InstallDeepForgeToolset(string channel);
@@ -134,7 +144,7 @@ namespace Linux
                 }
                 else
                 {
-                    fullPath = "/" + currentDir + "/";
+                    fullPath = "/" + currentDir;
                 }
                 dir.erase(0, pos + delimiter.length());
             }
