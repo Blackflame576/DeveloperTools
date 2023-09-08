@@ -49,7 +49,7 @@ namespace DB
     class Database
     {
     public:
-        Database(string *DB_Path = nullptr)
+        void open(string *DB_Path = nullptr)
         {
             RESULT_SQL = sqlite3_open(DB_Path != nullptr ? DB_Path->c_str() : DefaultDatabesePath.c_str(), &db);
 
@@ -59,10 +59,12 @@ namespace DB
                 throw runtime_error("Failed to connect to database");
             }
         }
+        // Database();
         ~Database()
         {
             sqlite3_close(db);
         }
+        
         string GetValueFromDB(string NameTable, string NameApp, string NameColumn);
         string GetVersionFromDB(string NameTable,string Status,string NameColumn,string Architecture);
         map<string,string>  GetAllVersionsFromDB(string NameTable,string NameColumn,string Architecture);
