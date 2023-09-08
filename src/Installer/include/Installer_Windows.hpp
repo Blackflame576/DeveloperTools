@@ -38,11 +38,16 @@
 #include <stdlib.h>
 #include "../DatabaseConnect.cpp"
 #include <map>
-#include <algorithm>
+#include <zipper/unzipper.h>
+#include<fstream>
+#include <cctype>
+
+#define CHUNK 16384
 
 using namespace std;
 using namespace DB;
 using namespace Bar;
+using namespace zipper;
 
 namespace Windows
 {
@@ -64,6 +69,7 @@ namespace Windows
     string InstallDelimiter = "========================================================";
     string OS_NAME = "Windows";
     Database database;
+    int archiver_err = 0;
 
     class WriteData : public IBindStatusCallback
     {
@@ -173,7 +179,7 @@ namespace Windows
         // Method for create symlink on desktop
         void CreateSymlink(string nameSymlink, string filePath)
         {
-            nameSymlink =  nameSymlink + ".exe";
+            nameSymlink = nameSymlink + ".exe";
             filePath = filePath + ".exe";
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
@@ -222,6 +228,13 @@ namespace Windows
                 filesystem::create_directory(fullPath);
             }
             // free(&currentDir);
+        }
+
+        int UnpackArchive(string path_from, string path_to)
+        {
+            Unzipper unzipper(path_from);
+            unzipper.extract(path_to);
+            unzipper.close();
         }
 
         void RebootSystem()

@@ -59,9 +59,10 @@ void Installer::InstallDeepForgeToolset(string channel)
     if (result == 200)
     {
         name = (ApplicationURL.substr(ApplicationURL.find_last_of("/")));
-            ArchivePath = NewTempFolder + "/" + name.replace(name.find("/"), 1, "");
-        Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
-        system(Command.c_str());
+        ArchivePath = NewTempFolder + "/" + name.replace(name.find("/"), 1, "");
+        // Command = "tar -xf " + ArchivePath + " --directory " + NewApplicationFolder;
+        // system(Command.c_str());
+        UnpackArchive(ArchivePath,NewApplicationFolder);
         file_path = NewApplicationFolder + "/DeepForgeToolset";
         CreateSymlink("DeepForgeToolset", file_path);
         filesystem::remove(ArchivePath);
