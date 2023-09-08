@@ -97,7 +97,7 @@ void Installer::CommandManager()
             installer.InstallDeepForgeToolset(EnumerateChannels[TempAnswer]);
         }
     // }
-    // catch (exception &error)
+    // catch (exception& error)
     // {
     //     CommandManager();
     // }

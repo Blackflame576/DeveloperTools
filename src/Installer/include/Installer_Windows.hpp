@@ -63,11 +63,7 @@ namespace Windows
     const string TrueVarious[3] = {"yes", "y", "1"};
     string InstallDelimiter = "========================================================";
     string OS_NAME = "Windows";
-
-    void InitDatabase()
-    {
-        Database database(&DB_PATH);
-    }
+    Database database;
 
     class WriteData : public IBindStatusCallback
     {
@@ -136,7 +132,11 @@ namespace Windows
             // Changing the encoding in the Windows console
             system("chcp 65001");
             GetArchitectureOS();
-            InitDatabase();
+            // Create temp folder
+            MakeDirectory(NewTempFolder);
+            // Download database Versions.db
+            Download(DB_URL, NewTempFolder);
+            database.open(&DB_PATH);
         }
         void CommandManager();
         void InstallDeepForgeToolset(string channel);
@@ -154,7 +154,7 @@ namespace Windows
                 // Call method for download file
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
                 // If the progress bar is not completely filled in, then paint over manually
-                if (Process < 100 && Download == S_OK && LastSize != LastTotalSize)
+                if (Process < 100 && Download == S_OK)
                 {
                     for (int i = (Process - 1); i < 99; i++)
                     {
@@ -221,6 +221,7 @@ namespace Windows
             {
                 filesystem::create_directory(fullPath);
             }
+            // free(&currentDir);
         }
 
         void RebootSystem()
