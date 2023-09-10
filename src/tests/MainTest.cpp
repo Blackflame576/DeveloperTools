@@ -11,16 +11,28 @@ using namespace std;
 const char *ch = "/src/DB/AppInstaller.db";
 std::filesystem::path current_path = std::filesystem::current_path().generic_string();
 string DB_PATH = current_path.parent_path().string() + ch;
-Database database(&DB_PATH);
+Database database;
 string NameApp = "TestApp";
 string Windows_Command = "Test_Windows_Command";
 string macOS_Command = "Test_macOS_Command";
 string Linux_Command = "Test_Linux_Command";
 string Table = "Test";
 
+class DatabaseTests
+{
+    public:
+        DatabaseTests()
+        {
+
+        }
+        ~DatabaseTests();
+    private:
+};
+
 TEST(DB, CreateValue)
 {
-    int RESULT = database.InsertValuesToTable(Table, NameApp, Windows_Command, macOS_Command, Linux_Command);
+    database.open(&DB_PATH);
+    int RESULT = database.InsertApplicationsToTable(Table, NameApp, Windows_Command, macOS_Command, Linux_Command);
     EXPECT_EQ(RESULT, 0);
     // print();
 }
@@ -29,19 +41,19 @@ TEST(DB, GetValue)
 {
     string RESULT;
     RESULT = database.GetValueFromDB(Table, NameApp, "Windows");
-    delete[] AnswerDB;
+    delete[] &AnswerDB;
     EXPECT_STREQ(Windows_Command.c_str(), RESULT.c_str());
     RESULT = database.GetValueFromDB(Table, NameApp, "Linux");
-    delete[] AnswerDB;
+    delete[] &AnswerDB;
     EXPECT_STREQ(Linux_Command.c_str(), RESULT.c_str());
     RESULT = database.GetValueFromDB(Table, NameApp, "macOS");
-    delete[] AnswerDB;
+    delete[] &AnswerDB;
     EXPECT_STREQ(macOS_Command.c_str(), RESULT.c_str());
 }
 
 TEST(DB, DeleteValue)
 {
-    int RESULT = database.RemoveValuesFromTable(Table, NameApp);
+    int RESULT = database.RemoveApplicationsFromTable(Table, NameApp);
     EXPECT_EQ(0, RESULT);
 }
 
