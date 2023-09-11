@@ -30,7 +30,6 @@
 
 using namespace std;
 using namespace DB;
-using namespace Bar;
 
 string Database::GetValueFromDB(string NameTable, string NameApp, string NameColumn)
 {
