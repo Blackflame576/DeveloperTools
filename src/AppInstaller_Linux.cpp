@@ -66,30 +66,37 @@ namespace Linux
     public:
         int InstallVCpkg()
         {
-            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource", "vcpkg", "LinuxDir");
-            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource", "vcpkg", "Url");
-            string PathRepository = NewVCpkgDir + "vcpkg";
-            if (std::filesystem::exists(PathRepository))
+            try
             {
-                cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
-                return 403;
-            }
-            string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
-            string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
-            // string Command_AddPath = "bash -c 'source ./Scripts/AddPath.sh'";
-            string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
-            result = system(Command.c_str());
-            // result = system("ls");
-            switch (result)
-            {
-            case 0:
-                // result = system(Command_Install.c_str());
-                if (result == 0)
+                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource", "vcpkg", "LinuxDir");
+                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource", "vcpkg", "Url");
+                string PathRepository = NewVCpkgDir + "vcpkg";
+                if (std::filesystem::exists(PathRepository))
                 {
-                    system(Command_AddPath.c_str());
-                    cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                    cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
+                    return 403;
                 }
-                return 0;
+                string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
+                string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
+                // string Command_AddPath = "bash -c 'source ./Scripts/AddPath.sh'";
+                string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
+                result = system(Command.c_str());
+                // result = system("ls");
+                switch (result)
+                {
+                case 0:
+                    // result = system(Command_Install.c_str());
+                    if (result == 0)
+                    {
+                        system(Command_AddPath.c_str());
+                        cout << "vcpkg " << translate["Located"].asString() << " " << NewVCpkgDir << "vcpkg" << endl;
+                    }
+                    return 0;
+                }
+            }
+            catch(exception& error)
+            {
+                cout << error.what() << endl;
             }
         }
 
@@ -102,28 +109,41 @@ namespace Linux
 
         int MainInstaller(string Name)
         {
-            string Value = database.GetValueFromDB("Applications", Name, "Linux");
-            if (Value != "ManualInstallation")
+            try 
             {
-                result = system(Value.c_str());
+                string Value = database.GetValueFromDB("Applications", Name, "Linux");
+                if (Value != "ManualInstallation")
+                {
+                    result = system(Value.c_str());
+                }
+                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+                {
+                    result = (this->*(PackagesFromSource[Name]))();
+                }
+                else 
+                {
+                    string InstallCommand = database.GetValueFromDB("PackagesFromSource", Name, PackageManager);
+                    if (InstallCommand != "Empty")
+                        result = system(InstallCommand.c_str());
+                }
+                return result;
             }
-            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+            catch(exception& error)
             {
-                result = (this->*(PackagesFromSource[Name]))();
+                cout << error.what() << endl;
             }
-            else 
-            {
-                string InstallCommand = database.GetValueFromDB("PackagesFromSource", Name, PackageManager);
-                if (InstallCommand != "Empty")
-                    result = system(InstallCommand.c_str());
-            }
-            return result;
         }
         AppInstaller()
         {
-            UpdateData();
-            InstallSnap();
-            cout << InstallDelimiter << endl;
+            try {
+                UpdateData();
+                InstallSnap();
+                cout << InstallDelimiter << endl;
+            }
+            catch(exception& error)
+            {
+                cout << error.what() << endl;
+            }
         }
 
         ~AppInstaller()
@@ -133,20 +153,25 @@ namespace Linux
     private:
         void InstallSnap()
         {
-            UpdateData();
-            cout << NameDistribution << endl;
-            system("bash ./Scripts/CheckWSL.sh");
-            result = system("snap --version");
-            if (result != 0) {
-                string InstallCommand = database.GetValueFromDB("PackagesFromSource", "snap", PackageManager);
-                if (InstallCommand != "Empty")
-                    result = system(InstallCommand.c_str());
+            try {
+                UpdateData();
+                cout << NameDistribution << endl;
+                system("bash ./Scripts/CheckWSL.sh");
+                result = system("snap --version");
+                if (result != 0) {
+                    string InstallCommand = database.GetValueFromDB("PackagesFromSource", "snap", PackageManager);
+                    if (InstallCommand != "Empty")
+                        result = system(InstallCommand.c_str());
+                }
+                else {
+                    system("sudo ln -s /var/lib/snapd/snap /snap");
+                    system("sudo systemctl restart snapd.service");
+                }
             }
-            else {
-                system("sudo ln -s /var/lib/snapd/snap /snap");
-                system("sudo systemctl restart snapd.service");
+            catch(exception& error)
+            {
+                cout << error.what() << endl;
             }
-            
             // if (PackageManager == "apt")
             // {
             //     result = system("snap --version");
@@ -173,6 +198,7 @@ namespace Linux
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 FILE *file = fopen(filename.c_str(), "wb");
+                CURL *curl = curl_easy_init();
                 curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
                 curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
                 curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
@@ -188,7 +214,7 @@ namespace Linux
                 cout << "" << endl;
                 return 200;
             }
-            catch (exception &error)
+            catch (exception& error)
             {
                 string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
                 string ErrorText_2 = error.what();

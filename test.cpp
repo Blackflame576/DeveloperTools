@@ -1,5 +1,5 @@
 #include <iostream>
-#include <unistd.h>
+// #include <unistd.h>
 #include <map>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,18 +7,20 @@
 #include "src/Progressbar.hpp"
 #include <cctype>
 #include <fstream>
-#include <Windows.h>
+// #include <Windows.h>
 #include "src/DatabaseConnect.cpp"
-#include <tchar.h>
+// #include <tchar.h>
 
-#include <shlwapi.h>
+// #include <shlwapi.h>
 
-#pragma comment(lib,"shlwapi.lib")
+// #pragma comment(lib,"shlwapi.lib")
 
-#include "shlobj.h"
+// #include "shlobj.h"
 
 using namespace std;
 using namespace DB;
+using namespace Bar;
+
 string DoneChar = "#";
 string TodoChar = " ";
 string StartChar = "[";
@@ -32,8 +34,8 @@ double DownloadSpeed = 0.0;
 CURL *curl = curl_easy_init();
 CURLcode res;
 // int n_done = 0;
-ProgressBar bar;
-TCHAR szPath[MAX_PATH];
+ProgressBar_v1 bar;
+// TCHAR szPath[MAX_PATH];
 
 int CallbackProgress(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
 {
@@ -94,16 +96,19 @@ int Download(string url, string dir)
 int main()
 {
 
-    string Tables[11] = {"CDevelopmentTools", "CppDevelopmentTools", "CSDevelopmentTools", "PythonDevelopmentTools", "JavaDevelopmentTools",
-                         "JavaScriptDevelopmentTools", "KotlinDevelopmentTools", "RubyDevelopmentTools", "RustDevelopmentTools", "GoDevelopmentTools",
-                         "PHPDevelopmentTools"};
+    // string Tables[11] = {"CDevelopmentTools", "CppDevelopmentTools", "CSDevelopmentTools", "PythonDevelopmentTools", "JavaDevelopmentTools",
+    //                      "JavaScriptDevelopmentTools", "KotlinDevelopmentTools", "RubyDevelopmentTools", "RustDevelopmentTools", "GoDevelopmentTools",
+    //                      "PHPDevelopmentTools"};
     const char *ch = "DB/AppInstaller.db";
     std::filesystem::path current_path = std::filesystem::current_path().generic_string();
     string DB_PATH = current_path.string() + "/src/" + ch;
+    cout << DB_PATH << endl;
     Database database(&DB_PATH);
+    string Command = database.GetValueFromDB("Applications","Docker","Windows");
+    cout << Command << endl;
     // database.AddValues(Tables);
-    char *user = getenv("USERPROFILE");
-    SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, szPath);
-    cout << user << endl;
+    // char *user = getenv("USERPROFILE");
+    // SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, szPath);
+    // cout << user << endl;
     return 0;
 }

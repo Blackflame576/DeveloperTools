@@ -61,7 +61,7 @@ string Database::GetVersionFromDB(string NameTable,string Status,string NameColu
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Status + "' AND Architecture='" + Architecture + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -85,7 +85,7 @@ string Database::GetApplicationURL(string NameTable,string Status,string NameCol
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -118,6 +118,7 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
     {
         throw runtime_error("Not Found");
     }
+    int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
     {
@@ -127,34 +128,7 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
         {
             WriteMap.insert(pair<string, string>(Key, Value));
         }
-    }
-    // Free the statement when done.
-    sqlite3_finalize(statement);
-    // return Names,Commands;
-    return WriteMap;
-}
-
-map<string,string> Database::GetAllVersionsFromDB(string NameTable,string NameColumn,string Architecture)
-{
-    map<string, string> WriteMap;
-    // Create SQL statement
-    SQL_COMMAND = "SELECT Channel,Version FROM " + NameTable + " WHERE Architecture='" + Architecture + "'";
-    // Execute SQL statement
-    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
-    // if result of execute sql statement != SQLITE_OK, that send error
-    if (RESULT_SQL != SQLITE_OK)
-    {
-        throw runtime_error("Not Found");
-    }
-    // Loop through the results, a row at a time.
-    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
-    {
-        string Key = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 0)));
-        string Value = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 1)));
-        if (Value != "Empty")
-        {
-            WriteMap.insert(pair<string, string>(Key, Value));
-        }
+        i++;
     }
     // Free the statement when done.
     sqlite3_finalize(statement);
@@ -217,7 +191,7 @@ int Database::GetArraySize(string NameTable, string NameColumn)
     return ArraySize;
 }
 
-int Database::InsertApplicationsToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand)
+int Database::InsertValuesToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand)
 {
     SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Name', 'Windows', 'macOS', 'Linux') VALUES ('" + NameApp + "', '" + WindowsCommand + "', '" + macOSCommand + "', '" + LinuxCommand + "');";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
@@ -226,7 +200,7 @@ int Database::InsertApplicationsToTable(string NameTable, string NameApp, string
     return 0;
 }
 
-int Database::RemoveApplicationsFromTable(string NameTable, string NameApp)
+int Database::RemoveValuesFromTable(string NameTable, string NameApp)
 {
     SQL_COMMAND = "DELETE FROM " + NameTable + " WHERE Name='" + NameApp + "'";
     int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
@@ -235,7 +209,7 @@ int Database::RemoveApplicationsFromTable(string NameTable, string NameApp)
     return 0;
 }
 
-int Database::AddApplications(string Tables[])
+int Database::AddValues(string Tables[])
 {
     string NameApp;
     string Windows_Command;
@@ -255,7 +229,7 @@ int Database::AddApplications(string Tables[])
         getline(cin, Linux_Command);
         for (int i = 0; i < Tables->size(); i++)
         {
-            RESULT_COMMAND = InsertApplicationsToTable(Tables[i], NameApp, Windows_Command, macOS_Command, Linux_Command);
+            RESULT_COMMAND = InsertValuesToTable(Tables[i], NameApp, Windows_Command, macOS_Command, Linux_Command);
             if (RESULT_COMMAND == 0)
             {
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
@@ -269,7 +243,7 @@ int Database::AddApplications(string Tables[])
     return 0;
 }
 
-int Database::RemoveApplications(string Tables[])
+int Database::RemoveValues(string Tables[])
 {
     string NameApp;
     string Windows_Command;
@@ -290,7 +264,7 @@ int Database::RemoveApplications(string Tables[])
 
         for (int i = 0; i < Tables->size(); i++)
         {
-            RESULT_COMMAND = RemoveApplicationsFromTable(Tables[i], NameApp);
+            RESULT_COMMAND = RemoveValuesFromTable(Tables[i], NameApp);
             if (RESULT_COMMAND == 0)
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
         }

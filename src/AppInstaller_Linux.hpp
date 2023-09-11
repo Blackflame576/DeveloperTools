@@ -81,6 +81,7 @@ string haveString = "";
 double DownloadSpeed = 0.0;
 CURL *curl = curl_easy_init();
 CURLcode res;
+// string DatabasePath = "~/DeepForge-Toolset/build/Linux/DB";
 Database database;
 string NameDistribution;
 map<string, string> Packages;
@@ -108,6 +109,7 @@ string GetNameDistribution()
 
 void UpdateData()
 {
+    database.open();
     NameDistribution = GetNameDistribution();
     Packages = database.GetAllValuesFromDB("Applications", "Linux");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");

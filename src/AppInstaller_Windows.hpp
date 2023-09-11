@@ -115,15 +115,14 @@ string DesktopPath = string(UserFolder) + "\\Desktop";
 string InstallDelimiter = "========================================================";
 string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
 string DatabasePath = replaceAll(ProjectDir,"/","\\") == DesktopPath ? ApplicationDir + "\\DB\\AppInstaller.db" : ProjectDir + "\\DB\\AppInstaller.db";
-Database database(&DatabasePath);
+Database database;
 
 // Function for update information from database about packages and development packs
 void UpdateData()
 {
+    database.open(&DatabasePath);
     Packages = database.GetAllValuesFromDB("Applications", "Windows");
     DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
-    // Delete dynamic array
-    delete[] AnswerDB;
 }
 
 #endif

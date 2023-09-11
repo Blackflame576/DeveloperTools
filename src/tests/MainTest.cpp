@@ -7,6 +7,7 @@
 #include <iostream>
 
 using namespace std;
+using namespace DB;
 
 const char *ch = "/src/DB/AppInstaller.db";
 std::filesystem::path current_path = std::filesystem::current_path().generic_string();
@@ -29,7 +30,7 @@ class DatabaseTests
     private:
 };
 
-TEST(DB, CreateValue)
+TEST(DatabaseGroup, CreateValue)
 {
     database.open(&DB_PATH);
     int RESULT = database.InsertApplicationsToTable(Table, NameApp, Windows_Command, macOS_Command, Linux_Command);
@@ -37,7 +38,7 @@ TEST(DB, CreateValue)
     // print();
 }
 
-TEST(DB, GetValue)
+TEST(DatabaseGroup, GetValue)
 {
     string RESULT;
     RESULT = database.GetValueFromDB(Table, NameApp, "Windows");
@@ -51,19 +52,19 @@ TEST(DB, GetValue)
     EXPECT_STREQ(macOS_Command.c_str(), RESULT.c_str());
 }
 
-TEST(DB, DeleteValue)
+TEST(DatabaseGroup, DeleteValue)
 {
     int RESULT = database.RemoveApplicationsFromTable(Table, NameApp);
     EXPECT_EQ(0, RESULT);
 }
 
-TEST(DB, GetAllValues)
+TEST(DatabaseGroup, GetAllValues)
 {
     map<string, string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
     EXPECT_LE(1, Packages.size());
 }
 
-TEST(DB, GetDevPack)
+TEST(DatabaseGroup, GetDevPack)
 {
     map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
     EXPECT_LE(1, DevelopmetPacks.size());
