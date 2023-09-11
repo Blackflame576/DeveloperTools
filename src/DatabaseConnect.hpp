@@ -74,7 +74,7 @@ namespace DB
         int InsertApplicationsToTable(string NameTable, string NameApp, string WindowsCommand, string macOSCommand, string LinuxCommand);
         int RemoveApplicationsFromTable(string NameTable,string NameApp);
         int AddApplications(string Tables[]);
-        int RemoveApplications(string Tables[]);
+        int RemoveApplicationsFromTable(string Tables[]);
 
     private:
         int GetArraySize(string NameTable, string NameColumn);

@@ -243,7 +243,7 @@ int Database::AddApplications(string Tables[])
     return 0;
 }
 
-int Database::RemoveApplications(string Tables[])
+int Database::RemoveApplicationsFromTable(string Tables[])
 {
     string NameApp;
     string Windows_Command;
