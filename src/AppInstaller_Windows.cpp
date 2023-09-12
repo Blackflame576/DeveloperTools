@@ -274,6 +274,41 @@ namespace Windows
             }
         }
 
+        int InstallRedis()
+        {
+            string NewRedisDir = database.GetValueFromDB("PackagesFromSource", "Redis", "WindowsDir");
+            string RedisUrl = database.GetValueFromDB("PackagesFromSource", "Redis", "Url");
+            string name = (RedisUrl.substr(RedisUrl.find_last_of("/")));
+            string ArchiveDir = ProjectDir + "/Downloads";
+            string ArchivePath = ArchiveDir + "/" + name + " ";
+            if (std::filesystem::exists(NewRedisDir))
+            {
+                cout << "✅ Redis " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewRedisDir << "kotlinc" << endl;
+                return 403;
+            }
+            if (std::filesystem::exists(ArchiveDir) == false)
+            {
+                std::filesystem::create_directory(ArchiveDir);
+            }
+            if (std::filesystem::exists(ArchivePath))
+                std::filesystem::remove(ArchivePath);
+            std::filesystem::create_directory(NewRedisDir);
+            result = Download(RedisUrl, ArchiveDir);
+            string Command = "tar -xf" + ArchivePath + "--directory " + NewRedisDir;
+            string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewRedisDir;
+            switch (result)
+            {
+                case 200:
+                    system(Command.c_str());
+                    system(Command_AddPath.c_str());
+                    std::filesystem::remove(ArchivePath);
+                    cout << "Redis " << translate["Located"].asString() << " " << NewRedisDir << endl;
+                    return 0;
+                case 500:
+                    throw domain_error("Unable to connect");
+            }
+        }
+
         using AppInstaller_funct_t = int (AppInstaller::*)(void);
         using map_funct_t = void (*)(void);
 
@@ -284,7 +319,9 @@ namespace Windows
             {"PHP", &AppInstaller::InstallPHP},
             {"Make", &AppInstaller::InstallMake},
             {"Wget", &AppInstaller::InstallWget},
-            {"Nginx", &AppInstaller::InstallNginx}};
+            {"Nginx", &AppInstaller::InstallNginx},
+            {"Redis", &AppInstaller::InstallRedis}
+        };
 
         int MainInstaller(string Name)
         {

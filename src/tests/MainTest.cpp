@@ -19,53 +19,45 @@ string macOS_Command = "Test_macOS_Command";
 string Linux_Command = "Test_Linux_Command";
 string Table = "Test";
 
-class DatabaseTests
-{
-    public:
-        DatabaseTests()
-        {
-
-        }
-        ~DatabaseTests();
-    private:
-};
-
 TEST(DatabaseGroup, CreateValue)
 {
     database.open(&DB_PATH);
     int RESULT = database.InsertApplicationsToTable(Table, NameApp, Windows_Command, macOS_Command, Linux_Command);
     EXPECT_EQ(RESULT, 0);
-    // print();
 }
 
 TEST(DatabaseGroup, GetValue)
 {
+    database.open(&DB_PATH);
     string RESULT;
     RESULT = database.GetValueFromDB(Table, NameApp, "Windows");
-    delete[] &AnswerDB;
+    // delete[] &AnswerDB;
     EXPECT_STREQ(Windows_Command.c_str(), RESULT.c_str());
     RESULT = database.GetValueFromDB(Table, NameApp, "Linux");
-    delete[] &AnswerDB;
+    // delete[] &AnswerDB;
     EXPECT_STREQ(Linux_Command.c_str(), RESULT.c_str());
     RESULT = database.GetValueFromDB(Table, NameApp, "macOS");
-    delete[] &AnswerDB;
+    // delete[] &AnswerDB;
     EXPECT_STREQ(macOS_Command.c_str(), RESULT.c_str());
 }
 
 TEST(DatabaseGroup, DeleteValue)
 {
+    database.open(&DB_PATH);
     int RESULT = database.RemoveApplicationsFromTable(Table, NameApp);
     EXPECT_EQ(0, RESULT);
 }
 
 TEST(DatabaseGroup, GetAllValues)
 {
+    database.open(&DB_PATH);
     map<string, string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
     EXPECT_LE(1, Packages.size());
 }
 
 TEST(DatabaseGroup, GetDevPack)
 {
+    database.open(&DB_PATH);
     map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
     EXPECT_LE(1, DevelopmetPacks.size());
 }

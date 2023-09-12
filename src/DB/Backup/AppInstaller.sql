@@ -172,7 +172,8 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','
  ('GitHub CLI','winget install -e --id GitHub.cli','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','brew install --cask slack','sudo snap install slack'),
- ('Wordpress','winget install -e --id Automattic.Wordpress','brew install --cask wordpresscom','sudo snap install wordpress-desktop');
+ ('Wordpress','winget install -e --id Automattic.Wordpress','brew install --cask wordpresscom','sudo snap install wordpress-desktop'),
+ ('Redis','ManualInstallation','brew install redis','sudo snap install redis');
 INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -537,7 +538,8 @@ INSERT INTO "PackagesFromSource" ("Name","Url","WindowsDir","LinuxDir","macOSDir
  ('snap','Empty','Empty','Empty','Empty','Empty','sudo apt update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig && sudo apt install snap snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','sudo yum update -y && sudo yum install snapd -y && sudo systemctl enable --now snapd.socket && sudo ln -s /var/lib/snapd/snap /snap','sudo dnf update -y && sudo dnf install snap snapd fuse squashfuse kernel-modules && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','Empty','sudo pacman -Syu && sudo pacman -S snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable --now snapd.socket && sudo systemctl start snapd.service','sudo zypper addrepo http://download.opensuse.org/repositories/system:/snappy/openSUSE_Leap_42.2/ snappy && sudo zypper install snapd && sudo systemctl enable --now snapd.socket'),
  ('gcc','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install gcc','sudo yum update -y && sudo yum install gcc -y','sudo dnf update -y && sudo dnf install gcc -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc gcc-fortran
 '),
- ('g++','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install g++ -y','sudo yum update -y && sudo yum install gcc-c++ -y','sudo dnf update -y && sudo dnf install gcc-c++ -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc-c++');
+ ('g++','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install g++ -y','sudo yum update -y && sudo yum install gcc-c++ -y','sudo dnf update -y && sudo dnf install gcc-c++ -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc-c++'),
+ ('Redis','https://github.com/microsoftarchive/redis/releases/download/win-3.0.504/Redis-x64-3.0.504.zip','C:\Redis','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "OS_Commands" ("Name","Windows","Linux","macOS") VALUES ('Reboot','shutdown -r -t 0','sudo shutdown -r now','sudo shutdown -r now');
 INSERT INTO "AppInformation" ("Version","Channel","Architecture","DatabaseUrl") VALUES ('0.1','latest\stable','amd64','https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/v0.1_win_amd64/AppInstaller.db');
 COMMIT;

@@ -56,13 +56,13 @@ echo -- Copying folder of DLL to build/Windows
 Xcopy .\DLL  .\build\Windows /E /H /C /I /Y
 echo -- Copying folder of DLL to build/Windows was successfully.
 echo -- Copying folder of UpdateManager to build/Windows
-Xcopy .\src\UpdateManager  .\build\Windows /E /H /C /I /Y
+Xcopy .\src\UpdateManager  .\build\Windows\UpdateManager /E /H /C /I /Y
 echo -- Copying folder of UpdateManager to build/Windows was successfully.
 echo ==================================
 
-@REM if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (
-@REM    echo -- Running ".\build\Windows\DeeepForgeToolset.exe"
-@REM    cd build
-@REM    cd Windows
-@REM    .\DeepForgeToolset.exe
-@REM )
+if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (
+   echo -- Running ".\build\Windows\DeeepForgeToolset.exe"
+   cd build
+   cd Windows
+   .\DeepForgeToolset.exe
+)

@@ -61,6 +61,6 @@ string InstallTools;
 bool Install;
 bool isStarting;
 int numCommands = 6;
-string __version__ = "0.1";
+string __version__ = "0.1 stable\\latest";
 string MODE = "DEV";
 #endif

@@ -398,7 +398,7 @@ class MainApp {
     private:
         // JSON file reading function with interface localization
         void ReadJSON(string lang) {
-            // try {
+            try {
                 if (lang == "Russian") {
                     ifstream f("./locale/locale_ru.json");
                     // File open check
@@ -417,11 +417,11 @@ class MainApp {
                         f.close();
                     }
                 }
-            // }
-            // catch (exception& error) {
-            //     // Error output
-            //     cout << error.what() << endl;
-            // }
+            }
+            catch (exception& error) {
+                // Error output
+                cout << error.what() << endl;
+            }
         }
 
         // Application exit function
