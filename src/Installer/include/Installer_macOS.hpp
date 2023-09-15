@@ -187,7 +187,8 @@ namespace macOS
                         progressbar.Update(0.0, LastSize, LastTotalSize);
                     }
                 }
-                cout << "" << endl;
+                // Reset all variables and preferences
+                progressbar.ResetAll();
                 return 200;
             }
             catch (exception &error)

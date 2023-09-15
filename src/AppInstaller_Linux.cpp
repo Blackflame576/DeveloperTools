@@ -26,11 +26,7 @@
     ============================================================================
 */
 #define FMT_HEADER_ONLY
-#include "fmt/format.h"
 #include "AppInstaller_Linux.hpp"
-#include <iostream>
-
-using namespace std;
 
 namespace Linux
 {
@@ -49,7 +45,7 @@ namespace Linux
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
             // printf("Average download speed: %lu kbyte/sec.\n",
             //         (unsigned long)(DownloadSpeed / 1024));
-            progressbar.Update((float)(DownloadSpeed),(float)(NowDownloaded),(float)(TotalToDownload));
+            progressbar.Update((float)(DownloadSpeed), (float)(NowDownloaded), (float)(TotalToDownload));
             TempPercentage = Percentage;
         }
         return 0;
@@ -94,7 +90,7 @@ namespace Linux
                     return 0;
                 }
             }
-            catch(exception& error)
+            catch (exception &error)
             {
                 cout << error.what() << endl;
             }
@@ -109,10 +105,10 @@ namespace Linux
 
         int MainInstaller(string Name)
         {
-            try 
+            try
             {
                 string Value = database.GetValueFromDB("Applications", Name, "Linux");
-                if (Value != "ManualInstallation")
+                if (Value != "ManualInstallation" && Architecture == "arm64")
                 {
                     result = system(Value.c_str());
                 }
@@ -120,7 +116,7 @@ namespace Linux
                 {
                     result = (this->*(PackagesFromSource[Name]))();
                 }
-                else 
+                else
                 {
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource", Name, PackageManager);
                     if (InstallCommand != "Empty")
@@ -128,19 +124,21 @@ namespace Linux
                 }
                 return result;
             }
-            catch(exception& error)
+            catch (exception &error)
             {
                 cout << error.what() << endl;
             }
         }
         AppInstaller()
         {
-            try {
+            try
+            {
+                GetArchitectureOS();
                 UpdateData();
                 InstallSnap();
                 cout << InstallDelimiter << endl;
             }
-            catch(exception& error)
+            catch (exception &error)
             {
                 cout << error.what() << endl;
             }
@@ -151,26 +149,39 @@ namespace Linux
         }
 
     private:
+        // Method for getting architecture of OS
+        void GetArchitectureOS()
+        {
+            #if defined(__x86_64__)
+                Architecture = "amd64";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
+        }
         void InstallSnap()
         {
-            try {
+            try
+            {
                 UpdateData();
                 cout << NameDistribution << endl;
                 system("bash ./Scripts/CheckWSL.sh");
                 result = system("snap --version");
-                if (result != 0) {
+                if (result != 0)
+                {
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource", "snap", PackageManager);
                     if (InstallCommand != "Empty")
                         result = system(InstallCommand.c_str());
                 }
-                else {
+                else
+                {
                     system("sudo ln -s /var/lib/snapd/snap /snap");
                     system("sudo systemctl restart snapd.service");
                 }
             }
-            catch(exception& error)
+            catch (exception &error)
             {
                 cout << error.what() << endl;
+                logger.Error("❌ An error occurred while trying to download snap");
             }
             // if (PackageManager == "apt")
             // {
@@ -211,10 +222,19 @@ namespace Linux
                 CURLcode response = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
                 fclose(file);
-                cout << "" << endl;
+                // If the progress bar is not completely filled in, then paint over manually
+                if (Process < 100)
+                {
+                    for (int i = (Process - 1); i < 99; i++)
+                    {
+                        progressbar.Update(0.0, LastSize, LastTotalSize);
+                    }
+                }
+                // Reset all variables and preferences
+                progressbar.ResetAll();
                 return 200;
             }
-            catch (exception& error)
+            catch (exception &error)
             {
                 string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
                 string ErrorText_2 = error.what();
@@ -274,16 +294,6 @@ namespace Linux
         }
         return status;
     }
-
-    // AppInstaller Installer;
-    // typedef void (AppInstaller::*funct_t)(void);
-    // typedef std::map<std::string, funct_t> AppInstaller_func_map_t;
-    // AppInstaller_func_map_t Packages = {
-    //     {"Git",&AppInstaller::InstallGit}
-    // };
-    // map<string, function<void()>> Packages = {
-    //     {"Git",[&installer](){installer.InstallGit();}}
-    // };
     // Initialization class
     AppInstaller Installer;
     // Function for install of DevelopmentPack(ready pack for certain programming language
@@ -328,7 +338,8 @@ namespace Linux
         while ((pos = SelectPackages.find(delimiter)) != string::npos)
         {
             token = SelectPackages.substr(0, pos);
-            if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end()) {
+            if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end())
+            {
                 NamePackage = EnumeratePackages[stoi(token)];
                 // =============================
                 cout << InstallDelimiter << endl;
@@ -351,7 +362,8 @@ namespace Linux
                 SelectPackages.erase(0, pos + delimiter.length());
             }
         }
-        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
+        if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end())
+        {
             NamePackage = EnumeratePackages[stoi(SelectPackages)];
             // =============================
             cout << InstallDelimiter << endl;

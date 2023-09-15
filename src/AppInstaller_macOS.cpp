@@ -26,11 +26,7 @@
     ============================================================================
 */
 #define FMT_HEADER_ONLY
-#include "fmt/format.h"
 #include "AppInstaller_macOS.hpp"
-#include <iostream>
-
-using namespace std;
 
 namespace macOS
 {
@@ -84,6 +80,7 @@ namespace macOS
         }
         AppInstaller()
         {
+            GetArchitectureOS();
             UpdateData();
             InstallBrew();
             cout << InstallDelimiter << endl;
@@ -94,11 +91,23 @@ namespace macOS
         }
 
     private:
-        void InstallBrew()
+        // Method for getting architecture of OS
+        void GetArchitectureOS()
         {
-            cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
-            system("bash ./Scripts/InstallBrew.sh");
-            cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
+            #if defined(__x86_64__)
+                Architecture = "amd64";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
+        }
+        void InstallBrew()
+        {   result = system("brew --version");
+            if (result != 0) 
+            {
+                cout << translate["Installing"].asString() << " " << "brew" << " ..." << endl;
+                system("bash ./Scripts/InstallBrew.sh");
+                cout << "✅ " << "brew" << " " << translate["Installed"].asString() << endl;
+            }
         }
 
         int Download(string url, string dir)
@@ -120,7 +129,16 @@ namespace macOS
                 CURLcode response = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
                 fclose(file);
-                cout << "" << endl;
+                // If the progress bar is not completely filled in, then paint over manually
+                if (Process < 100)
+                {
+                    for (int i = (Process - 1); i < 99; i++)
+                    {
+                        progressbar.Update(0.0, LastSize, LastTotalSize);
+                    }
+                }
+                // Reset all variables and preferences
+                progressbar.ResetAll();
                 return 200;
             }
             catch (exception &error)
@@ -183,16 +201,6 @@ namespace macOS
         }
         return status;
     }
-
-    // AppInstaller Installer;
-    // typedef void (AppInstaller::*funct_t)(void);
-    // typedef std::map<std::string, funct_t> AppInstaller_func_map_t;
-    // AppInstaller_func_map_t Packages = {
-    //     {"Git",&AppInstaller::InstallGit}
-    // };
-    // map<string, function<void()>> Packages = {
-    //     {"Git",[&installer](){installer.InstallGit();}}
-    // };
     // Initialization class
     AppInstaller Installer;
     // Function for install of DevelopmentPack(ready pack for certain programming language

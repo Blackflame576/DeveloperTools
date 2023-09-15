@@ -9,9 +9,8 @@
 using namespace std;
 using namespace DB;
 
-const char *ch = "/src/DB/AppInstaller.db";
 std::filesystem::path current_path = std::filesystem::current_path().generic_string();
-string DB_PATH = current_path.parent_path().string() + ch;
+string DB_PATH = current_path.parent_path().string() + "/src/DB/AppInstaller.db";
 Database database;
 string NameApp = "TestApp";
 string Windows_Command = "Test_Windows_Command";
@@ -61,6 +60,7 @@ TEST(DatabaseGroup, GetDevPack)
     map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
     EXPECT_LE(1, DevelopmetPacks.size());
 }
+
 
 int main(int argc, char **argv)
 {

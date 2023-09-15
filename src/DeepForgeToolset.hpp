@@ -53,7 +53,6 @@
 
 // Variables
 string OS_NAME;
-string Architecture;
 string Language;
 string SelectPackages;
 string Answer;

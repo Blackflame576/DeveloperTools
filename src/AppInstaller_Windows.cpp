@@ -26,11 +26,7 @@
     ============================================================================
 */
 #define FMT_HEADER_ONLY
-#include "fmt/format.h"
 #include "AppInstaller_Windows.hpp"
-#include <iostream>
-
-using namespace std;
 
 namespace Windows
 {
@@ -44,6 +40,11 @@ namespace Windows
 
         Percentage = static_cast<float>(NowDownloaded) / static_cast<float>(TotalToDownload) * 100;
         // cout << Percentage << endl;
+        /* The bellow code is checking if the `TempPercentage` is not equal to `Percentage` and is less
+        than or equal to 100. If this condition is true, it retrieves the download speed using
+        `curl_easy_getinfo` and updates a progress bar using the `progressbar.Update` function. It
+        also updates some variables (`LastDownloadSpeed`, `LastSize`, `LastTotalSize`, and
+        `TempPercentage`) with the current values. */
         if (TempPercentage != Percentage && TempPercentage <= 100)
         {
             curl_easy_getinfo(curl, CURLINFO_SPEED_DOWNLOAD, &DownloadSpeed);
@@ -338,6 +339,7 @@ namespace Windows
         }
         AppInstaller()
         {
+            GetArchitectureOS();
             UpdateData();
             InstallWinGet();
             cout << InstallDelimiter << endl;
@@ -348,6 +350,15 @@ namespace Windows
         }
 
     private:
+        // Method for getting architecture of OS
+        void GetArchitectureOS()
+        {
+            #if defined(__x86_64__)
+                Architecture = "amd64";
+            #elif __arm__
+                Architecture = "arm64";
+            #endif
+        }
         void InstallWinGet()
         {
             cout << "WinGet ";
@@ -366,6 +377,8 @@ namespace Windows
         {
             try
             {
+                /* The above code is using the libcurl library in C++ to download a file from a given
+                URL. */
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 FILE *file = fopen(filename.c_str(), "wb");
@@ -381,14 +394,16 @@ namespace Windows
                 CURLcode response = curl_easy_perform(curl);
                 curl_easy_cleanup(curl);
                 fclose(file);
+                // If the progress bar is not completely filled in, then paint over manually
                 if (Process < 100)
                 {
-                    for (int i = (Process - 1);i < 99;i++)
+                    for (int i = (Process - 1); i < 99; i++)
                     {
-                        progressbar.Update(0.0,LastSize,LastTotalSize);
+                        progressbar.Update(0.0, LastSize, LastTotalSize);
                     }
                 }
-                cout << "" << endl;
+                // Reset all variables and preferences
+                progressbar.ResetAll();
                 return 200;
             }
             catch (exception &error)
@@ -451,16 +466,6 @@ namespace Windows
         }
         return status;
     }
-
-    // AppInstaller Installer;
-    // typedef void (AppInstaller::*funct_t)(void);
-    // typedef std::map<std::string, funct_t> AppInstaller_func_map_t;
-    // AppInstaller_func_map_t Packages = {
-    //     {"Git",&AppInstaller::InstallGit}
-    // };
-    // map<string, function<void()>> Packages = {
-    //     {"Git",[&installer](){installer.InstallGit();}}
-    // };
     // Initialization class
     AppInstaller Installer;
     // Function for install of DevelopmentPack(ready pack for certain programming language
@@ -470,6 +475,8 @@ namespace Windows
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Windows");
         map<int, string> EnumeratePackages;
         string NamePackage;
+        /* The code below iterates through the elements of the DeveloperPack container and
+        performing some operations on each element. */
         for (int i = 1; const auto &element : DevelopmentPack)
         {
             EnumeratePackages.insert(pair<int, string>(i, element.first));
@@ -502,6 +509,10 @@ namespace Windows
         string delimiter = ",";
         size_t pos = 0;
         string token;
+        /* The code below is a while loop that iterates over a line called SelectPackages and
+        finds substrings separated by a delimiter. For each substring found, it is checked whether it matches
+        the substring exists in the EnumeratePackages map. If so, it retrieves
+        the corresponding value from the map and assigns it to the NamePackage variable. */
         while ((pos = SelectPackages.find(delimiter)) != string::npos)
         {
             token = SelectPackages.substr(0, pos);
@@ -528,6 +539,10 @@ namespace Windows
                 SelectPackages.erase(0, pos + delimiter.length());
             }
         }
+        /* The code below checks if a package exists in the EnumeratePackages map. If
+        the package exists, he gets the package name and proceeds to install it using the command
+        MainInstaller function from the Installer object. After installation it logs and prints
+        success or error messages based on the results of the installation process. */
         if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end()) {
             NamePackage = EnumeratePackages[stoi(SelectPackages)];
             // =============================
