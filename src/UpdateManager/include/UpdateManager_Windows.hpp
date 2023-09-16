@@ -60,6 +60,7 @@ namespace Windows
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = TempFolder + "\\Versions.db";
     string NameVersionTable = "WindowsVersions";
+    Database database;
 
     class WriteData : public IBindStatusCallback
     {
@@ -128,8 +129,10 @@ namespace Windows
             // Changing the encoding in the Windows console
             system("chcp 65001");
             GetArchitectureOS();
+            database.open(&DB_PATH);
         }
         void InstallLatestRelease();
+        void CheckNewVersion();
     private:
         int Download(string url, string dir)
         {
@@ -162,6 +165,11 @@ namespace Windows
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
             if (filesystem::exists(symlinkPath) == false) CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
+        }
+
+        string GetCurrentVersion()
+        {
+
         }
 
         void MakeDirectory(string dir)

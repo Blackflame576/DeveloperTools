@@ -37,6 +37,7 @@ using namespace macOS;
 using namespace Windows;
 #endif
 #include <filesystem>
+
 Update App;
 
 void Update::InstallLatestRelease()
@@ -50,7 +51,6 @@ void Update::InstallLatestRelease()
     string file_path;
     MakeDirectory(TempFolder);
     result = Download(DB_URL, TempFolder);
-    Database database(&DB_PATH);
     switch (result)
     {
     case 200:
@@ -62,7 +62,8 @@ void Update::InstallLatestRelease()
             // Scan ApplicationFolder and directorins in this folder,if name of dir not == "Temp"
             for (const auto &entry : filesystem::directory_iterator(ApplicationFolder))
             {
-                if (entry.path() != TempFolder) filesystem::remove_all(entry.path());
+                if (entry.path() != TempFolder)
+                    filesystem::remove_all(entry.path());
             }
             name = (NewApplication_Url.substr(NewApplication_Url.find_last_of("/")));
             ArchivePath = TempFolder + "/" + name.replace(name.find("/"), 1, "");
@@ -77,8 +78,15 @@ void Update::InstallLatestRelease()
     }
 }
 
+void Update::CheckNewVersion()
+{
+    // string currentVersion = GetCurrentVersion();
+    string LatestVersion = database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture);
+}
+
 int main()
 {
-    App.InstallLatestRelease();
+    App.CheckNewVersion();
+    // App.InstallLatestRelease();
     return 0;
 }
