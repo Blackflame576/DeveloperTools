@@ -85,13 +85,6 @@ float LastSize;
 float LastTotalSize;
 // double type
 double DownloadSpeed = 0.0;
-// string type
-const string TrueVarious[3] = {"yes", "y", "1"};
-string Architecture;
-string ProjectDir = std::filesystem::current_path().generic_string();
-string haveString = "";
-string new_sentence;
-string LangReadySet;
 // init classes
 MainLogger logger(true, "logs/DeepForgeToolset.log");
 ProgressBar_v1 progressbar;
@@ -114,6 +107,13 @@ string replaceAll(string str, const string &from, const string &to)
     }
     return str;
 }
+// string type
+const string TrueVarious[3] = {"yes", "y", "1"};
+string Architecture;
+string ProjectDir = std::filesystem::current_path().generic_string();
+string haveString = "";
+string new_sentence;
+string LangReadySet;
 // Get user folder(example - C:\Users\NameUser)
 char *UserFolder = getenv("USERPROFILE");
 string DesktopPath = string(UserFolder) + "\\Desktop";

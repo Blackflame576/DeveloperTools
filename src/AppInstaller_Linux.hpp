@@ -70,6 +70,17 @@ float LastSize;
 float LastTotalSize;
 // double type
 double DownloadSpeed = 0.0;
+// string type
+const string TrueVarious[3] = {"yes", "y", "1"};
+string new_sentence;
+string LangReadySet;
+string NameDistribution;
+string PackageManager;
+string haveString = "";
+string ProjectDir = std::filesystem::current_path().generic_string();
+string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
+string InstallDelimiter = "========================================================";
+string Architecture;
 // init classes
 Value translate;
 ProgressBar_v1 progressbar;
@@ -77,17 +88,6 @@ MainLogger logger(true, "logs/DeepForgeToolset.log");
 CURL *curl = curl_easy_init();
 CURLcode res;
 Database database;
-// string type
-const string TrueVarious[3] = {"yes", "y", "1"};
-string new_sentence;
-string LangReadySet;
-string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
-string NameDistribution;
-string PackageManager;
-string haveString = "";
-string ProjectDir = std::filesystem::current_path().generic_string();
-string InstallDelimiter = "========================================================";
-string Architecture;
 // map type
 map<string, string> Packages;
 map<string, string> DevelopmentPacks;
