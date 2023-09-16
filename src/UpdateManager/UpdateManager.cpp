@@ -40,7 +40,7 @@ using namespace Windows;
 
 Update App;
 
-void Update::InstallLatestRelease()
+void Update::InstallLatestRelease(string version)
 {
     string new_version;
     string NewApplication_Url;
@@ -54,8 +54,8 @@ void Update::InstallLatestRelease()
     switch (result)
     {
     case 200:
-        new_version = database.GetVersionFromDB(NameVersionTable, "stable\\latest", "Version", Architecture);
-        NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest", "Url", Architecture, new_version);
+        // new_version = database.GetVersionFromDB(NameVersionTable, "stable\\latest", "Version", Architecture);
+        NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest", "Url", Architecture, version);
         result = Download(NewApplication_Url, TempFolder);
         if (result == 200)
         {
@@ -80,8 +80,9 @@ void Update::InstallLatestRelease()
 
 void Update::CheckNewVersion()
 {
-    // string currentVersion = GetCurrentVersion();
-    string LatestVersion = database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture);
+    float currentVersion = stof(AppInformation["Version"]);
+    float LatestVersion = stof(database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture));
+    if (LatestVersion > currentVersion) InstallLatestRelease(LatestVersion);
 }
 
 int main()
