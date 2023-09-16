@@ -38,10 +38,12 @@
 #include <stdlib.h>
 #include "../DatabaseConnect.cpp"
 #include <map>
+#include "json/json.h"
 
 using namespace std;
 using namespace DB;
 using namespace Bar;
+using namespace Json;
 
 namespace Windows
 {
@@ -61,6 +63,7 @@ namespace Windows
     string DB_PATH = TempFolder + "\\Versions.db";
     string NameVersionTable = "WindowsVersions";
     Database database;
+    Value AppInformation;
 
     class WriteData : public IBindStatusCallback
     {
@@ -131,8 +134,9 @@ namespace Windows
             GetArchitectureOS();
             database.open(&DB_PATH);
         }
-        void InstallLatestRelease();
+        void InstallLatestRelease(string version);
         void CheckNewVersion();
+
     private:
         int Download(string url, string dir)
         {
@@ -161,15 +165,31 @@ namespace Windows
         void CreateSymlink(string nameSymlink, string filePath)
         {
             nameSymlink = nameSymlink + ".exe";
-            filePath = filePath +  ".exe";
+            filePath = filePath + ".exe";
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "\\Desktop\\" + nameSymlink;
-            if (filesystem::exists(symlinkPath) == false) CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
+            if (filesystem::exists(symlinkPath) == false)
+                CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
-        string GetCurrentVersion()
+        void ImportAppInformation
         {
-
+            try
+            {
+                ifstream f("./AppInformation.json");
+                // File open check
+                if (f.is_open())
+                {
+                    // Dictionary entry with translation
+                    f >> AppInformation;
+                    f.close();
+                }
+            }
+            catch (exception &error)
+            {
+                // Error output
+                cout << error.what() << endl;
+            }
         }
 
         void MakeDirectory(string dir)
