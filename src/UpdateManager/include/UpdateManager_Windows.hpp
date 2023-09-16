@@ -30,7 +30,6 @@
 #include <conio.h>
 #include <Windows.h>
 #pragma comment(lib, "urlmon.lib")
-#include "Progressbar.hpp"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -39,25 +38,20 @@
 #include "../DatabaseConnect.cpp"
 #include <map>
 #include "json/json.h"
+#include <fstream>
 
 using namespace std;
 using namespace DB;
-using namespace Bar;
 using namespace Json;
 
 namespace Windows
 {
     int result;
-    int Percentage;
-    int TempPercentage = 0;
     string Architecture;
-    float LastSize;
-    float LastTotalSize;
     string Answer;
     const string OrganizationFolder = "C:\\ProgramData\\DeepForge";
     const string ApplicationFolder = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     const string TempFolder = ApplicationFolder + "\\Temp";
-    ProgressBar_v1 progressbar;
     const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/Versions.db";
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = TempFolder + "\\Versions.db";
@@ -111,15 +105,6 @@ namespace Windows
 
         virtual HRESULT __stdcall OnProgress(ULONG ulProgress, ULONG ulProgressMax, ULONG ulStatusCode, LPCWSTR szStatusText)
         {
-
-            Percentage = static_cast<float>(ulProgress) / static_cast<float>(ulProgressMax) * 100;
-            if (TempPercentage != Percentage && TempPercentage <= 98)
-            {
-                progressbar.Update(0.0, (float)(ulProgress), (float)(ulProgressMax));
-                LastSize = (float)(ulProgress);
-                LastTotalSize = (float)(ulProgressMax);
-                TempPercentage = Percentage;
-            }
             return S_OK;
         }
     };
@@ -129,10 +114,14 @@ namespace Windows
     public:
         Update()
         {
-            // Changing the encoding in the Windows console
-            system("chcp 65001");
             GetArchitectureOS();
-            database.open(&DB_PATH);
+            ImportAppInformation();
+            if (filesystem::exists(DB_PATH) == false)
+            {
+                MakeDirectory(TempFolder);
+                Download(DB_URL,TempFolder);
+                database.open(&DB_PATH);
+            }
         }
         void InstallLatestRelease(string version);
         void CheckNewVersion();
@@ -146,14 +135,6 @@ namespace Windows
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 HRESULT Download = URLDownloadToFile(NULL, url.c_str(), filename.c_str(), 0, static_cast<IBindStatusCallback *>(&writer));
-                if (Process < 100)
-                {
-                    for (int i = (Process - 1); i < 99; i++)
-                    {
-                        progressbar.Update(0.0, LastSize, LastTotalSize);
-                    }
-                }
-                cout << "" << endl;
                 return 200;
             }
             catch (exception error)
@@ -172,7 +153,7 @@ namespace Windows
                 CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
         }
 
-        void ImportAppInformation
+        void ImportAppInformation()
         {
             try
             {
@@ -192,6 +173,7 @@ namespace Windows
             }
         }
 
+        /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/
         void MakeDirectory(string dir)
         {
             string currentDir;

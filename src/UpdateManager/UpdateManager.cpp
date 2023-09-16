@@ -54,7 +54,6 @@ void Update::InstallLatestRelease(string version)
     switch (result)
     {
     case 200:
-        // new_version = database.GetVersionFromDB(NameVersionTable, "stable\\latest", "Version", Architecture);
         NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest", "Url", Architecture, version);
         result = Download(NewApplication_Url, TempFolder);
         if (result == 200)
@@ -80,9 +79,9 @@ void Update::InstallLatestRelease(string version)
 
 void Update::CheckNewVersion()
 {
-    float currentVersion = stof(AppInformation["Version"]);
-    float LatestVersion = stof(database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture));
-    if (LatestVersion > currentVersion) InstallLatestRelease(LatestVersion);
+    string currentVersion = AppInformation["Version"].asString();
+    string LatestVersion = database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture);
+    if (stof(LatestVersion) > stof(currentVersion)) InstallLatestRelease(LatestVersion);
 }
 
 int main()

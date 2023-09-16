@@ -359,6 +359,9 @@ namespace Windows
                 Architecture = "arm64";
             #endif
         }
+        /**
+         * The function checks if WinGet is installed and installs it if necessary.
+         */
         void InstallWinGet()
         {
             cout << "WinGet ";
@@ -370,6 +373,36 @@ namespace Windows
                 string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
                 system(Command.c_str());
                 cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
+            }
+        }
+        /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/
+        void MakeDirectory(string dir)
+        {
+            string currentDir;
+            string fullPath = "";
+            string delimiter = "\\";
+            size_t pos = 0;
+            while ((pos = dir.find(delimiter)) != string::npos)
+            {
+                currentDir = dir.substr(0, pos);
+                if (fullPath != "")
+                {
+                    fullPath = fullPath + "\\" + currentDir;
+                    if (filesystem::exists(fullPath) == false)
+                    {
+                        filesystem::create_directory(fullPath);
+                    }
+                }
+                else
+                {
+                    fullPath = currentDir + "\\";
+                }
+                dir.erase(0, pos + delimiter.length());
+            }
+            fullPath = fullPath + "\\" + dir;
+            if (filesystem::exists(fullPath) == false)
+            {
+                filesystem::create_directory(fullPath);
             }
         }
 
