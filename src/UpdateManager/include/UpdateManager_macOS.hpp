@@ -56,8 +56,8 @@ namespace macOS
     int result;
     string Architecture;
     string Answer;
-    const string OrganizationFolder = "/usr/bin";
-    const string ApplicationFolder = "/usr/bin/DeepForge/DeepForge-Toolset";
+    const string OrganizationFolder = "usr/bin";
+    const string ApplicationFolder = "usr/bin/DeepForge/DeepForge-Toolset";
     const string TempFolder = ApplicationFolder + "/Temp";
     const string DB_URL = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/Versions.db";
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
