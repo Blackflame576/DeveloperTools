@@ -117,8 +117,9 @@ namespace macOS
         {
             char *UserFolder = getenv("USERPROFILE");
             string symlinkPath = string(UserFolder) + "/Applications/" + nameSymlink;
-            // if (filesystem::exists(symlinkPath) == false)
+            if (filesystem::exists(symlinkPath) == false)
                 // CreateHardLinkA(symlinkPath.c_str(), filePath.c_str(), NULL);
+                filesystem::create_hard_link(filePath,symlinkPath);
         }
 
         void ImportAppInformation()
@@ -134,7 +135,7 @@ namespace macOS
                     f.close();
                 }
             }
-            catch (exception &error)
+            catch (exception& error)
             {
                 // Error output
                 cout << error.what() << endl;
