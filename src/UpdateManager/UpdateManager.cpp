@@ -42,19 +42,17 @@ Update App;
 
 void Update::InstallLatestRelease(string version)
 {
-    string new_version;
     string NewApplication_Url;
     string name;
     string filename;
     string ArchivePath;
-    string Command;
     string file_path;
     MakeDirectory(TempFolder);
     result = Download(DB_URL, TempFolder);
     switch (result)
     {
     case 200:
-        NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest", "Url", Architecture, version);
+        NewApplication_Url = database.GetApplicationURL(NameVersionTable, "stable\\latest",Architecture == "amd64" ? "Url" : "Url_arm64", Architecture, version);
         result = Download(NewApplication_Url, TempFolder);
         if (result == 200)
         {
@@ -66,10 +64,9 @@ void Update::InstallLatestRelease(string version)
             }
             name = (NewApplication_Url.substr(NewApplication_Url.find_last_of("/")));
             ArchivePath = TempFolder + "/" + name.replace(name.find("/"), 1, "");
-            Command = "tar -xf " + ArchivePath + " --directory " + ApplicationFolder;
-            system(Command.c_str());
+            UnpackArchive(ArchivePath,ApplicationFolder);
             file_path = ApplicationFolder + "\\DeepForgeToolset";
-            CreateSymlink("DeepForgeToolset", file_path);
+            if (filesystem::exists(file_path) == false) CreateSymlink("DeepForgeToolset", file_path);
         }
         break;
     case 502:
@@ -87,6 +84,5 @@ void Update::CheckNewVersion()
 int main()
 {
     App.CheckNewVersion();
-    // App.InstallLatestRelease();
     return 0;
 }

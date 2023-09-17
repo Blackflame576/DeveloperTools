@@ -39,10 +39,12 @@
 #include <map>
 #include "json/json.h"
 #include <fstream>
+#include "zipper/unzipper.h"
 
 using namespace std;
 using namespace DB;
 using namespace Json;
+using namespace zipper;
 
 namespace Windows
 {
@@ -202,6 +204,13 @@ namespace Windows
             {
                 filesystem::create_directory(fullPath);
             }
+        }
+        /*The 'UnpackArchive' function takes two parameters: 'path_from' and 'path_to'.*/
+        int UnpackArchive(string path_from, string path_to)
+        {
+            Unzipper unzipper(path_from);
+            unzipper.extract(path_to);
+            unzipper.close();
         }
         // Method for getting architecture of OS
         void GetArchitectureOS()
