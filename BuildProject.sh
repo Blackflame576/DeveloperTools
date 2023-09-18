@@ -99,7 +99,10 @@ cd build
 mkdir $os
 cd ..
 echo "==> Building project"
-sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -ljsoncpp -lsqlite3 -std=c++2a
+case "${unameOut}" in
+	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+esac
 echo "==> Build of project finished"
 mkdir tests
 echo "==> Building tests"
