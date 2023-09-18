@@ -83,7 +83,6 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
-   # echo "macOS"
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
 fi
@@ -94,7 +93,6 @@ case "${unameOut}" in
 	Linux*)		os="Linux";;
 esac
 # Building
-echo "==> Building"
 sudo rm -rf ./build/Linux
 mkdir build
 cd build
@@ -134,6 +132,9 @@ sudo cp -R ./src/UpdateManager ./build/$os/UpdateManager
 echo "==> Copying folder of UpdateManager to build/$os was successfully."
 cd build
 cd $os
-sudo ./DeepForgeToolset
-#echo "=================================="
+case "${unameOut}" in
+	Darwin*) 	./DeepForgeToolset;;
+	Linux*)		sudo ./DeepForgeToolset;;
+esac
+echo "=================================="
 exit 0

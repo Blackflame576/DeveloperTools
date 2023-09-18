@@ -40,15 +40,23 @@
 #include "json/json.h"
 #include <fstream>
 #include "zipper/unzipper.h"
+#include "Logger.cpp"
 
 using namespace std;
 using namespace DB;
 using namespace Json;
 using namespace zipper;
+using namespace Logger;
 
 namespace Windows
-{
+{   
+    // int type
     int result;
+    // init class
+    MainLogger logger(true, "logs/DeepForgeToolset.log");
+    Database database;
+    Value AppInformation;
+    // string type
     string Architecture;
     string Answer;
     const string OrganizationFolder = "C:\\ProgramData\\DeepForge";
@@ -58,8 +66,6 @@ namespace Windows
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = TempFolder + "\\Versions.db";
     string NameVersionTable = "WindowsVersions";
-    Database database;
-    Value AppInformation;
 
     class WriteData : public IBindStatusCallback
     {
@@ -172,6 +178,7 @@ namespace Windows
             {
                 // Error output
                 cout << error.what() << endl;
+                logger.Error("❌ Error of import AppInformation.json");
             }
         }
 
