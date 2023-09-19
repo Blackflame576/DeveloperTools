@@ -38,11 +38,13 @@
 #include <fstream>
 #include "zipper/unzipper.h"
 #include <curl/curl.h>
+#include "Logger.cpp"
 
 using namespace std;
 using namespace DB;
 using namespace Json;
 using namespace zipper;
+using namespace Logger;
 
 namespace macOS
 {
@@ -52,8 +54,13 @@ namespace macOS
         size_t WriteProcess = fwrite(ptr, size, nmemb, stream);
         return WriteProcess;
     }
-
+    // init class
+    MainLogger logger(true, "logs/DeepForgeToolset.log");
+    Database database;
+    Value AppInformation;
+    // int type
     int result;
+    // string type
     string Architecture;
     string Answer;
     const string OrganizationFolder = "usr/bin";
@@ -63,8 +70,6 @@ namespace macOS
     std::filesystem::path ProjectDir = std::filesystem::current_path().generic_string();
     string DB_PATH = TempFolder + "/Versions.db";
     string NameVersionTable = "macOSVersions";
-    Database database;
-    Value AppInformation;
 
     // Main class
     class Update

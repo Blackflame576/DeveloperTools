@@ -83,7 +83,6 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
-   # echo "macOS"
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
 fi
@@ -94,14 +93,16 @@ case "${unameOut}" in
 	Linux*)		os="Linux";;
 esac
 # Building
-echo "==> Building"
 sudo rm -rf ./build/Linux
 mkdir build
 cd build
 mkdir $os
 cd ..
 echo "==> Building project"
-sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -ljsoncpp -lsqlite3 -std=c++2a
+case "${unameOut}" in
+	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+esac
 echo "==> Build of project finished"
 mkdir tests
 echo "==> Building tests"
@@ -134,6 +135,9 @@ sudo cp -R ./src/UpdateManager ./build/$os/UpdateManager
 echo "==> Copying folder of UpdateManager to build/$os was successfully."
 cd build
 cd $os
-sudo ./DeepForgeToolset
-#echo "=================================="
+case "${unameOut}" in
+	Darwin*) 	./DeepForgeToolset;;
+	Linux*)		sudo ./DeepForgeToolset;;
+esac
+echo "=================================="
 exit 0
