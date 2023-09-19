@@ -84,7 +84,15 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc 
+   brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc zlib cmake
+   git clone --recursive https://github.com/sebastiandev/zipper.git
+   cd zipper
+   mkdir build
+   cd build
+   cmake ../
+   make
+   find . -name "*.a" -exec mv "{}" ../../src/UpdateManager/lib \;
+   find . -name "*.dylib" -exec mv "{}" ../../src/UpdateManager/lib \;
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
