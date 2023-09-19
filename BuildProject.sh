@@ -82,6 +82,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "Not found package manager"
       exit 1;
    fi
+   echo "==> Building library Zipper"
    git clone --recursive https://github.com/sebastiandev/zipper.git
    cd zipper
    mkdir build
@@ -92,10 +93,12 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    find . -name "*.so" -exec mv "{}" ../../src/UpdateManager/lib \;
    cd .. && cd ..
    sudo rm -rf ./zipper
+   echo "==> Zipper successfully builded"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
    # Mac OSX
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc zlib cmake
+   echo "==> Building library Zipper"
    git clone --recursive https://github.com/sebastiandev/zipper.git
    cd zipper
    mkdir build
@@ -106,6 +109,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    find . -name "*.dylib" -exec mv "{}" ../../src/UpdateManager/lib \;
    cd .. && cd ..
    sudo rm -rf ./zipper
+   echo "==> Zipper successfully builded"
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
