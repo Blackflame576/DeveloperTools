@@ -107,9 +107,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    make
    find . -name "*.a" -exec mv "{}" ../../src/UpdateManager/lib \;
    find . -name "*.dylib" -exec mv "{}" ../../src/UpdateManager/lib \;
+   find . -name "*.a" -exec mv "{}" ../../src/lib \;
+   find . -name "*.dylib" -exec mv "{}" ../../src/lib \;
    cd .. && cd ..
    sudo rm -rf ./zipper
-   echo "==> Zipper successfully builded"
+   echo "==> Build of Zipper finished"
 fi
 echo "==> Libraries successfully installed"
 unameOut=$(uname -a)
@@ -123,19 +125,28 @@ mkdir build
 cd build
 mkdir $os
 cd ..
-echo "==> Building project"
+echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
 	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
 esac
-echo "==> Build of project finished"
+echo "==> Build of DeepForgeToolset finished"
+echo "==> Building UpdateManager"
+case "${unameOut}" in
+	Darwin*) 	sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ../../lib/ -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
+esac
+echo "==> Build of UpdateManager finished"
 mkdir tests
 echo "==> Building tests"
-sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -pthread -std=c++2a
+sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a
 echo "==> Build of tests finished"
 echo "==> Running tests"
 cd tests
-sudo ./MainTest
+case "${unameOut}" in
+	Darwin*) 	./MainTest;;
+	Linux*)		sudo ./MainTest;;
+esac
 cd ..
 echo "==> Copying folder of DB to build/$os ..."
 sudo cp -R ./src/DB ./build/$os/DB
@@ -156,8 +167,11 @@ echo "==> Copying folder of Logo to build/$os"
 sudo cp -R ./src/Logo ./build/$os/Logo
 echo "==> Copying folder of Logo to build/$os was successfully."
 echo "==> Copying folder of UpdateManager to build/$os"
-sudo cp -R ./src/UpdateManager ./build/$os/UpdateManager
+sudo cp -R ./src/UpdateManager ./build/$os/
 echo "==> Copying folder of UpdateManager to build/$os was successfully."
+echo "==> Copying AppInformation.json to build/$os/UpdateManager"
+sudo cp ./src/UpdateManager/AppInformation.json ./build/$os/UpdateManager/AppInformation.json
+echo "==> Copying AppInformation.json to build/$os/UpdateManager was successfully."
 cd build
 cd $os
 case "${unameOut}" in

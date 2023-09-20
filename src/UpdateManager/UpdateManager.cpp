@@ -77,8 +77,8 @@ void Update::InstallLatestRelease(string version)
 void Update::CheckNewVersion()
 {
     string currentVersion = AppInformation["Version"].asString();
-    string LatestVersion = database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture);
-    if (stof(LatestVersion) > stof(currentVersion)) InstallLatestRelease(LatestVersion);
+    // string LatestVersion = database.GetLatestVersion(NameVersionTable,"stable\\latest","Version", Architecture);
+    // if (stof(LatestVersion) > stof(currentVersion)) InstallLatestRelease(LatestVersion);
 }
 
 int main()

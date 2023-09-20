@@ -18,6 +18,10 @@ if exist .\build\Windows (
         echo -- Error in project build.
     )
 )
+@echo off
+echo -- Building UpdateManager
+g++ -o .\build\Windows\UpdateManager.exe .\src\UpdateManager\UpdateManager.cpp -I ..\..\include -I .\include -L ..\..\lib\  -L .\src\UpdateManager\lib\Windows -static -static-libgcc -static-libstdc++ -lurlmon -lcurl -lsqlite3 -lws2_32 -lwinmm -ljsoncpp -lZipper -lz -std=c++20 -w
+echo -- Build of UpdateManager finished
 mkdir tests
 echo -- Building tests
 if ERRORLEVEL 0 (
@@ -58,6 +62,9 @@ echo -- Copying folder of DLL to build/Windows was successfully.
 echo -- Copying folder of UpdateManager to build/Windows
 Xcopy .\src\UpdateManager  .\build\Windows\UpdateManager /E /H /C /I /Y
 echo -- Copying folder of UpdateManager to build/Windows was successfully.
+echo -- Copying AppInformation.json to build/Windows/UpdateManager
+Xcopy .\src\UpdateManager\AppInformation.json  .\build\Windows\UpdateManager\AppInformation.json /E /H /C /I /Y
+echo -- Copying AppInformation.json to build/Windows/UpdateManager was successfully.
 echo ==================================
 
 if arg_1=="-autostart" or arg_1=="-AutoStart" or arg_1=="-Autostart" (
