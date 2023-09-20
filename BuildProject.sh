@@ -127,14 +127,14 @@ mkdir $os
 cd ..
 echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
-	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -static -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -static -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
 esac
 echo "==> Build of DeepForgeToolset finished"
 echo "==> Building UpdateManager"
 case "${unameOut}" in
-	Darwin*) 	sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
-	Linux*)		sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ../../lib/ -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
+	Darwin*) 	sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -static -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -static -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ../../lib/ -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
 esac
 echo "==> Build of UpdateManager finished"
 mkdir tests
