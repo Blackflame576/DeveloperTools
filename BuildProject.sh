@@ -6,53 +6,77 @@ DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev l
 PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl zlib"
 ZYPPER_PACKAGE_NAME=""
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-   if cat /etc/*release | grep ^NAME | grep CentOS; then
+   if [ -f /etc/os-release ]; then
+      # freedesktop.org and systemd
+      . /etc/os-release
+      OS=$NAME
+   elif type lsb_release >/dev/null 2>&1; then
+      # linuxbase.org
+      OS=$(lsb_release -si)
+   elif [ -f /etc/lsb-release ]; then
+      # For some versions of Debian/Ubuntu without lsb_release command
+      . /etc/lsb-release
+      OS=$DISTRIB_ID
+   elif [ -f /etc/debian_version ]; then
+      # Older Debian/Ubuntu/etc.
+      OS=Debian
+   elif [ -f /etc/SuSe-release ]; then
+      # Older SuSE/etc.
+      ...
+   elif [ -f /etc/redhat-release ]; then
+      # Older Red Hat, CentOS, etc.
+      ...
+   else
+      # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+      OS=$(uname -s)
+   fi
+   if [[ "$OS" == "CentOS"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo yum update -y
       sudo yum install -y $YUM_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Red; then
+   elif [[ "$OS" == "Red"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo yum update -y
       sudo yum install -y $YUM_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Fedora; then
+   elif [[ "$OS" == "Fedora"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo yum update -y
       sudo yum install -y $YUM_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Ubuntu; then
+   elif [[ "$OS" == "Ubuntu"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Debian ; then
+   elif [[ "$OS" == "Debian"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Mint ; then
+   elif [[ "$OS" == "Mint"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo add-apt-repository universe
       sudo apt-get update
       apt-get install -y $DEB_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep Knoppix ; then
+   elif [[ "$OS" == "Knoppix"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
-   elif cat /etc/*release | grep ^NAME | grep "Manjaro Linux" ; then
+   elif [[ "$OS" == "Manjaro Linux"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
@@ -71,7 +95,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo pacman -Sy sqlite
       sudo pacman -Sy sqlite-tcl
       sudo pacman -Sy zlib
-   elif cat /etc/*release | grep ^NAME | grep "Kali GNU/Linux" ; then
+   elif [[ "$OS" == "Kali GNU/Linux"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
@@ -86,11 +110,10 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    git clone --recursive https://github.com/sebastiandev/zipper.git
    cd zipper
    mkdir build
-   cd build
-   cmake ../
+   cmake .
    make
-   find . -name "*.a" -exec mv "{}" ../../src/UpdateManager/lib \;
-   find . -name "*.so" -exec mv "{}" ../../src/UpdateManager/lib \;
+   cd build
+   find . -name "*.a" -exec mv "{}" ../../src/lib \;
    cd .. && cd ..
    sudo rm -rf ./zipper
    echo "==> Zipper successfully builded"
@@ -102,13 +125,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
    git clone --recursive https://github.com/sebastiandev/zipper.git
    cd zipper
    mkdir build
-   cd build
-   cmake ../
+   cmake .
    make
-   find . -name "*.a" -exec mv "{}" ../../src/UpdateManager/lib \;
-   find . -name "*.dylib" -exec mv "{}" ../../src/UpdateManager/lib \;
+   cd build
    find . -name "*.a" -exec mv "{}" ../../src/lib \;
-   find . -name "*.dylib" -exec mv "{}" ../../src/lib \;
    cd .. && cd ..
    sudo rm -rf ./zipper
    echo "==> Build of Zipper finished"
@@ -127,19 +147,17 @@ mkdir $os
 cd ..
 echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
-	Darwin*) 	sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -static -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -static -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Darwin*) 	sudo clang++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
 esac
 echo "==> Build of DeepForgeToolset finished"
-echo "==> Building UpdateManager"
-case "${unameOut}" in
-	Darwin*) 	sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -static -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
-	Linux*)		sudo g++ -o ./build/$os/UpdateManager/UpdateManager ./src/UpdateManager/UpdateManager.cpp -static -DCURL_STATICLIB -I ../../include -I ./src/UpdateManager/include -L ../../lib/ -L ./src/UpdateManager/lib  -lcurl -ljsoncpp -lsqlite3 -lZipper -lz -std=c++2a;;
-esac
-echo "==> Build of UpdateManager finished"
 mkdir tests
 echo "==> Building tests"
-sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/include -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a
+case "${unameOut}" in
+	Darwin*) 	sudo clang++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/include -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
+	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/include -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a;;
+esac
+
 echo "==> Build of tests finished"
 echo "==> Running tests"
 cd tests
