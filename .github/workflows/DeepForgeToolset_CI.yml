@@ -46,7 +46,7 @@ jobs:
           - name: Replace *.lib files to folder ./src/lib
             run: cd src && mkdir lib && cd .. && cd zipper && cd build && find . -name "*.a" -exec mv "{}" ../../src/lib \; && find . -name "*.a" -exec mv "{}" ../../src/lib \;  && cd .. && cd .. && sudo rm -rf ./zipper
           - name: Make directory build
-            run: mkdir build
+            run: mkdir build && cd build && mkdir macOS && cd .. && cd ..
           - name: Building project
             run: clang++ -o ./build/macOS/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic
   build_macOS_12:
@@ -62,7 +62,7 @@ jobs:
       - name: Replace *.lib files to folder ./src/lib
         run: cd src && mkdir lib && cd .. && cd zipper && cd build && find . -name "*.a" -exec mv "{}" ../../src/lib \; && find . -name "*.a" -exec mv "{}" ../../src/lib \;  && cd .. && cd .. && sudo rm -rf ./zipper
       - name: Make directory build
-        run: mkdir build
+        run: mkdir build && cd build && mkdir macOS && cd .. && cd ..
       - name: Building project
         run: clang++ -o ./build/macOS/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic
   build_macOS_13:
@@ -78,6 +78,6 @@ jobs:
       - name: Replace *.lib files to folder ./src/lib
         run: cd src && mkdir lib && cd .. && cd zipper && cd build && find . -name "*.a" -exec mv "{}" ../../src/lib \; && find . -name "*.a" -exec mv "{}" ../../src/lib \;  && cd .. && cd .. && sudo rm -rf ./zipper
       - name: Make directory build
-        run: mkdir build
+        run: mkdir build && cd build && mkdir macOS && cd .. && cd ..
       - name: Building project
         run: clang++ -o ./build/macOS/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic
