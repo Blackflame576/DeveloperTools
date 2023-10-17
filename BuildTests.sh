@@ -145,7 +145,10 @@ case "${unameOut}" in
 esac
 mkdir tests
 echo "==> Building tests"
-sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/lib -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a
+case "${unameOut}" in
+	Darwin*) 	sudo clang++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/include -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
+	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ../src/include -L ../src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a;;
+esac
 echo "==> Build of tests finished"
 echo "==> Running tests"
 cd tests

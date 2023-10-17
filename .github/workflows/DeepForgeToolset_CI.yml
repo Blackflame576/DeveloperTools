@@ -17,6 +17,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install libraries
       run: sudo add-apt-repository universe && sudo apt update && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev libzip-dev zlib1g-dev
+    - name: Build Zipper
+      run: git clone --recursive https://github.com/sebastiandev/zipper.git && cd zipper && mkdir build && cd build && cmake ../ && make
+    - name: Replace *.lib files to folder ./src/lib
+      run: cd src && mkdir lib && cd .. && cd zipper && cd build && find . -name "*.a" -exec mv "{}" ../../src/lib \; && find . -name "*.a" -exec mv "{}" ../../src/lib \;  && cd .. && cd .. && sudo rm -rf ./zipper
     - name: Make directories
       run: mkdir build && cd build && mkdir Linux && cd ..
     - name: Building project
@@ -27,6 +31,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install libraries
       run: sudo add-apt-repository universe && sudo apt update && sudo apt install curl g++ gcc build-essential cmake make && sudo apt-get install libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev libzip-dev zlib1g-dev
+    - name: Build Zipper
+      run: git clone --recursive https://github.com/sebastiandev/zipper.git && cd zipper && mkdir build && cd build && cmake ../ && make
+    - name: Replace *.lib files to folder ./src/lib
+      run: cd src && mkdir lib && cd .. && cd zipper && cd build && find . -name "*.a" -exec mv "{}" ../../src/lib \; && find . -name "*.a" -exec mv "{}" ../../src/lib \;  && cd .. && cd .. && sudo rm -rf ./zipper
     - name: Make directory tests
       run: mkdir tests
     - name: Building tests

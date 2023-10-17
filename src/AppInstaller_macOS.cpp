@@ -117,6 +117,7 @@ namespace macOS
                 string name = (url.substr(url.find_last_of("/")));
                 string filename = dir + "/" + name.replace(name.find("/"), 1, "");
                 FILE *file = fopen(filename.c_str(), "wb");
+                CURL *curl = curl_easy_init();
                 curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
                 curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
                 curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
@@ -127,10 +128,31 @@ namespace macOS
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
                 curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
                 CURLcode response = curl_easy_perform(curl);
+                if (response != CURLE_OK)
+                {
+                    switch (response)
+                    {
+                    case CURLE_COULDNT_CONNECT:
+                        cerr << "❌ Failed to connect to host or proxy." << endl;
+                        break;
+                    case CURLE_COULDNT_RESOLVE_HOST:
+                        cerr << "❌ Failed to resolve host. The given remote host was not allowed." << endl;
+                        break;
+                    case CURLE_COULDNT_RESOLVE_PROXY:
+                        cerr << "❌ Failed to resolve proxy. The given proxy host could not be resolved." << endl;
+                        break;
+                    case CURLE_UNSUPPORTED_PROTOCOL:
+                        cerr << "❌ Failed to connect to the site using this protocol." << endl;
+                        break;
+                    case CURLE_SSL_CONNECT_ERROR:
+                        cerr << "❌ The problem occurred during SSL/TLS handshake." << endl;
+                        break;
+                    }
+                }
                 curl_easy_cleanup(curl);
                 fclose(file);
                 // If the progress bar is not completely filled in, then paint over manually
-                if (Process < 100)
+                if (Process < 100 && Process != Percentage)
                 {
                     for (int i = (Process - 1); i < 99; i++)
                     {
@@ -139,14 +161,14 @@ namespace macOS
                 }
                 // Reset all variables and preferences
                 progressbar.ResetAll();
+                Percentage = 0;
+                TempPercentage = 0;
+                cout << InstallDelimiter << endl;
                 return 200;
             }
-            catch (exception &error)
+            catch (exception& error)
             {
-                string ErrorText_1 = "DownloadError.Function - Download(). Code: 502.";
-                string ErrorText_2 = error.what();
-                logger.Error(ErrorText_1.c_str());
-                logger.Error(ErrorText_2.c_str());
+                cerr << error.what() << endl;
                 return 502;
             }
         }
