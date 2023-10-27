@@ -31,6 +31,19 @@
 using namespace std;
 using namespace DB;
 
+int Database::CreateTable(string NameTable, map<string,string> Columns)
+{
+    SQL_COMMAND = "CREATE TABLE " + NameTable + "(\n";
+    for (const auto &element:Columns)
+    {
+        SQL_COMMAND = SQL_COMMAND + "\t" + element.first + to_upper(element.second);
+        SQL_COMMAND += ")";
+    }
+    int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
+    if (RESULT_SQL != SQLITE_OK)
+        throw runtime_error("Error in DELETE command");
+    return 0;
+}
 string Database::GetValueFromDB(string NameTable, string NameApp, string NameColumn)
 {
     // ArraySize = GetArraySize("Applications",NameColumn);
@@ -57,11 +70,11 @@ string Database::GetValueFromDB(string NameTable, string NameApp, string NameCol
     return AnswerDB;
 }
 
-string Database::GetVersionFromDB(string NameTable,string Status,string NameColumn,string Architecture) 
+string Database::GetVersionFromDB(string NameTable,string Channel,string NameColumn,string Architecture) 
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Channel + "' AND Architecture='" + Architecture + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -81,11 +94,11 @@ string Database::GetVersionFromDB(string NameTable,string Status,string NameColu
     return AnswerDB;
 }
 
-string Database::GetApplicationURL(string NameTable,string Status,string NameColumn,string Architecture,string Version)
+string Database::GetApplicationURL(string NameTable,string Channel,string NameColumn,string Architecture,string Version)
 {
     string AnswerDB;
     // Create SQL statement
-    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Status='" + Status + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
+    SQL_COMMAND = "SELECT " + NameColumn + " FROM " + NameTable + " WHERE Channel='" + Channel + "' AND Architecture='" + Architecture + "' AND Version='" + Version + "'";
     // Execute SQL statement
     int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
     // if result of execute sql statement != SQLITE_OK, that send error
@@ -118,7 +131,6 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
     {
         throw runtime_error("Not Found");
     }
-    int i = 0;
     // Loop through the results, a row at a time.
     while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
     {
@@ -128,12 +140,64 @@ map<string, string> Database::GetAllValuesFromDB(string NameTable, string NameCo
         {
             WriteMap.insert(pair<string, string>(Key, Value));
         }
-        i++;
     }
     // Free the statement when done.
     sqlite3_finalize(statement);
     // return Names,Commands;
     return WriteMap;
+}
+
+map<string,string> Database::GetAllVersionsFromDB(string NameTable,string NameColumn,string Architecture)
+{
+    map<string, string> WriteMap;
+    // Create SQL statement
+    SQL_COMMAND = "SELECT Channel,Version FROM " + NameTable + " WHERE Architecture='" + Architecture + "'";
+    // Execute SQL statement
+    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
+    // if result of execute sql statement != SQLITE_OK, that send error
+    if (RESULT_SQL != SQLITE_OK)
+    {
+        throw runtime_error("Not Found");
+    }
+    // Loop through the results, a row at a time.
+    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        string Key = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 0)));
+        string Value = string(reinterpret_cast<const char *>(sqlite3_column_text(statement, 1)));
+        if (Value != "Empty")
+        {
+            WriteMap.insert(pair<string, string>(Key, Value));
+        }
+    }
+    // Free the statement when done.
+    sqlite3_finalize(statement);
+    // return Names,Commands;
+    return WriteMap;
+}
+
+string Database::GetLatestVersion(string NameTable,string Channel,string NameColumn,string Architecture)
+{
+    string AnswerDB;
+    // cout << "fffef" <<endl;
+    // Create SQL statement
+    SQL_COMMAND = "SELECT max(" + NameColumn + ") FROM " + NameTable + " WHERE Channel='" + Channel + "' AND Architecture='" + Architecture + "'";
+    // Execute SQL statement
+    int RESULT_SQL = sqlite3_prepare_v2(db, SQL_COMMAND.c_str(), SQL_COMMAND.length(), &statement, nullptr);
+    // if result of execute sql statement != SQLITE_OK, that send error
+    if (RESULT_SQL != SQLITE_OK)
+    {
+        throw runtime_error("Not Found");
+    }
+    // Loop through the results, a row at a time.
+    while ((RESULT_SQL = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        AnswerDB = (string(reinterpret_cast<const char*>(
+            sqlite3_column_text(statement, 0))));
+    }
+    // Free the statement when done.
+    sqlite3_finalize(statement);
+    // return Names,Commands;
+    return AnswerDB;
 }
 
 map<string, string> Database::GetDevPackFromDB(string NameTable, string NameColumn)
@@ -269,5 +333,14 @@ int Database::RemoveApplications(string Tables[])
                 cout << NameApp << " successfully added to " << Tables[i] << endl;
         }
     }
+    return 0;
+}
+
+int Database::InsertLogInformationToTable(string NameTable,string Architecture,string OS_NAME,string Channel,string FunctionName,string LogText)
+{
+    SQL_COMMAND = "INSERT INTO 'main'.'" + NameTable + "' ('Architecture', 'Channel', 'LogText', 'OS_NAME','FunctionName') VALUES ('" + Architecture + "', '" + Channel + "', '" + LogText + "', '" + OS_NAME + "', '" + FunctionName + "');";
+    int RESULT_SQL = sqlite3_exec(db, SQL_COMMAND.c_str(), callback, NULL, NULL);
+    if (RESULT_SQL != SQLITE_OK)
+        throw runtime_error("Error in INSERT command");
     return 0;
 }
