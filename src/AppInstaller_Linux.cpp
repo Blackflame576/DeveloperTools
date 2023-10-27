@@ -118,6 +118,24 @@ namespace Linux
                 logger.WriteError(error.what());
             }
         }
+        /* The `GetNameDistribution()` function is used to retrieve the name of the Linux distribution that the code is running on. */
+        string GetNameDistribution()
+        {
+            ifstream stream("/etc/os-release");
+            string line;
+            regex nameRegex("^NAME=\"(.*?)\"$");
+            smatch match;
+            string name;
+            while (getline(stream, line))
+            {
+                if (regex_search(line, match, nameRegex))
+                {
+                    name = match[1].str();
+                    break;
+                }
+            }
+            return name;
+        }
         /**
          * The MainInstaller function installs an application on a Linux system based on the provided
          * name and architecture.
@@ -400,7 +418,7 @@ namespace Linux
     // Function for install of DevelopmentPack(ready pack for certain programming language
     void InstallDevelopmentPack(string n)
     {
-        UpdateData();
+        Installer.UpdateData();
         /* The above code is retrieving values from a database for a specific development pack on the
         Linux platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
