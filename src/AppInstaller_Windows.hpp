@@ -28,6 +28,7 @@
 // Importing Libraries
 #ifndef APPINSTALLER_WINDOWS_HPP_
 #define APPINSTALLER_WINDOWS_HPP_
+
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -59,17 +60,17 @@
 #elif __APPLE__
 // cout << "macOS" << endl;
 #elif _WIN32
-    #include <conio.h>
-    #include <Windows.h>
-    #include <tchar.h>
-    #include <shlwapi.h>
-    #pragma comment(lib, "shlwapi.lib")
-    #include "shlobj.h"
+#include <conio.h>
+#include <Windows.h>
+#include <tchar.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#include "shlobj.h"
 #endif
 
+#define OS_NAME "Windows"
+
 using namespace std;
-using namespace Json;
-using namespace Logger;
 using namespace DB;
 using namespace Bar;
 
@@ -79,24 +80,22 @@ int Percentage;
 int TempPercentage;
 int result;
 int output_func;
-// float type 
-float LastDownloadSpeed;
-float LastSize;
-float LastTotalSize;
 // double type
-double DownloadSpeed = 0.0;
-// init classes
-MainLogger logger(true, "logs/DeepForgeToolset.log");
-ProgressBar_v1 progressbar;
-Value translate;
-CURL *curl = curl_easy_init();
-CURLcode res;
+double LastSize;
+double LastTotalSize;
 // map type
 map<string, string> Packages;
 map<string, string> DevelopmentPacks;
 map<int, string> Languages{
-    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
+    {1, "Python"}, {2, "JavaScript"}, 
+    {3, "C++"}, {4, "Java"}, 
+    {5, "Go"}, {6, "Rust"}, 
+    {7, "Ruby"}, {8, "C"}, 
+    {9, "C#"}, {10, "PHP"}, 
+    {11, "Kotlin"}
+};
 
+/* The `replaceAll` function is a utility function that replaces all occurrences of a substring `from` with another substring `to` in a given string `str`. */
 string replaceAll(string str, const string &from, const string &to)
 {
     size_t start_pos = 0;
@@ -114,48 +113,24 @@ string ProjectDir = std::filesystem::current_path().generic_string();
 string haveString = "";
 string new_sentence;
 string LangReadySet;
+string InstallDelimiter = "========================================================";
+string Language;
+string SelectPackages;
+string Answer;
+string InstallTools;
+string MODE = "DEV";
+// Boolean type
+bool Install;
 // Get user folder(example - C:\Users\NameUser)
 char *UserFolder = getenv("USERPROFILE");
 string DesktopPath = string(UserFolder) + "\\Desktop";
-string InstallDelimiter = "========================================================";
-string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
+const string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
 string DatabasePath = replaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "\\DB\\AppInstaller.db" : ProjectDir + "\\DB\\AppInstaller.db";
+string LogPath = ProjectDir + "\\logs\\DeepForgeToolset.log"; 
+// init classes
+Logger logger(LogPath.c_str(), "10kb");
+ProgressBar_v1 progressbar;
+Json::Value translate;
 Database database;
-
-// Function for update information from database about packages and development packs
-void UpdateData()
-{
-    try
-    {
-        /* This code block checks if the database file specified by `DatabasePath` exists. 
-        If the file does not exist, it proceeds to download the file from a specified URL using the libcurl library. */
-        if (filesystem::exists(DatabasePath) == false)
-        {
-            string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/v0.1_win_amd64/AppInstaller.db";
-            string name = (url.substr(url.find_last_of("/")));
-            string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
-            FILE *file = fopen(filename.c_str(), "wb");
-            CURL *curl = curl_easy_init();
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-            curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
-            curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            CURLcode response = curl_easy_perform(curl);
-            curl_easy_cleanup(curl);
-            fclose(file);
-        }
-        database.open(&DatabasePath);
-        Packages = database.GetAllValuesFromDB("Applications", "Windows");
-        DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
-    }
-    catch(exception& error)
-    {
-        cout << error.what() << endl;
-        logger.Error("❌ An error occurred when trying to download the database and open it");
-    }
-}
 
 #endif

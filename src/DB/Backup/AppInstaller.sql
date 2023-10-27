@@ -75,29 +75,9 @@ CREATE TABLE IF NOT EXISTS "JavaDevelopmentTools" (
 	"Linux"	TEXT,
 	"macOS"	TEXT
 );
-CREATE TABLE IF NOT EXISTS "Test" (
-	"Name"	TEXT NOT NULL,
-	"Windows"	TEXT,
-	"macOS"	TEXT,
-	"Linux"	TEXT
-);
 CREATE TABLE IF NOT EXISTS "SupportedOS" (
 	"Name"	TEXT NOT NULL,
 	"PackageManager"	TEXT NOT NULL
-);
-CREATE TABLE IF NOT EXISTS "PackagesFromSource" (
-	"Name"	TEXT NOT NULL,
-	"Url"	TEXT,
-	"WindowsDir"	TEXT NOT NULL,
-	"LinuxDir"	TEXT NOT NULL,
-	"macOSDir"	TEXT NOT NULL,
-	"Url_arm64"	TEXT,
-	"apt"	TEXT,
-	"yum"	TEXT,
-	"dnf"	TEXT,
-	"apk"	TEXT,
-	"pacman"	TEXT,
-	"zypper"	TEXT
 );
 CREATE TABLE IF NOT EXISTS "OS_Commands" (
 	"Name"	TEXT NOT NULL,
@@ -110,6 +90,28 @@ CREATE TABLE IF NOT EXISTS "AppInformation" (
 	"Channel"	TEXT NOT NULL,
 	"Architecture"	TEXT NOT NULL,
 	"DatabaseUrl"	TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "PackagesFromSource" (
+	"Name"	TEXT NOT NULL,
+	"Url"	TEXT DEFAULT 'Empty',
+	"WindowsDir"	TEXT NOT NULL,
+	"WindowsCommand_arm64"	TEXT DEFAULT 'Empty',
+	"LinuxDir"	TEXT NOT NULL,
+	"macOSDir"	TEXT NOT NULL,
+	"macOSCommand_arm64"	TEXT DEFAULT 'Empty',
+	"Url_arm64"	TEXT DEFAULT 'Empty',
+	"apt"	TEXT DEFAULT 'Empty',
+	"yum"	TEXT DEFAULT 'Empty',
+	"dnf"	TEXT DEFAULT 'Empty',
+	"apk"	TEXT DEFAULT 'Empty',
+	"pacman"	TEXT DEFAULT 'Empty',
+	"zypper"	TEXT DEFAULT 'Empty'
+);
+CREATE TABLE IF NOT EXISTS "Test" (
+	"Name"	TEXT NOT NULL,
+	"Windows"	TEXT,
+	"macOS"	TEXT,
+	"Linux"	TEXT
 );
 INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','brew install --cask visual-studio-code','sudo snap install code --classic'),
  ('Docker','winget install -e --id Docker.DockerDesktop','brew install --cask docker','sudo snap install docker'),
@@ -173,7 +175,8 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux") VALUES ('VSCode','
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','brew install --cask slack','sudo snap install slack'),
  ('Wordpress','winget install -e --id Automattic.Wordpress','brew install --cask wordpresscom','sudo snap install wordpress-desktop'),
- ('Redis','ManualInstallation','brew install redis','sudo snap install redis');
+ ('Redis','ManualInstallation','brew install redis','sudo snap install redis'),
+ ('Code::Blocks','winget install -e --id Codeblocks.Codeblocks','ManualInstallation','ManualInstallation');
 INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -309,7 +312,8 @@ INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux","macOS") VALU
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack'),
- ('Wordpress','winget install -e --id Automattic.Wordpress','sudo snap install wordpress-desktop','brew install --cask wordpresscom');
+ ('Wordpress','winget install -e --id Automattic.Wordpress','sudo snap install wordpress-desktop','brew install --cask wordpresscom'),
+ ('Redis','ManualInstallation','sudo snap install redis','brew install redis');
 INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux","macOS") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git'),
@@ -525,21 +529,22 @@ INSERT INTO "SupportedOS" ("Name","PackageManager") VALUES ('Ubuntu','apt'),
  ('CentOS Linux','dnf'),
  ('Alpine Linux','apk'),
  ('Fedora Linux','dnf');
-INSERT INTO "PackagesFromSource" ("Name","Url","WindowsDir","LinuxDir","macOSDir","Url_arm64","apt","yum","dnf","apk","pacman","zypper") VALUES ('vcpkg','https://github.com/microsoft/vcpkg','C:\','/usr/bin/','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
- ('Make','Empty','C:\Make','Empty','Empty','Empty','sudo apt update -y && sudo apt install make -y','sudo yum update -y && sudo yum install make -y','sudo dnf -y update && sudo dnf -y install make',NULL,'sudo pacman -Syu && sudo pacman -S make',NULL),
- ('PHP','https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip','C:\PHP','Empty','Empty','Empty','sudo apt update -y && sudo apt install php -y && sudo apt install libapache2-mod-php -y','sudo yum update -y &&  sudo  yum install epel-release yum-utils -y && sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y &&  sudo yum-config-manager --enable remi-php74 && sudo yum update -y && sudo yum install php -y && sudo yum install php-fpm php-curl php-cli php-json php-mysql php-opcache php-dom php-exif php-fileinfo php-zip php-mbstring php-hash php-imagick php-openssl php-pcre php-xml php-bcmath php-filter php-pear php-gd php-mcrypt php-intl php-iconv php-zlib php-xmlreader -y','sudo dnf -y update && sudo dnf -y install dnf-plugins-core && sudo dnf config-manager --set-enabled remi && sudo dnf module reset php -y && sudo dnf module -y install php:remi-8.0 && sudo dnf -y install php-cli php-fpm php-mysqlnd php-zip php-devel php-gd php-mcrypt php-mbstring php-curl php-xml php-pear php-bcmath php-json && sudo systemctl enable --now php-fpm',NULL,'sudo pacman -Sy archlinux-keyring && sudo pacman-key --populate archlinux && sudo pacman -Syu && sudo pacman -S php && sudo pacman -S php-apache php-cgi php-fpm php-gd  php-embed php-intl php-redis php-snmp',NULL),
- ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip','C:\','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
- ('Kotlin','https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip','C:\','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
- ('Wget','https://eternallybored.org/misc/wget/1.21.4/64/wget.exe','C:\Wget','Empty','Empty','Empty','sudo apt update -y && sudo apt install wget -y','sudo yum install wget','sudo dnf -y update && sudo dnf install wget',NULL,'sudo pacman -Syu && sudo pacman -S wget','sudo zypper install wget'),
- ('Python 3.9','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.9.6_linux_amd64/Python3.9.6_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && tar xzf Python-3.9.6.tgz && cd Python-3.9.6 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && tar -xvf Python-3.9.6.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz -O &&  tar -xvf Python-3.9.6.tgz && cd Python-3.9.6 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,'sudo pacman -Syu && sudo pacman -S wget',NULL),
- ('Python 3.10','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.10.12_linux_amd64/Python_3.10.12_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && tar xzf Python-3.10.12.tgz && cd Python-3.10.12 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && tar -xvf Python-3.10.12.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz -O &&  tar -xvf Python-3.10.12.tgz && cd Python-3.10.12 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,NULL,NULL),
- ('Python 3.11','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.11.4_linux_amd64/Python_3.11.4_linux_amd64.zip','Empty','/usr/bin/','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz && cd Python-3.11.4 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar -xvf Python-3.11.4.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz -O &&  tar -xvf Python-3.11.4.tgz && cd Python-3.11.4 &&  sudo ./configure --enable-optimizations && sudo make install && ',NULL,NULL,NULL),
- ('Nginx','http://nginx.org/download/nginx-1.25.1.zip','C:\','Empty','Empty','Empty','sudo apt update -y && sudo apt install nginx -y','sudo yum install epel-release -y && sudo yum update -y && sudo yum install nginx','sudo dnf -y update && sudo dnf install nginx && sudo systemctl enable nginx && sudo systemctl start nginx',NULL,'sudo pacman -Syu && sudo pacman -S nginx-mainline && sudo systemctl enable --now nginx',NULL),
- ('snap','Empty','Empty','Empty','Empty','Empty','sudo apt update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig && sudo apt install snap snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','sudo yum update -y && sudo yum install snapd -y && sudo systemctl enable --now snapd.socket && sudo ln -s /var/lib/snapd/snap /snap','sudo dnf update -y && sudo dnf install snap snapd fuse squashfuse kernel-modules && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','Empty','sudo pacman -Syu && sudo pacman -S snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable --now snapd.socket && sudo systemctl start snapd.service','sudo zypper addrepo http://download.opensuse.org/repositories/system:/snappy/openSUSE_Leap_42.2/ snappy && sudo zypper install snapd && sudo systemctl enable --now snapd.socket'),
- ('gcc','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install gcc','sudo yum update -y && sudo yum install gcc -y','sudo dnf update -y && sudo dnf install gcc -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc gcc-fortran
-'),
- ('g++','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install g++ -y','sudo yum update -y && sudo yum install gcc-c++ -y','sudo dnf update -y && sudo dnf install gcc-c++ -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc-c++'),
- ('Redis','https://github.com/microsoftarchive/redis/releases/download/win-3.0.504/Redis-x64-3.0.504.zip','C:\Redis','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO "OS_Commands" ("Name","Windows","Linux","macOS") VALUES ('Reboot','shutdown -r -t 0','sudo shutdown -r now','sudo shutdown -r now');
 INSERT INTO "AppInformation" ("Version","Channel","Architecture","DatabaseUrl") VALUES ('0.1','latest\stable','amd64','https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/v0.1_win_amd64/AppInstaller.db');
+INSERT INTO "PackagesFromSource" ("Name","Url","WindowsDir","WindowsCommand_arm64","LinuxDir","macOSDir","macOSCommand_arm64","Url_arm64","apt","yum","dnf","apk","pacman","zypper") VALUES ('vcpkg','https://github.com/microsoft/vcpkg','C:\','Empty','/usr/bin/','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Make','Empty','C:\Make','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install make -y','sudo yum update -y && sudo yum install make -y','sudo dnf -y update && sudo dnf -y install make',NULL,'sudo pacman -Syu && sudo pacman -S make',NULL),
+ ('PHP','https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip','C:\PHP','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install php -y && sudo apt install libapache2-mod-php -y','sudo yum update -y &&  sudo  yum install epel-release yum-utils -y && sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y &&  sudo yum-config-manager --enable remi-php74 && sudo yum update -y && sudo yum install php -y && sudo yum install php-fpm php-curl php-cli php-json php-mysql php-opcache php-dom php-exif php-fileinfo php-zip php-mbstring php-hash php-imagick php-openssl php-pcre php-xml php-bcmath php-filter php-pear php-gd php-mcrypt php-intl php-iconv php-zlib php-xmlreader -y','sudo dnf -y update && sudo dnf -y install dnf-plugins-core && sudo dnf config-manager --set-enabled remi && sudo dnf module reset php -y && sudo dnf module -y install php:remi-8.0 && sudo dnf -y install php-cli php-fpm php-mysqlnd php-zip php-devel php-gd php-mcrypt php-mbstring php-curl php-xml php-pear php-bcmath php-json && sudo systemctl enable --now php-fpm',NULL,'sudo pacman -Sy archlinux-keyring && sudo pacman-key --populate archlinux && sudo pacman -Syu && sudo pacman -S php && sudo pacman -S php-apache php-cgi php-fpm php-gd  php-embed php-intl php-redis php-snmp',NULL),
+ ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip','C:\','Empty','Empty','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Kotlin','https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip','C:\','Empty','Empty','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Wget','https://eternallybored.org/misc/wget/1.21.4/64/wget.exe','C:\Wget','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install wget -y','sudo yum install wget','sudo dnf -y update && sudo dnf install wget',NULL,'sudo pacman -Syu && sudo pacman -S wget','sudo zypper install wget'),
+ ('Python 3.9','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.9.6_linux_amd64/Python3.9.6_linux_amd64.zip','Empty','Empty','/usr/bin/','Empty','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && tar xzf Python-3.9.6.tgz && cd Python-3.9.6 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && tar -xvf Python-3.9.6.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz -O &&  tar -xvf Python-3.9.6.tgz && cd Python-3.9.6 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,'sudo pacman -Syu && sudo pacman -S wget',NULL),
+ ('Python 3.10','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.10.12_linux_amd64/Python_3.10.12_linux_amd64.zip','Empty','Empty','/usr/bin/','Empty','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && tar xzf Python-3.10.12.tgz && cd Python-3.10.12 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz && tar -xvf Python-3.10.12.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz -O &&  tar -xvf Python-3.10.12.tgz && cd Python-3.10.12 &&  sudo ./configure --enable-optimizations && sudo make install',NULL,NULL,NULL),
+ ('Python 3.11','https://github.com/Blackflame576/PythonArchives/releases/download/Python_3.11.4_linux_amd64/Python_3.11.4_linux_amd64.zip','Empty','Empty','/usr/bin/','Empty','Empty','Empty','sudo apt update -y && sudo apt upgrade -y && sudo apt install wget build-essential libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz && cd Python-3.11.4 && . /configure --enable-optimizations && make -j 2 && sudo make alt install','sudo yum update -y && sudo yum install epel-release -y && sudo yum install python-pip -y && sudo yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y && wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar -xvf Python-3.11.4.tgz && ./configure --enable-optimizations && sudo make && sudo make altinstall','sudo dnf -y update && sudo dnf groupinstall ''development tools'' && sudo dnf install wget openssl-devel bzip2-devel libffi-devel &&  sudo curl https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz -O &&  tar -xvf Python-3.11.4.tgz && cd Python-3.11.4 &&  sudo ./configure --enable-optimizations && sudo make install && ',NULL,NULL,NULL),
+ ('Nginx','http://nginx.org/download/nginx-1.25.1.zip','C:\','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install nginx -y','sudo yum install epel-release -y && sudo yum update -y && sudo yum install nginx','sudo dnf -y update && sudo dnf install nginx && sudo systemctl enable nginx && sudo systemctl start nginx',NULL,'sudo pacman -Syu && sudo pacman -S nginx-mainline && sudo systemctl enable --now nginx',NULL),
+ ('snap','Empty','Empty','Empty','Empty','Empty','Empty','Empty','sudo apt update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig && sudo apt install snap snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','sudo yum update -y && sudo yum install snapd -y && sudo systemctl enable --now snapd.socket && sudo ln -s /var/lib/snapd/snap /snap','sudo dnf update -y && sudo dnf install snap snapd fuse squashfuse kernel-modules && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable snapd.service && sudo systemctl start snapd.service','Empty','sudo pacman -Syu && sudo pacman -S snapd && sudo ln -s /var/lib/snapd/snap /snap && sudo systemctl enable --now snapd.socket && sudo systemctl start snapd.service','sudo zypper addrepo http://download.opensuse.org/repositories/system:/snappy/openSUSE_Leap_42.2/ snappy && sudo zypper install snapd && sudo systemctl enable --now snapd.socket'),
+ ('gcc','Empty','Empty','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install gcc','sudo yum update -y && sudo yum install gcc -y','sudo dnf update -y && sudo dnf install gcc -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc gcc-fortran
+'),
+ ('g++','Empty','Empty','Empty','Empty','Empty','Empty','Empty','sudo apt update -y && sudo apt install g++ -y','sudo yum update -y && sudo yum install gcc-c++ -y','sudo dnf update -y && sudo dnf install gcc-c++ -y',NULL,'sudo pacman -Syu && sudo pacman -Sy gcc','sudo zypper install gcc-c++'),
+ ('Redis','https://github.com/microsoftarchive/redis/releases/download/win-3.0.504/Redis-x64-3.0.504.zip','C:\Redis','Empty','Empty','Empty','Empty','Empty',NULL,NULL,NULL,NULL,NULL,NULL),
+ ('Code::Blocks','Empty','Empty','Empty','/usr/bin/','/usr/bin/','Empty','Empty','sudo add-apt-repository ppa:damien-moore/codeblocks-stable && sudo apt-get update -y && sudo apt-get install codeblocks codeblocks-contrib -y','sudo yum update -y && sudo yum install codeblocks.x86_64 -y','Empty','Empty','Empty','Empty');
 COMMIT;

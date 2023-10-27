@@ -3,7 +3,7 @@ set arg_1 = %1
 echo -- Building project
 if exist .\build\Windows (
     if ERRORLEVEL 0 (
-        g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++   -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
+        g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++ -lws2_32 -lurlmon  -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
     ) else (
         echo -- Error in project build.
     )
@@ -13,7 +13,7 @@ if exist .\build\Windows (
     mkdir Windows
     cd ..
     if ERRORLEVEL 0 (
-        g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++  -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
+        g++ -o .\build\Windows\DeepForgeToolset.exe .\src\resource.res .\src\DeepForgeToolset.cpp -DCURL_STATICLIB -I ..\..\include -I .\src\include -L ..\..\lib\ -static-libgcc -static-libstdc++ -lws2_32 -lurlmon -lcurl -w -ljsoncpp -lsqlite3 -std=c++20
     ) else (
         echo -- Error in project build.
     )
