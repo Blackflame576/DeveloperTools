@@ -12,7 +12,7 @@
 #include <concepts>
 #include <map>
 #include "json/json.h"
-#include <fcntl.h> 
+#include <fcntl.h>
 #if defined(__linux__) || __APPLE__
 #include "./Client_UNIX.hpp"
 using namespace UNIX;
@@ -39,10 +39,10 @@ public:
 
     Logger(const char *PathFile = nullptr, const char *MaxSize = nullptr)
     {
-#if defined(_WIN32)
+        #if defined(_WIN32)
         /* `SetConsoleOutputCP(CP_UTF8);` is a function call that sets the console output code page to UTF-8 encoding. This allows the console to display and handle Unicode characters correctly. By setting the console output code page to UTF-8, the program ensures that it can properly handle and display characters from various languages and character sets. */
         SetConsoleOutputCP(CP_UTF8);
-#endif
+        #endif
         if (PathFile != nullptr)
         {
             filesystem::path file_path(PathFile);
@@ -77,6 +77,37 @@ public:
 
 private:
     /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/
+    #if defined(__linux__) || __APPLE__
+    void MakeDirectory(string dir)
+    {
+        string currentDir;
+        string fullPath = "";
+        string delimiter = "/";
+        size_t pos = 0;
+        while ((pos = dir.find(delimiter)) != string::npos)
+        {
+            currentDir = dir.substr(0, pos);
+            if (fullPath != "")
+            {
+                fullPath = fullPath + "/" + currentDir;
+                if (filesystem::exists(fullPath) == false)
+                {
+                    filesystem::create_directory(fullPath);
+                }
+            }
+            else
+            {
+                fullPath = "/" + currentDir;
+            }
+            dir.erase(0, pos + delimiter.length());
+        }
+        fullPath = fullPath + "/" + dir;
+        if (filesystem::exists(fullPath) == false)
+        {
+            filesystem::create_directory(fullPath);
+        }
+    }
+    #elif _WIN32
     void MakeDirectory(string dir)
     {
         string currentDir;
@@ -104,7 +135,7 @@ private:
         {
             fullPath = fullPath + "\\" + dir;
         }
-        else 
+        else
         {
             fullPath = dir + "\\";
         }
@@ -113,6 +144,7 @@ private:
             filesystem::create_directory(fullPath);
         }
     }
+    #endif
     /* The `WriteFile` function is responsible for writing the `value` string to a file specified by the `filename` parameter. */
     void WriteFile(string logPath, string value)
     {

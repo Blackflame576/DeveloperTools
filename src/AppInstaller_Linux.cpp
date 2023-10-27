@@ -69,21 +69,28 @@ namespace Linux
         int InstallVCpkg()
         {
             #if defined(__x86_64__)
-                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_amd64", "vcpkg", "LinuxDir");
-                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_amd64", "vcpkg", "Url");
+                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
+                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Url");
             #elif __arm__
-                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_arm64", "vcpkg", "LinuxDir");
-                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_arm64", "vcpkg", "Url");
+                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Directory");
+                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Url");
             #endif
+            
             string PathRepository = NewVCpkgDir + "vcpkg";
             if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
             {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
                 return 403;
             }
+            #if defined(__x86_64__)
+                string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", PackageManager);
+            #elif __arm__
+                string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", PackageManager);
+            #endif
             string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
             string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
             string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
+            system(InstallDependenciesCommand.c_str());
             MainInstaller("Git");
             result = system(Command.c_str());
             if (result == 0)
@@ -120,7 +127,9 @@ namespace Linux
                 #elif __arm__
                     Packages = database.GetAllValuesFromDB("Applications", "Linux_arm64");
                 #endif
+                NameDistribution = GetNameDistribution();
                 DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+                PackageManager = database.GetValueFromDB("SupportedOS", NameDistribution, "PackageManager");
             }
             catch (exception &error)
             {
@@ -225,9 +234,9 @@ namespace Linux
                 else
                 {
                     #if defined(__x86_64__)
-                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_amd64", "snap", PackageManager);
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "snap", PackageManager);
                     #elif __arm__
-                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_arm64", "snap", PackageManager);
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "snap", PackageManager);
                     #endif
                     if (InstallCommand != "Empty")
                         result = system(InstallCommand.c_str());
@@ -439,7 +448,11 @@ namespace Linux
         packages. It also creates a string representation of each package with its corresponding
         index. The code then checks if the number of packages is even or odd and prints the string
         representation accordingly. */
-        auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux");
+        #if defined(__x86_64__)
+            auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_amd64");
+        #elif __arm__
+            auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_arm64");
+        #endif
         map<int, string> EnumeratePackages;
         string NamePackage;
         for (int i = 1; const auto &element : DevelopmentPack)
