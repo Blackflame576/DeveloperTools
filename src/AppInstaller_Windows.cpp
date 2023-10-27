@@ -97,7 +97,7 @@ namespace Windows
          */
         int InstallMake()
         {
-            string NewMakeDir = database.GetValueFromDB("PackagesFromSource", "Make", "WindowsDir");
+            string NewMakeDir = database.GetValueFromDB("PackagesFromSource_Windows", "Make", "Directory");
             string ArchivePath = ProjectDir + "/utils/Make_3.81.zip ";
             string Command = "tar -xf" + ArchivePath + "--directory " + NewMakeDir;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewMakeDir;
@@ -134,8 +134,8 @@ namespace Windows
          */
         int InstallVCpkg()
         {
-            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource", "vcpkg", "WindowsDir");
-            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource", "vcpkg", "Url");
+            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Directory");
+            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Url");
             string PathRepository = NewVCpkgDir + "vcpkg";
             if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
             {
@@ -145,6 +145,7 @@ namespace Windows
             string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
             string Command_Install = NewVCpkgDir + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
+            MainInstaller("Git");
             result = system(Command.c_str());
             if (result == 0)
             {
@@ -167,7 +168,7 @@ namespace Windows
          */
         int InstallPHP()
         {
-            string NewPHPDir = database.GetValueFromDB("PackagesFromSource", "PHP", "WindowsDir");
+            string NewPHPDir = database.GetValueFromDB("PackagesFromSource_Windows", "PHP", "Directory");
             string ArchivePath = ProjectDir + "/utils/php-8.2.9.zip ";
             string Command = "tar -xf" + ArchivePath + "--directory " + NewPHPDir;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewPHPDir;
@@ -198,8 +199,8 @@ namespace Windows
          */
         int InstallEclipse()
         {
-            string EclipseUrl = database.GetValueFromDB("PackagesFromSource", "Eclipse IDE", "Url");
-            string NewEclipseDir = database.GetValueFromDB("PackagesFromSource", "Eclipse IDE", "WindowsDir");
+            string EclipseUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Url");
+            string NewEclipseDir = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Directory");
             string ArchiveDir = ProjectDir + "/Downloads";
             string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
             if (std::filesystem::exists("C:\\eclipse") && std::filesystem::is_empty("C:\\eclipse") == false)
@@ -229,8 +230,8 @@ namespace Windows
          */
         int InstallKotlin()
         {
-            string NewKotlinDir = database.GetValueFromDB("PackagesFromSource", "Kotlin", "WindowsDir");
-            string KotlinUrl = database.GetValueFromDB("PackagesFromSource", "Kotlin", "Url");
+            string NewKotlinDir = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Directory");
+            string KotlinUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Url");
             string ArchiveDir = ProjectDir + "/Downloads";
             string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
             if (std::filesystem::exists("C:\\kotlinc") && std::filesystem::is_empty("C:\\kotlinc") == false)
@@ -260,8 +261,8 @@ namespace Windows
          */
         int InstallWget()
         {
-            string NewWgetDir = database.GetValueFromDB("PackagesFromSource", "Wget", "WindowsDir");
-            string WgetUrl = database.GetValueFromDB("PackagesFromSource", "Wget", "Url");
+            string NewWgetDir = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Directory");
+            string WgetUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Url");
             string ApplicationPath = NewWgetDir + "/wget.exe ";
             if (std::filesystem::exists(NewWgetDir) && std::filesystem::is_empty(NewWgetDir) == false)
             {
@@ -295,7 +296,7 @@ namespace Windows
          */
         int InstallNginx()
         {
-            string NewNginxDir = database.GetValueFromDB("PackagesFromSource", "Nginx", "WindowsDir");
+            string NewNginxDir = database.GetValueFromDB("PackagesFromSource_Windows", "Nginx", "Directory");
             string ArchivePath = ProjectDir + "/utils/Nginx-1.25.1.zip ";
             string Command = "tar -xf" + ArchivePath + "--directory " + NewNginxDir;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
@@ -331,8 +332,8 @@ namespace Windows
          */
         int InstallRedis()
         {
-            string NewRedisDir = database.GetValueFromDB("PackagesFromSource", "Redis", "WindowsDir");
-            string RedisUrl = database.GetValueFromDB("PackagesFromSource", "Redis", "Url");
+            string NewRedisDir = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Directory");
+            string RedisUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Url");
             string name = (RedisUrl.substr(RedisUrl.find_last_of("/")));
             string ArchiveDir = ProjectDir + "/Downloads";
             string ArchivePath = ArchiveDir + "/" + name + " ";
@@ -392,16 +393,29 @@ namespace Windows
          */
         int MainInstaller(string Name)
         {
-            string Value = database.GetValueFromDB("Applications", Name, "Windows");
-            if (Value != "ManualInstallation")
+            try
             {
-                result = system(Value.c_str());
+                string Value = database.GetValueFromDB("Applications", Name, "Windows");
+                if (Value != "ManualInstallation")
+                {
+                    result = system(Value.c_str());
+                }
+                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+                {
+                    result = (this->*(PackagesFromSource[Name]))();
+                }
+                else
+                {
+                    string InstallCommand = database.GetValueFromDB("PackagesFromSource_Windows", Name, "Command");
+                    if (InstallCommand != "Empty")
+                        result = system(InstallCommand.c_str());
+                }
+                return result;
             }
-            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+            catch (exception &error)
             {
-                result = (this->*(PackagesFromSource[Name]))();
+                cout << error.what() << endl;
             }
-            return result;
         }
         // Function for update information from database about packages and development packs
         void UpdateData()
@@ -421,7 +435,6 @@ namespace Windows
 
         AppInstaller()
         {
-            GetArchitectureOS();
             UpdateData();
             InstallWinGet();
             cout << InstallDelimiter << endl;
@@ -432,15 +445,6 @@ namespace Windows
         }
 
     private:
-        // Method for getting architecture of OS
-        void GetArchitectureOS()
-        {
-#if defined(__x86_64__)
-            Architecture = "amd64";
-#elif __arm__
-            Architecture = "arm64";
-#endif
-        }
         /**
          * The function checks if WinGet is installed and installs it if necessary.
          */

@@ -34,5 +34,6 @@
     "LOG_ERROR_OPEN_DATABASE":"An error occurred when trying to open the database",
     "LOG_ERROR_DOWNLOAD_DATABASE": "An error occurred when trying to download the database",
     "LOG_ERROR_DOWNLOAD_FUNCTION": "There was an error in the download function",
-    "LOG_ZIP_ARCHIVE_NOT_FOUND": "Zip archive not found."
+    "LOG_ZIP_ARCHIVE_NOT_FOUND": "Zip archive not found.",
+    "LOG_ERROR_INSTALL_SNAP": "An error occurred while trying to install snap"
 }

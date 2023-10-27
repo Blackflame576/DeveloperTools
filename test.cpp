@@ -98,32 +98,33 @@ int Download(string url, string dir)
 int main()
 {
 
-    // string Tables[11] = {"CDevelopmentTools", "CppDevelopmentTools", "CSDevelopmentTools", "PythonDevelopmentTools", "JavaDevelopmentTools",
-    //                      "JavaScriptDevelopmentTools", "KotlinDevelopmentTools", "RubyDevelopmentTools", "RustDevelopmentTools", "GoDevelopmentTools",
-    //                      "PHPDevelopmentTools"};
-    // const char *ch = "DB/AppInstaller.db";
-    // std::filesystem::path current_path = std::filesystem::current_path().generic_string();
-    // string DB_PATH = current_path.string() + "/src/" + ch;
+    string Tables[11] = {"CDevelopmentTools", "CppDevelopmentTools", "CSDevelopmentTools", "PythonDevelopmentTools", "JavaDevelopmentTools",
+                         "JavaScriptDevelopmentTools", "KotlinDevelopmentTools", "RubyDevelopmentTools", "RustDevelopmentTools", "GoDevelopmentTools",
+                         "PHPDevelopmentTools"};
+    const char *ch = "DB/AppInstaller.db";
+    std::filesystem::path current_path = std::filesystem::current_path().generic_string();
+    string DB_PATH = current_path.string() + "/src/" + ch;
     // cout << DB_PATH << endl;
-    // Database database(&DB_PATH);
+    Database database;
+    database.open(&DB_PATH);
     // string Command = database.GetValueFromDB("Applications","Docker","Windows");
     // cout << Command << endl;
-    string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/v0.1_win_amd64/AppInstaller.db";
-    string name = (url.substr(url.find_last_of("/")));
-    string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
-    FILE *file = fopen(filename.c_str(), "wb");
-    CURL *curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
-    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-    CURLcode response = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-    fclose(file);
-    // database.AddValues(Tables);
+    // string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/v0.1_win_amd64/AppInstaller.db";
+    // string name = (url.substr(url.find_last_of("/")));
+    // string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
+    // FILE *file = fopen(filename.c_str(), "wb");
+    // CURL *curl = curl_easy_init();
+    // curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    // curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    // curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
+    // curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+    // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+    // curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+    // curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+    // CURLcode response = curl_easy_perform(curl);
+    // curl_easy_cleanup(curl);
+    // fclose(file);
+    database.AddApplications(Tables);
     // char *user = getenv("USERPROFILE");
     // SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, szPath);
     // cout << user << endl;

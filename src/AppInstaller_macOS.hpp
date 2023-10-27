@@ -73,7 +73,11 @@ string ProjectDir = std::filesystem::current_path().generic_string();
 map<string, string> Packages;
 map<string, string> DevelopmentPacks;
 string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
-string Architecture;
+#if defined(__x86_64__)
+    string Architecture = "amd64";
+#elif __arm__
+    string Architecture = "arm64";
+#endif
 string InstallDelimiter = "========================================================";
 const string TrueVarious[3] = {"yes", "y", "1"};
 string new_sentence;

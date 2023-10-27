@@ -108,7 +108,11 @@ string replaceAll(string str, const string &from, const string &to)
 }
 // string type
 const string TrueVarious[3] = {"yes", "y", "1"};
-string Architecture;
+#if defined(__x86_64__)
+    string Architecture = "amd64";
+#elif __arm__
+    string Architecture = "arm64";
+#endif
 string ProjectDir = std::filesystem::current_path().generic_string();
 string haveString = "";
 string new_sentence;

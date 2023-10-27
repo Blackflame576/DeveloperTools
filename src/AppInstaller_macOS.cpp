@@ -92,21 +92,33 @@ namespace macOS
          */
         int MainInstaller(string Name)
         {
-            string Value = database.GetValueFromDB("Applications", Name, "macOS");
-            if (Value != "ManualInstallation")
+            try
             {
-                result = system(Value.c_str());
+                string Value = database.GetValueFromDB("Applications", Name, "Linux");
+                if (Value != "ManualInstallation")
+                {
+                    result = system(Value.c_str());
+                }
+                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+                {
+                    result = (this->*(PackagesFromSource[Name]))();
+                }
+                else
+                {
+                    string InstallCommand = database.GetValueFromDB("PackagesFromSource_macOS", Name, "Command");
+                    if (InstallCommand != "Empty")
+                        result = system(InstallCommand.c_str());
+                }
+                return result;
             }
-            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+            catch (exception &error)
             {
-                result = (this->*(PackagesFromSource[Name]))();
+                cout << error.what() << endl;
             }
-            return result;
         }
         AppInstaller()
         {
             DownloadDatabase();
-            GetArchitectureOS();
             UpdateData();
             InstallBrew();
             cout << InstallDelimiter << endl;
@@ -117,15 +129,6 @@ namespace macOS
         }
 
     private:
-        // Method for getting architecture of OS
-        void GetArchitectureOS()
-        {
-            #if defined(__x86_64__)
-                Architecture = "amd64";
-            #elif __arm__
-                Architecture = "arm64";
-            #endif
-        }
         /**
          * The function checks if Homebrew is installed and if not, it installs it.
          */

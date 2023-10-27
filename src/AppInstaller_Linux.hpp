@@ -82,7 +82,11 @@ string haveString = "";
 string ProjectDir = std::filesystem::current_path().generic_string();
 string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
 string LogPath = ProjectDir + "/logs/DeepForgeToolset.log"; 
-string Architecture;
+#if defined(__x86_64__)
+    string Architecture = "amd64";
+#elif __arm__
+    string Architecture = "arm64";
+#endif
 string InstallDelimiter = "========================================================";
 string Language;
 string SelectPackages;

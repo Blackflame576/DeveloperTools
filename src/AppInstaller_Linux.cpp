@@ -42,7 +42,7 @@ namespace Linux
         // cout << Percentage << endl;
         if (TempPercentage != Percentage && TempPercentage <= 100)
         {
-            progressbar.Update(NowDownloaded,TotalToDownload);
+            progressbar.Update(NowDownloaded, TotalToDownload);
             LastSize = NowDownloaded;
             LastTotalSize = TotalToDownload;
             TempPercentage = Percentage;
@@ -68,8 +68,13 @@ namespace Linux
          */
         int InstallVCpkg()
         {
-            string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource", "vcpkg", "LinuxDir");
-            string VCpkgRepository = database.GetValueFromDB("PackagesFromSource", "vcpkg", "Url");
+            #if defined(__x86_64__)
+                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_amd64", "vcpkg", "LinuxDir");
+                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_amd64", "vcpkg", "Url");
+            #elif __arm__
+                string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_arm64", "vcpkg", "LinuxDir");
+                string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_arm64", "vcpkg", "Url");
+            #endif
             string PathRepository = NewVCpkgDir + "vcpkg";
             if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
             {
@@ -79,6 +84,7 @@ namespace Linux
             string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
             string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
             string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
+            MainInstaller("Git");
             result = system(Command.c_str());
             if (result == 0)
             {
@@ -109,7 +115,11 @@ namespace Linux
             try
             {
                 database.open(&DatabasePath);
-                Packages = database.GetAllValuesFromDB("Applications", "macOS");
+                #if defined(__x86_64__)
+                    Packages = database.GetAllValuesFromDB("Applications", "Linux_amd64");
+                #elif __arm__
+                    Packages = database.GetAllValuesFromDB("Applications", "Linux_arm64");
+                #endif
                 DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
             }
             catch (exception &error)
@@ -149,8 +159,12 @@ namespace Linux
         {
             try
             {
-                string Value = database.GetValueFromDB("Applications", Name, "Linux");
-                if (Value != "ManualInstallation" && Architecture == "arm64")
+                #if defined(__x86_64__)
+                    string Value = database.GetValueFromDB("Applications", Name, "Linux_amd64");
+                #elif __arm__
+                    string Value = database.GetValueFromDB("Applications", Name, "Linux_arm64");
+                #endif
+                if (Value != "ManualInstallation")
                 {
                     result = system(Value.c_str());
                 }
@@ -160,7 +174,11 @@ namespace Linux
                 }
                 else
                 {
-                    string InstallCommand = database.GetValueFromDB("PackagesFromSource", Name, PackageManager);
+                    #if defined(__x86_64__)
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", Name, PackageManager);
+                    #elif __arm__
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", Name, PackageManager);
+                    #endif
                     if (InstallCommand != "Empty")
                         result = system(InstallCommand.c_str());
                 }
@@ -175,7 +193,6 @@ namespace Linux
         {
             try
             {
-                GetArchitectureOS();
                 UpdateData();
                 InstallSnap();
                 cout << InstallDelimiter << endl;
@@ -191,15 +208,6 @@ namespace Linux
         }
 
     private:
-        // Method for getting architecture of OS
-        void GetArchitectureOS()
-        {
-#if defined(__x86_64__)
-            Architecture = "amd64";
-#elif __arm__
-            Architecture = "arm64";
-#endif
-        }
         void InstallSnap()
         {
             try
@@ -209,22 +217,29 @@ namespace Linux
                 /* The above code is written in C++ and it is performing the following tasks: */
                 system("bash ./Scripts/CheckWSL.sh");
                 result = system("snap --version");
-                if (result != 0)
-                {
-                    string InstallCommand = database.GetValueFromDB("PackagesFromSource", "snap", PackageManager);
-                    if (InstallCommand != "Empty")
-                        result = system(InstallCommand.c_str());
-                }
-                else
+                if (result == 0)
                 {
                     system("sudo ln -s /var/lib/snapd/snap /snap");
                     system("sudo systemctl restart snapd.service");
                 }
+                else
+                {
+                    #if defined(__x86_64__)
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_amd64", "snap", PackageManager);
+                    #elif __arm__
+                        string InstallCommand = database.GetValueFromDB("PackagesFromSource_arm64", "snap", PackageManager);
+                    #endif
+                    if (InstallCommand != "Empty")
+                        result = system(InstallCommand.c_str());
+                }
             }
             catch (exception &error)
             {
-                logger.WRITE_AND_LOG_ERROR("❌ An error occurred while trying to download snap");
-                logger.WRITE_AND_LOG_ERROR(error.what());
+                string ErrorText = "❌ " + translate["LOG_ERROR_INSTALL_SNAP"].asString();
+                logger.WriteError(translate["LOG_ERROR_INSTALL_SNAP"].asString());
+                logger.WriteError(error.what());
+                cerr << ErrorText << endl;
+                ;
             }
             // if (PackageManager == "apt")
             // {

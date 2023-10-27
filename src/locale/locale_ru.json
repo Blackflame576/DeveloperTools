@@ -34,5 +34,6 @@
     "LOG_ERROR_OPEN_DATABASE": "Произошла ошибка при попытке открыть базу данных",
     "LOG_ERROR_DOWNLOAD_DATABASE": "Произошла ошибка при попытке скачать базу данных",
     "LOG_ERROR_DOWNLOAD_FUNCTION": "Произошла ошибка в функции загрузки.",
-    "LOG_ZIP_ARCHIVE_NOT_FOUND": "Zip-архив не найден"
+    "LOG_ZIP_ARCHIVE_NOT_FOUND": "Zip-архив не найден",
+    "LOG_ERROR_INSTALL_SNAP": "Произошла ошибка при попытке установить snap"
 }
