@@ -51,5 +51,5 @@ InstallerDeepForge_Toolset/CMakeFiles/ninja_log
 .idea/
 src/lib/
 src/UpdateManager/lib/
-zipper/
+/zipper/
 googletest/
