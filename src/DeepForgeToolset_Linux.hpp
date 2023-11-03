@@ -590,83 +590,86 @@ namespace Linux
             cout << "" << endl;
             cout << translate["SelectingPackages"].asString();
             getline(cin, SelectPackages);
-            /* The bellow code is splitting a string called `SelectPackages` into multiple tokens using a
-            delimiter (","). It then checks if each token is present in a map called
-            `EnumeratePackages`. If a token is found in the map, it retrieves the corresponding value
-            (package name) and performs some installation-related operations. These operations include
-            printing messages, calling a `MainInstaller` function with the package name, and logging
-            success or error messages based on the output of the `MainInstaller` function. Finally, it
-            removes the processed token from the `SelectPackages` string and continues the loop until
-            all tokens */
-            while ((pos = SelectPackages.find(delimiter)) != string::npos)
+            if (SelectPackages.empty() == false)
             {
-                token = SelectPackages.substr(0, pos);
-                if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end())
+                /* The bellow code is splitting a string called `SelectPackages` into multiple tokens using a
+                delimiter (","). It then checks if each token is present in a map called
+                `EnumeratePackages`. If a token is found in the map, it retrieves the corresponding value
+                (package name) and performs some installation-related operations. These operations include
+                printing messages, calling a `MainInstaller` function with the package name, and logging
+                success or error messages based on the output of the `MainInstaller` function. Finally, it
+                removes the processed token from the `SelectPackages` string and continues the loop until
+                all tokens */
+                while ((pos = SelectPackages.find(delimiter)) != string::npos)
                 {
-                    NamePackage = EnumeratePackages[stoi(token)];
-                    // =============================
-                    cout << InstallDelimiter << endl;
-                    cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-                    // Install application
-                    output_func = Installer.MainInstaller(NamePackage);
-                    // Loggin and print messages
-                    if (output_func == 0)
+                    token = SelectPackages.substr(0, pos);
+                    if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end())
                     {
-                        string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
-                        cout << SuccessText << endl;
-                    }
-                    else if (output_func != 403)
-                    {
-                        string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
-                        cerr << ErrorText << endl;
-                    }
-                    SelectPackages.erase(0, pos + delimiter.length());
-                }
-            }
-
-            /* The bellow code is checking if a package with a specific ID exists in a map called
-            EnumeratePackages. If the package exists, it retrieves the name of the package and proceeds
-            to install it using the MainInstaller function from the Installer object. After
-            installation, it logs and prints success or error messages based on the output of the
-            installation process. */
-            if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end())
-            {
-                NamePackage = EnumeratePackages[stoi(SelectPackages)];
-                if (NamePackage != "AllPackages")
-                {
-                    cout << InstallDelimiter << endl;
-                    cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
-                    // Install application
-                    output_func = Installer.MainInstaller(NamePackage);
-                    // Logging and print messages
-                    if (output_func == 0)
-                    {
-                        string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
-                        cout << SuccessText << endl;
-                    }
-                    else if (output_func != 403)
-                    {
-                        string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
-                        cerr << ErrorText << endl;
-                    }
-                }
-                else
-                {
-                    DevelopmentPack.erase("AllPackages");
-                    for (const auto &element : DevelopmentPack)
-                    {
+                        NamePackage = EnumeratePackages[stoi(token)];
+                        // =============================
                         cout << InstallDelimiter << endl;
-                        cout << translate["Installing"].asString() << " " << element.first << " ..." << endl;
-                        output_func = Installer.MainInstaller(element.first);
+                        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                        // Install application
+                        output_func = Installer.MainInstaller(NamePackage);
+                        // Loggin and print messages
                         if (output_func == 0)
                         {
-                            string SuccessText = "==> ✅ " + element.first + " " + translate["Installed"].asString();
+                            string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
                             cout << SuccessText << endl;
                         }
                         else if (output_func != 403)
                         {
-                            string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + element.first;
+                            string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                             cerr << ErrorText << endl;
+                        }
+                        SelectPackages.erase(0, pos + delimiter.length());
+                    }
+                }
+
+                /* The bellow code is checking if a package with a specific ID exists in a map called
+                EnumeratePackages. If the package exists, it retrieves the name of the package and proceeds
+                to install it using the MainInstaller function from the Installer object. After
+                installation, it logs and prints success or error messages based on the output of the
+                installation process. */
+                if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end())
+                {
+                    NamePackage = EnumeratePackages[stoi(SelectPackages)];
+                    if (NamePackage != "AllPackages")
+                    {
+                        cout << InstallDelimiter << endl;
+                        cout << translate["Installing"].asString() << " " << NamePackage << " ..." << endl;
+                        // Install application
+                        output_func = Installer.MainInstaller(NamePackage);
+                        // Logging and print messages
+                        if (output_func == 0)
+                        {
+                            string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
+                            cout << SuccessText << endl;
+                        }
+                        else if (output_func != 403)
+                        {
+                            string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
+                            cerr << ErrorText << endl;
+                        }
+                    }
+                    else
+                    {
+                        DevelopmentPack.erase("AllPackages");
+                        for (const auto &element : DevelopmentPack)
+                        {
+                            cout << InstallDelimiter << endl;
+                            cout << translate["Installing"].asString() << " " << element.first << " ..." << endl;
+                            output_func = Installer.MainInstaller(element.first);
+                            if (output_func == 0)
+                            {
+                                string SuccessText = "==> ✅ " + element.first + " " + translate["Installed"].asString();
+                                cout << SuccessText << endl;
+                            }
+                            else if (output_func != 403)
+                            {
+                                string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + element.first;
+                                cerr << ErrorText << endl;
+                            }
                         }
                     }
                 }
