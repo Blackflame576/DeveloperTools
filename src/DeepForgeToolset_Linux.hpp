@@ -89,7 +89,7 @@ namespace Linux
     string LogPath = ProjectDir + "/logs/DeepForgeToolset.log";
 #if defined(__x86_64__)
     string Architecture = "amd64";
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
     string Architecture = "arm64";
 #endif
     string InstallDelimiter = "========================================================";
@@ -151,7 +151,7 @@ namespace Linux
 #if defined(__x86_64__)
             string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
             string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Url");
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
             string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Directory");
             string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Url");
 #endif
@@ -164,7 +164,7 @@ namespace Linux
             }
 #if defined(__x86_64__)
             string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", PackageManager);
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
             string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", PackageManager);
 #endif
             string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
@@ -204,7 +204,7 @@ namespace Linux
                 database.open(&DatabasePath);
 #if defined(__x86_64__)
                 Packages = database.GetAllValuesFromDB("Applications", "Linux_amd64");
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
                 Packages = database.GetAllValuesFromDB("Applications", "Linux_arm64");
 #endif
                 NameDistribution = GetNameDistribution();
@@ -250,7 +250,7 @@ namespace Linux
             {
 #if defined(__x86_64__)
                 string Value = database.GetValueFromDB("Applications", Name, "Linux_amd64");
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
                 string Value = database.GetValueFromDB("Applications", Name, "Linux_arm64");
 #endif
                 if (Value != "ManualInstallation")
@@ -265,7 +265,7 @@ namespace Linux
                 {
 #if defined(__x86_64__)
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", Name, PackageManager);
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", Name, PackageManager);
 #endif
                     if (InstallCommand != "Empty")
@@ -315,7 +315,7 @@ namespace Linux
                 {
 #if defined(__x86_64__)
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "snap", PackageManager);
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "snap", PackageManager);
 #endif
                     if (InstallCommand != "Empty")
@@ -542,7 +542,7 @@ namespace Linux
             representation accordingly. */
             #if defined(__x86_64__)
                 auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_amd64");
-            #elif __arm__
+            #elif __arm__ || __aarch64__ || _M_ARM64
                 auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_arm64");
             #endif
             map<int, string> EnumeratePackages;

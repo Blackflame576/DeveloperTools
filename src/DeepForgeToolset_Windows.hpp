@@ -109,7 +109,7 @@ namespace Windows
     const string TrueVarious[3] = {"yes", "y", "1"};
 #if defined(__x86_64__)
     string Architecture = "amd64";
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
     string Architecture = "arm64";
 #endif
     string ProjectDir = std::filesystem::current_path().generic_string();

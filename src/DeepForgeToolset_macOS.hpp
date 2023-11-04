@@ -81,7 +81,7 @@ namespace macOS
     string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
     #if defined(__x86_64__)
         string Architecture = "amd64";
-    #elif __arm__
+    #elif __arm__ || __aarch64__ || _M_ARM64
         string Architecture = "arm64";
     #endif
     string InstallDelimiter = "========================================================";

@@ -548,7 +548,7 @@ private:
     {
 #if defined(__x86_64__)
         Architecture = "amd64";
-#elif __arm__
+#elif __arm__ || __aarch64__ || _M_ARM64
         Architecture = "arm64";
 #endif
     }
