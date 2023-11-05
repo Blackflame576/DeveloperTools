@@ -102,6 +102,14 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo add-apt-repository universe
       sudo apt-get update
       sudo apt-get install -y $DEB_PACKAGE_NAME
+   elif [[ "$OS" == "openSUSE Leap"* ]]; then
+      echo "================================================"
+      echo "Installing libraries"
+      echo "================================================"
+      zypper update -y
+      zypper install sudo -y
+      sudo zypper update -y
+      sudo zypper install $ZYPPER_PACKAGE_NAME -y
    else
       echo "Not found package manager"
       exit 1;
