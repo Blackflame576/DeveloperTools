@@ -160,14 +160,14 @@ cd ..
 echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++20;;
 esac
 echo "==> Build of DeepForgeToolset finished"
 mkdir tests
 echo "==> Building tests"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a;;
+	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++20;;
 esac
 
 echo "==> Build of tests finished"
