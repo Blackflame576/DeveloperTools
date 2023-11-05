@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "==> Installing libraries"
 # Installing libraries
-YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake g++ gcc gtest-devel gtest gmock-devel gmock curl libcurl-devel libcurl sqlite-devel sqlite-tcl libstdc++.x86_64 libstdc++-devel.x86_64 libstdc++-static.x86_64 zlib"
+YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake gcc-c++ curl libcurl --allowerasing"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev libzip-dev zlib1g-dev"
 PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl zlib"
 ZYPPER_PACKAGE_NAME="libcurl-devel gcc-c++ cmake gtest gmock zlib-devel fmt-devel sqlite3-devel jsoncpp-devel"
@@ -34,20 +34,26 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
+      yum -y update
+      yum -y install sudo
       sudo yum update -y
-      sudo yum install -y $YUM_PACKAGE_NAME
+      sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Red"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
+      yum -y update
+      yum -y install sudo
       sudo yum update -y
-      sudo yum install -y $YUM_PACKAGE_NAME
+      sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Fedora"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
+      yum -y update
+      yum -y install sudo
       sudo yum update -y
-      sudo yum install -y $YUM_PACKAGE_NAME
+      sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Ubuntu"* ]]; then
       echo "================================================"
       echo "Installing libraries"
@@ -160,14 +166,14 @@ cd ..
 echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++20;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
 esac
 echo "==> Build of DeepForgeToolset finished"
 mkdir tests
 echo "==> Building tests"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++20;;
+	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a;;
 esac
 
 echo "==> Build of tests finished"
