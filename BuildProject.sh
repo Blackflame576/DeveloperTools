@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "==> Installing libraries"
 # Installing libraries
-YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake gcc-c++ curl libcurl --allowerasing"
+YUM_PACKAGE_NAME="jsoncpp jsoncpp-devel make cmake gcc-c++ curl libcurl sqlite-devel"
 DEB_PACKAGE_NAME="g++ gcc build-essential cmake make curl libcurl4-openssl-dev libjsoncpp-dev libfmt-dev libsqlite3-dev libgtest-dev googletest google-mock libgmock-dev libtbb-dev libzip-dev zlib1g-dev"
 PACMAN_PACKAGE_NAME="jsoncpp gcc base-devel cmake  clang gtest lib32-curl libcurl-compat libcurl-gnutls curl fmt lib32-sqlite sqlite sqlite-tcl zlib"
 ZYPPER_PACKAGE_NAME="libcurl-devel gcc-c++ cmake gtest gmock zlib-devel fmt-devel sqlite3-devel jsoncpp-devel"
@@ -166,14 +166,14 @@ cd ..
 echo "==> Building DeepForgeToolset"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ./src/lib   -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a;;
+	Linux*)		sudo g++ -o ./build/$os/DeepForgeToolset ./src/DeepForgeToolset.cpp -DCURL_STATICLIB -I ../../include -I ./src/include -L ../../lib/ -L ./src/lib -lcurl -ljsoncpp -lsqlite3 -std=c++2a -Bstatic;;
 esac
 echo "==> Build of DeepForgeToolset finished"
 mkdir tests
 echo "==> Building tests"
 case "${unameOut}" in
 	Darwin*) 	sudo clang++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
-	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a;;
+	Linux*)		sudo g++ ./src/tests/MainTest.cpp -o ./tests/MainTest -I ./src/include -L ./src/lib -lsqlite3 -ljsoncpp -lcurl -lgtest -lgmock -lZipper -lz -pthread -std=c++2a -Bstatic;;
 esac
 
 echo "==> Build of tests finished"
