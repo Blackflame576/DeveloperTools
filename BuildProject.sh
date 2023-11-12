@@ -23,6 +23,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    elif [ -f /etc/SuSe-release ]; then
       # Older SuSE/etc.
       ...
+      OS="openSUSE"
    elif [ -f /etc/redhat-release ]; then
       # Older Red Hat, CentOS, etc.
       ...
@@ -34,9 +35,12 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "================================================"
       echo "Installing libraries"
       echo "================================================"
+      sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+      sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
       yum -y update
       yum -y install sudo
       sudo yum update -y
+      sudo yum -y group install "Development Tools"
       sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Red"* ]]; then
       echo "================================================"
@@ -45,6 +49,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       yum -y update
       yum -y install sudo
       sudo yum update -y
+      sudo yum -y group install "Development Tools"
       sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Fedora"* ]]; then
       echo "================================================"
@@ -53,6 +58,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       yum -y update
       yum -y install sudo
       sudo yum update -y
+      sudo yum -y group install "Development Tools"
       sudo yum -y install $YUM_PACKAGE_NAME
    elif [[ "$OS" == "Ubuntu"* ]]; then
       echo "================================================"
@@ -126,7 +132,6 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    cd ..
    git clone --recursive https://github.com/sebastiandev/zipper.git
    cd zipper
-   mkdir build
    cmake .
    make
    find . -name "*.a" -exec mv "{}" ../src/lib/ \;
@@ -134,7 +139,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    sudo rm -rf ./zipper
    echo "==> Zipper successfully builded"
    echo "==> Building library jsoncpp"
-   git clone git@github.com:open-source-parsers/jsoncpp.git
+   git clone https://github.com/open-source-parsers/jsoncpp.git
    cd jsoncpp
    mkdir -p build/debug
    cd build/debug
