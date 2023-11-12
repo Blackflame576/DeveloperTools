@@ -73,7 +73,8 @@
 			"cinttypes": "cpp",
 			"variant": "cpp",
 			"any": "cpp",
-			"set": "cpp"
+			"set": "cpp",
+			"filesystem": "cpp"
 		}
 	}
 }
