@@ -224,6 +224,36 @@ namespace macOS
                      << " " << translate["Installed"].asString() << endl;
             }
         }
+        /*The `MakeDirectory` function is responsible for creating a directory (folder) in the file system.*/
+        void MakeDirectory(string dir)
+        {
+            string currentDir;
+            string fullPath = "";
+            string delimiter = "/";
+            size_t pos = 0;
+            while ((pos = dir.find(delimiter)) != string::npos)
+            {
+                currentDir = dir.substr(0, pos);
+                if (fullPath != "")
+                {
+                    fullPath = fullPath + "/" + currentDir;
+                    if (filesystem::exists(fullPath) == false)
+                    {
+                        filesystem::create_directory(fullPath);
+                    }
+                }
+                else
+                {
+                    fullPath = "/" + currentDir;
+                }
+                dir.erase(0, pos + delimiter.length());
+            }
+            fullPath = fullPath + "/" + dir;
+            if (filesystem::exists(fullPath) == false)
+            {
+                filesystem::create_directory(fullPath);
+            }
+        }
         /*  The `UnpackArchive` function takes two parameters: `path_from` and `path_to`.
             It uses the `Unzipper` class to extract the contents of an archive file located at `path_from` and saves them to the directory specified by `path_to`.
             After extracting the contents, the function closes the `Unzipper` object.
