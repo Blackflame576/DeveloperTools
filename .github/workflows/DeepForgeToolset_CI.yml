@@ -28,7 +28,7 @@ jobs:
       - name: Install HomeBrew
         run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - name: Install libraries
-        run: brew  install jsoncpp && brew install sqlite && brew install sqlite-utils && brew install fmt && brew install clang-format && brew install curl && brew install googletest && brew install gcc && brew install zlib && brew install cmake && brew install libzip
+        run: rm /usr/local/bin/2to3-3.12 && brew  install jsoncpp && brew install sqlite && brew install sqlite-utils && brew install fmt && brew install clang-format && brew install curl && brew install googletest && brew install gcc && brew install zlib && brew install cmake && brew install libzip
       - name: Building project
         run: mkdir build && cd build && cmake .. && cmake --build .
       - name: Testing project
@@ -40,7 +40,7 @@ jobs:
       - name: Install HomeBrew
         run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - name: Install libraries
-        run: brew  install jsoncpp && brew install sqlite && brew install sqlite-utils && brew install fmt && brew install clang-format && brew install curl && brew install googletest && brew install gcc && brew install zlib && brew install cmake && brew install libzip
+        run: rm /usr/local/bin/2to3-3.12 && brew  install jsoncpp && brew install sqlite && brew install sqlite-utils && brew install fmt && brew install clang-format && brew install curl && brew install googletest && brew install gcc && brew install zlib && brew install cmake && brew install libzip
       - name: Building project
         run: mkdir build && cd build && cmake .. && cmake --build .
       - name: Testing project
