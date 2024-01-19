@@ -28,7 +28,7 @@ jobs:
       - name: Install HomeBrew
         run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - name: Install libraries
-        run: brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc zlib cmake libzip
+        run: brew  install jsoncpp sqlite3 sqlite-utils fmt clang-format curl googletest gcc zlib cmake
       - name: Building project
         run: mkdir build && cd build && cmake .. && cmake --build .
       - name: Testing project
