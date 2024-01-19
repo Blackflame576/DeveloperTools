@@ -22,7 +22,7 @@ jobs:
     - name: Testing project
       run: cd build && ctest
   build_macOS_12:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Install HomeBrew
