@@ -50,10 +50,13 @@
 #include <stdint.h>
 #include <chrono>
 #include <regex>
-#include "DatabaseConnect.cpp"
+#include "DatabaseConnect.hpp"
 #define FMT_HEADER_ONLY
 #include "fmt/format.h"
-#include <zipper/unzipper.h>
+#include <vector>
+#include "zip/zip.h"
+#include <cstring>
+#include <fstream>
 
 /* The `#define OS_NAME "Linux"` statement is a preprocessor directive that defines a macro named `OS_NAME` with the value "Linux". This macro can be used throughout the code to represent the name of the operating system. */
 #define OS_NAME "Linux"
@@ -61,7 +64,6 @@
 using namespace std;
 using namespace DB;
 using namespace Bar;
-using namespace zipper;
 
 namespace Linux
 {
@@ -87,6 +89,11 @@ namespace Linux
     string ProjectDir = std::filesystem::current_path().generic_string();
     string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
     string LogPath = ProjectDir + "/logs/DeepForgeToolset.log";
+    const string OrganizationFolder = "/usr/bin/DeepForge";
+    const string ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
+    const string UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
+    const string TempFolder = ApplicationFolder + "/Temp";
+    const string LocaleDir = TempFolder + "/locale";
 #if defined(__x86_64__)
     string Architecture = "amd64";
 #elif __arm__ || __aarch64__ || _M_ARM64
@@ -246,37 +253,30 @@ namespace Linux
          */
         int MainInstaller(string Name)
         {
-            try
-            {
-#if defined(__x86_64__)
+            #if defined(__x86_64__)
                 string Value = database.GetValueFromDB("Applications", Name, "Linux_amd64");
-#elif __arm__ || __aarch64__ || _M_ARM64
+            #elif __arm__ || __aarch64__ || _M_ARM64
                 string Value = database.GetValueFromDB("Applications", Name, "Linux_arm64");
-#endif
-                if (Value != "ManualInstallation")
-                {
-                    result = system(Value.c_str());
-                }
-                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
-                {
-                    result = (this->*(PackagesFromSource[Name]))();
-                }
-                else
-                {
-#if defined(__x86_64__)
+            #endif
+            if (Value != "ManualInstallation")
+            {
+                result = system(Value.c_str());
+            }
+            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
+            {
+                result = (this->*(PackagesFromSource[Name]))();
+            }
+            else
+            {
+                #if defined(__x86_64__)
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", Name, PackageManager);
-#elif __arm__ || __aarch64__ || _M_ARM64
+                #elif __arm__ || __aarch64__ || _M_ARM64
                     string InstallCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", Name, PackageManager);
-#endif
+                #endif
                     if (InstallCommand != "Empty")
                         result = system(InstallCommand.c_str());
-                }
-                return result;
             }
-            catch (exception &error)
-            {
-                cout << error.what() << endl;
-            }
+            return result;
         }
         AppInstaller()
         {
@@ -354,9 +354,68 @@ namespace Linux
         */
         void UnpackArchive(string path_from, string path_to)
         {
-            Unzipper unzipper(path_from);
-            unzipper.extract(path_to);
-            unzipper.close();
+            try
+            {
+                MakeDirectory(path_to);
+                int err;
+                struct zip *zip = zip_open(path_from.c_str(), ZIP_RDONLY, &err);
+                if (zip == nullptr)
+                {
+                    string ErrorText = "==> ❌" + translate["CannotOpenArchive"].asString() + path_from;
+                    throw runtime_error(ErrorText);
+                }
+
+                int num_entries = zip_get_num_entries(zip, 0);
+                for (int i = 0; i < num_entries; ++i)
+                {
+                    zip_stat_t zip_stat;
+                    zip_stat_init(&zip_stat);
+                    int err = zip_stat_index(zip, i, 0, &zip_stat);
+                    if (err != 0)
+                    {
+                        zip_close(zip);
+                    }
+
+                    string file_name = zip_stat.name;
+                    string full_path = path_to + "/" + file_name;
+                    filesystem::path file_dir(full_path);
+                    MakeDirectory(file_dir.remove_filename().string());
+
+                    struct zip_file *zip_file = zip_fopen_index(zip, i, 0);
+                    if (zip_file == nullptr)
+                    {
+                        string ErrorText = "==> ❌" + translate["CannotOpenFile"].asString() + file_name;
+                        zip_close(zip);
+                        throw runtime_error(ErrorText);
+                    }
+
+                    if(filesystem::is_directory(full_path) == false)
+                    {
+                        ofstream out_file(full_path,ios::binary);
+                        if (!out_file.is_open())
+                        {
+                            string ErrorText = "==> ❌" + translate["CannotWriteFile"].asString() + full_path;
+                            zip_fclose(zip_file);
+                            zip_close(zip);
+                            throw runtime_error(ErrorText);
+                        }
+                        vector<char> buffer(zip_stat.size);
+                        zip_fread(zip_file, buffer.data(), buffer.size());
+                        out_file.write(buffer.data(), buffer.size());
+                        out_file.close();
+                    }
+                    
+
+                    zip_fclose(zip_file);
+                }
+
+                zip_close(zip);
+            }
+            catch (exception& error)
+            {
+                logger.SendError(Architecture, "Empty", OS_NAME, "UnpackArchive()", error.what());
+                cerr << error.what() << endl;
+            }
         }
         void DownloadDatabase()
         {
@@ -535,16 +594,16 @@ namespace Linux
         try
         {
             Installer.UpdateData();
-            /* The above code is retrieving values from a database for a specific development pack on the
-            Linux platform. It then iterates over the retrieved values and creates a map of enumerated
-            packages. It also creates a string representation of each package with its corresponding
-            index. The code then checks if the number of packages is even or odd and prints the string
-            representation accordingly. */
-            #if defined(__x86_64__)
-                auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_amd64");
-            #elif __arm__ || __aarch64__ || _M_ARM64
-                auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_arm64");
-            #endif
+/* The above code is retrieving values from a database for a specific development pack on the
+Linux platform. It then iterates over the retrieved values and creates a map of enumerated
+packages. It also creates a string representation of each package with its corresponding
+index. The code then checks if the number of packages is even or odd and prints the string
+representation accordingly. */
+#if defined(__x86_64__)
+            auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_amd64");
+#elif __arm__ || __aarch64__ || _M_ARM64
+            auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_arm64");
+#endif
             map<int, string> EnumeratePackages;
             string NamePackage;
             string delimiter = ",";

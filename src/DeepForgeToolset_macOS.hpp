@@ -49,10 +49,13 @@
 #include <time.h>
 #include <stdint.h>
 #include <chrono>
-#include "DatabaseConnect.cpp"
+#include "DatabaseConnect.hpp"
 #define FMT_HEADER_ONLY
 #include "fmt/format.h"
-#include <zipper/unzipper.h>
+#include <vector>
+#include "zip/zip.h"
+#include <cstring>
+#include <fstream>
 
 /* The `#define OS_NAME "macOS"` statement is defining a preprocessor macro named `OS_NAME` with the value "macOS". This macro can be used throughout the code to represent the name of the operating system. */
 #define OS_NAME "macOS"
@@ -79,11 +82,11 @@ namespace macOS
     map<string, string> Packages;
     map<string, string> DevelopmentPacks;
     string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
-    #if defined(__x86_64__)
-        string Architecture = "amd64";
-    #elif __arm__ || __aarch64__ || _M_ARM64
-        string Architecture = "arm64";
-    #endif
+#if defined(__x86_64__)
+    string Architecture = "amd64";
+#elif __arm__ || __aarch64__ || _M_ARM64
+    string Architecture = "arm64";
+#endif
     string InstallDelimiter = "========================================================";
     const string TrueVarious[3] = {"yes", "y", "1"};
     string new_sentence;
@@ -168,32 +171,31 @@ namespace macOS
          */
         int MainInstaller(string Name)
         {
-            try
+            string Value = database.GetValueFromDB("Applications", Name, "macOS");
+            if (Value != "ManualInstallation")
             {
-                string Value = database.GetValueFromDB("Applications", Name, "macOS");
-                if (Value != "ManualInstallation")
-                {
-                    result = system(Value.c_str());
-                }
-                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
-                {
-                    result = (this->*(PackagesFromSource[Name]))();
-                }
-                else
-                {
-                    string InstallCommand = database.GetValueFromDB("PackagesFromSource_macOS", Name, "Command");
-                    if (InstallCommand != "Empty")
-                        result = system(InstallCommand.c_str());
-                }
-                return result;
+                result = system(Value.c_str());
             }
-            catch (exception &error)
+            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
             {
-                cout << error.what() << endl;
+                result = (this->*(PackagesFromSource[Name]))();
             }
+            else
+            {
+                string InstallCommand = database.GetValueFromDB("PackagesFromSource_macOS", Name, "Command");
+                if (InstallCommand != "Empty")
+                    result = system(InstallCommand.c_str());
+            }
+            return result;
         }
         AppInstaller()
         {
+            char *UserFolder = getenv("HOME");
+            OrganizationFolder = string(UserFolder) + "/Library/Containers/DeepForge";
+            ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
+            TempFolder = ApplicationFolder + "/Temp";
+            UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
+            LocaleDir = ApplicationFolder + "/locale";
             DownloadDatabase();
             UpdateData();
             InstallBrew();
@@ -228,9 +230,68 @@ namespace macOS
         */
         void UnpackArchive(string path_from, string path_to)
         {
-            Unzipper unzipper(path_from);
-            unzipper.extract(path_to);
-            unzipper.close();
+            try
+            {
+                MakeDirectory(path_to);
+                int err;
+                struct zip *zip = zip_open(path_from.c_str(), ZIP_RDONLY, &err);
+                if (zip == nullptr)
+                {
+                    string ErrorText = "==> ❌" + translate["CannotOpenArchive"].asString() + path_from;
+                    throw runtime_error(ErrorText);
+                }
+
+                int num_entries = zip_get_num_entries(zip, 0);
+                for (int i = 0; i < num_entries; ++i)
+                {
+                    zip_stat_t zip_stat;
+                    zip_stat_init(&zip_stat);
+                    int err = zip_stat_index(zip, i, 0, &zip_stat);
+                    if (err != 0)
+                    {
+                        zip_close(zip);
+                    }
+
+                    string file_name = zip_stat.name;
+                    string full_path = path_to + "/" + file_name;
+                    filesystem::path file_dir(full_path);
+                    MakeDirectory(file_dir.remove_filename().string());
+
+                    struct zip_file *zip_file = zip_fopen_index(zip, i, 0);
+                    if (zip_file == nullptr)
+                    {
+                        string ErrorText = "==> ❌" + translate["CannotOpenFile"].asString() + file_name;
+                        zip_close(zip);
+                        throw runtime_error(ErrorText);
+                    }
+
+                    if(filesystem::is_directory(full_path) == false)
+                    {
+                        ofstream out_file(full_path,ios::binary);
+                        if (!out_file.is_open())
+                        {
+                            string ErrorText = "==> ❌" + translate["CannotWriteFile"].asString() + full_path;
+                            zip_fclose(zip_file);
+                            zip_close(zip);
+                            throw runtime_error(ErrorText);
+                        }
+                        vector<char> buffer(zip_stat.size);
+                        zip_fread(zip_file, buffer.data(), buffer.size());
+                        out_file.write(buffer.data(), buffer.size());
+                        out_file.close();
+                    }
+                    
+
+                    zip_fclose(zip_file);
+                }
+
+                zip_close(zip);
+            }
+            catch (exception& error)
+            {
+                logger.SendError(Architecture, "Empty", OS_NAME, "UnpackArchive()", error.what());
+                cerr << error.what() << endl;
+            }
         }
         void DownloadDatabase()
         {

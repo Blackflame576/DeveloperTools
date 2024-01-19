@@ -236,7 +236,7 @@ public:
             cout << translate["PackageName"].asString();
             // Entering the name of the application
             getline(cin, SearchingPackage);
-        
+
             SearchingPackage = to_lower(SearchingPackage);
             /* The bellow code is iterating through the elements in the "Packages" dictionary. It checks
             if the application name from the dictionary matches the entered application name or if
@@ -500,7 +500,8 @@ private:
         {
             if (language == "Russian")
             {
-                ifstream file("./locale/locale_ru.json");
+                string LocalePath = LocaleDir + "/locale_ru.json";
+                ifstream file(LocalePath);
                 // File open check
                 if (file.is_open())
                 {
@@ -511,7 +512,8 @@ private:
             }
             else if (language == "English")
             {
-                ifstream file("./locale/locale_en.json");
+                string LocalePath = LocaleDir + "/locale_en.json";
+                ifstream file(LocalePath);
                 // File open check
                 if (file.is_open())
                 {
@@ -524,9 +526,9 @@ private:
         catch (exception &error)
         {
             // Error output
-            logger.WriteError(error.what());
             logger.WriteError("Function: ReadJSON");
-            logger.SendError(Architecture,__channel__,OS_NAME,"ReadJSON",error.what());
+            logger.WriteError(error.what());
+            logger.SendError(Architecture, "Empty", OS_NAME, "ReadJSON", error.what());
         }
     }
 

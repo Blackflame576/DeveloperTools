@@ -1,79 +1,179 @@
-cmake_minimum_required(VERSION 3.00)
-project(DeepForgeToolset)
-include (GNUInstallDirs)
-find_package(CURL REQUIRED) 
-include_directories(${CURL_INCLUDE_DIR})
-find_package (SQLite3 REQUIRED)
-include_directories(${SQLite3_INCLUDE_DIRS})
+cmake_minimum_required(VERSION 3.18)
+project(DeepForge-Toolset)
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+set(CMAKE_CXX_STANDARD 20)
+include(GNUInstallDirs)
+include(FetchContent)
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so .dylib)
 
 if (WIN32)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/Windows) 
-    message("🔥 Copying folder of DLL to build/Windows ...")
-    file(COPY ${CMAKE_BINARY_DIR}/DLL/ DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
-    message("✅ Copying folder of DLL to build/Windows was successfully.")
+    message("🔥 Copying folder of DLL to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/DLL/ DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of DLL to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of Scripts to build/Windows ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
-    message("✅ Copying folder of Scripts to build/Windows was successfully.")
+    message("🔥 Copying folder of Scripts to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of Scripts to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of utils to build/Windows ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
-    message("✅ Copying folder of utils to build/Windows was successfully.")
+    message("🔥 Copying folder of utils to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of utils to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of DB to build/Windows ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/DB DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
-    message("✅ Copying folder of DB to build/Windows was successfully.")
+    message("🔥 Copying folder of DB to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/DB DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of DB to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of locale to build/Windows ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/Windows)
-    message("✅ Copying folder of locale to build/Windows was successfully.")
+    message("🔥 Copying folder of locale to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of locale to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
 elseif(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem \"${JSONCPP_INCLUDE_DIR}\"")           
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/MacOS)
-    message("🔥 Copying folder of Scripts to build/MacOS ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/build/MacOS)
-    message("✅ Copying folder of Scripts to build/MacOS was successfully.")
+    message("🔥 Copying folder of Scripts to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of Scripts to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of utils to build/MacOS ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR}/build/MacOS)
-    message("✅ Copying folder of utils to build/MacOS was successfully.")
+    message("🔥 Copying folder of utils to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of utils to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of locale to build/MacOS ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/MacOS)
-    message("✅ Copying folder of locale to build/MacOS was successfully.")
+    message("🔥 Copying folder of locale to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of locale to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
 elseif(UNIX)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/Linux)
-    message("🔥 Copying folder of Scripts to build/Linux ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/build/Linux)
-    message("✅ Copying folder of Scripts to build/Linux was successfully.")
+    message("🔥 Copying folder of Scripts to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of Scripts to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of utils to build/Linux ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR}/build/Linux)
-    message("✅ Copying folder of utils to build/Linux was successfully.")
+    message("🔥 Copying folder of utils to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of utils to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-    message("🔥 Copying folder of locale to build/Linux ...")
-    file(COPY ${CMAKE_BINARY_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR}/build/Linux)
-    message("✅ Copying folder of locale to build/Linux was successfully.")
+    message("🔥 Copying folder of locale to ${CMAKE_BINARY_DIR} ...")
+    file(COPY ${CMAKE_SOURCE_DIR}/src/locale DESTINATION ${CMAKE_BINARY_DIR})
+    message("✅ Copying folder of locale to ${CMAKE_BINARY_DIR} was successfully.")
     message("==================================")
-endif()
-include_directories(${CMAKE_BINARY_DIR}/src/include)
-set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lcurl  ${CMAKE_CXX_STANDARD_LIBRARIES}")
-if (WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
-    set(CMAKE_EXE_LINKER_FLAGS "-lcurl -ljsoncpp -lsqlite3")
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
-    set(CMAKE_EXE_LINKER_FLAGS "-lcurl -ljsoncpp -lsqlite3")
 endif()
 
-set(SOURCE_FILES ${CMAKE_BINARY_DIR}/src/DeepForgeToolset.cpp ${CMAKE_BINARY_DIR}/src/DeepForgeToolset.hpp src/DatabaseConnect.cpp)
-add_executable(DeepForgeToolset ${SOURCE_FILES})
-add_compile_options(-W)
-target_sources(DeepForgeToolset PRIVATE ${CMAKE_BINARY_DIR}/src/resource.rc)
-if (SQLITE3_FOUND)
-    include_directories(${SQLite3_INCLUDE_DIR})
-    target_link_libraries(DeepForgeToolset ${CMAKE_EXE_LINKER_FLAGS} ${SQLite3_LIBRARY} )
-endif (SQLITE3_FOUND)
+# include(./CompileResources.cmake)
+# fmt
+FetchContent_Declare(fmt
+  GIT_REPOSITORY https://github.com/DeepForge-Technology/fmt.git
+  GIT_TAG master
+)
+FetchContent_MakeAvailable(fmt)
+# jsoncpp
+FetchContent_Declare(jsoncpp
+GIT_REPOSITORY https://github.com/DeepForge-Technology/jsoncpp.git
+GIT_TAG master
+)
+if(NOT jsoncpp_POPULATED)
+  FetchContent_Populate(jsoncpp)
+  add_subdirectory(${jsoncpp_SOURCE_DIR} ${jsoncpp_BINARY_DIR})
+endif()
+FetchContent_MakeAvailable(jsoncpp)
+FetchContent_Declare(SQLite
+  GIT_REPOSITORY https://github.com/DeepForge-Technology/SQLite.git
+  GIT_TAG master
+)
+FetchContent_MakeAvailable(SQLite)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS_DEBUG
+      "/DWIN32 /D_WINDOWS /EHsc /WX /wd4355 /wd4251 /wd4250 /wd4996"
+      CACHE STRING "Debug compiler flags" FORCE
+    )
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")  
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -I /usr/local/include -I ../../include -DCURL_STATICLIB -Bstatic")
+endif()
+
+#target_include_directories(DeepForge-Toolset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/include)
+
+set(SOURCE_FILES
+  ./src/DeepForgeToolset.cpp
+  ./src/DatabaseConnect.cpp
+  ./src/DatabaseConnect.hpp
+)
+add_executable(DeepForge-Toolset ${SOURCE_FILES})
+if (WIN32)
+  FetchContent_Declare(libcurl
+    GIT_REPOSITORY https://github.com/DeepForge-Technology/curl.git
+    GIT_TAG master
+  )
+  FetchContent_MakeAvailable(libcurl)
+  set(LIBRARIES
+    fmt::fmt 
+    urlmon
+    libcurl_static
+    jsoncpp_static
+    ws2_32
+    SQLite
+    Threads::Threads
+  )
+elseif(APPLE)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++") 
+  find_package(libzip REQUIRED)
+  # find_package(CURL)
+  # if(CURL_FOUND)
+  #   include_directories(${CURL_INCLUDE_DIR})
+  #   set(requiredlibs ${requiredlibs} ${CURL_LIBRARIES} )
+  # else(CURL_FOUND)
+  #   message(FATAL_ERROR "Could not find the CURL library and development files.")
+  # endif(CURL_FOUND)
+  FetchContent_Declare(libcurl
+  GIT_REPOSITORY https://github.com/DeepForge-Technology/curl.git
+  GIT_TAG master
+  )
+  FetchContent_MakeAvailable(libcurl)
+  set(LIBRARIES
+    fmt::fmt 
+    jsoncpp_static
+    libcurl_static
+    libzip::zip
+    SQLite
+    Threads::Threads
+  )
+elseif(UNIX)
+  FetchContent_Declare(libzip
+    GIT_REPOSITORY https://github.com/DeepForge-Technology/libzip.git
+    GIT_TAG master
+  )
+  FetchContent_MakeAvailable(libzip)
+  FetchContent_Declare(libcurl
+  GIT_REPOSITORY https://github.com/DeepForge-Technology/curl.git
+  GIT_TAG master
+  )
+  FetchContent_MakeAvailable(libcurl)
+  set(LIBRARIES
+    fmt::fmt 
+    jsoncpp
+    libcurl_static
+    SQLite
+    zip
+    Threads::Threads
+  )
+endif()
+
+target_sources(DeepForge-Toolset PRIVATE ${CMAKE_SOURCE_DIR}/src/resource.rc)
+target_link_libraries(DeepForge-Toolset 
+  PRIVATE  
+  ${LIBRARIES}
+) 
+# if(APPLE)
+#   file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents)
+#   file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents/MacOS)
+#   file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents/Resources)
+#   # Поиск всех файлов в исходной папке
+#   file(GLOB ALL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src*")
+#   # Копирование всех найденных файлов в целевую папку
+#   file(COPY ${ALL_SOURCE_FILES} DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents/Resources")
+#   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/build/DeepForge-Toolset DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents/MacOS")
+#   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/DeepForge-Toolset.app/Contents")
+# endif()

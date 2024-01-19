@@ -36,10 +36,9 @@
 #include <filesystem>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <curl/curl.h>
+#include "curl/curl.h"
 #include "Progressbar.hpp"
 #include <cctype>
 #include <fstream>
@@ -49,10 +48,9 @@
 #include <time.h>
 #include <stdint.h>
 #include <chrono>
-#include "DatabaseConnect.cpp"
+#include "DatabaseConnect.hpp"
 #define FMT_HEADER_ONLY
 #include "fmt/format.h"
-#include <zipper/unzipper.h>
 
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
@@ -75,7 +73,6 @@
 using namespace std;
 using namespace DB;
 using namespace Bar;
-using namespace zipper;
 
 namespace Windows
 {
@@ -107,7 +104,7 @@ namespace Windows
     }
     // string type
     const string TrueVarious[3] = {"yes", "y", "1"};
-#if defined(__x86_64__)
+#if defined(_M_AMD64)
     string Architecture = "amd64";
 #elif __arm__ || __aarch64__ || _M_ARM64
     string Architecture = "arm64";
@@ -130,6 +127,7 @@ namespace Windows
     const string ApplicationDir = "C:\\ProgramData\\DeepForge\\DeepForge-Toolset";
     string DatabasePath = replaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "\\DB\\AppInstaller.db" : ProjectDir + "\\DB\\AppInstaller.db";
     string LogPath = ProjectDir + "\\logs\\DeepForgeToolset.log";
+    const string LocaleDir = ApplicationDir + "\\locale";
     // init classes
     Logger logger(LogPath.c_str(), "10kb");
     ProgressBar_v1 progressbar;
@@ -561,29 +559,22 @@ namespace Windows
          */
         int MainInstaller(string Name)
         {
-            try
+            string Value = database.GetValueFromDB("Applications", Name, "Windows");
+            if (Value != "ManualInstallation")
             {
-                string Value = database.GetValueFromDB("Applications", Name, "Windows");
-                if (Value != "ManualInstallation")
-                {
-                    result = system(Value.c_str());
-                }
-                else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
-                {
-                    result = (this->*(PackagesFromSource[Name]))();
-                }
-                else
-                {
-                    string InstallCommand = database.GetValueFromDB("PackagesFromSource_Windows", Name, "Command");
-                    if (InstallCommand != "Empty")
-                        result = system(InstallCommand.c_str());
-                }
-                return result;
+                result = system(Value.c_str());
             }
-            catch (exception &error)
+            else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
             {
-                cout << error.what() << endl;
+                result = (this->*(PackagesFromSource[Name]))();
             }
+            else
+            {
+                string InstallCommand = database.GetValueFromDB("PackagesFromSource_Windows", Name, "Command");
+                if (InstallCommand != "Empty")
+                    result = system(InstallCommand.c_str());
+            }
+            return result;
         }
         // Function for update information from database about packages and development packs
         void UpdateData()
@@ -638,9 +629,8 @@ namespace Windows
         */
         void UnpackArchive(string path_from, string path_to)
         {
-            Unzipper unzipper(path_from);
-            unzipper.extract(path_to);
-            unzipper.close();
+            string unpack_command = "tar -xf" + path_from + " --directory " + path_to;
+            system(unpack_command.c_str());
         }
         /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/
         void MakeDirectory(string dir)
@@ -855,7 +845,7 @@ namespace Windows
             packages. It also creates a string representation of each package with its corresponding
             index. The code then checks if the number of packages is even or odd and prints the string
             representation accordingly. */
-            for (int i = 1;const auto &element : DevelopmentPack)
+            for (int i = 1; const auto &element : DevelopmentPack)
             {
                 /* The bellow code is inserting packages into a map called EnumeratePackages, where the
                 key is an integer and the value is a string. It then creates a string called
@@ -951,7 +941,6 @@ namespace Windows
                             string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                             cerr << ErrorText << endl;
                         }
-                        
                     }
                     else
                     {
