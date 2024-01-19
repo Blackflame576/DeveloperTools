@@ -1,7 +1,7 @@
 #include <string>
-#include <gmock/gmock.h>
+// #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include "../DatabaseConnect.cpp"
+#include "DatabaseConnect.hpp"
 #include <filesystem>
 #include <map>
 #include <iostream>
@@ -65,6 +65,6 @@ TEST(DatabaseGroup, GetDevPack)
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
-    ::testing::InitGoogleMock(&argc, argv);
+    // ::testing::InitGoogleMock(&argc, argv);
     return RUN_ALL_TESTS();
 }

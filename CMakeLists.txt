@@ -96,6 +96,31 @@ endif()
 #target_include_directories(DeepForge-Toolset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 include_directories(${CMAKE_SOURCE_DIR}/src/include)
 
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+FetchContent_MakeAvailable(googletest)
+set(TEST_SOURCE_FILES
+  ./src/test/MainTest.cpp
+  ./src/DatabaseConnect.cpp
+  ./src/DatabaseConnect.hpp
+)
+enable_testing()
+include_directories(${CMAKE_SOURCE_DIR}/src/)
+add_executable(
+  MainTest
+  ${TEST_SOURCE_FILES}
+)
+target_link_libraries(
+  MainTest
+  SQLite
+  GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(MainTest)
+
 set(SOURCE_FILES
   ./src/DeepForgeToolset.cpp
   ./src/DatabaseConnect.cpp

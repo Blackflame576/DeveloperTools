@@ -151,15 +151,18 @@ public:
             cout << translate["ChooseLanguage"].asString();
             getline(cin, LangReadySet);
             cout << InstallDelimiter << endl;
-            for (const auto &element : DevelopmentPacks)
+            if (LangReadySet.empty() == false)
             {
-                if (LangReadySet == element.first)
+                for (const auto &element : DevelopmentPacks)
                 {
-                    NameDevelopmnetPack = element.first;
-                    break;
+                    if (LangReadySet == element.first)
+                    {
+                        NameDevelopmnetPack = element.first;
+                        break;
+                    }
                 }
+                InstallDevelopmentPack(NameDevelopmnetPack);
             }
-            InstallDevelopmentPack(NameDevelopmnetPack);
         }
         catch (exception &error)
         {
