@@ -161,7 +161,7 @@ elseif(APPLE)
     fmt::fmt 
     jsoncpp_static
     libcurl_static
-    libzip
+    zip
     SQLite
     Threads::Threads
   )
@@ -178,7 +178,7 @@ elseif(UNIX)
   FetchContent_MakeAvailable(libcurl)
   set(LIBRARIES
     fmt::fmt 
-    jsoncpp
+    jsoncpp_static
     libcurl_static
     SQLite
     zip
