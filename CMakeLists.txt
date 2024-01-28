@@ -144,7 +144,16 @@ if (WIN32)
   )
 elseif(APPLE)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++") 
-  find_package(libzip REQUIRED)
+  # find_package(libzip REQUIRED)
+  FetchContent_Declare(libzip
+    GIT_REPOSITORY https://github.com/DeepForge-Technology/libzip.git
+    GIT_TAG master
+  )
+  FetchContent_MakeAvailable(libzip)
+  FetchContent_Declare(libcurl
+  GIT_REPOSITORY https://github.com/DeepForge-Technology/curl.git
+  GIT_TAG master
+  )
   # find_package(CURL)
   # if(CURL_FOUND)
   #   include_directories(${CURL_INCLUDE_DIR})
