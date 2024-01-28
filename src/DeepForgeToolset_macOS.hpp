@@ -63,11 +63,9 @@
 using namespace std;
 using namespace DB;
 using namespace Bar;
-using namespace zipper;
 
 namespace macOS
 {
-
     // Variables
     // int type
     int Percentage;

@@ -192,7 +192,45 @@ namespace Linux
                 return -1;
             }
         }
+        int InstallGoogleChrome()
+        {
+#if defined(__x86_64__)
+            string NewGoogleChromeDir = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "GoogleChrome", "Directory");
+            string GoogleChromeRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "GoogleChrome", "Url");
+#elif __arm__ || __aarch64__ || _M_ARM64
+            string NewGoogleChromeDir = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "GoogleChrome", "Directory");
+            string GoogleChromeRepository = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "GoogleChrome", "Url");
+#endif
 
+            string PathRepository = NewGoogleChromeDir + "vcpkg";
+            if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
+            {
+                cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
+                return 403;
+            }
+#if defined(__x86_64__)
+            string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", PackageManager);
+#elif __arm__ || __aarch64__ || _M_ARM64
+            string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", PackageManager);
+#endif
+            string Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
+            string Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
+            string Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
+            system(InstallDependenciesCommand.c_str());
+            MainInstaller("Git");
+            result = system(Command.c_str());
+            if (result == 0)
+            {
+                system(Command_Install.c_str());
+                system(Command_AddPath.c_str());
+                cout << "vcpkg " << translate["Located"].asString() << " " << PathRepository << endl;
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
+        }
         /* The above code is defining two function pointer types: `AppInstaller_funct_t` and
         `map_funct_t`. `AppInstaller_funct_t` is a function pointer type that points to a member
         function of the `AppInstaller` class that takes no arguments and returns an `int`.
@@ -203,6 +241,7 @@ namespace Linux
 
         map<string, AppInstaller_funct_t> PackagesFromSource{
             {"vcpkg", &AppInstaller::InstallVCpkg},
+            {"Google Chrome",&AppInstaller::InstallGoogleChrome}
         };
         void UpdateData()
         {

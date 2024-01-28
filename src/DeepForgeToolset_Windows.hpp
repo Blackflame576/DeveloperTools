@@ -613,14 +613,10 @@ namespace Windows
             result = system("winget -v");
             if (result != 0)
             {
-                cout << translate["Installing"].asString() << " "
-                     << "winget"
-                     << " ..." << endl;
+                cout << translate["Installing"].asString() << " " << "winget" << " ..." << endl;
                 string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
                 system(Command.c_str());
-                cout << "✅ "
-                     << "winget"
-                     << " " << translate["Installed"].asString() << endl;
+                cout << "✅ " << "winget" << " " << translate["Installed"].asString() << endl;
             }
         }
         /*  The `UnpackArchive` function takes two parameters: `path_from` and `path_to`.
@@ -812,9 +808,7 @@ namespace Windows
     bool CheckAnswer(string answer)
     {
         bool status;
-        // string Answer = to_lower(answer);
-
-        string Answer = answer;
+        string Answer = to_lower(answer);
         for (int i = 0; i < TrueVarious->size(); i++)
         {
             if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
