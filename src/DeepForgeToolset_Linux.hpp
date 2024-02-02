@@ -86,7 +86,7 @@ namespace Linux
     string NameDistribution;
     string PackageManager;
     string haveString = "";
-    string ProjectDir = std::filesystem::current_path().generic_string();
+    string ProjectDir = filesystem::current_path().generic_string();
     string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
     string LogPath = ProjectDir + "/logs/DeepForgeToolset.log";
     const string OrganizationFolder = "/usr/bin/DeepForge";
@@ -164,7 +164,7 @@ namespace Linux
 #endif
 
             string PathRepository = NewVCpkgDir + "vcpkg";
-            if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
+            if (filesystem::exists(PathRepository) && filesystem::is_empty(PathRepository) == false)
             {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
                 return 403;
@@ -203,7 +203,7 @@ namespace Linux
 #endif
 
             string PathRepository = NewGoogleChromeDir + "vcpkg";
-            if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
+            if (filesystem::exists(PathRepository) && filesystem::is_empty(PathRepository) == false)
             {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " в " << PathRepository << endl;
                 return 403;

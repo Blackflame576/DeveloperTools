@@ -76,7 +76,7 @@ namespace macOS
     double LastSize;
     double LastTotalSize;
     // string type
-    string ProjectDir = std::filesystem::current_path().generic_string();
+    string ProjectDir = filesystem::current_path().generic_string();
     map<string, string> Packages;
     map<string, string> DevelopmentPacks;
     string DatabasePath = ProjectDir + "/DB/AppInstaller.db";
@@ -100,6 +100,11 @@ namespace macOS
     string SelectPackages;
     string Answer;
     string InstallTools;
+    string OrganizationFolder;
+    string ApplicationFolder;
+    string TempFolder;
+    string UpdateManagerFolder;
+    string LocaleDir;
     string MODE = "DEV";
     // Boolean type
     bool Install;

@@ -109,7 +109,7 @@ namespace Windows
 #elif __arm__ || __aarch64__ || _M_ARM64
     string Architecture = "arm64";
 #endif
-    string ProjectDir = std::filesystem::current_path().generic_string();
+    string ProjectDir = filesystem::current_path().generic_string();
     string haveString = "";
     string new_sentence;
     string LangReadySet;
@@ -205,22 +205,22 @@ namespace Windows
                 string NewMakeDir = database.GetValueFromDB("PackagesFromSource_Windows", "Make", "Directory");
                 string ArchivePath = ProjectDir + "/utils/Make_3.81.zip ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewMakeDir;
-                if (std::filesystem::exists(NewMakeDir) && std::filesystem::is_empty(NewMakeDir) == false)
+                if (filesystem::exists(NewMakeDir) && filesystem::is_empty(NewMakeDir) == false)
                 {
                     cout << "✅ Make " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewMakeDir << endl;
                     return 403;
                 }
                 /* The bellow code is checking if a directory named "NewMakeDir" exists using the
-                std::filesystem::exists function. If the directory does not exist, it creates the
-                directory using the std::filesystem::create_directory function. */
-                if (std::filesystem::exists(NewMakeDir) == false)
+                filesystem::exists function. If the directory does not exist, it creates the
+                directory using the filesystem::create_directory function. */
+                if (filesystem::exists(NewMakeDir) == false)
                 {
-                    std::filesystem::create_directory(NewMakeDir);
+                    filesystem::create_directory(NewMakeDir);
                 }
-                else if (std::filesystem::exists(NewMakeDir) && std::filesystem::is_empty(NewMakeDir) == true)
+                else if (filesystem::exists(NewMakeDir) && filesystem::is_empty(NewMakeDir) == true)
                 {
-                    std::filesystem::remove_all(NewMakeDir);
-                    std::filesystem::create_directory(NewMakeDir);
+                    filesystem::remove_all(NewMakeDir);
+                    filesystem::create_directory(NewMakeDir);
                 }
                 UnpackArchive(ArchivePath, NewMakeDir);
                 system(Command_AddPath.c_str());
@@ -252,7 +252,7 @@ namespace Windows
             string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
             string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
             string Command_Install = NewVCpkgDir + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
-            if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
+            if (filesystem::exists(PathRepository) && filesystem::is_empty(PathRepository) == false)
             {
                 cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << PathRepository << endl;
                 return 403;
@@ -285,19 +285,19 @@ namespace Windows
                 string NewPHPDir = database.GetValueFromDB("PackagesFromSource_Windows", "PHP", "Directory");
                 string ArchivePath = ProjectDir + "/utils/php-8.2.9.zip ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewPHPDir;
-                if (std::filesystem::exists(NewPHPDir) && std::filesystem::is_empty(NewPHPDir) == false)
+                if (filesystem::exists(NewPHPDir) && filesystem::is_empty(NewPHPDir) == false)
                 {
                     cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPDir << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(NewPHPDir) == false)
+                if (filesystem::exists(NewPHPDir) == false)
                 {
-                    std::filesystem::create_directory(NewPHPDir);
+                    filesystem::create_directory(NewPHPDir);
                 }
-                else if (std::filesystem::exists(NewPHPDir) == true && std::filesystem::is_empty(NewPHPDir) == true)
+                else if (filesystem::exists(NewPHPDir) == true && filesystem::is_empty(NewPHPDir) == true)
                 {
-                    std::filesystem::remove_all(NewPHPDir);
-                    std::filesystem::create_directory(NewPHPDir);
+                    filesystem::remove_all(NewPHPDir);
+                    filesystem::create_directory(NewPHPDir);
                 }
                 UnpackArchive(ArchivePath, NewPHPDir);
                 system(Command_AddPath.c_str());
@@ -326,19 +326,19 @@ namespace Windows
                 string ArchiveDir = ProjectDir + "/Downloads";
                 string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
-                if (std::filesystem::exists("C:\\eclipse") && std::filesystem::is_empty("C:\\eclipse") == false)
+                if (filesystem::exists("C:\\eclipse") && filesystem::is_empty("C:\\eclipse") == false)
                 {
                     cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseDir << "eclipse" << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(ArchiveDir) == false)
+                if (filesystem::exists(ArchiveDir) == false)
                 {
-                    std::filesystem::create_directory(ArchiveDir);
+                    filesystem::create_directory(ArchiveDir);
                 }
                 Download(EclipseUrl, ArchiveDir);
                 UnpackArchive(ArchivePath, NewEclipseDir);
                 system(Command_AddPath.c_str());
-                std::filesystem::remove(ArchivePath);
+                filesystem::remove(ArchivePath);
                 cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << endl;
                 return 0;
             }
@@ -366,19 +366,19 @@ namespace Windows
                 string ArchiveDir = ProjectDir + "/Downloads";
                 string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
-                if (std::filesystem::exists("C:\\kotlinc") && std::filesystem::is_empty("C:\\kotlinc") == false)
+                if (filesystem::exists("C:\\kotlinc") && filesystem::is_empty("C:\\kotlinc") == false)
                 {
                     cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinDir << "kotlinc" << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(ArchiveDir) == false)
+                if (filesystem::exists(ArchiveDir) == false)
                 {
-                    std::filesystem::create_directory(ArchiveDir);
+                    filesystem::create_directory(ArchiveDir);
                 }
                 Download(KotlinUrl, ArchiveDir);
                 UnpackArchive(ArchivePath, NewKotlinDir);
                 system(Command_AddPath.c_str());
-                std::filesystem::remove(ArchivePath);
+                filesystem::remove(ArchivePath);
                 cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << endl;
                 return 0;
             }
@@ -405,19 +405,19 @@ namespace Windows
                 string WgetUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Url");
                 string ApplicationPath = NewWgetDir + "/wget.exe ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewWgetDir;
-                if (std::filesystem::exists(NewWgetDir) && std::filesystem::is_empty(NewWgetDir) == false)
+                if (filesystem::exists(NewWgetDir) && filesystem::is_empty(NewWgetDir) == false)
                 {
                     cout << "✅ Wget " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewWgetDir << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(NewWgetDir) == false)
+                if (filesystem::exists(NewWgetDir) == false)
                 {
-                    std::filesystem::create_directory(NewWgetDir);
+                    filesystem::create_directory(NewWgetDir);
                 }
-                else if (std::filesystem::exists(NewWgetDir) == true && std::filesystem::is_empty(NewWgetDir) == true)
+                else if (filesystem::exists(NewWgetDir) == true && filesystem::is_empty(NewWgetDir) == true)
                 {
-                    std::filesystem::remove_all(NewWgetDir);
-                    std::filesystem::create_directory(NewWgetDir);
+                    filesystem::remove_all(NewWgetDir);
+                    filesystem::create_directory(NewWgetDir);
                 }
                 Download(WgetUrl, NewWgetDir);
                 system(Command_AddPath.c_str());
@@ -449,12 +449,12 @@ namespace Windows
                 string NewNginxDir = database.GetValueFromDB("PackagesFromSource_Windows", "Nginx", "Directory");
                 string ArchivePath = ProjectDir + "/utils/Nginx-1.25.1.zip ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
-                if (std::filesystem::exists("C:\\Nginx-1.25.1") && std::filesystem::is_empty("C:\\Nginx-1.25.1") == false)
+                if (filesystem::exists("C:\\Nginx-1.25.1") && filesystem::is_empty("C:\\Nginx-1.25.1") == false)
                 {
                     cout << "✅ Nginx " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(ArchivePath))
+                if (filesystem::exists(ArchivePath))
                 {
                     UnpackArchive(ArchivePath, NewNginxDir);
                     system(Command_AddPath.c_str());
@@ -497,28 +497,28 @@ namespace Windows
                 string ArchiveDir = ProjectDir + "/Downloads";
                 string ArchivePath = ArchiveDir + "/" + name + " ";
                 string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewRedisDir;
-                if (std::filesystem::exists(NewRedisDir) && std::filesystem::is_empty(NewRedisDir) == false)
+                if (filesystem::exists(NewRedisDir) && filesystem::is_empty(NewRedisDir) == false)
                 {
                     cout << "✅ Redis " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewRedisDir << endl;
                     return 403;
                 }
-                if (std::filesystem::exists(ArchiveDir) == false)
+                if (filesystem::exists(ArchiveDir) == false)
                 {
-                    std::filesystem::create_directory(ArchiveDir);
+                    filesystem::create_directory(ArchiveDir);
                 }
                 Download(RedisUrl, ArchiveDir);
-                if (std::filesystem::exists(NewRedisDir) == false)
+                if (filesystem::exists(NewRedisDir) == false)
                 {
-                    std::filesystem::create_directory(NewRedisDir);
+                    filesystem::create_directory(NewRedisDir);
                 }
-                else if (std::filesystem::exists(NewRedisDir) && std::filesystem::is_empty(NewRedisDir) == true)
+                else if (filesystem::exists(NewRedisDir) && filesystem::is_empty(NewRedisDir) == true)
                 {
-                    std::filesystem::remove_all(NewRedisDir);
-                    std::filesystem::create_directory(NewRedisDir);
+                    filesystem::remove_all(NewRedisDir);
+                    filesystem::create_directory(NewRedisDir);
                 }
                 UnpackArchive(ArchivePath, NewRedisDir);
                 system(Command_AddPath.c_str());
-                std::filesystem::remove(ArchivePath);
+                filesystem::remove(ArchivePath);
                 cout << "Redis " << translate["Located"].asString() << " " << NewRedisDir << endl;
                 return 0;
             }
