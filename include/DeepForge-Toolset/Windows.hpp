@@ -137,7 +137,7 @@ namespace Windows
 
         void downloadDatabase();
 
-        int download(std::string url, std::string dir,bool Progress);
+        int Download(std::string url, std::string dir,bool Progress);
     };
 
 }

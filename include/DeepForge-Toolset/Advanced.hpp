@@ -52,6 +52,8 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <Logger/Logger.hpp>
+#include <miniz/miniz.h>
+#include <sstream>
 
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
@@ -76,25 +78,29 @@
 #define __version__ 0.1
 #define __channel__ "stable\\latest"
 #define APPINSTALLER_DB_URL "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db"
+#define RELEASE_MODE 1
+#define DEBUG_MODE 0
+#define MODE DEBUG_MODE
 
 #if defined(__linux__)
+#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-linux-amd64"
+#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-linux-armv8"
 #define OS_NAME "Linux"
 #elif __APPLE__
+#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.6.0-darwin-amd64_v2.zip"
+#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.6.0-darwin-arm64.zip"
 #define OS_NAME "macOS"
 #elif _WIN32
+#define PathmanURL_AMD64 "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-windows-amd64.exe"
+#define PathmanURL_ARM64 "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-windows-amd64.exe"
 #define OS_NAME "Windows"
 #endif
-
-// using namespace std;
-// using namespace DB;
-// using namespace Bar;
 
 // Variables
 // int type
 int Percentage;
 int TempPercentage;
 int result;
-int output_func;
 // enum classes
 enum class LanguageChoices
 {
@@ -111,7 +117,7 @@ std::map<int, std::string> Languages{
     {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
 
 /* The `replaceAll` function is a utility function that replaces all occurrences of a substring `from` with another substring `to` in a given string `str`. */
-std::string replaceAll(std::string str, const std::string &from, const std::string &to)
+std::string ReplaceAll(std::string str, const std::string &from, const std::string &to)
 {
     size_t start_pos = 0;
     while ((start_pos = str.find(from, start_pos)) != std::string::npos)
@@ -132,7 +138,6 @@ std::string Language;
 std::string SelectPackages;
 std::string Answer;
 std::string InstallTools;
-std::string MODE = "DEV";
 // Boolean type
 bool Install;
 bool withProgress = true;
@@ -181,9 +186,9 @@ std::string Architecture = "arm64";
 char *UserFolder = getenv("USERPROFILE");
 const std::string DesktopPath = std::string(UserFolder) + "\\Desktop";
 const std::string ApplicationDir = "C:/ProgramData/DeepForge/DeepForge-Toolset";
-std::string DatabasePath = replaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/DB/AppInstaller.db" : ProjectDir + "/DB/AppInstaller.db";
-std::string LogPath = replaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/logs/DeepForge-Toolset.log" : ProjectDir + "/logs/DeepForge-Toolset.log";
-std::string LocaleDir = replaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
+std::string DatabasePath = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/DB/AppInstaller.db" : ProjectDir + "/DB/AppInstaller.db";
+std::string LogPath = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/logs/DeepForge-Toolset.log" : ProjectDir + "/logs/DeepForge-Toolset.log";
+std::string LocaleDir = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
 const std::string TempFolder = ApplicationDir + "/Temp";
 #endif
 // init classes
@@ -282,21 +287,38 @@ std::string to_lower(std::string sentence)
     return new_sentence;
 }
 // Function for check of answer
-bool CheckAnswer(std::string answer)
+bool CheckAnswer(std::string &answer)
 {
-    bool status;
-    // string Answer = to_lower(answer);
-
-    std::string Answer = answer;
+    bool status = false;
     for (int i = 0; i < TrueVarious->size(); i++)
     {
-        if (Answer == TrueVarious[i] || Answer.empty() || Answer == "\n" || Answer == "да" || Answer == "ДА" || Answer == "Да")
+        answer = to_lower(answer);
+        if (answer == TrueVarious[i] || answer.empty())
         {
             status = true;
             break;
         }
     }
     return status;
+}
+
+bool CheckStringInFile(const std::string& filename, const std::string& target) {
+    std::fstream file(filename,std::ios::in || std::ios::out || std::ios::binary);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return false;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.find(target) != std::string::npos) {
+            file.close();
+            return true;
+        }
+    }
+
+    file.close();
+    return false;
 }
 
 #endif

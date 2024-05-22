@@ -143,7 +143,7 @@ int Windows::Installer::InstallEclipse()
         {
             std::filesystem::create_directory(ArchiveDir);
         }
-        download(EclipseUrl, ArchiveDir,true);
+        Download(EclipseUrl, ArchiveDir,true);
         unpackArchive(ArchivePath, NewEclipseDir);
         system(Command_AddPath.c_str());
         std::filesystem::remove(ArchivePath);
@@ -176,7 +176,7 @@ int Windows::Installer::InstallKotlin()
         {
             std::filesystem::create_directory(ArchiveDir);
         }
-        download(KotlinUrl, ArchiveDir,true);
+        Download(KotlinUrl, ArchiveDir,true);
         unpackArchive(ArchivePath, NewKotlinDir);
         system(Command_AddPath.c_str());
         std::filesystem::remove(ArchivePath);
@@ -213,7 +213,7 @@ int Windows::Installer::InstallWget()
             std::filesystem::remove_all(NewWgetDir);
             std::filesystem::create_directory(NewWgetDir);
         }
-        download(WgetUrl, NewWgetDir,true);
+        Download(WgetUrl, NewWgetDir,true);
         system(Command_AddPath.c_str());
         std::cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << std::endl;
         return 0;
@@ -279,7 +279,7 @@ int Windows::Installer::InstallRedis()
         {
             std::filesystem::create_directory(ArchiveDir);
         }
-        download(RedisUrl, ArchiveDir,true);
+        Download(RedisUrl, ArchiveDir,true);
         if (std::filesystem::exists(NewRedisDir) == false)
         {
             std::filesystem::create_directory(NewRedisDir);
@@ -413,6 +413,7 @@ void Windows::Installer::InstallDevelopmentPack(std::string n)
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int output_func;
         /* The bellow code is retrieving values from a database for a specific development pack on the
         Windows platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
@@ -597,7 +598,7 @@ void Windows::Installer::downloadDatabase()
     }
 }
 
-int Windows::Installer::download(std::string url, std::string dir,bool Progress)
+int Windows::Installer::Download(std::string url, std::string dir,bool Progress)
 {
     try
     {
@@ -661,7 +662,7 @@ int Windows::Installer::download(std::string url, std::string dir,bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "download()", error.what());
+        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }

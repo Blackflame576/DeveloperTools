@@ -177,6 +177,7 @@ void Application::InstallAllPackages()
     {
         // Update information about packages
         UpdateData();
+        int output_func;
         std::cout << translate["AllPackages"].asString() << std::endl;
         // Displaying the name of all applications
         for (int i = 1; const auto &element : Packages)
@@ -254,6 +255,7 @@ void Application::SearchPackages()
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int output_func;
         std::cout << translate["PackageName"].asString();
         // Entering the name of the application
         std::getline(cin, SearchingPackage);
@@ -411,6 +413,7 @@ void Application::ManualSelection()
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int output_func;
         /* The bellow code is iterating over a map called "Packages" and performing some operations
         on each element. */
         for (int i = 1; const auto &element : Packages)

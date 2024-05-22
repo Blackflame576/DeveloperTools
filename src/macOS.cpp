@@ -32,13 +32,11 @@
     It uses the `Unzipper` class to extract the contents of an archive file located at `path_from` and saves them to the directory specified by `path_to`.
     After extracting the contents, the function closes the `Unzipper` object.
 */
-void Linux::Installer::unpackArchive(std::string path_from, std::string path_to)
+void macOS::Installer::UnpackArchive(std::string path_from, std::string path_to)
 {
-    // std::string unpack_command = "tar -xf" + path_from + " --directory " + path_to;
-    // system(unpack_command.c_str());
     try
     {
-        makeDirectory(path_to);
+        MakeDirectory(path_to);
 
         mz_zip_archive zip_archive;
         memset(&zip_archive, 0, sizeof(zip_archive));
@@ -57,14 +55,14 @@ void Linux::Installer::unpackArchive(std::string path_from, std::string path_to)
             std::ofstream out(output_path, std::ios::binary);
             if (!out)
             {
-                std::cerr << "Failed to create file: " << output_path << std::endl;
+                std::cerr << translate["LOG_ERROR_CREATE_FILE"].asCString() << output_path << std::endl;
                 continue;
             }
 
             void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
             if (!fileData)
             {
-                std::cerr << "Failed to extract file: " << file_stat.m_filename << std::endl;
+                std::cerr << translate["LOG_ERROR_EXTRACT_FILE"].asCString() << file_stat.m_filename << std::endl;
                 continue;
             }
 
@@ -78,8 +76,8 @@ void Linux::Installer::unpackArchive(std::string path_from, std::string path_to)
     }
     catch (std::exception &error)
     {
-        std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "unpackArchive()", error.what());
+        std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
+        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -176,7 +174,7 @@ void macOS::Installer::DownloadDatabase()
     }
 }
 
-void macOS::Installer::download(std::string url, std::string dir, bool Progress)
+int macOS::Installer::Download(std::string url, std::string dir, bool Progress)
 {
     try
     {
@@ -240,7 +238,7 @@ void macOS::Installer::download(std::string url, std::string dir, bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "download()", error.what());
+        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }

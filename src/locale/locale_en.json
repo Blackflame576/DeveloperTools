@@ -50,5 +50,8 @@
     "ConnectionReset":"Connection reset",
     "ChangeStability":"==> Select the application stability level (default - ",
     "ChangeUpdating":"==> Do you want to receive DeepForge-Toolset updates (default - yes)?",
-    "Reboot":"==> Do you want to reboot your computer for all the changes to take effect (default - yes)?"
+    "Reboot":"==> Do you want to reboot your computer for all the changes to take effect (default - yes)?",
+    "LOG_ERROR_CREATE_FILE":"Failed to create file: ",
+    "LOG_ERROR_EXTRACT_FILE":"Failed to extract file: ",
+    "LOG_ERROR_OPEN_FILE":"Failed to open file: "
 }
