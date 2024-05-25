@@ -316,33 +316,33 @@ std::string Linux::Installer::GetNameDistribution()
  */
 int Linux::Installer::InstallVCpkg()
 {
-    std::string NewVCpkgDir;
+    std::string NewVCpkgFolder;
     std::string VCpkgRepository;
     std::string PathRepository;
     std::string Command;
     std::string Command_AddPath;
     std::string Command_Install;
+    std::string InstallDependenciesCommand;
 #if defined(__x86_64__)
-    NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
+    NewVCpkgFolder = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
     VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Url");
 #elif __arm__ || __aarch64__ || _M_ARM64
-    NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Directory");
+    NewVCpkgFolder = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Directory");
     VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", "Url");
 #endif
-    PathRepository = NewVCpkgDir + "vcpkg";
-    std::cout << PathRepository << std::endl;
+    PathRepository = NewVCpkgFolder + "vcpkg";
     if (std::filesystem::exists(PathRepository) && !std::filesystem::is_empty(PathRepository))
     {
         std::cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << PathRepository << std::endl;
         return 403;
     }
 #if defined(__x86_64__)
-    std::string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", PackageManager);
+    InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", PackageManager);
 #elif __arm__ || __aarch64__ || _M_ARM64
-    std::string InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", PackageManager);
+    InstallDependenciesCommand = database.GetValueFromDB("PackagesFromSource_Linux_arm64", "vcpkg", PackageManager);
 #endif
-    Command = "cd " + NewVCpkgDir + " && sudo git clone " + VCpkgRepository;
-    Command_Install = "sudo " + NewVCpkgDir + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
+    Command = "cd " + NewVCpkgFolder + " && sudo git clone " + VCpkgRepository;
+    Command_Install = "sudo " + NewVCpkgFolder + "vcpkg/bootstrap-vcpkg.sh -disableMetrics";
     Command_AddPath = "sudo ./utils/pathman-linux-amd64 add /usr/bin/vcpkg";
     system(InstallDependenciesCommand.c_str());
     MainInstaller("Git");
@@ -371,14 +371,14 @@ void Linux::Installer::UpdateData()
         Packages = database.GetAllValuesFromDB("Applications", "Linux_arm64");
 #endif
         NameDistribution = GetNameDistribution();
-
         DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+        PackageManager = database.GetValueFromDB("SupportedOS", NameDistribution, "PackageManager");
     }
     catch (std::exception &error)
     {
-        std::string logText = translate["LOG_ERROR_OPEN_DATABASE"].asString() + error.what();
-        logger.writeLog("Error", logText);
-        logger.sendError(NAME_PROGRAM, Architecture, "Not Found", OS_NAME, "UpdateData", logText);
+        std::string logText ="==> ❌ " + translate["LOG_ERROR_OPEN_DATABASE"].asString() + std::string(error.what());
+        logger.writeLog("Error", translate["LOG_ERROR_OPEN_DATABASE"].asString() + std::string(error.what()));
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UpdateData", logText);
     }
 }
 
@@ -425,13 +425,13 @@ void Linux::Installer::InstallSnap()
     {
         UpdateData();
         std::cout << NameDistribution << std::endl;
+        // If used wsl,that need enable systemd for use snap. How enable systemd on wsl: https://learn.microsoft.com/en-us/windows/wsl/systemd
         /* The above code is written in C++ and it is performing the following tasks: */
-        system("bash ./Scripts/CheckWSL.sh");
         result = system("snap --version > /dev/null");
         if (result == 0)
         {
-            system("sudo ln -s /var/lib/snapd/snap /snap");
-            system("sudo systemctl restart snapd.service");
+            system("sudo ln -s /var/lib/snapd/snap /snap > /dev/null");
+            system("sudo systemctl restart snapd.service > /dev/null");
         }
         else
         {
@@ -451,23 +451,6 @@ void Linux::Installer::InstallSnap()
         logger.writeLog("Error", error.what());
         std::cerr << ErrorText << std::endl;
     }
-    // if (PackageManager == "apt")
-    // {
-    //     result = system("snap --version");
-    //     if (result != 0)
-    //     {
-    //         cout << translate["Installing"].asString() << " " << "snap" << " ..." << endl;
-    //         system("sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig");
-    //         // system("sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target");
-    //         system("sudo apt install snap snapd");
-    //         system("sudo ln -s /var/lib/snapd/snap /snap");
-    //         system("sudo systemctl enable snapd.service");
-    //         system("sudo systemctl start snapd.service");
-    //         cout << "✅ " << "snap"<< " " << translate["Installed"].asString() << endl;
-    //     }
-    //     system("sudo ln -s /var/lib/snapd/snap /snap");
-    //     system("sudo systemctl restart snapd.service");
-    // }
 }
 
 void Linux::Installer::DownloadDatabase()
