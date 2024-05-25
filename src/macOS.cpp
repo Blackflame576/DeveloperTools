@@ -82,7 +82,7 @@ void macOS::Installer::UnpackArchive(std::string path_from, std::string path_to)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -120,7 +120,7 @@ void macOS::Installer::MakeDirectory(std::string dir)
     }
     catch (std::exception &error)
     {
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
     }
 }
 
@@ -243,7 +243,7 @@ int macOS::Installer::Download(std::string url, std::string dir, bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -262,6 +262,7 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int output_func;
         /* The bellow code is retrieving values from a database for a specific development pack on the
         Windows platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
@@ -416,7 +417,7 @@ void macOS::Installer::UpdateData()
  */
 void macOS::Installer::InstallBrew()
 {
-    result = system("brew --version");
+    result = system("brew --version > /dev/null");
     if (result != 0)
     {
         std::cout << translate["Installing"].asString() << " "

@@ -67,12 +67,11 @@ namespace macOS
                 DownloadDatabase();
                 UpdateData();
                 InstallBrew();
-                std::cout << InstallDelimiter << std::endl;
             }
             catch (std::exception &error)
             {
                 logger.writeLog("Error", error.what());
-                logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "AppInstaller-Constructor", error.what());
+                logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "AppInstaller-Constructor", error.what());
                 std::cout << error.what() << std::endl;
             }
         }

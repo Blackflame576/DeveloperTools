@@ -82,7 +82,7 @@ void Linux::Installer::UnpackArchive(std::string path_from, std::string path_to)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -378,7 +378,7 @@ void Linux::Installer::UpdateData()
     {
         std::string logText = translate["LOG_ERROR_OPEN_DATABASE"].asString() + error.what();
         logger.writeLog("Error", logText);
-        logger.sendError(NameProgram, Architecture, "Not Found", OS_NAME, "UpdateData", logText);
+        logger.sendError(NAME_PROGRAM, Architecture, "Not Found", OS_NAME, "UpdateData", logText);
     }
 }
 
@@ -427,7 +427,7 @@ void Linux::Installer::InstallSnap()
         std::cout << NameDistribution << std::endl;
         /* The above code is written in C++ and it is performing the following tasks: */
         system("bash ./Scripts/CheckWSL.sh");
-        result = system("snap --version");
+        result = system("snap --version > /dev/null");
         if (result == 0)
         {
             system("sudo ln -s /var/lib/snapd/snap /snap");
@@ -589,7 +589,7 @@ int Download(std::string url, std::string dir,bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -628,6 +628,6 @@ void Linux::Installer::MakeDirectory(std::string dir)
     }
     catch (std::exception &error)
     {
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
     }
 }
