@@ -80,7 +80,7 @@ namespace macOS
         {
         }
 
-    private:
+    protected:
         void InstallBrew();
         /*  The `unpackArchive` function takes two parameters: `path_from` and `path_to`.
             It uses the `Unzipper` class to extract the contents of an archive file located at `path_from` and saves them to the directory specified by `path_to`.
