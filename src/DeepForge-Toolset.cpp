@@ -541,7 +541,7 @@ void Application::ReadJSON(std::string language)
         // Error output
         std::string logText = "Function: ReadJSON." + std::string(error.what());
         logger.writeLog("Error", logText);
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "ReadJSON", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "ReadJSON", error.what());
     }
 }
 

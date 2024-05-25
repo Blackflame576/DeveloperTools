@@ -51,25 +51,30 @@ void Linux::Installer::UnpackArchive(std::string path_from, std::string path_to)
             std::string output_path = path_to + "/" + file_stat.m_filename;
             std::filesystem::path path(output_path);
             std::filesystem::create_directories(path.parent_path());
-
-            std::ofstream out(output_path, std::ios::binary);
-            if (!out)
+            if (endsWith(output_path, "/"))
             {
-                std::cerr << translate["LOG_ERROR_CREATE_FILE"].asCString() << output_path << std::endl;
-                continue;
+                MakeDirectory(output_path);
             }
-
-            void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
-            if (!fileData)
+            else
             {
-                std::cerr << translate["LOG_ERROR_EXTRACT_FILE"].asCString() << file_stat.m_filename << std::endl;
-                continue;
+                std::ofstream out(output_path, std::ios::binary);
+                if (!out)
+                {
+                    std::cerr << "Failed to create file: " << output_path << std::endl;
+                    continue;
+                }
+                size_t fileSize = file_stat.m_uncomp_size;
+                void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &fileSize, 0);
+                if (!fileData)
+                {
+                    throw std::runtime_error("Failed to extract file: " + std::string(file_stat.m_filename));
+                }
+
+                out.write(static_cast<const char *>(fileData), fileSize);
+                mz_free(fileData);
+
+                out.close();
             }
-
-            out.write(static_cast<const char *>(fileData), file_stat.m_uncomp_size);
-            mz_free(fileData);
-
-            out.close();
         }
 
         mz_zip_reader_end(&zip_archive);
@@ -77,7 +82,7 @@ void Linux::Installer::UnpackArchive(std::string path_from, std::string path_to)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -373,7 +378,7 @@ void Linux::Installer::UpdateData()
     {
         std::string logText = translate["LOG_ERROR_OPEN_DATABASE"].asString() + error.what();
         logger.writeLog("Error", logText);
-        logger.sendError(NameProgram, Architecture, "Not Found", OS_NAME, "UpdateData", logText);
+        logger.sendError(NAME_PROGRAM, Architecture, "Not Found", OS_NAME, "UpdateData", logText);
     }
 }
 
@@ -422,7 +427,7 @@ void Linux::Installer::InstallSnap()
         std::cout << NameDistribution << std::endl;
         /* The above code is written in C++ and it is performing the following tasks: */
         system("bash ./Scripts/CheckWSL.sh");
-        result = system("snap --version");
+        result = system("snap --version > /dev/null");
         if (result == 0)
         {
             system("sudo ln -s /var/lib/snapd/snap /snap");
@@ -584,7 +589,7 @@ int Download(std::string url, std::string dir,bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -623,6 +628,6 @@ void Linux::Installer::MakeDirectory(std::string dir)
     }
     catch (std::exception &error)
     {
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
     }
 }

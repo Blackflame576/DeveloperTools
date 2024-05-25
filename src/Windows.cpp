@@ -310,7 +310,7 @@ int Windows::Installer::InstallRedis()
 void Windows::Installer::InstallWinGet()
 {
     std::cout << "WinGet ";
-    result = system("winget -v");
+    result = system("winget -v > NUL 2>&1");
     if (result != 0)
     {
         std::cout << translate["Installing"].asString() << " "
@@ -662,7 +662,7 @@ int Windows::Installer::Download(std::string url, std::string dir,bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }

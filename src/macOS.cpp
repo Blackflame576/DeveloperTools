@@ -51,25 +51,30 @@ void macOS::Installer::UnpackArchive(std::string path_from, std::string path_to)
             std::string output_path = path_to + "/" + file_stat.m_filename;
             std::filesystem::path path(output_path);
             std::filesystem::create_directories(path.parent_path());
-
-            std::ofstream out(output_path, std::ios::binary);
-            if (!out)
+            if (endsWith(output_path, "/"))
             {
-                std::cerr << translate["LOG_ERROR_CREATE_FILE"].asCString() << output_path << std::endl;
-                continue;
+                MakeDirectory(output_path);
             }
-
-            void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
-            if (!fileData)
+            else
             {
-                std::cerr << translate["LOG_ERROR_EXTRACT_FILE"].asCString() << file_stat.m_filename << std::endl;
-                continue;
+                std::ofstream out(output_path, std::ios::binary);
+                if (!out)
+                {
+                    std::cerr << "Failed to create file: " << output_path << std::endl;
+                    continue;
+                }
+                size_t fileSize = file_stat.m_uncomp_size;
+                void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &fileSize, 0);
+                if (!fileData)
+                {
+                    throw std::runtime_error("Failed to extract file: " + std::string(file_stat.m_filename));
+                }
+
+                out.write(static_cast<const char *>(fileData), fileSize);
+                mz_free(fileData);
+
+                out.close();
             }
-
-            out.write(static_cast<const char *>(fileData), file_stat.m_uncomp_size);
-            mz_free(fileData);
-
-            out.close();
         }
 
         mz_zip_reader_end(&zip_archive);
@@ -77,7 +82,7 @@ void macOS::Installer::UnpackArchive(std::string path_from, std::string path_to)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -115,7 +120,7 @@ void macOS::Installer::MakeDirectory(std::string dir)
     }
     catch (std::exception &error)
     {
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
     }
 }
 
@@ -238,7 +243,7 @@ int macOS::Installer::Download(std::string url, std::string dir, bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -257,6 +262,7 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int output_func;
         /* The bellow code is retrieving values from a database for a specific development pack on the
         Windows platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
@@ -411,7 +417,7 @@ void macOS::Installer::UpdateData()
  */
 void macOS::Installer::InstallBrew()
 {
-    result = system("brew --version");
+    result = system("brew --version > /dev/null");
     if (result != 0)
     {
         std::cout << translate["Installing"].asString() << " "

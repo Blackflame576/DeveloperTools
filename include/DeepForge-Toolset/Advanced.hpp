@@ -58,12 +58,10 @@
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
 #include <unistd.h>
-#include <zip/zip.h>
 #include <regex>
 
 #elif __APPLE__
 #include <unistd.h>
-#include <zip/zip.h>
 
 #elif _WIN32
 #include <conio.h>
@@ -74,7 +72,7 @@
 #include "shlobj.h"
 #endif
 
-#define NameProgram "DeepForge-Toolset"
+#define NAME_PROGRAM "DeepForge-Toolset"
 #define __version__ 0.1
 #define __channel__ "stable\\latest"
 #define APPINSTALLER_DB_URL "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db"
@@ -253,6 +251,11 @@ size_t WriteData(void *ptr, size_t size, size_t nmemb, FILE *stream)
     return WriteProcess;
 }
 
+bool endsWith(const std::string& s, const std::string& suffix)
+{
+    return s.rfind(suffix) == (s.size() - suffix.size());
+}
+
 // Function to create a string with two application names
 std::string NewString(std::string sentence)
 {
@@ -303,7 +306,7 @@ bool CheckAnswer(std::string &answer)
 }
 
 bool CheckStringInFile(const std::string& filename, const std::string& target) {
-    std::fstream file(filename,std::ios::in || std::ios::out || std::ios::binary);
+    std::fstream file(filename,std::ios::in | std::ios::out | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Failed to open file: " << filename << std::endl;
         return false;
