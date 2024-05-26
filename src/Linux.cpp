@@ -250,6 +250,7 @@ int Linux::Installer::InstallGoogleChrome()
     std::string Command;
     std::string Command_AddPath;
     std::string Command_Install;
+    int result;
 #if defined(__x86_64__)
     NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
     VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Url");
@@ -323,6 +324,7 @@ int Linux::Installer::InstallVCpkg()
     std::string Command_AddPath;
     std::string Command_Install;
     std::string InstallDependenciesCommand;
+    int result;
 #if defined(__x86_64__)
     NewVCpkgFolder = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Directory");
     VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Linux_amd64", "vcpkg", "Url");
@@ -393,6 +395,7 @@ void Linux::Installer::UpdateData()
  */
 int Linux::Installer::MainInstaller(std::string Name)
 {
+    int result;
 #if defined(__x86_64__)
     std::string Value = database.GetValueFromDB("Applications", Name, "Linux_amd64");
 #elif __arm__ || __aarch64__ || _M_ARM64
@@ -423,6 +426,7 @@ void Linux::Installer::InstallSnap()
 {
     try
     {
+        int result;
         UpdateData();
         std::cout << NameDistribution << std::endl;
         // If used wsl,that need enable systemd for use snap. How enable systemd on wsl: https://learn.microsoft.com/en-us/windows/wsl/systemd
@@ -463,7 +467,7 @@ void Linux::Installer::DownloadDatabase()
         {
             std::string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
             std::string name = (url.substr(url.find_last_of("/")));
-            std::string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
+            std::string filename = ProjectFolder + "/" + name.replace(name.find("/"), 1, "");
             FILE *file = fopen(filename.c_str(), "wb");
             CURL *curl = curl_easy_init();
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());

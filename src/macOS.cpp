@@ -134,7 +134,7 @@ void macOS::Installer::DownloadDatabase()
         {
             std::string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
             std::string name = (url.substr(url.find_last_of("/")));
-            std::string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
+            std::string filename = ProjectFolder + "/" + name.replace(name.find("/"), 1, "");
             FILE *file = fopen(filename.c_str(), "wb");
             CURL *curl = curl_easy_init();
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -417,6 +417,7 @@ void macOS::Installer::UpdateData()
  */
 void macOS::Installer::InstallBrew()
 {
+    int result;
     result = system("brew --version > /dev/null");
     if (result != 0)
     {
@@ -433,6 +434,7 @@ void macOS::Installer::InstallBrew()
 int macOS::Installer::MainInstaller(std::string Name)
 {
     std::string Value = database.GetValueFromDB("Applications", Name, "macOS");
+    int result;
     if (Value != "ManualInstallation")
     {
         result = system(Value.c_str());

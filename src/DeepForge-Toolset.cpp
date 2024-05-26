@@ -513,7 +513,7 @@ void Application::ReadJSON(std::string language)
     {
         if (language == "Russian")
         {
-            std::string LocalePath = LocaleDir + "/locale_ru.json";
+            std::string LocalePath = LocaleFolder + "/locale_ru.json";
             std::ifstream file(LocalePath);
             // File open check
             if (file.is_open())
@@ -525,7 +525,7 @@ void Application::ReadJSON(std::string language)
         }
         else if (language == "English")
         {
-            std::string LocalePath = LocaleDir + "/locale_en.json";
+            std::string LocalePath = LocaleFolder + "/locale_en.json";
             std::ifstream file(LocalePath);
             // File open check
             if (file.is_open())

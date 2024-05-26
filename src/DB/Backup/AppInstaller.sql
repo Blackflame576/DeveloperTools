@@ -224,9 +224,10 @@ INSERT INTO "Applications" ("Name","Windows","macOS","Linux_amd64","Linux_arm64"
  ('Wordpress','winget install -e --id Automattic.Wordpress','brew install --cask wordpresscom','sudo snap install wordpress-desktop','sudo snap install wordpress-desktop'),
  ('Redis','ManualInstallation','brew install redis','sudo snap install redis','sudo snap install redis'),
  ('Code::Blocks','winget install -e --id Codeblocks.Codeblocks','ManualInstallation','ManualInstallation','ManualInstallation'),
- ('Google Chrome','winget install -e --id Google.Chrome','brew install --cask google-chrome','ManualInstallation','ManualInstallation'),
+ ('Google Chrome','winget install -e --id Google.Chrome','brew install --cask google-chrome','ManualInstallation','sudo snap install chromium'),
  ('Mozilla Firefox','winget install -e --id Mozilla.Firefox','brew install --cask firefox','sudo snap install firefox','sudo snap install firefox'),
- ('Opera','winget install -e --id Opera.Opera','brew install --cask opera','sudo snap install opera','sudo snap install opera');
+ ('Opera','winget install -e --id Opera.Opera','brew install --cask opera','sudo snap install opera','sudo snap install opera'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -258,7 +259,8 @@ INSERT INTO "CDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_a
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -290,7 +292,8 @@ INSERT INTO "PythonDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Li
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "DevelopmentPacks" ("Number","Language") VALUES ('1','PythonDevelopmentTools'),
  ('2','JavaScriptDevelopmentTools'),
  ('3','CppDevelopmentTools'),
@@ -327,7 +330,8 @@ INSERT INTO "RustDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linu
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -358,7 +362,8 @@ INSERT INTO "JavaScriptDevelopmentTools" ("Name","Windows","Linux_amd64","macOS"
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
  ('Wordpress','winget install -e --id Automattic.Wordpress','sudo snap install wordpress-desktop','brew install --cask wordpresscom','sudo snap install wordpress-desktop'),
  ('Redis','ManualInstallation','sudo snap install redis','brew install redis','sudo snap install redis'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -393,7 +398,8 @@ INSERT INTO "CppDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "GoDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -477,7 +483,8 @@ INSERT INTO "CSDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "PHPDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linux_arm64") VALUES ('VSCode','winget install -e --id Microsoft.VisualStudioCode','sudo snap install code --classic','brew install --cask visual-studio-code','ManualInstallation'),
  ('Docker','winget install -e --id Docker.DockerDesktop','sudo snap install docker','brew install --cask docker','sudo snap install docker'),
  ('Git','winget install --id Git.Git -e --source winget','ManualInstallation','brew install --cask git','ManualInstallation'),
@@ -559,7 +566,8 @@ INSERT INTO "JavaDevelopmentTools" ("Name","Windows","Linux_amd64","macOS","Linu
  ('GitHub CLI','winget install -e --id GitHub.cli','sudo snap install gh','brew install gh','sudo snap install gh'),
  ('Kubernetes','winget install -e --id Kubernetes.kubectl','sudo snap install kubectl --classic','brew install kubernetes-cli','sudo snap install kubectl --classic'),
  ('Slack','winget install -e --id SlackTechnologies.Slack','sudo snap install slack','brew install --cask slack','sudo snap install slack'),
- ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages');
+ ('AllPackages','AllPackages','AllPackages','AllPackages','AllPackages'),
+ ('MSBuild Tools','winget install Microsoft.VisualStudio.2022.BuildTools','Not Found','Not Found','Not Found');
 INSERT INTO "SupportedOS" ("Name","PackageManager") VALUES ('Ubuntu','apt'),
  ('Debian GNU/Linux','apt'),
  ('Kali GNU/Linux','apt'),
@@ -623,7 +631,7 @@ INSERT INTO "PackagesFromSource_Linux_amd64" ("Name","Url","Directory","Command"
 INSERT INTO "PackagesFromSource_Windows" ("Name","Url","Directory","Command") VALUES ('vcpkg','https://github.com/microsoft/vcpkg','C:\','Empty'),
  ('Make','Empty','C:\Make','Empty'),
  ('PHP','https://windows.php.net/downloads/releases/php-8.2.9-Win32-vs16-x64.zip','C:\PHP','Empty'),
- ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2023-06/R/eclipse-java-2023-06-R-win32-x86_64.zip','C:\','Empty'),
+ ('Eclipse IDE','https://mirrors.jevincanders.net/eclipse/technology/epp/downloads/release/2024-03/M3/eclipse-scout-2024-03-M3-win32-x86_64.zip','C:\','Empty'),
  ('Kotlin','https://github.com/JetBrains/kotlin/releases/download/v1.8.22/kotlin-compiler-1.8.22.zip','C:\','Empty'),
  ('Wget','https://eternallybored.org/misc/wget/1.21.4/64/wget.exe','C:\Wget','Empty'),
  ('Nginx','http://nginx.org/download/nginx-1.25.1.zip','C:\','Empty'),

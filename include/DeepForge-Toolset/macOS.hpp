@@ -55,15 +55,15 @@ namespace macOS
             try
             {
                 char *UserFolder = getenv("HOME");
-                ProjectDir = std::filesystem::current_path().generic_string();
-                DatabasePath = ProjectDir + "/DB/AppInstaller.db";
-                LogPath = ProjectDir + "/logs/DeepForgeToolset.log";
+                ProjectFolder = std::filesystem::current_path().generic_string();
+                DatabasePath = ProjectFolder + "/DB/AppInstaller.db";
+                LogPath = ProjectFolder + "/logs/DeepForgeToolset.log";
                 DesktopPath = std::string(UserFolder) + "/Desktop";
                 OrganizationFolder = std::string(UserFolder) + "/Library/Containers/DeepForge";
-                ApplicationDir = OrganizationFolder + "/DeepForge-Toolset";
-                TempFolder = ApplicationDir + "/Temp";
+                ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
+                TempFolder = ApplicationFolder + "/Temp";
                 UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
-                LocaleDir = ProjectDir == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
+                LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
                 DownloadDatabase();
                 UpdateData();
                 InstallBrew();

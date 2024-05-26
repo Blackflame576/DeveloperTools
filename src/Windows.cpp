@@ -32,8 +32,8 @@ int Windows::Installer::InstallMake()
     try
     {
         std::string NewMakeDir = database.GetValueFromDB("PackagesFromSource_Windows", "Make", "Directory");
-        std::string ArchivePath = ProjectDir + "/utils/Make_3.81.zip ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewMakeDir;
+        std::string ArchivePath = ProjectFolder + "/utils/Make_3.81.zip ";
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewMakeDir;
         if (std::filesystem::exists(NewMakeDir) && std::filesystem::is_empty(NewMakeDir) == false)
         {
             std::cout << "✅ Make " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewMakeDir << std::endl;
@@ -51,7 +51,7 @@ int Windows::Installer::InstallMake()
             std::filesystem::remove_all(NewMakeDir);
             std::filesystem::create_directory(NewMakeDir);
         }
-        unpackArchive(ArchivePath, NewMakeDir);
+        UnpackArchive(ArchivePath, NewMakeDir);
         system(Command_AddPath.c_str());
         std::cout << "Make " << translate["Located"].asString() << " " << NewMakeDir << std::endl;
         return 0;
@@ -66,12 +66,13 @@ int Windows::Installer::InstallMake()
 }
 int Windows::Installer::InstallVCpkg()
 {
-    std::string NewVCpkgDir = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Directory");
+    std::string NewVCpkgFolder = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Directory");
     std::string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Url");
-    std::string PathRepository = NewVCpkgDir + "vcpkg";
-    std::string Command = "cd " + NewVCpkgDir + " && git clone " + VCpkgRepository;
-    std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewVCpkgDir + "vcpkg";
-    std::string Command_Install = NewVCpkgDir + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
+    std::string PathRepository = NewVCpkgFolder + "vcpkg";
+    std::string Command = "cd " + NewVCpkgFolder + " && git clone " + VCpkgRepository;
+    std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewVCpkgFolder + "vcpkg";
+    std::string Command_Install = NewVCpkgFolder + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
+    int result;
     if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
     {
         std::cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << PathRepository << std::endl;
@@ -95,26 +96,26 @@ int Windows::Installer::InstallPHP()
 {
     try
     {
-        std::string NewPHPDir = database.GetValueFromDB("PackagesFromSource_Windows", "PHP", "Directory");
-        std::string ArchivePath = ProjectDir + "/utils/php-8.2.9.zip ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewPHPDir;
-        if (std::filesystem::exists(NewPHPDir) && std::filesystem::is_empty(NewPHPDir) == false)
+        std::string NewPHPFolder = database.GetValueFromDB("PackagesFromSource_Windows", "PHP", "Directory");
+        std::string ArchivePath = ProjectFolder + "/utils/php-8.2.9.zip ";
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewPHPFolder;
+        if (std::filesystem::exists(NewPHPFolder) && std::filesystem::is_empty(NewPHPFolder) == false)
         {
-            std::cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPDir << std::endl;
+            std::cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPFolder << std::endl;
             return 403;
         }
-        if (std::filesystem::exists(NewPHPDir) == false)
+        if (std::filesystem::exists(NewPHPFolder) == false)
         {
-            std::filesystem::create_directory(NewPHPDir);
+            std::filesystem::create_directory(NewPHPFolder);
         }
-        else if (std::filesystem::exists(NewPHPDir) == true && std::filesystem::is_empty(NewPHPDir) == true)
+        else if (std::filesystem::exists(NewPHPFolder) == true && std::filesystem::is_empty(NewPHPFolder) == true)
         {
-            std::filesystem::remove_all(NewPHPDir);
-            std::filesystem::create_directory(NewPHPDir);
+            std::filesystem::remove_all(NewPHPFolder);
+            std::filesystem::create_directory(NewPHPFolder);
         }
-        unpackArchive(ArchivePath, NewPHPDir);
+        UnpackArchive(ArchivePath, NewPHPFolder);
         system(Command_AddPath.c_str());
-        std::cout << "PHP " << translate["Located"].asString() << " " << NewPHPDir << std::endl;
+        std::cout << "PHP " << translate["Located"].asString() << " " << NewPHPFolder << std::endl;
         return 0;
     }
     catch (std::exception &error)
@@ -130,13 +131,13 @@ int Windows::Installer::InstallEclipse()
     try
     {
         std::string EclipseUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Url");
-        std::string NewEclipseDir = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Directory");
-        std::string ArchiveDir = ProjectDir + "/Downloads";
+        std::string NewEclipseFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Directory");
+        std::string ArchiveDir = ProjectFolder + "/Downloads";
         std::string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewEclipseDir + "eclipse";
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewEclipseFolder + "eclipse";
         if (std::filesystem::exists("C:\\eclipse") && std::filesystem::is_empty("C:\\eclipse") == false)
         {
-            std::cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseDir << "eclipse" << std::endl;
+            std::cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseFolder << "eclipse" << std::endl;
             return 403;
         }
         if (std::filesystem::exists(ArchiveDir) == false)
@@ -144,10 +145,10 @@ int Windows::Installer::InstallEclipse()
             std::filesystem::create_directory(ArchiveDir);
         }
         Download(EclipseUrl, ArchiveDir,true);
-        unpackArchive(ArchivePath, NewEclipseDir);
+        UnpackArchive(ArchivePath, NewEclipseFolder);
         system(Command_AddPath.c_str());
         std::filesystem::remove(ArchivePath);
-        std::cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseDir << "eclipse" << std::endl;
+        std::cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseFolder << "eclipse" << std::endl;
         return 0;
     }
     catch (std::exception &error)
@@ -162,14 +163,14 @@ int Windows::Installer::InstallKotlin()
 {
     try
     {
-        std::string NewKotlinDir = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Directory");
+        std::string NewKotlinFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Directory");
         std::string KotlinUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Url");
-        std::string ArchiveDir = ProjectDir + "/Downloads";
+        std::string ArchiveDir = ProjectFolder + "/Downloads";
         std::string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewKotlinDir;
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewKotlinFolder;
         if (std::filesystem::exists("C:\\kotlinc") && std::filesystem::is_empty("C:\\kotlinc") == false)
         {
-            std::cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinDir << "kotlinc" << std::endl;
+            std::cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinFolder << "kotlinc" << std::endl;
             return 403;
         }
         if (std::filesystem::exists(ArchiveDir) == false)
@@ -177,10 +178,10 @@ int Windows::Installer::InstallKotlin()
             std::filesystem::create_directory(ArchiveDir);
         }
         Download(KotlinUrl, ArchiveDir,true);
-        unpackArchive(ArchivePath, NewKotlinDir);
+        UnpackArchive(ArchivePath, NewKotlinFolder);
         system(Command_AddPath.c_str());
         std::filesystem::remove(ArchivePath);
-        std::cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinDir << std::endl;
+        std::cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinFolder << std::endl;
         return 0;
     }
     catch (std::exception &error)
@@ -198,7 +199,7 @@ int Windows::Installer::InstallWget()
         std::string NewWgetDir = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Directory");
         std::string WgetUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Url");
         std::string ApplicationPath = NewWgetDir + "/wget.exe ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewWgetDir;
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewWgetDir;
         if (std::filesystem::exists(NewWgetDir) && std::filesystem::is_empty(NewWgetDir) == false)
         {
             std::cout << "✅ Wget " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewWgetDir << std::endl;
@@ -231,8 +232,8 @@ int Windows::Installer::InstallNginx()
     try
     {
         std::string NewNginxDir = database.GetValueFromDB("PackagesFromSource_Windows", "Nginx", "Directory");
-        std::string ArchivePath = ProjectDir + "/utils/Nginx-1.25.1.zip ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
+        std::string ArchivePath = ProjectFolder + "/utils/Nginx-1.25.1.zip ";
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
         if (std::filesystem::exists("C:\\Nginx-1.25.1") && std::filesystem::is_empty("C:\\Nginx-1.25.1") == false)
         {
             std::cout << "✅ Nginx " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << std::endl;
@@ -240,7 +241,7 @@ int Windows::Installer::InstallNginx()
         }
         if (std::filesystem::exists(ArchivePath))
         {
-            unpackArchive(ArchivePath, NewNginxDir);
+            UnpackArchive(ArchivePath, NewNginxDir);
             system(Command_AddPath.c_str());
             std::cout << "Nginx " << translate["Located"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << std::endl;
             return 0;
@@ -264,15 +265,15 @@ int Windows::Installer::InstallRedis()
 {
     try
     {
-        std::string NewRedisDir = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Directory");
+        std::string NewRedisFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Directory");
         std::string RedisUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Url");
         std::string name = (RedisUrl.substr(RedisUrl.find_last_of("/")));
-        std::string ArchiveDir = ProjectDir + "/Downloads";
+        std::string ArchiveDir = ProjectFolder + "/Downloads";
         std::string ArchivePath = ArchiveDir + "/" + name + " ";
-        std::string Command_AddPath = ProjectDir + "/utils/pathman.exe add " + NewRedisDir;
-        if (std::filesystem::exists(NewRedisDir) && std::filesystem::is_empty(NewRedisDir) == false)
+        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewRedisFolder;
+        if (std::filesystem::exists(NewRedisFolder) && std::filesystem::is_empty(NewRedisFolder) == false)
         {
-            std::cout << "✅ Redis " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewRedisDir << std::endl;
+            std::cout << "✅ Redis " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewRedisFolder << std::endl;
             return 403;
         }
         if (std::filesystem::exists(ArchiveDir) == false)
@@ -280,19 +281,19 @@ int Windows::Installer::InstallRedis()
             std::filesystem::create_directory(ArchiveDir);
         }
         Download(RedisUrl, ArchiveDir,true);
-        if (std::filesystem::exists(NewRedisDir) == false)
+        if (std::filesystem::exists(NewRedisFolder) == false)
         {
-            std::filesystem::create_directory(NewRedisDir);
+            std::filesystem::create_directory(NewRedisFolder);
         }
-        else if (std::filesystem::exists(NewRedisDir) && std::filesystem::is_empty(NewRedisDir) == true)
+        else if (std::filesystem::exists(NewRedisFolder) && std::filesystem::is_empty(NewRedisFolder) == true)
         {
-            std::filesystem::remove_all(NewRedisDir);
-            std::filesystem::create_directory(NewRedisDir);
+            std::filesystem::remove_all(NewRedisFolder);
+            std::filesystem::create_directory(NewRedisFolder);
         }
-        unpackArchive(ArchivePath, NewRedisDir);
+        UnpackArchive(ArchivePath, NewRedisFolder);
         system(Command_AddPath.c_str());
         std::filesystem::remove(ArchivePath);
-        std::cout << "Redis " << translate["Located"].asString() << " " << NewRedisDir << std::endl;
+        std::cout << "Redis " << translate["Located"].asString() << " " << NewRedisFolder << std::endl;
         return 0;
     }
     catch (std::exception &error)
@@ -309,14 +310,14 @@ int Windows::Installer::InstallRedis()
  */
 void Windows::Installer::InstallWinGet()
 {
-    std::cout << "WinGet ";
+    int result;
     result = system("winget -v > NUL 2>&1");
     if (result != 0)
     {
         std::cout << translate["Installing"].asString() << " "
                   << "winget"
                   << " ..." << std::endl;
-        std::string Command = "powershell.exe " + ProjectDir + "/Scripts/InstallWinGet.ps1";
+        std::string Command = "powershell.exe " + ProjectFolder + "/Scripts/InstallWinGet.ps1";
         system(Command.c_str());
         std::cout << "✅ "
                   << "winget"
@@ -324,7 +325,7 @@ void Windows::Installer::InstallWinGet()
     }
 }
 
-void Windows::Installer::unpackArchive(std::string path_from, std::string path_to)
+void Windows::Installer::UnpackArchive(std::string path_from, std::string path_to)
 {
     std::string unpack_command = "tar -xf" + path_from + " --directory " + path_to;
     system(unpack_command.c_str());
@@ -369,6 +370,7 @@ void Windows::Installer::MakeDirectory(std::string dir)
 int Windows::Installer::MainInstaller(std::string Name)
 {
     std::string Value = database.GetValueFromDB("Applications", Name, "Windows");
+    int result;
     if (Value != "ManualInstallation")
     {
         result = system(Value.c_str());
@@ -548,7 +550,7 @@ void Windows::Installer::InstallDevelopmentPack(std::string n)
     std::cout << InstallDelimiter << std::endl;
 }
 
-void Windows::Installer::downloadDatabase()
+void Windows::Installer::DownloadDatabase()
 {
     try
     {
@@ -558,7 +560,7 @@ void Windows::Installer::downloadDatabase()
         {
             std::string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
             std::string name = (url.substr(url.find_last_of("/")));
-            std::string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
+            std::string filename = ProjectFolder + "/" + name.replace(name.find("/"), 1, "");
             FILE *file = fopen(filename.c_str(), "wb");
             CURL *curl = curl_easy_init();
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());

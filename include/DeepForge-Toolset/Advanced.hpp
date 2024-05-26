@@ -98,7 +98,7 @@
 // int type
 int Percentage;
 int TempPercentage;
-int result;
+// int result;
 // enum classes
 enum class LanguageChoices
 {
@@ -127,7 +127,7 @@ std::string ReplaceAll(std::string str, const std::string &from, const std::stri
 }
 // string type
 const std::string TrueVarious[3] = {"yes", "y", "1"};
-std::string ProjectDir = std::filesystem::current_path().generic_string();
+std::string ProjectFolder = std::filesystem::current_path().generic_string();
 std::string haveString = "";
 std::string new_sentence;
 std::string LangReadySet;
@@ -149,9 +149,9 @@ Architecture = "arm64";
 #endif
 std::string OrganizationFolder;
 std::string DesktopPath;
-std::string ApplicationDir;
+std::string ApplicationFolder;
 std::string TempFolder;
-std::string LocaleDir;
+std::string LocaleFolder;
 std::string UpdateManagerFolder;
 std::string DatabasePath;
 std::string LogPath;
@@ -168,12 +168,12 @@ std::string PackageManager;
 char *UserFolder = getenv("USER");
 const std::string DesktopPath = std::string(UserFolder) + "/Desktop";
 const std::string OrganizationFolder = "/usr/bin/DeepForge";
-const std::string ApplicationDir = OrganizationFolder + "/DeepForge-Toolset";
+const std::string ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
 const std::string UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
-const std::string TempFolder = ApplicationDir + "/Temp";
-const std::string LocaleDir = ProjectDir == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
-std::string DatabasePath = ProjectDir == DesktopPath ? ApplicationDir + "/DB/AppInstaller.db" : ProjectDir + "/DB/AppInstaller.db";
-std::string LogPath = ProjectDir + "/logs/DeepForge-Toolset.log";
+const std::string TempFolder = ApplicationFolder + "/Temp";
+const std::string LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
+std::string DatabasePath = ProjectFolder == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
+std::string LogPath = ProjectFolder + "/logs/DeepForge-Toolset.log";
 
 #elif _WIN32
 #if defined(_M_AMD64)
@@ -183,11 +183,11 @@ std::string Architecture = "arm64";
 #endif
 char *UserFolder = getenv("USERPROFILE");
 const std::string DesktopPath = std::string(UserFolder) + "\\Desktop";
-const std::string ApplicationDir = "C:/ProgramData/DeepForge/DeepForge-Toolset";
-std::string DatabasePath = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/DB/AppInstaller.db" : ProjectDir + "/DB/AppInstaller.db";
-std::string LogPath = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/logs/DeepForge-Toolset.log" : ProjectDir + "/logs/DeepForge-Toolset.log";
-std::string LocaleDir = ReplaceAll(ProjectDir, "/", "\\") == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
-const std::string TempFolder = ApplicationDir + "/Temp";
+const std::string ApplicationFolder = "C:/ProgramData/DeepForge/DeepForge-Toolset";
+std::string DatabasePath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
+std::string LogPath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/logs/DeepForge-Toolset.log" : ProjectFolder + "/logs/DeepForge-Toolset.log";
+std::string LocaleFolder = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
+const std::string TempFolder = ApplicationFolder + "/Temp";
 #endif
 // init classes
 Logger::Logging logger(LogPath.c_str(), "10kb");
