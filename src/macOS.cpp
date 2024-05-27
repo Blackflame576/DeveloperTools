@@ -257,7 +257,7 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
         macOS. It then creates a map called EnumeratePackages to store the values with their
         corresponding index. It also creates a string variable called NamePackage. */
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "macOS");
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string NamePackage;
         std::string delimiter = ",";
         size_t pos = 0;

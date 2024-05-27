@@ -410,7 +410,7 @@ void Windows::Installer::InstallDevelopmentPack(std::string n)
         UpdateData();
         // Init variables
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Windows");
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string NamePackage;
         std::string delimiter = ",";
         size_t pos = 0;

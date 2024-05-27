@@ -101,7 +101,7 @@ namespace macOS
     using Installer_funct_t = int (Installer::*)(void);
     using map_funct_t = void (*)(void);
 
-    std::map<std::string, Installer_funct_t> PackagesFromSource{};
+    std::unordered_map<std::string, Installer_funct_t> PackagesFromSource{};
 }
 
 #endif

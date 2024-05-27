@@ -102,7 +102,7 @@ void Linux::Installer::InstallDevelopmentPack(std::string n)
 #elif __arm__ || __aarch64__ || _M_ARM64
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Linux_arm64");
 #endif
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string NamePackage;
         std::string delimiter = ",";
         size_t pos = 0;

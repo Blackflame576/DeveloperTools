@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include <Database/DatabaseAPI.hpp>
 #include <filesystem>
-#include <map>
+#include <unordered_map>
 #include <iostream>
 
 using namespace std;
@@ -50,14 +50,14 @@ TEST(DatabaseGroup, DeleteValue)
 TEST(DatabaseGroup, GetAllValues)
 {
     database.open(&DB_PATH);
-    map<string, string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
+    unordered_map<string, string> Packages = database.GetAllValuesFromDB("Applications", "Windows");
     EXPECT_LE(1, Packages.size());
 }
 
 TEST(DatabaseGroup, GetDevPack)
 {
     database.open(&DB_PATH);
-    map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+    unordered_map<string, string> DevelopmetPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
     EXPECT_LE(1, DevelopmetPacks.size());
 }
 

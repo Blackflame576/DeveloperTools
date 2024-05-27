@@ -32,7 +32,8 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include <map>
+// #include <map>
+#include <unordered_map>
 #include <filesystem>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -109,9 +110,9 @@ enum class LanguageChoices
 double LastSize;
 double LastTotalSize;
 // map type
-std::map<std::string, std::string> Packages;
-std::map<std::string, std::string> DevelopmentPacks;
-std::map<int, std::string> Languages{
+std::unordered_map<std::string, std::string> Packages;
+std::unordered_map<std::string, std::string> DevelopmentPacks;
+std::unordered_map<int, std::string> Languages{
     {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
 
 /* The `replaceAll` function is a utility function that replaces all occurrences of a substring `from` with another substring `to` in a given string `str`. */

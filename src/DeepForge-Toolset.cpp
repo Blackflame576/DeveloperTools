@@ -74,7 +74,7 @@ void Application::SetLanguage()
 void Application::CommandManager()
 {
     using funct_t = void (Application::*)(void);
-    std::map<int, funct_t> Commands = {
+    std::unordered_map<int, funct_t> Commands = {
         {1, &Application::ReadySet},
         {2, &Application::ManualSelection},
         {3, &Application::InstallAllPackages},
@@ -251,7 +251,7 @@ void Application::SearchPackages()
         // Declaring variables and dictionaries necessary for searching
         std::string SearchingPackage;
         bool isSearched = false;
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
@@ -409,7 +409,7 @@ void Application::ManualSelection()
     {
         // Update information about packages
         UpdateData();
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
