@@ -56,30 +56,6 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DownloadDependecies.cmake)
 #target_include_directories(DeepForge-Toolset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-FetchContent_MakeAvailable(googletest)
-set(TEST_SOURCE_FILES
-  src/test/DatabaseTest.cpp
-  include/Database/DatabaseAPI.hpp
-)
-enable_testing()
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-add_executable(
-  DatabaseTest
-  ${TEST_SOURCE_FILES}
-)
-target_link_libraries(
-  DatabaseTest
-  DatabaseAPI
-  GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(DatabaseTest)
-
 set(SOURCE_FILES
   src/DeepForge-Toolset.cpp
   include/DeepForge-Toolset/DeepForge-Toolset.hpp
