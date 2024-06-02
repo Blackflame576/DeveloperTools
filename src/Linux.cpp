@@ -428,10 +428,9 @@ void Linux::Installer::InstallSnap()
     {
         int result;
         UpdateData();
-        std::cout << NameDistribution << std::endl;
         // If used wsl,that need enable systemd for use snap. How enable systemd on wsl: https://learn.microsoft.com/en-us/windows/wsl/systemd
         /* The above code is written in C++ and it is performing the following tasks: */
-        result = system("snap --version > /dev/null");
+        result = system("snap --version");
         if (result == 0)
         {
             system("sudo ln -s /var/lib/snapd/snap /snap > /dev/null");
@@ -450,7 +449,7 @@ void Linux::Installer::InstallSnap()
     }
     catch (std::exception &error)
     {
-        std::string ErrorText = "❌ " + translate["LOG_ERROR_INSTALL_SNAP"].asString();
+        std::string ErrorText = "==> ❌ " + translate["LOG_ERROR_INSTALL_SNAP"].asString();
         logger.writeLog("Error", translate["LOG_ERROR_INSTALL_SNAP"].asString());
         logger.writeLog("Error", error.what());
         std::cerr << ErrorText << std::endl;
