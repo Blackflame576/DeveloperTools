@@ -55,6 +55,7 @@ endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DownloadDependecies.cmake)
 #target_include_directories(DeepForge-Toolset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SOURCE_FILES
   src/DeepForge-Toolset.cpp
@@ -62,9 +63,9 @@ set(SOURCE_FILES
 )
 
 add_definitions(-DUNICODE -D_UNICODE)
+add_executable(DeepForge-Toolset ${SOURCE_FILES})
 
 if (WIN32)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   set(USE_WINDOWS_SSPI ON)
   set(USE_SCHANNEL ON)
   set(LIBRARIES
@@ -81,7 +82,6 @@ if (WIN32)
   Logger
   )
 elseif(APPLE)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   #set(MACOSX_BUNDLE_BUNDLE_NAME "DeepForge-Toolset")
   #set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.DeepForge.DeepForge-Toolset")
   #set(MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
@@ -105,7 +105,6 @@ elseif(APPLE)
   Logger
   )
 elseif(UNIX)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   set(LIBRARIES
   fmt::fmt 
   jsoncpp_static
