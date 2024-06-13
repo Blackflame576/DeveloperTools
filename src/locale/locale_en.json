@@ -6,7 +6,7 @@
     "CommandManager_5":"5. Rechange language",
     "CommandManager_6":"6. Exit the application",
     "CommandManager_ch_answ":"==> Select an answer (default - 2):",
-    "ExitApp":"==> 🚪Are you sure you want to exit the program (default - no)?",
+    "Exit":"==> 🚪Are you sure you want to exit the program (default - no)?",
     "SelectingPackages":"==> Select package numbers to install (via ,):",
     "ChooseLanguage":"==> Select the desired programming language:",
     "InstallAllPackages":"==> Are you sure you want to install all packages (default yes)?",
@@ -53,5 +53,6 @@
     "Reboot":"==> Do you want to reboot your computer for all the changes to take effect (default - yes)?",
     "LOG_ERROR_CREATE_FILE":"Failed to create file: ",
     "LOG_ERROR_EXTRACT_FILE":"Failed to extract file: ",
-    "LOG_ERROR_OPEN_FILE":"Failed to open file: "
+    "LOG_ERROR_OPEN_FILE":"Failed to open file: ",
+    "LOG_ERROR_UPDATE_LIST_PACKAGES": "Failed to retrieve package installation information from database."
 }

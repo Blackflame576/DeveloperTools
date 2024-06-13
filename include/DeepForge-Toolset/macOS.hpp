@@ -64,6 +64,8 @@ namespace macOS
                 TempFolder = ApplicationFolder + "/Temp";
                 UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
                 LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
+                PackagesFolder = OrganizationFolder;
+                ArchivesFolder = ProjectFolder + "/Downloads"
                 DownloadDatabase();
                 UpdateData();
                 InstallBrew();

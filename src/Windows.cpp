@@ -27,538 +27,225 @@
 */
 #include <DeepForge-Toolset/Windows.hpp>
 
-int Windows::Installer::InstallMake()
-{
-    try
-    {
-        std::string NewMakeDir = database.GetValueFromDB("PackagesFromSource_Windows", "Make", "Directory");
-        std::string ArchivePath = ProjectFolder + "/utils/Make_3.81.zip ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewMakeDir;
-        if (std::filesystem::exists(NewMakeDir) && std::filesystem::is_empty(NewMakeDir) == false)
-        {
-            std::cout << "✅ Make " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewMakeDir << std::endl;
-            return 403;
-        }
-        /* The bellow code is checking if a directory named "NewMakeDir" exists using the
-        std::filesystem::exists function. If the directory does not exist, it creates the
-        directory using the std::filesystem::create_directory function. */
-        if (std::filesystem::exists(NewMakeDir) == false)
-        {
-            std::filesystem::create_directory(NewMakeDir);
-        }
-        else if (std::filesystem::exists(NewMakeDir) && std::filesystem::is_empty(NewMakeDir) == true)
-        {
-            std::filesystem::remove_all(NewMakeDir);
-            std::filesystem::create_directory(NewMakeDir);
-        }
-        UnpackArchive(ArchivePath, NewMakeDir);
-        system(Command_AddPath.c_str());
-        std::cout << "Make " << translate["Located"].asString() << " " << NewMakeDir << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallVCpkg()
-{
-    std::string NewVCpkgFolder = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Directory");
-    std::string VCpkgRepository = database.GetValueFromDB("PackagesFromSource_Windows", "vcpkg", "Url");
-    std::string PathRepository = NewVCpkgFolder + "vcpkg";
-    std::string Command = "cd " + NewVCpkgFolder + " && git clone " + VCpkgRepository;
-    std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewVCpkgFolder + "vcpkg";
-    std::string Command_Install = NewVCpkgFolder + "vcpkg\\bootstrap-vcpkg.bat -disableMetrics";
-    int result;
-    if (std::filesystem::exists(PathRepository) && std::filesystem::is_empty(PathRepository) == false)
-    {
-        std::cout << "✅ vcpkg " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << PathRepository << std::endl;
-        return 403;
-    }
-    MainInstaller("Git");
-    result = system(Command.c_str());
-    if (result == 0)
-    {
-        system(Command_Install.c_str());
-        system(Command_AddPath.c_str());
-        std::cout << "vcpkg " << translate["Located"].asString() << " " << PathRepository << std::endl;
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
-}
-int Windows::Installer::InstallPHP()
-{
-    try
-    {
-        std::string NewPHPFolder = database.GetValueFromDB("PackagesFromSource_Windows", "PHP", "Directory");
-        std::string ArchivePath = ProjectFolder + "/utils/php-8.2.9.zip ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewPHPFolder;
-        if (std::filesystem::exists(NewPHPFolder) && std::filesystem::is_empty(NewPHPFolder) == false)
-        {
-            std::cout << "✅ PHP " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewPHPFolder << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(NewPHPFolder) == false)
-        {
-            std::filesystem::create_directory(NewPHPFolder);
-        }
-        else if (std::filesystem::exists(NewPHPFolder) == true && std::filesystem::is_empty(NewPHPFolder) == true)
-        {
-            std::filesystem::remove_all(NewPHPFolder);
-            std::filesystem::create_directory(NewPHPFolder);
-        }
-        UnpackArchive(ArchivePath, NewPHPFolder);
-        system(Command_AddPath.c_str());
-        std::cout << "PHP " << translate["Located"].asString() << " " << NewPHPFolder << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallEclipse()
-{
-    try
-    {
-        std::string EclipseUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Url");
-        std::string NewEclipseFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Eclipse IDE", "Directory");
-        std::string ArchiveDir = ProjectFolder + "/Downloads";
-        std::string ArchivePath = ArchiveDir + "/eclipse-java-2023-06-R-win32-x86_64.zip ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewEclipseFolder + "eclipse";
-        if (std::filesystem::exists("C:\\eclipse") && std::filesystem::is_empty("C:\\eclipse") == false)
-        {
-            std::cout << "✅ Eclipse IDE " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewEclipseFolder << "eclipse" << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(ArchiveDir) == false)
-        {
-            std::filesystem::create_directory(ArchiveDir);
-        }
-        Download(EclipseUrl, ArchiveDir,true);
-        UnpackArchive(ArchivePath, NewEclipseFolder);
-        system(Command_AddPath.c_str());
-        std::filesystem::remove(ArchivePath);
-        std::cout << "Eclipse " << translate["Located"].asString() << " " << NewEclipseFolder << "eclipse" << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallKotlin()
-{
-    try
-    {
-        std::string NewKotlinFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Directory");
-        std::string KotlinUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Kotlin", "Url");
-        std::string ArchiveDir = ProjectFolder + "/Downloads";
-        std::string ArchivePath = ArchiveDir + "/kotlin-compiler-1.8.22.zip ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewKotlinFolder;
-        if (std::filesystem::exists("C:\\kotlinc") && std::filesystem::is_empty("C:\\kotlinc") == false)
-        {
-            std::cout << "✅ Kotlin " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewKotlinFolder << "kotlinc" << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(ArchiveDir) == false)
-        {
-            std::filesystem::create_directory(ArchiveDir);
-        }
-        Download(KotlinUrl, ArchiveDir,true);
-        UnpackArchive(ArchivePath, NewKotlinFolder);
-        system(Command_AddPath.c_str());
-        std::filesystem::remove(ArchivePath);
-        std::cout << "Kotlin " << translate["Located"].asString() << " " << NewKotlinFolder << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallWget()
-{
-    try
-    {
-        std::string NewWgetDir = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Directory");
-        std::string WgetUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Wget", "Url");
-        std::string ApplicationPath = NewWgetDir + "/wget.exe ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewWgetDir;
-        if (std::filesystem::exists(NewWgetDir) && std::filesystem::is_empty(NewWgetDir) == false)
-        {
-            std::cout << "✅ Wget " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewWgetDir << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(NewWgetDir) == false)
-        {
-            std::filesystem::create_directory(NewWgetDir);
-        }
-        else if (std::filesystem::exists(NewWgetDir) == true && std::filesystem::is_empty(NewWgetDir) == true)
-        {
-            std::filesystem::remove_all(NewWgetDir);
-            std::filesystem::create_directory(NewWgetDir);
-        }
-        Download(WgetUrl, NewWgetDir,true);
-        system(Command_AddPath.c_str());
-        std::cout << "Wget " << translate["Located"].asString() << " " << NewWgetDir << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallNginx()
-{
-    try
-    {
-        std::string NewNginxDir = database.GetValueFromDB("PackagesFromSource_Windows", "Nginx", "Directory");
-        std::string ArchivePath = ProjectFolder + "/utils/Nginx-1.25.1.zip ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewNginxDir + "Nginx-1.25.1";
-        if (std::filesystem::exists("C:\\Nginx-1.25.1") && std::filesystem::is_empty("C:\\Nginx-1.25.1") == false)
-        {
-            std::cout << "✅ Nginx " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(ArchivePath))
-        {
-            UnpackArchive(ArchivePath, NewNginxDir);
-            system(Command_AddPath.c_str());
-            std::cout << "Nginx " << translate["Located"].asString() << " " << NewNginxDir << "Nginx-1.25.1" << std::endl;
-            return 0;
-        }
-        else
-        {
-            std::string ErrorText = translate["LOG_ZIP_ARCHIVE_NOT_FOUND"].asString();
-            logger.writeLog("Error", ErrorText);
-            return -1;
-        }
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-int Windows::Installer::InstallRedis()
-{
-    try
-    {
-        std::string NewRedisFolder = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Directory");
-        std::string RedisUrl = database.GetValueFromDB("PackagesFromSource_Windows", "Redis", "Url");
-        std::string name = (RedisUrl.substr(RedisUrl.find_last_of("/")));
-        std::string ArchiveDir = ProjectFolder + "/Downloads";
-        std::string ArchivePath = ArchiveDir + "/" + name + " ";
-        std::string Command_AddPath = ProjectFolder + "/utils/pathman.exe add " + NewRedisFolder;
-        if (std::filesystem::exists(NewRedisFolder) && std::filesystem::is_empty(NewRedisFolder) == false)
-        {
-            std::cout << "✅ Redis " << translate["AlreadyInstalled"].asString() << " " << translate["in"].asString() << " " << NewRedisFolder << std::endl;
-            return 403;
-        }
-        if (std::filesystem::exists(ArchiveDir) == false)
-        {
-            std::filesystem::create_directory(ArchiveDir);
-        }
-        Download(RedisUrl, ArchiveDir,true);
-        if (std::filesystem::exists(NewRedisFolder) == false)
-        {
-            std::filesystem::create_directory(NewRedisFolder);
-        }
-        else if (std::filesystem::exists(NewRedisFolder) && std::filesystem::is_empty(NewRedisFolder) == true)
-        {
-            std::filesystem::remove_all(NewRedisFolder);
-            std::filesystem::create_directory(NewRedisFolder);
-        }
-        UnpackArchive(ArchivePath, NewRedisFolder);
-        system(Command_AddPath.c_str());
-        std::filesystem::remove(ArchivePath);
-        std::cout << "Redis " << translate["Located"].asString() << " " << NewRedisFolder << std::endl;
-        return 0;
-    }
-    catch (std::exception &error)
-    {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
-        return 403;
-    }
-}
-
 /**
  * The function checks if WinGet is installed and installs it if necessary.
  */
-void Windows::Installer::InstallWinGet()
+int Windows::Installer::InstallWinGet()
 {
     int result;
     result = system("winget -v > NUL 2>&1");
     if (result != 0)
     {
-        std::cout << translate["Installing"].asString() << " "
-                  << "winget"
-                  << " ..." << std::endl;
-        std::string Command = "powershell.exe " + ProjectFolder + "/Scripts/InstallWinGet.ps1";
-        system(Command.c_str());
-        std::cout << "✅ "
-                  << "winget"
-                  << " " << translate["Installed"].asString() << std::endl;
+        std::cout << fmt::format("{} winget...", translate["Installing"].asString()) << std::endl;
+        std::string Command = fmt::format("powershell.exe {}/Scripts/InstallWinGet.ps1", ProjectFolder);
+        result = system(Command.c_str());
+        std::cout << fmt::format("✅ winget {}", translate["Installed"].asString());
+    }
+    return result;
+}
+
+int Windows::Installer::UnpackArchive(std::string path_from, std::string path_to)
+{
+    try
+    {
+        if (!std::filesystem::exists(path_from))
+        {
+            throw std::runtime_error(fmt::format("UnpackArchive. {}", translate["LOG_ZIP_ARCHIVE_NOT_FOUND"].asString()));
+        }
+
+        std::string output_path;
+        this->MakeDirectory(path_to);
+
+        mz_zip_archive zip_archive;
+        memset(&zip_archive, 0, sizeof(zip_archive));
+
+        mz_zip_reader_init_file(&zip_archive, path_from.c_str(), 0);
+
+        for (int i = 0; i < mz_zip_reader_get_num_files(&zip_archive); i++)
+        {
+            mz_zip_archive_file_stat file_stat;
+            mz_zip_reader_file_stat(&zip_archive, i, &file_stat);
+
+            output_path = path_to + "/" + file_stat.m_filename;
+            std::filesystem::path path(output_path);
+            std::filesystem::create_directories(path.parent_path());
+
+            std::ofstream out(output_path, std::ios::binary);
+            if (!out)
+            {
+                throw std::runtime_error(fmt::format("UnpackArchive. {} {}", translate["LOG_ERROR_CREATE_FILE"].asString(), output_path));
+            }
+
+            void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
+            if (!fileData)
+            {
+                throw std::runtime_error(fmt::format("UnpackArchive. {} {}", translate["LOG_ERROR_CREATE_FILE"].asString(), output_path));
+            }
+
+            out.write(static_cast<const char *>(fileData), file_stat.m_uncomp_size);
+            mz_free(fileData);
+
+            out.close();
+        }
+
+        mz_zip_reader_end(&zip_archive);
+        return SUCCESS_STATUS_CODE;
+    }
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("UnpackArchive.{}", error.what()));
     }
 }
 
-void Windows::Installer::UnpackArchive(std::string path_from, std::string path_to)
+int Windows::Installer::MakeDirectory(std::string dir)
 {
-    std::string unpack_command = "tar -xf" + path_from + " --directory " + path_to;
-    system(unpack_command.c_str());
-}
-void Windows::Installer::MakeDirectory(std::string dir)
-{
-    std::string currentDir;
-    std::string fullPath = "";
-    std::string delimiter = "\\";
-    size_t pos = 0;
-    while ((pos = dir.find(delimiter)) != std::string::npos)
+    try
     {
-        currentDir = dir.substr(0, pos);
+        std::string currentDir;
+        std::string fullPath = "";
+        std::string delimiter = "\\";
+        size_t pos = 0;
+        while ((pos = dir.find(delimiter)) != std::string::npos)
+        {
+            currentDir = dir.substr(0, pos);
+            if (fullPath != "")
+            {
+                fullPath = fullPath + "\\" + currentDir;
+                if (std::filesystem::exists(fullPath) == false)
+                {
+                    std::filesystem::create_directory(fullPath);
+                }
+            }
+            else
+            {
+                fullPath = currentDir + "\\";
+            }
+            dir.erase(0, pos + delimiter.length());
+        }
         if (fullPath != "")
         {
-            fullPath = fullPath + "\\" + currentDir;
-            if (std::filesystem::exists(fullPath) == false)
-            {
-                std::filesystem::create_directory(fullPath);
-            }
+            fullPath = fullPath + "\\" + dir;
         }
         else
         {
-            fullPath = currentDir + "\\";
+            fullPath = dir + "\\";
         }
-        dir.erase(0, pos + delimiter.length());
+        if (std::filesystem::exists(fullPath) == false)
+        {
+            std::filesystem::create_directory(fullPath);
+        }
+        return SUCCESS_STATUS_CODE;
     }
-    if (fullPath != "")
+    catch (std::exception &error)
     {
-        fullPath = fullPath + "\\" + dir;
-    }
-    else
-    {
-        fullPath = dir + "\\";
-    }
-    if (std::filesystem::exists(fullPath) == false)
-    {
-        std::filesystem::create_directory(fullPath);
+        throw std::runtime_error(fmt::format("MakeDirectory.{}", error.what()));
     }
 }
 
 int Windows::Installer::MainInstaller(std::string Name)
 {
-    std::string Value = database.GetValueFromDB("Applications", Name, "Windows");
-    int result;
-    if (Value != "ManualInstallation")
+    try
     {
+    int result = 0;
+    std::string Value;
+    std::string InstallCommand;
+    DB::DatabaseValues parameters;
+
+    parameters = {{"Name", Name}};
+    Value = database.GetValueFromRow("Applications", "Windows", parameters);
+
+    std::cout << InstallDelimiter << std::endl;
+
+    if (Value != "ManualInstallation" && Value != "Not Found")
+    {
+        std::cout << fmt::format("{} {}...", translate["Installing"].asString(), Name) << std::endl;
         result = system(Value.c_str());
-    }
-    else if (PackagesFromSource.find(Name) != PackagesFromSource.end())
-    {
-        result = (this->*(PackagesFromSource[Name]))();
     }
     else
     {
-        std::string InstallCommand = database.GetValueFromDB("PackagesFromSource_Windows", Name, "Command");
-        if (InstallCommand != "Empty")
+        // Get command from database for manual installation package.
+        InstallCommand = database.GetValueFromRow("PackagesFromSource_Windows", "Command", parameters);
+        switch (hashString(InstallCommand.c_str()))
+        {
+        case hashString("Empty"):
+            result = this->InstallPackages(Name, InstallCommand);
+            break;
+        default:
             result = system(InstallCommand.c_str());
+            break;
+        }
+    }
+    // Check status code of installation process.
+    switch (result)
+    {
+    case SUCCESS_STATUS_CODE:
+        std::cout << fmt::format("==> ✅ {} {}", Name, translate["Installed"].asString()) << std::endl;
+        break;
+    case FAILED_STATUS_CODE:
+        throw std::runtime_error(fmt::format("MainInstaller.{} {}", translate["ErrorInstall"].asString(), Name));
+        break;
     }
     return result;
+    }
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("MainInstaller.{}", error.what()));
+    }
 }
 
-void Windows::Installer::UpdateData()
+int Windows::Installer::UpdateData()
 {
     try
     {
         database.open(&DatabasePath);
-        Packages = database.GetAllValuesFromDB("Applications", "Windows");
-        DevelopmentPacks = database.GetDevPackFromDB("DevelopmentPacks", "Language");
+        Languages = database.GetArrayOneColumnFromTable("DevelopmentPacks","Language", std::nullopt);
+        Packages = database.GetTwoColumnsFromTable("Applications", "Name", "Windows", std::nullopt);
+        DevelopmentPacks = database.GetArrayOneColumnFromTable("DevelopmentPacks", "Language", std::nullopt);
+        return SUCCESS_STATUS_CODE;
     }
     catch (std::exception &error)
     {
-        std::string LogText = translate["LOG_ERROR_DOWNLOAD_DATABASE"].asString() + std::string(error.what());
-        logger.writeLog("Error", LogText);
+        throw std::runtime_error(fmt::format("UpdateData.{}{}", error.what(), fmt::format("{} {}", translate["LOG_ERROR_UPDATE_LIST_PACKAGES"].asString(), std::string(error.what()))));
     }
 }
 
-void Windows::Installer::InstallDevelopmentPack(std::string n)
+int Windows::Installer::InstallDevelopmentPack(std::string LanguageTable)
 {
     try
     {
-        UpdateData();
+        this->UpdateData();
         // Init variables
-        auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "Windows");
-        std::unordered_map<int, std::string> EnumeratePackages;
-        std::string NamePackage;
-        std::string delimiter = ",";
-        size_t pos = 0;
-        std::string token;
-        int output_func;
-        /* The bellow code is retrieving values from a database for a specific development pack on the
-        Windows platform. It then iterates over the retrieved values and creates a map of enumerated
-        packages. It also creates a string representation of each package with its corresponding
-        index. The code then checks if the number of packages is even or odd and prints the string
-        representation accordingly. */
-        for (int i = 1; const auto &element : DevelopmentPack)
-        {
-            /* The bellow code is inserting packages into a map called EnumeratePackages, where the
-            key is an integer and the value is a string. It then creates a string called
-            NamePackage by concatenating the key and the package name. It then calls a function
-            called NewString with NamePackage as an argument and assigns the result to
-            getNewString. */
-            EnumeratePackages.insert(std::pair<int, std::string>(i, element.first));
-            NamePackage = std::to_string(i) + ". " + element.first;
-            // Formatting output text
-            std::string getNewString = NewString(NamePackage);
-            if (DevelopmentPack.size() % 2 == 0)
-            {
-                if (getNewString != "")
-                {
-                    std::cout << getNewString << std::endl;
-                }
-            }
-            else
-            {
-                if (getNewString != "")
-                {
-                    std::cout << getNewString << std::endl;
-                }
-                if (i == DevelopmentPack.size())
-                {
-                    std::cout << NamePackage << std::endl;
-                    haveString = "";
-                }
-            }
-            i++;
-        }
+        DB::DatabaseValues DevelopmentPack;
+        DB::EnumColDatabaseValues EnumeratePackages;
+        std::string SelectedPackages;
+
+        DevelopmentPack = database.GetTwoColumnsFromTable(LanguageTable, "Name", "Windows", std::nullopt);
+        EnumeratePackages = Enumerate<EnumStringHashMap>(DevelopmentPack);
+        PrintFormatted(EnumeratePackages,EnumeratePackages.size());
+        // PrintPackagesWithEnum(DevelopmentPack, EnumeratePackages);
+
         std::cout << "" << std::endl;
         std::cout << translate["SelectingPackages"].asString();
-        std::getline(std::cin, SelectPackages);
-        if (SelectPackages.empty() == false)
-        {
-            /* The bellow code is splitting a string called `SelectPackages` into multiple tokens using a
-            delimiter (","). It then checks if each token is present in a map called
-            `EnumeratePackages`. If a token is found in the map, it retrieves the corresponding value
-            (package name) and performs some installation-related operations. These operations include
-            printing messages, calling a `MainInstaller` function with the package name, and logging
-            success or error messages based on the output of the `MainInstaller` function. Finally, it
-            removes the Bar::Processed token from the `SelectPackages` string and continues the loop until
-            all tokens */
-            while ((pos = SelectPackages.find(delimiter)) != std::string::npos)
-            {
-                token = SelectPackages.substr(0, pos);
-                if (EnumeratePackages.find(stoi(token)) != EnumeratePackages.end())
-                {
-                    NamePackage = EnumeratePackages[stoi(token)];
-                    // =============================
-                    std::cout << InstallDelimiter << std::endl;
-                    std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
-                    // Install application
-                    output_func = MainInstaller(NamePackage);
-                    // Loggin and print messages
-                    if (output_func == 0)
-                    {
-                        std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
-                        std::cout << SuccessText << std::endl;
-                    }
-                    else if (output_func != 403)
-                    {
-                        std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
-                        std::cerr << ErrorText << std::endl;
-                    }
-                    SelectPackages.erase(0, pos + delimiter.length());
-                }
-            }
+        std::getline(std::cin, SelectedPackages);
 
-            /* The bellow code is checking if a package with a specific ID exists in a map called
-            EnumeratePackages. If the package exists, it retrieves the name of the package and proceeds
-            to install it using the MainInstaller function from the Installer object. After
-            installation, it logs and prints success or error messages based on the output of the
-            installation Bar::Process. */
-            if (EnumeratePackages.find(stoi(SelectPackages)) != EnumeratePackages.end())
-            {
-                NamePackage = EnumeratePackages[stoi(SelectPackages)];
-                if (NamePackage != "AllPackages")
-                {
-                    std::cout << InstallDelimiter << std::endl;
-                    std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
-                    // Install application
-                    output_func = MainInstaller(NamePackage);
-                    // Logging and print messages
-                    if (output_func == 0)
-                    {
-                        std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
-                        std::cout << SuccessText << std::endl;
-                    }
-                    else if (output_func != 403)
-                    {
-                        std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
-                        std::cerr << ErrorText << std::endl;
-                    }
-                }
-                else
-                {
-                    DevelopmentPack.erase("AllPackages");
-                    for (const auto &element : DevelopmentPack)
-                    {
-                        std::cout << InstallDelimiter << std::endl;
-                        std::cout << translate["Installing"].asString() << " " << element.first << " ..." << std::endl;
-                        output_func = MainInstaller(element.first);
-                        if (output_func == 0)
-                        {
-                            std::string SuccessText = "==> ✅ " + element.first + " " + translate["Installed"].asString();
-                            std::cout << SuccessText << std::endl;
-                        }
-                        else if (output_func != 403)
-                        {
-                            std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + element.first;
-                            std::cerr << ErrorText << std::endl;
-                        }
-                    }
-                }
-            }
-        }
+        InstallIfFound(SelectedPackages, EnumeratePackages, MainInstallerLink);
+        return SUCCESS_STATUS_CODE;
     }
     catch (std::exception &error)
     {
-        std::string ErrorText = "==> ❌ " + std::string(error.what());
-        logger.writeLog("Error", error.what());
-        std::cerr << ErrorText << std::endl;
+        throw std::runtime_error(fmt::format("InstallDevelopmentPack.", error.what()));
     }
-    std::cout << InstallDelimiter << std::endl;
 }
 
-void Windows::Installer::DownloadDatabase()
+int Windows::Installer::DownloadDatabase()
 {
     try
     {
         /* This code block checks if the database file specified by `DatabasePath` exists.
         If the file does not exist, it proceeds to download the file from a specified URL using the libcurl library. */
-        if (std::filesystem::exists(DatabasePath) == false)
+        if (!std::filesystem::exists(DatabasePath))
         {
-            std::string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
+            std::string url = "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
             std::string name = (url.substr(url.find_last_of("/")));
             std::string filename = ProjectFolder + "/" + name.replace(name.find("/"), 1, "");
             FILE *file = fopen(filename.c_str(), "wb");
@@ -592,79 +279,117 @@ void Windows::Installer::DownloadDatabase()
                 }
             }
         }
+        return SUCCESS_STATUS_CODE;
     }
     catch (std::exception &error)
     {
-        std::string logText = translate["LOG_ERROR_DOWNLOAD_DATABASE"].asString() + std::string(error.what());
-        logger.writeLog("Error", logText);
+        throw std::runtime_error(fmt::format("DownloadDatabase.{}{}", translate["LOG_ERROR_DOWNLOAD_DATABASE"].asString(), std::string(error.what())));
     }
 }
 
-int Windows::Installer::Download(std::string url, std::string dir,bool Progress)
+int Windows::Installer::Download(std::string url, std::string dir, bool Progress)
+{
+    withProgress = Progress;
+    std::string filename = (url.substr(url.find_last_of("/")));
+    std::string pathFile = dir + "/" + filename.replace(filename.find("/"), 1, "");
+    FILE *file = fopen(pathFile.c_str(), "wb");
+    CURL *curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    if (Progress)
+    {
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
+    }
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
+    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+    CURLcode response = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+    fclose(file);
+    /* The bellow code is checking the value of the variable "response" and performing
+    different actions based on its value. If the value of "response" is not equal to
+    CURLE_OK, it enters a switch statement. Inside the switch statement, it checks the
+    value of "response" against different cases and performs specific actions for each
+    case. The actions involve writing and logging different error messages based on the
+    value of "response". */
+    if (response != CURLE_OK)
+    {
+        switch (response)
+        {
+        case CURLE_COULDNT_CONNECT:
+            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_CONNECT"].asString());
+            break;
+        case CURLE_COULDNT_RESOLVE_HOST:
+            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_HOST"].asString());
+            break;
+        case CURLE_COULDNT_RESOLVE_PROXY:
+            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_PROXY"].asString());
+            break;
+        case CURLE_UNSUPPORTED_PROTOCOL:
+            throw std::domain_error(translate["LOG_ERROR_CURLE_UNSUPPORTED_PROTOCOL"].asString());
+            break;
+        case CURLE_SSL_CONNECT_ERROR:
+            throw std::domain_error(translate["LOG_ERROR_CURLE_SSL_CONNECT_ERROR"].asString());
+            break;
+        }
+    }
+    if (Progress == true)
+    {
+        // If the progress bar is not completely filled in, then paint over manually
+        for (int i = progressbar.progress; i < 100; i++)
+        {
+            progressbar.update(LastSize, LastTotalSize);
+        }
+        // Reset all variables and preferences
+        progressbar.resetAll();
+        Percentage = 0;
+        TempPercentage = 0;
+    }
+    return SUCCESS_STATUS_CODE;
+}
+
+int Windows::Installer::InstallPackages(const std::string &Name, const std::string &Command)
 {
     try
     {
-        withProgress = Progress;
-        std::string name = (url.substr(url.find_last_of("/")));
-        std::string filename = dir + "/" + name.replace(name.find("/"), 1, "");
-        FILE *file = fopen(filename.c_str(), "wb");
-        CURL *curl = curl_easy_init();
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
-        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-        CURLcode response = curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-        fclose(file);
-        /* The bellow code is checking the value of the variable "response" and performing
-        different actions based on its value. If the value of "response" is not equal to
-        CURLE_OK, it enters a switch statement. Inside the switch statement, it checks the
-        value of "response" against different cases and performs specific actions for each
-        case. The actions involve writing and logging different error messages based on the
-        value of "response". */
-        if (response != CURLE_OK)
+        DB::DatabaseValues parameters;
+        std::string NewPackageFolder;
+        std::string PackageUrl;
+        std::string name;
+        std::string ArchivePath;
+        std::string Command_AddPath;
+
+        parameters = {{"Name", Name}};
+        NewPackageFolder = PackagesFolder + Name;
+        PackageUrl = database.GetValueFromRow("PackagesFromSource_Windows", "Url", parameters);
+        name = (PackageUrl.substr(PackageUrl.find_last_of("/")));
+        ArchivePath = ArchivesFolder + "/" + name;
+        Command_AddPath = ArchivesFolder + "/pathman.exe add " + NewPackageFolder;
+
+        if (std::filesystem::exists(NewPackageFolder) && !std::filesystem::is_empty(NewPackageFolder))
         {
-            switch (response)
-            {
-            case CURLE_COULDNT_CONNECT:
-                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_CONNECT"].asString());
-                break;
-            case CURLE_COULDNT_RESOLVE_HOST:
-                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_HOST"].asString());
-                break;
-            case CURLE_COULDNT_RESOLVE_PROXY:
-                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_PROXY"].asString());
-                break;
-            case CURLE_UNSUPPORTED_PROTOCOL:
-                throw std::domain_error(translate["LOG_ERROR_CURLE_UNSUPPORTED_PROTOCOL"].asString());
-                break;
-            case CURLE_SSL_CONNECT_ERROR:
-                throw std::domain_error(translate["LOG_ERROR_CURLE_SSL_CONNECT_ERROR"].asString());
-                break;
-            }
+            std::cout << fmt::format("✅ {} {} {} {}", Name, translate["AlreadyInstalled"].asString(), translate["in"].asString(), NewPackageFolder) << std::endl;
+            return 403;
         }
-        if (Progress == true)
+
+        std::cout << fmt::format("{} {}...", translate["Installing"].asString(), Name) << std::endl;
+
+        this->Download(PackageUrl, ArchivesFolder, true);
+        if (!std::filesystem::exists(NewPackageFolder))
         {
-            // If the progress bar is not completely filled in, then paint over manually
-            for (int i = progressbar.progress; i < 100; i++)
-            {
-                progressbar.update(LastSize, LastTotalSize);
-            }
-            // Reset all variables and preferences
-            progressbar.resetAll();
-            Percentage = 0;
-            TempPercentage = 0;
+            this->MakeDirectory(NewPackageFolder);
         }
+        this->UnpackArchive(ArchivePath, NewPackageFolder);
+        system(Command_AddPath.c_str());
+        std::filesystem::remove(ArchivePath);
+        std::cout << fmt::format("{} {} {}", Name, translate["Located"].asString(), NewPackageFolder) << std::endl;
+        return SUCCESS_STATUS_CODE;
     }
     catch (std::exception &error)
     {
-        std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
-        std::cerr << logText << std::endl;
+        throw std::domain_error(fmt::format("InstallPackages.{}", error.what()));
     }
 }

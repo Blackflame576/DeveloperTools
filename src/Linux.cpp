@@ -107,7 +107,7 @@ void Linux::Installer::InstallDevelopmentPack(std::string n)
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
-        int output_func;
+        int result;
         /* The bellow code is retrieving values from a database for a specific development pack on the
         Windows platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
@@ -168,14 +168,14 @@ void Linux::Installer::InstallDevelopmentPack(std::string n)
                     std::cout << InstallDelimiter << std::endl;
                     std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
                     // Install application
-                    output_func = MainInstaller(NamePackage);
+                    result = MainInstaller(NamePackage);
                     // Loggin and print messages
-                    if (output_func == 0)
+                    if (result == 0)
                     {
                         std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
                         std::cout << SuccessText << std::endl;
                     }
-                    else if (output_func != 403)
+                    else if (result != 403)
                     {
                         std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                         std::cerr << ErrorText << std::endl;
@@ -197,14 +197,14 @@ void Linux::Installer::InstallDevelopmentPack(std::string n)
                     std::cout << InstallDelimiter << std::endl;
                     std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
                     // Install application
-                    output_func = MainInstaller(NamePackage);
+                    result = MainInstaller(NamePackage);
                     // Logging and print messages
-                    if (output_func == 0)
+                    if (result == 0)
                     {
                         std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
                         std::cout << SuccessText << std::endl;
                     }
-                    else if (output_func != 403)
+                    else if (result != 403)
                     {
                         std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                         std::cerr << ErrorText << std::endl;
@@ -217,13 +217,13 @@ void Linux::Installer::InstallDevelopmentPack(std::string n)
                     {
                         std::cout << InstallDelimiter << std::endl;
                         std::cout << translate["Installing"].asString() << " " << element.first << " ..." << std::endl;
-                        output_func = MainInstaller(element.first);
-                        if (output_func == 0)
+                        result = MainInstaller(element.first);
+                        if (result == 0)
                         {
                             std::string SuccessText = "==> ✅ " + element.first + " " + translate["Installed"].asString();
                             std::cout << SuccessText << std::endl;
                         }
-                        else if (output_func != 403)
+                        else if (result != 403)
                         {
                             std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + element.first;
                             std::cerr << ErrorText << std::endl;
@@ -521,8 +521,11 @@ int Download(std::string url, std::string dir,bool Progress)
         FILE *file = fopen(filename.c_str(), "wb");
         CURL *curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
+        if (Progress)
+        {
+            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
+        }
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);

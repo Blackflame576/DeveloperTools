@@ -32,7 +32,6 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-// #include <map>
 #include <unordered_map>
 #include <filesystem>
 #include <sys/types.h>
@@ -55,6 +54,7 @@
 #include <Logger/Logger.hpp>
 #include <miniz/miniz.h>
 #include <sstream>
+#include <algorithm>
 
 // Checking the name of the operating system and importing the necessary libraries for this system
 #if defined(__linux__)
@@ -81,19 +81,28 @@
 #define DEBUG_MODE 0
 #define MODE DEBUG_MODE
 
+// Statuc codes
+#define FAILED_STATUS_CODE 1
+#define SUCCESS_STATUS_CODE  0
+#define ALREADY_EXISTS_STATUS_CODE  2
+
 #if defined(__linux__)
-#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-linux-amd64"
-#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-linux-armv8"
+#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-linux-amd64.zip"
+#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-linux-armv8.zip"
 #define OS_NAME "Linux"
 #elif __APPLE__
-#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.6.0-darwin-amd64_v2.zip"
-#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.6.0-darwin-arm64.zip"
+#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.6.0-darwin-amd64_v2.zip"
+#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.6.0-darwin-arm64.zip"
 #define OS_NAME "macOS"
 #elif _WIN32
-#define PathmanURL_AMD64 "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-windows-amd64.exe"
-#define PathmanURL_ARM64 "https://github.com/DeepForge-Tech/DeepForge-Toolset/releases/download/InstallerUtils/pathman-v0.5.2-windows-amd64.exe"
+#define PathmanURL_AMD64 "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
+#define PathmanURL_ARM64 "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
 #define OS_NAME "Windows"
 #endif
+
+typedef std::unordered_map<std::string, std::string> StringHashMap;
+typedef std::unordered_map<int, std::string> EnumStringHashMap;
+typedef std::unique_ptr<std::string[]> SmartStringArray;
 
 // Variables
 // int type
@@ -110,10 +119,9 @@ enum class LanguageChoices
 double LastSize;
 double LastTotalSize;
 // map type
-std::unordered_map<std::string, std::string> Packages;
-std::unordered_map<std::string, std::string> DevelopmentPacks;
-std::unordered_map<int, std::string> Languages{
-    {1, "Python"}, {2, "JavaScript"}, {3, "C++"}, {4, "Java"}, {5, "Go"}, {6, "Rust"}, {7, "Ruby"}, {8, "C"}, {9, "C#"}, {10, "PHP"}, {11, "Kotlin"}};
+DB::DatabaseValues Packages;
+DB::ArrayDatabaseValues DevelopmentPacks;
+DB::ArrayDatabaseValues Languages;
 
 /* The `replaceAll` function is a utility function that replaces all occurrences of a substring `from` with another substring `to` in a given string `str`. */
 std::string ReplaceAll(std::string str, const std::string &from, const std::string &to)
@@ -130,13 +138,12 @@ std::string ReplaceAll(std::string str, const std::string &from, const std::stri
 const std::string TrueVarious[3] = {"yes", "y", "1"};
 std::string ProjectFolder = std::filesystem::current_path().generic_string();
 std::string haveString = "";
-std::string new_sentence;
 std::string LangReadySet;
 std::string InstallDelimiter = "========================================================";
 std::string Language;
-std::string SelectPackages;
+// std::string SelectPackages;
 std::string Answer;
-std::string InstallTools;
+std::string NumMenu;
 // Boolean type
 bool Install;
 bool withProgress = true;
@@ -156,6 +163,8 @@ std::string LocaleFolder;
 std::string UpdateManagerFolder;
 std::string DatabasePath;
 std::string LogPath;
+std::string PackagesFolder;
+std::string ArchivesFolder;
 
 #elif __linux__
 #if defined(_M_AMD64)
@@ -172,6 +181,8 @@ const std::string ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
 const std::string UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
 const std::string TempFolder = ApplicationFolder + "/Temp";
 const std::string LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
+const std::string PackagesFolder = "/usr/bin";
+const std::string ArchivesFolder = ProjectFolder + "/Downloads";
 std::string DatabasePath = ProjectFolder == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
 std::string LogPath = ProjectFolder + "/logs/DeepForge-Toolset.log";
 
@@ -182,12 +193,14 @@ std::string Architecture = "amd64";
 std::string Architecture = "arm64";
 #endif
 char *UserFolder = getenv("USERPROFILE");
-const std::string DesktopPath = std::string(UserFolder) + "\\Desktop";
+const std::string DesktopPath = std::string(UserFolder) + "/Desktop";
 const std::string ApplicationFolder = "C:/ProgramData/DeepForge/DeepForge-Toolset";
 std::string DatabasePath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
 std::string LogPath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/logs/DeepForge-Toolset.log" : ProjectFolder + "/logs/DeepForge-Toolset.log";
 std::string LocaleFolder = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
 const std::string TempFolder = ApplicationFolder + "/Temp";
+const std::string PackagesFolder = "C:\\";
+const std::string ArchivesFolder = ProjectFolder + "/Downloads";
 #endif
 // init classes
 Logger::Logging logger(LogPath.c_str(), "10kb");
@@ -251,7 +264,7 @@ size_t WriteData(void *ptr, size_t size, size_t nmemb, FILE *stream)
     return WriteProcess;
 }
 
-bool endsWith(const std::string& s, const std::string& suffix)
+bool endsWith(const std::string &s, const std::string &suffix)
 {
     return s.rfind(suffix) == (s.size() - suffix.size());
 }
@@ -261,7 +274,7 @@ std::string NewString(std::string sentence)
 {
     std::string new_sentence = "";
     // If the string is empty, then the first application name is added.
-    if (haveString == "")
+    if (haveString.empty())
     {
         haveString = sentence;
         return new_sentence;
@@ -305,16 +318,20 @@ bool CheckAnswer(std::string &answer)
     return status;
 }
 
-bool CheckStringInFile(const std::string& filename, const std::string& target) {
-    std::fstream file(filename,std::ios::in | std::ios::out | std::ios::binary);
-    if (!file.is_open()) {
-        std::cerr << "Failed to open file: " << filename << std::endl;
+bool CheckStringInFile(const std::string &filename, const std::string &target)
+{
+    std::fstream file(filename, std::ios::in | std::ios::out | std::ios::binary);
+    if (!file.is_open())
+    {
+        std::cerr << fmt::format("Failed to open file: {}",filename) << std::endl;
         return false;
     }
 
     std::string line;
-    while (std::getline(file, line)) {
-        if (line.find(target) != std::string::npos) {
+    while (std::getline(file, line))
+    {
+        if (line.find(target) != std::string::npos)
+        {
             file.close();
             return true;
         }
@@ -322,6 +339,132 @@ bool CheckStringInFile(const std::string& filename, const std::string& target) {
 
     file.close();
     return false;
+}
+
+constexpr std::uint32_t hashString(const char *value, size_t index = 0)
+{
+    return value[index] == '\0' ? 11 : hashString(value, index + 1) * 99 + static_cast<unsigned char>(value[index]);
+}
+
+template <class StringType>
+StringType removeChar(StringType &str, char c)
+{
+    str.erase(std::remove(str.begin(), str.end(), c), str.end());
+    return str;
+}
+
+template <class StringType>
+StringType removeNonDigits(StringType str)
+{
+    std::string result;
+    std::copy_if(str.begin(), str.end(), std::back_inserter(result),
+                 [](char c)
+                 { return std::isdigit(c); });
+    return result;
+}
+
+template <class StringType>
+StringType removeDigits(StringType str)
+{
+    std::string result;
+    std::copy_if(str.begin(), str.end(), std::back_inserter(result),
+                 [](char c)
+                 { return !std::isdigit(c); });
+    return result;
+}
+
+void PrintFormatted(DB::ArrayDatabaseValues &array,int size)
+{
+    std::string Value_1;
+    std::string Value_2;
+    for (int i = 0; i < size;i += 2)
+    {
+        Value_1 = fmt::format("{}. {}",std::to_string(i + 1),array[i]);
+        if (i + 1 < size) {
+            Value_2 = fmt::format("{}. {}",std::to_string(i + 2),array[i + 1]);
+            std::cout << fmt::format("{:<20} {:<20}\n", Value_1, Value_2);
+        }
+        else {
+            std::cout << fmt::format("{}\n", Value_1);
+        }
+    }
+}
+
+template<class T>
+void PrintFormatted(T &object,int size)
+{
+    std::string Value_1;
+    std::string Value_2;
+    for (int i = 0; i < size;i += 2)
+    {
+        Value_1 = fmt::format("{}. {}",std::to_string(i + 1),object[i + 1]);
+        if (i + 1 < size) {
+            Value_2 = fmt::format("{}. {}",std::to_string(i + 2),object[i + 2]);
+            std::cout << fmt::format("{:<40} {}\n", Value_1, Value_2);
+        }
+        else {
+            std::cout << fmt::format("{}\n", Value_1);
+        }
+    }
+}
+
+template<class T,class U>
+T Enumerate(U object)
+{
+    T new_object;
+    for (int i = 1; const auto &element : object)
+    {
+        new_object.insert(std::pair<int,std::string>(i,element.first));
+        i++;
+    }   
+    return new_object;
+}
+
+void InstallIfFound(std::string &selectedPackages ,DB::EnumColDatabaseValues &enumeratePackages, std::function<int(std::string)> MainInstaller)
+{
+    try
+    {
+        std::string NamePackage;
+        std::string delimiter = ",";
+        size_t pos = 0;
+        std::string token;
+
+        if (!selectedPackages.empty())
+        {
+            while ((pos = selectedPackages.find(delimiter)) != std::string::npos)
+            {
+                token = selectedPackages.substr(0, pos);
+                std::cout << "hello" <<token << std::endl;
+                if (enumeratePackages.find(stoi(token)) != enumeratePackages.end())
+                {
+                    NamePackage = enumeratePackages[stoi(token)];
+                    // Install application
+                    MainInstaller(NamePackage);
+                    selectedPackages.erase(0, pos + delimiter.length());
+                }
+            }
+            if (enumeratePackages.find(stoi(selectedPackages)) != enumeratePackages.end())
+            {
+                NamePackage = enumeratePackages[stoi(selectedPackages)];
+                if (NamePackage != "AllPackages")
+                {
+                    // Install application
+                    MainInstaller(NamePackage);
+                }
+                else
+                {
+                    for (const auto &element : enumeratePackages)
+                    {
+                        if (element.second != "AllPackages") MainInstaller(element.second);
+                    }
+                }
+            }
+        }
+    }
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("InstallIfFound.{}",error.what()));
+    }
 }
 
 #endif
