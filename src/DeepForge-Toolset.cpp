@@ -130,9 +130,8 @@ void Application::ReadySet()
         int LanguagesSize = database.GetArraySize("DevelopmentPacks","Language");
         std::string NameDevelopmnetPack;
         DB::DatabaseValues parameters;
-
+        std::cout << LanguagesSize << std::endl;
         PrintFormatted(Languages,LanguagesSize);
-
         std::cout << translate["ChooseLanguage"].asString();
         std::getline(std::cin, LangReadySet);
         std::cout << InstallDelimiter << std::endl;

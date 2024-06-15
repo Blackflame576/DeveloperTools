@@ -95,7 +95,7 @@ int Linux::Installer::InstallDevelopmentPack(std::string LanguageTable)
         DB::DatabaseValues DevelopmentPack;
         DB::EnumColDatabaseValues EnumeratePackages;
         std::string SelectedPackages;
-        DevelopmentPack = database.GetTwoColumnsFromTable(LanguageTable, "Name", NAME_SYSTEM_COLUMN, std::nullopt);
+        DevelopmentPack = database.GetTwoColumnsFromTable(LanguageTable, "Name", fmt::format("Linux_{}",Architecture), std::nullopt);
         EnumeratePackages = Enumerate<EnumStringHashMap>(DevelopmentPack);
         PrintFormatted(EnumeratePackages, EnumeratePackages.size());
 
@@ -136,7 +136,8 @@ int Linux::Installer::UpdateData()
     {
         DB::DatabaseValues parameters;
         database.open(&DatabasePath);
-        Packages = database.GetTwoColumnsFromTable("Applications", "Name", NAME_SYSTEM_COLUMN, std::nullopt);
+        Languages = database.GetArrayOneColumnFromTable("DevelopmentPacks", "Language", std::nullopt);
+        Packages = database.GetTwoColumnsFromTable("Applications", "Name", fmt::format("Linux_{}",Architecture), std::nullopt);
         NameDistribution = GetNameDistribution();
         DevelopmentPacks = database.GetArrayOneColumnFromTable("DevelopmentPacks", "Language", std::nullopt);
         parameters = {{"Name", NameDistribution}};
@@ -159,7 +160,7 @@ int Linux::Installer::MainInstaller(std::string Name)
         DB::DatabaseValues parameters;
 
         parameters = {{"Name", Name}};
-        Value = database.GetValueFromRow("Applications", "Windows", parameters);
+        Value = database.GetValueFromRow("Applications", fmt::format("Linux_{}",Architecture), parameters);
 
         std::cout << InstallDelimiter << std::endl;
 
@@ -171,11 +172,7 @@ int Linux::Installer::MainInstaller(std::string Name)
         else
         {
 // Get command from database for manual installation package.
-#if defined(__x86_64__)
-            InstallCommand = database.GetValueFromRow("PackagesFromSource_Linux_amd64", PackageManager, parameters);
-#elif __arm__ || __aarch64__ || _M_ARM64
-            InstallCommand = database.GetValueFromTable("PackagesFromSource_Linux_arm64", PackageManager, parameters);
-#endif
+            InstallCommand = database.GetValueFromRow(fmt::format("PackagesFromSource_Linux_{}",Architecture), PackageManager, parameters);
             switch (hashString(InstallCommand.c_str()))
             {
             case hashString("Empty"):
@@ -289,7 +286,7 @@ int Linux::Installer::DownloadDatabase()
     }
 }
 
-int Download(std::string url, std::string dir, bool Progress)
+int Linux::Installer::Download(std::string url, std::string dir, bool Progress)
 {
     try
     {
@@ -440,5 +437,29 @@ int Linux::Installer::InstallPackages(const std::string &Name, const std::string
     catch (std::exception &error)
     {
         throw std::domain_error(fmt::format("InstallPackages.{}", error.what()));
+    }
+}
+
+bool Linux::Installer::CheckData()
+{
+    EnumStringHashMap sizes;
+    std::string errorText;
+    sizes = {
+        {Languages ? 1 : 0,"Languages"},
+        {Packages.size(),"Packages"},
+        {DevelopmentPacks ? 1 : 0,"DevelopmentPacks"},
+        {PackageManager.size(),"PackageManager"}
+    };
+    for (int i = 1;const auto &element : sizes)
+    {
+        if (element.first == 0)
+        {
+            errorText += fmt::format("{}) {}",i,element.second);
+        }
+    }
+    if (errorText.size() != 0)
+    {
+        errorText += " is empty";
+        throw std::runtime_error(errorText);
     }
 }

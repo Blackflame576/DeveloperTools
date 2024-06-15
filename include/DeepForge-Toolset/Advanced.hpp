@@ -83,8 +83,8 @@
 
 // Statuc codes
 #define FAILED_STATUS_CODE 1
-#define SUCCESS_STATUS_CODE  0
-#define ALREADY_EXISTS_STATUS_CODE  2
+#define SUCCESS_STATUS_CODE 0
+#define ALREADY_EXISTS_STATUS_CODE 2
 
 #if defined(__linux__)
 #define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-linux-amd64.zip"
@@ -167,11 +167,9 @@ std::string PackagesFolder;
 std::string ArchivesFolder;
 
 #elif __linux__
-#if defined(_M_AMD64)
-#define NAME_SYSTEM_COLUMN "Linux_amd64";
+#if defined(__x86_64__)
 std::string Architecture = "amd64";
 #elif __arm__ || __aarch64__ || _M_ARM64
-#define NAME_SYSTEM_COLUMN "Linux_arm64";
 std::string Architecture = "arm64";
 #endif
 std::string NameDistribution;
@@ -325,7 +323,7 @@ bool CheckStringInFile(const std::string &filename, const std::string &target)
     std::fstream file(filename, std::ios::in | std::ios::out | std::ios::binary);
     if (!file.is_open())
     {
-        std::cerr << fmt::format("Failed to open file: {}",filename) << std::endl;
+        std::cerr << fmt::format("Failed to open file: {}", filename) << std::endl;
         return false;
     }
 
@@ -375,54 +373,65 @@ StringType removeDigits(StringType str)
     return result;
 }
 
-void PrintFormatted(DB::ArrayDatabaseValues &array,int size)
+void PrintFormatted(DB::ArrayDatabaseValues &array, int size)
 {
-    std::string Value_1;
-    std::string Value_2;
-    for (int i = 0; i < size;i += 2)
+    try
     {
-        Value_1 = fmt::format("{}. {}",std::to_string(i + 1),array[i]);
-        if (i + 1 < size) {
-            Value_2 = fmt::format("{}. {}",std::to_string(i + 2),array[i + 1]);
-            std::cout << fmt::format("{:<20} {:<20}\n", Value_1, Value_2);
+        std::string Value_1;
+        std::string Value_2;
+        for (int i = 0; i < size; i += 2)
+        {
+            Value_1 = fmt::format("{}. {}", std::to_string(i + 1), array[i]);
+            if (i + 1 < size)
+            {
+                Value_2 = fmt::format("{}. {}", std::to_string(i + 2), array[i + 1]);
+                std::cout << fmt::format("{:<20} {:<20}\n", Value_1, Value_2);
+            }
+            else
+            {
+                std::cout << fmt::format("{}\n", Value_1);
+            }
         }
-        else {
-            std::cout << fmt::format("{}\n", Value_1);
-        }
+    }
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("PrintFormatted.{}", error.what()));
     }
 }
 
-template<class T>
-void PrintFormatted(T &object,int size)
+template <class T>
+void PrintFormatted(T &object, int size)
 {
     std::string Value_1;
     std::string Value_2;
-    for (int i = 0; i < size;i += 2)
+    for (int i = 0; i < size; i += 2)
     {
-        Value_1 = fmt::format("{}. {}",std::to_string(i + 1),object[i + 1]);
-        if (i + 1 < size) {
-            Value_2 = fmt::format("{}. {}",std::to_string(i + 2),object[i + 2]);
+        Value_1 = fmt::format("{}. {}", std::to_string(i + 1), object[i + 1]);
+        if (i + 1 < size)
+        {
+            Value_2 = fmt::format("{}. {}", std::to_string(i + 2), object[i + 2]);
             std::cout << fmt::format("{:<40} {}\n", Value_1, Value_2);
         }
-        else {
+        else
+        {
             std::cout << fmt::format("{}\n", Value_1);
         }
     }
 }
 
-template<class T,class U>
+template <class T, class U>
 T Enumerate(U object)
 {
     T new_object;
     for (int i = 1; const auto &element : object)
     {
-        new_object.insert(std::pair<int,std::string>(i,element.first));
+        new_object.insert(std::pair<int, std::string>(i, element.first));
         i++;
-    }   
+    }
     return new_object;
 }
 
-void InstallIfFound(std::string &selectedPackages ,DB::EnumColDatabaseValues &enumeratePackages, std::function<int(std::string)> MainInstaller)
+void InstallIfFound(std::string &selectedPackages, DB::EnumColDatabaseValues &enumeratePackages, std::function<int(std::string)> MainInstaller)
 {
     try
     {
@@ -436,7 +445,7 @@ void InstallIfFound(std::string &selectedPackages ,DB::EnumColDatabaseValues &en
             while ((pos = selectedPackages.find(delimiter)) != std::string::npos)
             {
                 token = selectedPackages.substr(0, pos);
-                std::cout << "hello" <<token << std::endl;
+                std::cout << "hello" << token << std::endl;
                 if (enumeratePackages.find(stoi(token)) != enumeratePackages.end())
                 {
                     NamePackage = enumeratePackages[stoi(token)];
@@ -457,7 +466,8 @@ void InstallIfFound(std::string &selectedPackages ,DB::EnumColDatabaseValues &en
                 {
                     for (const auto &element : enumeratePackages)
                     {
-                        if (element.second != "AllPackages") MainInstaller(element.second);
+                        if (element.second != "AllPackages")
+                            MainInstaller(element.second);
                     }
                 }
             }
@@ -465,7 +475,7 @@ void InstallIfFound(std::string &selectedPackages ,DB::EnumColDatabaseValues &en
     }
     catch (std::exception &error)
     {
-        throw std::runtime_error(fmt::format("InstallIfFound.{}",error.what()));
+        throw std::runtime_error(fmt::format("InstallIfFound.{}", error.what()));
     }
 }
 
