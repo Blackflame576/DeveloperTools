@@ -95,8 +95,8 @@
 #define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.6.0-darwin-arm64.zip"
 #define OS_NAME "macOS"
 #elif _WIN32
-#define PathmanURL_AMD64 "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
-#define PathmanURL_ARM64 "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
+#define PATHMAN_AMD64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
+#define PATHMAN_ARM64_URL "https://github.com/DeepForge-Tech/DeepForge-Toolset-Packages/releases/download/Packages/pathman-v0.5.2-windows-amd64.zip"
 #define OS_NAME "Windows"
 #endif
 
@@ -168,8 +168,10 @@ std::string ArchivesFolder;
 
 #elif __linux__
 #if defined(_M_AMD64)
+#define NAME_SYSTEM_COLUMN "Linux_amd64";
 std::string Architecture = "amd64";
 #elif __arm__ || __aarch64__ || _M_ARM64
+#define NAME_SYSTEM_COLUMN "Linux_arm64";
 std::string Architecture = "arm64";
 #endif
 std::string NameDistribution;
@@ -180,9 +182,9 @@ const std::string OrganizationFolder = "/usr/bin/DeepForge";
 const std::string ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
 const std::string UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
 const std::string TempFolder = ApplicationFolder + "/Temp";
-const std::string LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
 const std::string PackagesFolder = "/usr/bin";
 const std::string ArchivesFolder = ProjectFolder + "/Downloads";
+std::string LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
 std::string DatabasePath = ProjectFolder == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
 std::string LogPath = ProjectFolder + "/logs/DeepForge-Toolset.log";
 
@@ -195,12 +197,12 @@ std::string Architecture = "arm64";
 char *UserFolder = getenv("USERPROFILE");
 const std::string DesktopPath = std::string(UserFolder) + "/Desktop";
 const std::string ApplicationFolder = "C:/ProgramData/DeepForge/DeepForge-Toolset";
-std::string DatabasePath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
-std::string LogPath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/logs/DeepForge-Toolset.log" : ProjectFolder + "/logs/DeepForge-Toolset.log";
-std::string LocaleFolder = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
 const std::string TempFolder = ApplicationFolder + "/Temp";
 const std::string PackagesFolder = "C:\\";
 const std::string ArchivesFolder = ProjectFolder + "/Downloads";
+std::string DatabasePath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/DB/AppInstaller.db" : ProjectFolder + "/DB/AppInstaller.db";
+std::string LogPath = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/logs/DeepForge-Toolset.log" : ProjectFolder + "/logs/DeepForge-Toolset.log";
+std::string LocaleFolder = ReplaceAll(ProjectFolder, "/", "\\") == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
 #endif
 // init classes
 Logger::Logging logger(LogPath.c_str(), "10kb");

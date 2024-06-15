@@ -32,16 +32,23 @@
  */
 int Windows::Installer::InstallWinGet()
 {
-    int result;
-    result = system("winget -v > NUL 2>&1");
-    if (result != 0)
+    try
     {
-        std::cout << fmt::format("{} winget...", translate["Installing"].asString()) << std::endl;
-        std::string Command = fmt::format("powershell.exe {}/Scripts/InstallWinGet.ps1", ProjectFolder);
-        result = system(Command.c_str());
-        std::cout << fmt::format("✅ winget {}", translate["Installed"].asString());
+        int result;
+        result = system("winget -v > NUL 2>&1");
+        if (result != 0)
+        {
+            std::cout << fmt::format("{} winget...", translate["Installing"].asString()) << std::endl;
+            std::string Command = fmt::format("powershell.exe {}/Scripts/InstallWinGet.ps1", ProjectFolder);
+            result = system(Command.c_str());
+            std::cout << fmt::format("✅ winget {}", translate["Installed"].asString());
+        }
+        return result;
     }
-    return result;
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("InstallWinGet.{}", error.what()));
+    }
 }
 
 int Windows::Installer::UnpackArchive(std::string path_from, std::string path_to)
@@ -146,46 +153,46 @@ int Windows::Installer::MainInstaller(std::string Name)
 {
     try
     {
-    int result = 0;
-    std::string Value;
-    std::string InstallCommand;
-    DB::DatabaseValues parameters;
+        int result = 0;
+        std::string Value;
+        std::string InstallCommand;
+        DB::DatabaseValues parameters;
 
-    parameters = {{"Name", Name}};
-    Value = database.GetValueFromRow("Applications", "Windows", parameters);
+        parameters = {{"Name", Name}};
+        Value = database.GetValueFromRow("Applications", "Windows", parameters);
 
-    std::cout << InstallDelimiter << std::endl;
+        std::cout << InstallDelimiter << std::endl;
 
-    if (Value != "ManualInstallation" && Value != "Not Found")
-    {
-        std::cout << fmt::format("{} {}...", translate["Installing"].asString(), Name) << std::endl;
-        result = system(Value.c_str());
-    }
-    else
-    {
-        // Get command from database for manual installation package.
-        InstallCommand = database.GetValueFromRow("PackagesFromSource_Windows", "Command", parameters);
-        switch (hashString(InstallCommand.c_str()))
+        if (Value != "ManualInstallation" && Value != "Not Found")
         {
-        case hashString("Empty"):
-            result = this->InstallPackages(Name, InstallCommand);
+            std::cout << fmt::format("{} {}...", translate["Installing"].asString(), Name) << std::endl;
+            result = system(Value.c_str());
+        }
+        else
+        {
+            // Get command from database for manual installation package.
+            InstallCommand = database.GetValueFromRow("PackagesFromSource_Windows", "Command", parameters);
+            switch (hashString(InstallCommand.c_str()))
+            {
+            case hashString("Empty"):
+                result = this->InstallPackages(Name, InstallCommand);
+                break;
+            default:
+                result = system(InstallCommand.c_str());
+                break;
+            }
+        }
+        // Check status code of installation process.
+        switch (result)
+        {
+        case SUCCESS_STATUS_CODE:
+            std::cout << fmt::format("==> ✅ {} {}", Name, translate["Installed"].asString()) << std::endl;
             break;
-        default:
-            result = system(InstallCommand.c_str());
+        case FAILED_STATUS_CODE:
+            throw std::runtime_error(fmt::format("MainInstaller.{} {}", translate["ErrorInstall"].asString(), Name));
             break;
         }
-    }
-    // Check status code of installation process.
-    switch (result)
-    {
-    case SUCCESS_STATUS_CODE:
-        std::cout << fmt::format("==> ✅ {} {}", Name, translate["Installed"].asString()) << std::endl;
-        break;
-    case FAILED_STATUS_CODE:
-        throw std::runtime_error(fmt::format("MainInstaller.{} {}", translate["ErrorInstall"].asString(), Name));
-        break;
-    }
-    return result;
+        return result;
     }
     catch (std::exception &error)
     {
@@ -198,7 +205,7 @@ int Windows::Installer::UpdateData()
     try
     {
         database.open(&DatabasePath);
-        Languages = database.GetArrayOneColumnFromTable("DevelopmentPacks","Language", std::nullopt);
+        Languages = database.GetArrayOneColumnFromTable("DevelopmentPacks", "Language", std::nullopt);
         Packages = database.GetTwoColumnsFromTable("Applications", "Name", "Windows", std::nullopt);
         DevelopmentPacks = database.GetArrayOneColumnFromTable("DevelopmentPacks", "Language", std::nullopt);
         return SUCCESS_STATUS_CODE;
@@ -221,7 +228,7 @@ int Windows::Installer::InstallDevelopmentPack(std::string LanguageTable)
 
         DevelopmentPack = database.GetTwoColumnsFromTable(LanguageTable, "Name", "Windows", std::nullopt);
         EnumeratePackages = Enumerate<EnumStringHashMap>(DevelopmentPack);
-        PrintFormatted(EnumeratePackages,EnumeratePackages.size());
+        PrintFormatted(EnumeratePackages, EnumeratePackages.size());
         // PrintPackagesWithEnum(DevelopmentPack, EnumeratePackages);
 
         std::cout << "" << std::endl;
@@ -289,66 +296,73 @@ int Windows::Installer::DownloadDatabase()
 
 int Windows::Installer::Download(std::string url, std::string dir, bool Progress)
 {
-    withProgress = Progress;
-    std::string filename = (url.substr(url.find_last_of("/")));
-    std::string pathFile = dir + "/" + filename.replace(filename.find("/"), 1, "");
-    FILE *file = fopen(pathFile.c_str(), "wb");
-    CURL *curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    if (Progress)
+    try
     {
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
-    }
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
-    curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-    CURLcode response = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-    fclose(file);
-    /* The bellow code is checking the value of the variable "response" and performing
-    different actions based on its value. If the value of "response" is not equal to
-    CURLE_OK, it enters a switch statement. Inside the switch statement, it checks the
-    value of "response" against different cases and performs specific actions for each
-    case. The actions involve writing and logging different error messages based on the
-    value of "response". */
-    if (response != CURLE_OK)
-    {
-        switch (response)
+        withProgress = Progress;
+        std::string filename = (url.substr(url.find_last_of("/")));
+        std::string pathFile = dir + "/" + filename.replace(filename.find("/"), 1, "");
+        FILE *file = fopen(pathFile.c_str(), "wb");
+        CURL *curl = curl_easy_init();
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        if (Progress)
         {
-        case CURLE_COULDNT_CONNECT:
-            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_CONNECT"].asString());
-            break;
-        case CURLE_COULDNT_RESOLVE_HOST:
-            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_HOST"].asString());
-            break;
-        case CURLE_COULDNT_RESOLVE_PROXY:
-            throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_PROXY"].asString());
-            break;
-        case CURLE_UNSUPPORTED_PROTOCOL:
-            throw std::domain_error(translate["LOG_ERROR_CURLE_UNSUPPORTED_PROTOCOL"].asString());
-            break;
-        case CURLE_SSL_CONNECT_ERROR:
-            throw std::domain_error(translate["LOG_ERROR_CURLE_SSL_CONNECT_ERROR"].asString());
-            break;
+            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
         }
-    }
-    if (Progress == true)
-    {
-        // If the progress bar is not completely filled in, then paint over manually
-        for (int i = progressbar.progress; i < 100; i++)
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
+        curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &WriteData);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+        CURLcode response = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+        fclose(file);
+        /* The bellow code is checking the value of the variable "response" and performing
+        different actions based on its value. If the value of "response" is not equal to
+        CURLE_OK, it enters a switch statement. Inside the switch statement, it checks the
+        value of "response" against different cases and performs specific actions for each
+        case. The actions involve writing and logging different error messages based on the
+        value of "response". */
+        if (response != CURLE_OK)
         {
-            progressbar.update(LastSize, LastTotalSize);
+            switch (response)
+            {
+            case CURLE_COULDNT_CONNECT:
+                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_CONNECT"].asString());
+                break;
+            case CURLE_COULDNT_RESOLVE_HOST:
+                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_HOST"].asString());
+                break;
+            case CURLE_COULDNT_RESOLVE_PROXY:
+                throw std::domain_error(translate["LOG_ERROR_CURLE_COULDNT_RESOLVE_PROXY"].asString());
+                break;
+            case CURLE_UNSUPPORTED_PROTOCOL:
+                throw std::domain_error(translate["LOG_ERROR_CURLE_UNSUPPORTED_PROTOCOL"].asString());
+                break;
+            case CURLE_SSL_CONNECT_ERROR:
+                throw std::domain_error(translate["LOG_ERROR_CURLE_SSL_CONNECT_ERROR"].asString());
+                break;
+            }
         }
-        // Reset all variables and preferences
-        progressbar.resetAll();
-        Percentage = 0;
-        TempPercentage = 0;
+        if (Progress == true)
+        {
+            // If the progress bar is not completely filled in, then paint over manually
+            for (int i = progressbar.progress; i < 100; i++)
+            {
+                progressbar.update(LastSize, LastTotalSize);
+            }
+            // Reset all variables and preferences
+            progressbar.resetAll();
+            Percentage = 0;
+            TempPercentage = 0;
+        }
+        return SUCCESS_STATUS_CODE;
     }
-    return SUCCESS_STATUS_CODE;
+    catch (std::exception &error)
+    {
+        throw std::runtime_error(fmt::format("Download.{}", std::string(error.what())));
+    }
 }
 
 int Windows::Installer::InstallPackages(const std::string &Name, const std::string &Command)

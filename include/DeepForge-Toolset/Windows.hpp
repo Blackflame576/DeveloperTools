@@ -12,14 +12,6 @@ namespace Windows
         // using Installer_funct_t = int (Installer::*)(void);
         // using map_funct_t = void (*)(void);
 
-        /**
-         * The MainInstaller function checks if an application requires manual installation or if it
-         * can be installed automatically, and then installs it accordingly.
-         *
-         * @param Name The parameter "Name" is a string that represents the name of an application.
-         *
-         * @return an integer value.
-         */
         int MainInstaller(std::string Name);
         // Function for update information from database about packages and development packs
         int UpdateData();
@@ -32,9 +24,9 @@ namespace Windows
             std::string url;
             DownloadDatabase();
             UpdateData();
-            //InstallWinGet();
+            InstallWinGet();
             MakeDirectory(ArchivesFolder);
-            url = PathmanURL_AMD64;
+            url = PATHMAN_AMD64_URL;
             filename =  (url.substr(url.find_last_of("/")));
             pathFile = ArchivesFolder + "/" + filename;
             Download(url,ArchivesFolder, false);
