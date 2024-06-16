@@ -146,13 +146,14 @@ void Application::ReadySet()
                 this->InstallDevelopmentPack(NameDevelopmnetPack);
             }   
         }
+        std::cout << InstallDelimiter << std::endl;
     }
     catch (std::exception &error)
     {
         logger.writeLog("Error", fmt::format("ReadySet.{}",error.what()));
         std::cerr << fmt::format("==> ❌ ReadySet.{}", error.what()) << std::endl;
+        std::cout << InstallDelimiter << std::endl;
     }
-    std::cout << InstallDelimiter << std::endl;
     this->CommandManager();
 }
 
@@ -185,6 +186,7 @@ void Application::InstallAllPackages()
     {
         logger.writeLog("Error", fmt::format("InstallAllPackages.{}",error.what()));
         std::cerr << fmt::format("==> ❌ InstallAllPackages.{}", error.what()) << std::endl;
+        std::cout << InstallDelimiter << std::endl;
     }
     // Calling up the main menu
     this->CommandManager();
@@ -239,13 +241,14 @@ void Application::SearchPackages()
         {
             std::cerr << translate["QueryNotFound"].asString() << std::endl;
         }
+        std::cout << InstallDelimiter << std::endl;
     }
     catch (std::exception &error)
     {
         logger.writeLog("Error", fmt::format("SearchPackages.{}",error.what()));
         std::cerr << fmt::format("==> ❌ SearchPackages.{}", error.what()) << std::endl;
+        std::cout << InstallDelimiter << std::endl;
     }
-    std::cout << InstallDelimiter << std::endl;
     // Calling up the main menu
     this->CommandManager();
 }
@@ -271,13 +274,14 @@ void Application::ManualSelection()
         std::getline(std::cin, SelectedPackages);
 
         InstallIfFound(SelectedPackages,EnumeratePackages,MainInstallerLink);
+        std::cout << InstallDelimiter << std::endl;
     }
     catch (std::exception &error)
     {
         logger.writeLog("Error", fmt::format("ManualSelection.{}",error.what()));
         std::cerr << fmt::format("==> ❌ ManualSelection.{}", error.what()) << std::endl;
+        std::cout << InstallDelimiter << std::endl;
     }
-    std::cout << InstallDelimiter << std::endl;
     // Calling up the main menu
     this->CommandManager();
 }

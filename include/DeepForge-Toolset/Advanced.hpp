@@ -79,7 +79,7 @@
 #define APPINSTALLER_DB_URL "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db"
 #define RELEASE_MODE 1
 #define DEBUG_MODE 0
-#define MODE DEBUG_MODE
+#define MODE RELEASE_MODE
 
 // Statuc codes
 #define FAILED_STATUS_CODE 1
