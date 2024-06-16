@@ -171,7 +171,7 @@ int Linux::Installer::MainInstaller(std::string Name)
         }
         else
         {
-// Get command from database for manual installation package.
+            // Get command from database for manual installation package.
             InstallCommand = database.GetValueFromRow(fmt::format("PackagesFromSource_Linux_{}",Architecture), PackageManager, parameters);
             switch (hashString(InstallCommand.c_str()))
             {
