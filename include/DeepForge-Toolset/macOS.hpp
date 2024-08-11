@@ -55,24 +55,25 @@ namespace macOS
             try
             {
                 char *UserFolder = getenv("HOME");
-                ProjectDir = std::filesystem::current_path().generic_string();
-                DatabasePath = ProjectDir + "/DB/AppInstaller.db";
-                LogPath = ProjectDir + "/logs/DeepForgeToolset.log";
+                ProjectFolder = std::filesystem::current_path().generic_string();
+                DatabasePath = ProjectFolder + "/DB/AppInstaller.db";
+                LogPath = ProjectFolder + "/logs/DeepForgeToolset.log";
                 DesktopPath = std::string(UserFolder) + "/Desktop";
                 OrganizationFolder = std::string(UserFolder) + "/Library/Containers/DeepForge";
-                ApplicationDir = OrganizationFolder + "/DeepForge-Toolset";
-                TempFolder = ApplicationDir + "/Temp";
+                ApplicationFolder = OrganizationFolder + "/DeepForge-Toolset";
+                TempFolder = ApplicationFolder + "/Temp";
                 UpdateManagerFolder = OrganizationFolder + "/UpdateManager";
-                LocaleDir = ProjectDir == DesktopPath ? ApplicationDir + "/locale" : ProjectDir + "/locale";
+                LocaleFolder = ProjectFolder == DesktopPath ? ApplicationFolder + "/locale" : ProjectFolder + "/locale";
+                PackagesFolder = OrganizationFolder;
+                ArchivesFolder = ProjectFolder + "/Downloads"
                 DownloadDatabase();
                 UpdateData();
                 InstallBrew();
-                std::cout << InstallDelimiter << std::endl;
             }
             catch (std::exception &error)
             {
                 logger.writeLog("Error", error.what());
-                logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "AppInstaller-Constructor", error.what());
+                logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "AppInstaller-Constructor", error.what());
                 std::cout << error.what() << std::endl;
             }
         }
@@ -80,13 +81,13 @@ namespace macOS
         {
         }
 
-    private:
+    protected:
         void InstallBrew();
         /*  The `unpackArchive` function takes two parameters: `path_from` and `path_to`.
             It uses the `Unzipper` class to extract the contents of an archive file located at `path_from` and saves them to the directory specified by `path_to`.
             After extracting the contents, the function closes the `Unzipper` object.
         */
-        void unpackArchive(std::string path_from, std::string path_to);
+        void UnpackArchive(std::string path_from, std::string path_to);
         /* The 'MakeDirectory' function is used to create a directory (folder) in the file system.*/
         void MakeDirectory(std::string dir);
 
@@ -102,7 +103,7 @@ namespace macOS
     using Installer_funct_t = int (Installer::*)(void);
     using map_funct_t = void (*)(void);
 
-    std::map<std::string, Installer_funct_t> PackagesFromSource{};
+    std::unordered_map<std::string, Installer_funct_t> PackagesFromSource{};
 }
 
 #endif

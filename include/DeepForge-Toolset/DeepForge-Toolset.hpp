@@ -49,7 +49,7 @@ public:
     void ManualSelection();
     Application()
     {
-        std::cout << "DeepForge Toolset v" << __version__ << " " << __channel__ << " " << Architecture << std::endl;
+        std::cout << fmt::format("{} v{} {} {}",NAME_PROGRAM,__version__,__channel__,Architecture) << std::endl;
         std::cout << "Organization: DeepForge Technology" << std::endl;
         std::cout << InstallDelimiter << std::endl;
         // Localization settings
@@ -57,7 +57,7 @@ public:
     };
     ~Application(){};
 
-private:
+protected:
     void ReadJSON(std::string language);
-    void ExitApp();
+    void Exit();
 };

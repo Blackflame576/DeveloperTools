@@ -4,65 +4,82 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sqlite3/sqlite3.h>
-#include <map>
+#include <unordered_map>
 #include <filesystem>
+#include <typeinfo>
+#include <memory>
+#include <optional>
 
 namespace DB
 {
+    typedef std::unordered_map<std::string, std::string> DatabaseValues;
+    typedef std::unordered_map<int, DatabaseValues> EnumDatabaseValues;
+    typedef std::unordered_map<int, std::string> EnumColDatabaseValues; // Enumerated columns
+    typedef std::unique_ptr<std::string[]> ArrayDatabaseValues;
+    
     class Database
     {
     public:
-        int ArraySize;
         sqlite3 *db;
         sqlite3_stmt *statement;
-        int RESULT_SQL;
-        std::string SQL_COMMAND;
-        std::string AnswerDB;
+        bool isOpen = false;
+        // std::string AnswerDB;
         std::string DefaultDatabesePath = std::filesystem::current_path().generic_string() + "/DB/AppInstaller.db";
         void open(std::string *DB_Path = nullptr)
         {
-            RESULT_SQL = sqlite3_open(DB_Path != nullptr ? DB_Path->c_str() : DefaultDatabesePath.c_str(), &db);
+            int RESULT_SQL = sqlite3_open(DB_Path != nullptr ? DB_Path->c_str() : DefaultDatabesePath.c_str(), &db);
 
             // if result of open database != SQLITE_OK, that send error
             if (RESULT_SQL != SQLITE_OK)
             {
                 throw std::runtime_error("Failed to connect to database");
             }
+            isOpen = true;
         }
         // Database();
         ~Database()
         {
-            sqlite3_close(db);
+            close();
         }
-        int CreateTable(const std::string &NameTable, std::map<std::string, std::string> Columns);
+        void close()
+        {
+            if (isOpen) sqlite3_close(db);
+        }
+        int CreateTable(const std::string &NameTable, DatabaseValues Columns);
 
-        int InsertValuesToTable(const std::string &NameTable, std::map<std::string, std::string> Fields);
+        int InsertRowToTable(const std::string &NameTable, DatabaseValues  Fields);
 
-        bool ExistValueInTable(const std::string &NameTable,const std::string &NameColumn,const std::string &Value);
+        bool ExistTableInDB(const std::string  &NameTable);
 
-        std::string GetValueFromDB(const std::string &NameTable,const std::string &NameApp,const std::string &NameColumn);
+        bool ExistRowInTable(const std::string &NameTable,const std::string &NameColumn,const std::string &Value);
 
-        std::string GetVersionFromDB(const std::string &NameTable,const std::string &Channel,const std::string &NameColumn,const std::string &Architecture);
+        std::string GetValueFromRow(const std::string &NameTable, const std::string &NameColumn, const std::optional<DatabaseValues>& Parameters);
 
-        std::map<std::string, std::string> GetAllVersionsFromDB(const std::string &NameTable,const std::string &Architecture);
+        DatabaseValues GetRowByID(const std::string &NameTable,const int &id);
 
-        std::string GetLatestVersion(const std::string &NameTable,const std::string &Channel,const std::string &NameColumn,const std::string &Architecture);
+        DatabaseValues GetTwoColumnsFromTable(const std::string  &NameTable, const std::string &FirstColumn, const std::string &SecondColumn,const std::optional<DatabaseValues>& Parameters);
 
-        std::string GetApplicationURL(const std::string &NameTable,const std::string &Channel,const std::string &NameColumn,const std::string &Architecture,const std::string &Version);
+        EnumColDatabaseValues  GetOneColumnFromTable(const std::string  &NameTable, const std::string  &NameColumn, const std::optional<DatabaseValues>& Parameters);
 
-        std::map<std::string, std::string> GetAllValuesFromDB(const std::string &NameTable,const std::string &NameColumn);
+        std::unique_ptr<std::string[]>  GetArrayOneColumnFromTable(const std::string  &NameTable, const std::string  &NameColumn, const std::optional<DatabaseValues>& Parameters);
 
-        std::map<std::string, std::string> GetDevPackFromDB(const std::string &NameTable,const std::string &NameColumn);
+        std::unordered_map<int, DatabaseValues> GetRowFromTable(const std::string &NameTable, const std::optional<DatabaseValues>& Parameters);
 
-        int InsertApplicationsToTable(const std::string &NameTable,const std::string &NameApp,const std::string &WindowsCommand,const std::string &macOSCommand,const std::string &LinuxCommand);
+        std::unordered_map<int, DatabaseValues> GetAllRowsFromTable(const std::string &NameTable);
 
-        int RemoveApplicationFromTable(const std::string &NameTable,const std::string &NameApp);
+        DatabaseValues GetMaxRowFromTable(const std::string &NameTable,const std::string &NameColumn, const std::optional<DatabaseValues>& Parameters);
 
-        int AddApplications(const std::string Tables[]);
+        std::string GetMaxValueFromTable(const std::string &NameTable, const std::string &NameColumn, const std::optional<DatabaseValues>& Parameters);
 
-        int RemoveApplications(const std::string Tables[]);
+        int RemoveRowFromTable(const std::string &NameTable,const std::optional<DatabaseValues>& Parameters);
+        
+        int DeleteAllRows(const std::string  &NameTable);
 
-        int InsertLogInformationToTable(const std::string &NameTable, const std::string &Architecture,const std::string &OS_NAME,const std::string &Channel,const std::string &FunctionName,const std::string &LogText);
+        int RunQuery(const std::string  &SQL_QUERY);
+
+        std::unordered_map<int, DatabaseValues> ExecuteQuery(const std::string  &SQL_QUERY);
+
+        int UpdateRowInTable(const std::string &NameTable, DatabaseValues Values, DatabaseValues Parameters);
         // Method of make string to upper
         std::string to_upper(const std::string &sentence)
         {
@@ -76,9 +93,8 @@ namespace DB
             }
             return new_sentence;
         }
-
-    private:
         int GetArraySize(const std::string &NameTable,const std::string &NameColumn);
+    private:
 
         static int callback(void *data, int argc, char **argv, char **azColName)
         {

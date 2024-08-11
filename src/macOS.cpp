@@ -32,13 +32,11 @@
     It uses the `Unzipper` class to extract the contents of an archive file located at `path_from` and saves them to the directory specified by `path_to`.
     After extracting the contents, the function closes the `Unzipper` object.
 */
-void Linux::Installer::unpackArchive(std::string path_from, std::string path_to)
+void macOS::Installer::UnpackArchive(std::string path_from, std::string path_to)
 {
-    // std::string unpack_command = "tar -xf" + path_from + " --directory " + path_to;
-    // system(unpack_command.c_str());
     try
     {
-        makeDirectory(path_to);
+        MakeDirectory(path_to);
 
         mz_zip_archive zip_archive;
         memset(&zip_archive, 0, sizeof(zip_archive));
@@ -53,33 +51,38 @@ void Linux::Installer::unpackArchive(std::string path_from, std::string path_to)
             std::string output_path = path_to + "/" + file_stat.m_filename;
             std::filesystem::path path(output_path);
             std::filesystem::create_directories(path.parent_path());
-
-            std::ofstream out(output_path, std::ios::binary);
-            if (!out)
+            if (endsWith(output_path, "/"))
             {
-                std::cerr << "Failed to create file: " << output_path << std::endl;
-                continue;
+                MakeDirectory(output_path);
             }
-
-            void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &file_stat.m_uncomp_size, 0); // You can adjust the flags parameter as needed
-            if (!fileData)
+            else
             {
-                std::cerr << "Failed to extract file: " << file_stat.m_filename << std::endl;
-                continue;
+                std::ofstream out(output_path, std::ios::binary);
+                if (!out)
+                {
+                    std::cerr << "Failed to create file: " << output_path << std::endl;
+                    continue;
+                }
+                size_t fileSize = file_stat.m_uncomp_size;
+                void *fileData = mz_zip_reader_extract_to_heap(&zip_archive, file_stat.m_file_index, &fileSize, 0);
+                if (!fileData)
+                {
+                    throw std::runtime_error("Failed to extract file: " + std::string(file_stat.m_filename));
+                }
+
+                out.write(static_cast<const char *>(fileData), fileSize);
+                mz_free(fileData);
+
+                out.close();
             }
-
-            out.write(static_cast<const char *>(fileData), file_stat.m_uncomp_size);
-            mz_free(fileData);
-
-            out.close();
         }
 
         mz_zip_reader_end(&zip_archive);
     }
     catch (std::exception &error)
     {
-        std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "unpackArchive()", error.what());
+        std::string logText = "==> ❌ Function: UnpackArchive." + std::string(error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "UnpackArchive()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -117,7 +120,7 @@ void macOS::Installer::MakeDirectory(std::string dir)
     }
     catch (std::exception &error)
     {
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Logger.MakeDirectory", error.what());
     }
 }
 
@@ -131,7 +134,7 @@ void macOS::Installer::DownloadDatabase()
         {
             std::string url = "https://github.com/DeepForge-Technology/DeepForge-Toolset/releases/download/InstallerUtils/AppInstaller.db";
             std::string name = (url.substr(url.find_last_of("/")));
-            std::string filename = ProjectDir + "/" + name.replace(name.find("/"), 1, "");
+            std::string filename = ProjectFolder + "/" + name.replace(name.find("/"), 1, "");
             FILE *file = fopen(filename.c_str(), "wb");
             CURL *curl = curl_easy_init();
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -176,7 +179,7 @@ void macOS::Installer::DownloadDatabase()
     }
 }
 
-void macOS::Installer::download(std::string url, std::string dir, bool Progress)
+int macOS::Installer::Download(std::string url, std::string dir, bool Progress)
 {
     try
     {
@@ -186,8 +189,11 @@ void macOS::Installer::download(std::string url, std::string dir, bool Progress)
         FILE *file = fopen(filename.c_str(), "wb");
         CURL *curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
+        if (Progress)
+        {
+            curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+            curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, &CallbackProgress);
+        }
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
         curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
@@ -240,7 +246,7 @@ void macOS::Installer::download(std::string url, std::string dir, bool Progress)
     catch (std::exception &error)
     {
         std::string logText = "==> ❌ " + std::string(error.what());
-        logger.sendError(NameProgram, Architecture, __channel__, OS_NAME, "download()", error.what());
+        logger.sendError(NAME_PROGRAM, Architecture, __channel__, OS_NAME, "Download()", error.what());
         std::cerr << logText << std::endl;
     }
 }
@@ -254,11 +260,12 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
         macOS. It then creates a map called EnumeratePackages to store the values with their
         corresponding index. It also creates a string variable called NamePackage. */
         auto DevelopmentPack = database.GetAllValuesFromDB(DevelopmentPacks[n], "macOS");
-        std::map<int, std::string> EnumeratePackages;
+        std::unordered_map<int, std::string> EnumeratePackages;
         std::string NamePackage;
         std::string delimiter = ",";
         size_t pos = 0;
         std::string token;
+        int result;
         /* The bellow code is retrieving values from a database for a specific development pack on the
         Windows platform. It then iterates over the retrieved values and creates a map of enumerated
         packages. It also creates a string representation of each package with its corresponding
@@ -319,14 +326,14 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
                     std::cout << InstallDelimiter << std::endl;
                     std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
                     // Install application
-                    output_func = MainInstaller(NamePackage);
+                    result = MainInstaller(NamePackage);
                     // Loggin and print messages
-                    if (output_func == 0)
+                    if (result == 0)
                     {
                         std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
                         std::cout << SuccessText << std::endl;
                     }
-                    else if (output_func != 403)
+                    else if (result != 403)
                     {
                         std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                         std::cerr << ErrorText << std::endl;
@@ -348,14 +355,14 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
                     std::cout << InstallDelimiter << std::endl;
                     std::cout << translate["Installing"].asString() << " " << NamePackage << " ..." << std::endl;
                     // Install application
-                    output_func = MainInstaller(NamePackage);
+                    result = MainInstaller(NamePackage);
                     // Logging and print messages
-                    if (output_func == 0)
+                    if (result == 0)
                     {
                         std::string SuccessText = "==> ✅ " + NamePackage + " " + translate["Installed"].asString();
                         std::cout << SuccessText << std::endl;
                     }
-                    else if (output_func != 403)
+                    else if (result != 403)
                     {
                         std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + NamePackage;
                         std::cerr << ErrorText << std::endl;
@@ -368,13 +375,13 @@ void macOS::Installer::InstallDevelopmentPack(std::string n)
                     {
                         std::cout << InstallDelimiter << std::endl;
                         std::cout << translate["Installing"].asString() << " " << element.first << " ..." << std::endl;
-                        output_func = MainInstaller(element.first);
-                        if (output_func == 0)
+                        result = MainInstaller(element.first);
+                        if (result == 0)
                         {
                             std::string SuccessText = "==> ✅ " + element.first + " " + translate["Installed"].asString();
                             std::cout << SuccessText << std::endl;
                         }
-                        else if (output_func != 403)
+                        else if (result != 403)
                         {
                             std::string ErrorText = "==> ❌ " + translate["ErrorInstall"].asString() + " " + element.first;
                             std::cerr << ErrorText << std::endl;
@@ -413,7 +420,8 @@ void macOS::Installer::UpdateData()
  */
 void macOS::Installer::InstallBrew()
 {
-    result = system("brew --version");
+    int result;
+    result = system("brew --version > /dev/null");
     if (result != 0)
     {
         std::cout << translate["Installing"].asString() << " "
@@ -429,6 +437,7 @@ void macOS::Installer::InstallBrew()
 int macOS::Installer::MainInstaller(std::string Name)
 {
     std::string Value = database.GetValueFromDB("Applications", Name, "macOS");
+    int result;
     if (Value != "ManualInstallation")
     {
         result = system(Value.c_str());

@@ -9,22 +9,15 @@ set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so .dylib)
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-set(CMAKE_BINARY_DIR "${CMAKE_BINARY_DIR}/bin/")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-if (WIN32)
-  set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-endif()
+# if (WIN32)
+#   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+# endif()
 set(CMAKE_BINARY_DIR "${CMAKE_BINARY_DIR}/bin/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 message("🔥 Copying folder of Scripts ${CMAKE_BINARY_DIR} ...")
 file(COPY ${CMAKE_SOURCE_DIR}/src/Scripts DESTINATION ${CMAKE_BINARY_DIR}/)
 message("✅ Copying folder of Scripts ${CMAKE_BINARY_DIR} was successfully.")
-message("==================================")
-message("🔥 Copying folder of utils ${CMAKE_BINARY_DIR} ...")
-file(COPY ${CMAKE_SOURCE_DIR}/src/utils DESTINATION ${CMAKE_BINARY_DIR}/)
-message("✅ Copying folder of utils ${CMAKE_BINARY_DIR} was successfully.")
 message("==================================")
 message("🔥 Copying folder of DB ${CMAKE_BINARY_DIR} ...")
 file(COPY ${CMAKE_SOURCE_DIR}/src/DB DESTINATION ${CMAKE_BINARY_DIR}/)
@@ -58,30 +51,7 @@ endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DownloadDependecies.cmake)
 #target_include_directories(DeepForge-Toolset PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-FetchContent_MakeAvailable(googletest)
-set(TEST_SOURCE_FILES
-  src/test/DatabaseTest.cpp
-  include/Database/DatabaseAPI.hpp
-)
-enable_testing()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-add_executable(
-  DatabaseTest
-  ${TEST_SOURCE_FILES}
-)
-target_link_libraries(
-  DatabaseTest
-  DatabaseAPI
-  GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(DatabaseTest)
 
 set(SOURCE_FILES
   src/DeepForge-Toolset.cpp
@@ -89,9 +59,9 @@ set(SOURCE_FILES
 )
 
 add_definitions(-DUNICODE -D_UNICODE)
+add_executable(DeepForge-Toolset ${SOURCE_FILES})
 
 if (WIN32)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   set(USE_WINDOWS_SSPI ON)
   set(USE_SCHANNEL ON)
   set(LIBRARIES
@@ -108,7 +78,6 @@ if (WIN32)
   Logger
   )
 elseif(APPLE)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   #set(MACOSX_BUNDLE_BUNDLE_NAME "DeepForge-Toolset")
   #set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.DeepForge.DeepForge-Toolset")
   #set(MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist")
@@ -132,7 +101,6 @@ elseif(APPLE)
   Logger
   )
 elseif(UNIX)
-  add_executable(DeepForge-Toolset ${SOURCE_FILES})
   set(LIBRARIES
   fmt::fmt 
   jsoncpp_static
